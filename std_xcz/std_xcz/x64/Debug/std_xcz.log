@@ -1,0 +1,6 @@
+﻿  main.cpp
+D:\E_job\Git\study_practice\std_xcz\main.cpp(217,39): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+D:\E_job\Git\study_practice\std_xcz\main.cpp(217,24): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+D:\E_job\Git\study_practice\std_xcz\main.cpp(220,41): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+D:\E_job\Git\study_practice\std_xcz\main.cpp(220,21): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+  std_xcz.vcxproj -> D:\E_job\Git\study_practice\std_xcz\x64\Debug\std_xcz.exe
