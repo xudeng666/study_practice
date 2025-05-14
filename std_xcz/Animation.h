@@ -4,7 +4,7 @@
 
 
 #pragma comment(lib, "MSIMG32.LIB")
-
+/*渲染图片并识别透明区域*/
 inline void putimage_alpha(int x, int y, IMAGE* img)
 {
 	int w = img->getwidth();
@@ -24,64 +24,29 @@ public:
 	@num 资源数量
 	@speed	播放速度
 	*/
-	Animation(LPCTSTR path, int num, double speed)
-	{
-		ani_speed = speed;
-		TCHAR path_file[256];
-		for (size_t i = 0; i < num; ++i)
-		{
-			_stprintf_s(path_file, path, i);
-			IMAGE* frame = new IMAGE();
-			loadimage(frame, path_file);
-			frame_list.push_back(frame);
-		}
-	}
+	Animation(LPCTSTR path, int num, double speed);
 
-	~Animation()
-	{
-		for (size_t i = 0; i < frame_list.size(); ++i)
-		{
-			delete frame_list[i];
-			frame_list[i] = nullptr;
-		}
-	}
+	~Animation();
 	/*
 	动画播放
 	@x	x坐标位置
 	@y	y坐标位置
 	*/
-	void play(int x, int y)
-	{
-		int t = ani_fx ? idx_frame + frame_list.size() / 2 : idx_frame;
-		putimage_alpha(x, y, frame_list[t]);
-	}
+	void play(int x, int y);
 
 	/*
 	* 设置播放数据
 	@isMove 是否移动
 	*/
-	void DrawPlayer(bool isMove)
-	{
-		DWORD t_time = GetTickCount();
-
-		if ((t_time - timer) >= 1000 / ani_speed)
-		{
-			timer = t_time;
-			idx_frame++;
-		}
-		int t = frame_list.size() / 2 - 1;
-		idx_frame = isMove ? (idx_frame % t) : t;
-	}
-
-	void setAniSpeed(double speed)
-	{
-		ani_speed = speed;
-	}
-
-	void setFx(bool isLeft)
-	{
-		ani_fx = isLeft;
-	}
+	void DrawPlayer(bool isMove);
+	/*
+	* 设置速度
+	*/
+	void setAniSpeed(double speed);
+	/*
+	* 设置方向
+	*/
+	void setFx(bool isLeft);
 private:
 	std::vector<IMAGE*> frame_list;
 	// 动画播放速度
