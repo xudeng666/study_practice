@@ -1,10 +1,8 @@
 #include <iostream>
-#include <graphics.h>
 #include <string>
 #include "Player.h"
 //  幸存者小游戏
 
-using namespace std;
 // 帧率
 #define FPS 60
 // 窗口宽度
@@ -62,7 +60,7 @@ void openWindow()
 void gameInit()
 {
 	running = true;
-	player = new Player(57, 100, 6, 5);
+	player = new Player(6, 5);
 	// 清屏
 	//clearcliprgn();
 	player->Init(_XCZ_W_, _XCZ_H_);
@@ -107,33 +105,7 @@ void getOperation()
 {
 	while (peekmessage(&msg, EX_KEY | EX_MOUSE))
 	{
-		if (msg.message == WM_KEYDOWN || msg.message == WM_KEYUP)
-		{
-			bool m = msg.message == WM_KEYDOWN;
-			switch (msg.vkcode)
-			{
-			case 'W':
-			case 'w':
-			case VK_UP:
-				player->setFx(0, m);
-				break;
-			case 'S':
-			case 's':
-			case VK_DOWN:
-				player->setFx(1, m);
-				break;
-			case 'A':
-			case 'a':
-			case VK_LEFT:
-				player->setFx(2, m);
-				break;
-			case 'D':
-			case 'd':
-			case VK_RIGHT:
-				player->setFx(3, m);
-				break;
-			}
-		}
+		player->processEvent(msg);
 	}
 }
 
@@ -141,6 +113,7 @@ void dataProcessing()
 {
 	player->upData();
 	player->Move(_XCZ_W_, _XCZ_W_);
+	player->flyBullet();
 }
 
 void gameDraw()
@@ -149,4 +122,5 @@ void gameDraw()
 	double h = m_bg.getheight();
 	putimage((_XCZ_W_ - w)/2, (_XCZ_H_-h)/2, &m_bg);
 	player->Draw();
+	player->drawBullet();
 }

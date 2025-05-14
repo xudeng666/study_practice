@@ -40,7 +40,7 @@ void Animation::play(int x, int y)
 }
 
 /*
-* 设置播放数据
+* 设置播放数据 针对有停止帧
 @isMove 是否移动
 */
 void Animation::DrawPlayer(bool isMove)
@@ -54,6 +54,20 @@ void Animation::DrawPlayer(bool isMove)
 	}
 	int t = frame_list.size() / 2 - 1;
 	idx_frame = isMove ? (idx_frame % t) : t;
+}
+
+/*
+* 设置播放数据
+*/
+void Animation::DrawPlayer()
+{
+	DWORD t_time = GetTickCount();
+	if ((t_time - timer) >= 1000 / ani_speed)
+	{
+		timer = t_time;
+		idx_frame++;
+	}
+	idx_frame %= (frame_list.size() / 2);
 }
 
 void Animation::setAniSpeed(double speed)

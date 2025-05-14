@@ -3,6 +3,9 @@
 #include <graphics.h>
 
 
+using namespace std;
+
+
 #pragma comment(lib, "MSIMG32.LIB")
 /*渲染图片并识别透明区域*/
 inline void putimage_alpha(int x, int y, IMAGE* img)
@@ -35,10 +38,14 @@ public:
 	void play(int x, int y);
 
 	/*
-	* 设置播放数据
+	* 设置播放数据 针对有停止帧
 	@isMove 是否移动
 	*/
 	void DrawPlayer(bool isMove);
+	/*
+	* 设置播放数据
+	*/
+	void DrawPlayer();
 	/*
 	* 设置速度
 	*/
@@ -47,8 +54,19 @@ public:
 	* 设置方向
 	*/
 	void setFx(bool isLeft);
+
+	/*
+	获取动画尺寸
+	@w	赋值变量w
+	@h	赋值变量h
+	*/
+	void getAniSize(int& w, int& h)
+	{
+		w = frame_list[0]->getwidth();
+		h = frame_list[0]->getheight();
+	}
 private:
-	std::vector<IMAGE*> frame_list;
+	vector<IMAGE*> frame_list;
 	// 动画播放速度
 	double ani_speed = 0;
 	// 动画计时器

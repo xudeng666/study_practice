@@ -1,25 +1,29 @@
 #include "Player.h"
+#include <cmath>
+#include <iostream>
+
+#define PI acos(-1)
 
 
 /*
 * 构造函数
-@w 角色宽度
-@h 角色高度
 @num 动画帧数
 @spd 角色初始速度
 */
-Player::Player(int w, int h, int num, double spd) :_W_(w), _H_(h), aniNum(num)
+Player::Player(int num, double spd) :aniNum(num)
 {
 	speed = spd;
 	speed_time = 0;
 	m_x = 0;
 	m_y = 0;
+	playerAni = new Animation(_T("resources/hero/kdss_%d.png"), aniNum * 2 + 2, speed);
 }
 /*析构*/
 Player::~Player()
 {
 	delete playerAni;
 	playerAni = nullptr;
+	clearBullet();
 }
 
 /*
@@ -35,8 +39,9 @@ void Player::Init(int w, int h)
 	{
 		h_fx[i] = false;
 	}
-	speed_time = GetTickCount();
-	playerAni = new Animation(_T("resources/hero/kdss_%d.png"), aniNum * 2 + 2, speed);
+	bul_time = speed_time = GetTickCount();
+	playerAni->getAniSize(_W_, _H_);
+	addBullet(2);
 }
 
 /*
@@ -130,4 +135,132 @@ void Player::setFx(int index, bool m)
 void Player::upData()
 {
 	playerAni->DrawPlayer(isMove());
+}
+
+
+/*
+* 玩家操作
+* @msg	按键消息
+*/
+void Player::processEvent(const ExMessage& msg)
+{
+	if (msg.message == WM_KEYDOWN || msg.message == WM_KEYUP)
+	{
+		bool m = msg.message == WM_KEYDOWN;
+		switch (msg.vkcode)
+		{
+		case 'W':
+		case 'w':
+		case VK_UP:
+			setFx(0, m);
+			break;
+		case 'S':
+		case 's':
+		case VK_DOWN:
+			setFx(1, m);
+			break;
+		case 'A':
+		case 'a':
+		case VK_LEFT:
+			setFx(2, m);
+			break;
+		case 'D':
+		case 'd':
+		case VK_RIGHT:
+			setFx(3, m);
+			break;
+		case 'M':
+		case 'm':
+			addBullet(m ? 1 : 0);
+			break;
+		case 'N':
+		case 'n':
+			redBullet(m ? 1 : 0);
+			break;
+		}
+	}
+}
+
+/*
+增加子弹数量
+@num	新增数量
+*/
+void Player::addBullet(unsigned int num)
+{
+	bul_num += num;
+	while (bul_num > bullet_list.size())
+	{
+		Bullet* p = new Bullet();
+		bullet_list.push_back(p);
+	}
+}
+
+/*
+减少子弹数量
+@num	减少数量
+*/
+void Player::redBullet(unsigned int num)
+{
+	bul_num -= num;
+	if (bul_num < 1)
+	{
+		bul_num = 1;
+	}
+}
+
+/*子弹飞行*/
+void Player::flyBullet()
+{
+	DWORD t_time = GetTickCount();
+	DWORD t = t_time - bul_time;
+	bul_time = t_time;
+
+	if (bul_radBf < 0)
+	{
+		bul_radType = true;
+	}
+	else if (bul_radBf > bul_radBfValue)
+	{
+		bul_radType = false;
+	}
+
+	bul_radType ? bul_radBf += bul_radBfValue * bul_speed * t / 1000 : bul_radBf -= bul_radBfValue * bul_speed * t / 1000;
+
+	int radius = bul_radBf + bul_radius;
+
+	// 单位时间*角速度 = 角度差
+	bul_degrees += t * bul_speed * bul_radius * 360 / 1000 / radius;
+
+	for (int i = 0; i < bul_num;++i)
+	{
+		int dre = bul_degrees + 360 / bul_num * i;
+		dre %= 360;
+		bullet_list[i]->setPosition(m_x + cos(dre * PI / 180) * radius, m_y - sin(dre * PI / 180) * radius);
+	}
+}
+
+/*绘制子弹*/
+void Player::drawBullet()
+{
+	for (int i = 0; i < bul_num;++i)
+	{
+		bullet_list[i]->Draw();
+	}
+}
+
+/*清空子弹*/
+void Player::clearBullet()
+{
+	for (int i = 0; i < bullet_list.size();++i)
+	{
+		delete bullet_list[i];
+		bullet_list[i] = nullptr;
+	}
+}
+
+
+void Player::getPosition(double& x, double& y) const
+{
+	x = m_x;
+	y = m_y;
 }
