@@ -1,17 +1,26 @@
 #pragma once
 #include "Player.h"
+#include "Bullet.h"
+#include <iostream>
+#include <random>
+
+enum COllISION
+{
+	PLAYER = 0,
+	BULLET,
+	OTHER
+};
 
 /*敌人类*/
-
 class Enemy
 {
 public:
 	/*
 	* 构造函数
-	@num 动画帧数
-	@spd 角色初始速度
+	@w	窗口宽度
+	@h	窗口高度
 	*/
-	Enemy(int num, double spd);
+	Enemy(int w, int h);
 	/*析构*/
 	~Enemy();
 
@@ -27,7 +36,7 @@ public:
 	移动 追逐玩家
 	* @player	玩家数据
 	*/
-	void Move(const Player& player);
+	void Move(const Player* player);
 
 	/*是否移动中*/
 	bool isMove();
@@ -45,18 +54,39 @@ public:
 	/*刷新数据*/
 	void upData();
 
+	/*
+	* 判断是否和某个坐标点碰撞
+	* @p 坐标
+	*/
+	bool checkOfPoint(const POINT& p);
+
+	/*
+	* 与玩家碰撞检测
+	* @plyer
+	*/
+	bool checkPlayer(Player* player);
+
+	/*
+	* 与子弹碰撞检测
+	* @bullet
+	*/
+	bool checkBullet(Bullet* bullet);
+
+	/*
+	* 与玩家碰撞检测
+	* @plyer
+	*/
+	COllISION checkCollision(Player* player);
 
 private:
-	// 角色坐标x
-	double m_x;
-	// 角色坐标y
-	double m_y;
+	// 坐标
+	POINT position;
 	// 角色宽度
 	int _W_;
 	// 角色高度
 	int _H_;
 	// 角色动画帧数
-	const int aniNum;
+	int aniNum;
 	// 速度计算时间
 	DWORD speed_time = 0;
 	// 角色方向数据
@@ -69,6 +99,10 @@ private:
 	Animation* playerAni = nullptr;
 	// 敌人类型
 	unsigned int _type = 1;
+	// 地图宽度
+	int _mapw_;
+	// 地图高度
+	int _maph_;
 };
 
 

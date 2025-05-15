@@ -20,6 +20,26 @@ Animation::Animation(LPCTSTR path, int num, double speed)
 	}
 }
 
+/*
+构造函数
+@path 资源路径
+@type 类型
+@num 资源数量
+@speed	播放速度
+*/
+Animation::Animation(LPCTSTR path, unsigned int type, int num, double speed)
+{
+	ani_speed = speed;
+	TCHAR path_file[256];
+	for (size_t i = 0; i < num; ++i)
+	{
+		_stprintf_s(path_file, path, type, i);
+		IMAGE* frame = new IMAGE();
+		loadimage(frame, path_file);
+		frame_list.push_back(frame);
+	}
+}
+
 Animation::~Animation()
 {
 	for (size_t i = 0; i < frame_list.size(); ++i)

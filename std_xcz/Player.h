@@ -27,7 +27,7 @@ public:
 	@w 窗口宽度
 	@h 窗口高度
 	*/
-	void Move(int w, int h);
+	void Move();
 
 	/*是否移动中*/
 	bool isMove();
@@ -57,6 +57,16 @@ public:
 	*/
 	void addBullet(unsigned int num);
 
+	/*获取子弹数量*/
+	unsigned int getBulletNum();
+
+	/*
+	* 获取子弹
+	* @index 子弹下标
+	*/
+	Bullet* getBulletOfIndex(int index);
+
+
 	/*
 	减少子弹数量
 	@num	减少数量
@@ -73,13 +83,17 @@ public:
 	void clearBullet();
 
 	/*获取角色坐标*/
-	void getPosition(double& x, double& y) const;
+	const POINT& getPosition() const;
+
+	/*
+	* 判断是否和某个坐标点碰撞
+	* @p 坐标
+	*/
+	bool checkOfPoint(const POINT& p);
 
 private:
-	// 角色坐标x
-	double m_x;
-	// 角色坐标y
-	double m_y;
+	// 角色坐标
+	POINT position;
 	// 角色宽度
 	int _W_;
 	// 角色高度
@@ -91,7 +105,7 @@ private:
 	// 角色方向数据
 	bool h_fx[4];
 	// 角色速度
-	double speed = 10;
+	double speed = 15;
 	// 根号2值
 	const double SQRT2 = sqrt(2);
 	// 角色动画
@@ -99,7 +113,7 @@ private:
 	// 子弹列表
 	vector<Bullet*> bullet_list;
 	// 子弹数量
-	unsigned int bul_num = 1;
+	unsigned int bul_num = 3;
 	// 子弹速度(角速度：默认半径下1秒1圈)
 	double bul_speed = 1;
 	// 默认子弹飞行半径
@@ -114,5 +128,9 @@ private:
 	double bul_degrees = 0;
 	// 子弹速度计算时间
 	DWORD bul_time = 0;
+	// 地图宽度
+	int _mapw_;
+	// 地图高度
+	int _maph_;
 };
 

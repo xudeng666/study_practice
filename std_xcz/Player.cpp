@@ -12,10 +12,7 @@
 */
 Player::Player(int num, double spd) :aniNum(num)
 {
-	speed = spd;
 	speed_time = 0;
-	m_x = 0;
-	m_y = 0;
 	playerAni = new Animation(_T("resources/hero/kdss_%d.png"), aniNum * 2 + 2, speed);
 }
 /*析构*/
@@ -33,15 +30,17 @@ Player::~Player()
 */
 void Player::Init(int w, int h)
 {
-	m_x = w / 2;
-	m_y = h / 2;
+	_mapw_ = w;
+	_maph_ = h;
+	position.x = _mapw_ / 2;
+	position.y = _maph_ / 2;
 	for (int i = 0; i < 4; ++i)
 	{
 		h_fx[i] = false;
 	}
 	bul_time = speed_time = GetTickCount();
 	playerAni->getAniSize(_W_, _H_);
-	addBullet(2);
+	addBullet(0);
 }
 
 /*
@@ -49,7 +48,7 @@ void Player::Init(int w, int h)
 @w 窗口宽度
 @h 窗口高度
 */
-void Player::Move(int w, int h)
+void Player::Move()
 {
 	DWORD t_time = GetTickCount();
 
@@ -60,48 +59,48 @@ void Player::Move(int w, int h)
 		c /= SQRT2;
 	}
 	c /= 1000;
-	double _x = m_x;
+	double _x = position.x;
 	if (h_fx[0])
 	{
-		m_y -= c;
+		position.y -= c;
 	}
 	if (h_fx[1])
 	{
-		m_y += c;
+		position.y += c;
 	}
 	if (h_fx[2])
 	{
-		m_x -= c;
+		position.x -= c;
 	}
 	if (h_fx[3])
 	{
-		m_x += c;
+		position.x += c;
 	}
 
-	if (_x > m_x)
+	if (_x > position.x)
 	{
 		playerAni->setFx(false);
 	}
-	else if (_x < m_x)
+	else if (_x < position.x)
 	{
 		playerAni->setFx(true);
 	}
 
-	if (m_x < _W_ / 2)
+	if (position.x < _W_ / 2)
 	{
-		m_x = _W_ / 2;
+		position.x = _W_ / 2;
 	}
-	else if (m_x > w - _W_ / 2)
+	else if (position.x > _mapw_ - _W_ / 2)
 	{
-		m_x = w - _W_ / 2;
+		position.x = _mapw_ - _W_ / 2;
 	}
-	if (m_y < _H_ / 2)
+	if (position.y < _H_ / 2)
 	{
-		m_y = _H_ / 2;
+		position.y = _H_ / 2;
 	}
-	else if (m_y > h - _H_ / 2)
+	else if (position.y > _maph_ - _H_ / 2)
 	{
-		m_y = h - _H_ / 2;
+		position.y = _maph_ - _H_ / 2;
 	}
 	speed_time = t_time;
 }
@@ -115,7 +114,7 @@ bool Player::isMove()
 /*绘制角色*/
 void Player::Draw()
 {
-	playerAni->play(m_x - _W_ / 2, m_y - _H_ / 2);
+	playerAni->play(position.x - _W_ / 2, position.y - _H_ / 2);
 }
 
 /*
@@ -195,6 +194,22 @@ void Player::addBullet(unsigned int num)
 	}
 }
 
+
+/*获取子弹数量*/
+unsigned int Player::getBulletNum()
+{
+	return bul_num;
+}
+
+/*
+* 获取子弹
+* @index 子弹下标
+*/
+Bullet* Player::getBulletOfIndex(int index)
+{
+	return bullet_list[index];
+}
+
 /*
 减少子弹数量
 @num	减少数量
@@ -224,7 +239,7 @@ void Player::flyBullet()
 		bul_radType = false;
 	}
 
-	bul_radType ? bul_radBf += bul_radBfValue * bul_speed * t / 1000 : bul_radBf -= bul_radBfValue * bul_speed * t / 1000;
+	bul_radType ? bul_radBf += bul_radBfValue * bul_speed * t / 500 : bul_radBf -= bul_radBfValue * bul_speed * t / 500;
 
 	int radius = bul_radBf + bul_radius;
 
@@ -235,7 +250,7 @@ void Player::flyBullet()
 	{
 		int dre = bul_degrees + 360 / bul_num * i;
 		dre %= 360;
-		bullet_list[i]->setPosition(m_x + cos(dre * PI / 180) * radius, m_y - sin(dre * PI / 180) * radius);
+		bullet_list[i]->setPosition(position.x + cos(dre * PI / 180) * radius, position.y - sin(dre * PI / 180) * radius);
 	}
 }
 
@@ -258,9 +273,20 @@ void Player::clearBullet()
 	}
 }
 
-
-void Player::getPosition(double& x, double& y) const
+/*获取角色坐标*/
+const POINT& Player::getPosition() const
 {
-	x = m_x;
-	y = m_y;
+	return position;
+}
+
+/*
+* 判断是否和某个坐标点碰撞
+* @p 坐标
+*/
+bool Player::checkOfPoint(const POINT& p)
+{
+	return p.x < position.x + _W_ / 2 &&
+		p.x > position.x - _W_ / 2 &&
+		p.y < position.y + _H_ / 2 &&
+		p.y > position.y - _H_ / 2;
 }

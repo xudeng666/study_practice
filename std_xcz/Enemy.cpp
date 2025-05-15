@@ -4,16 +4,14 @@
 /*
 * 构造函数
 @num 动画帧数
-@spd 角色初始速度
+@w	窗口宽度
+@h	窗口高度
 */
-Enemy::Enemy(int num, double spd) :aniNum(num)
+Enemy::Enemy(int w, int h)
 {
-	speed = spd;
-	speed_time = 0;
-	m_x = 0;
-	m_y = 0;
-	InitRandom();
-	playerAni = new Animation(_T("resources/hero/kdss_%d.png"), aniNum * 2 + 2, speed);
+	_mapw_ = w;
+	_maph_ = h;
+	Init();
 }
 /*析构*/
 Enemy::~Enemy()
@@ -27,35 +25,66 @@ Enemy::~Enemy()
 */
 void Enemy::Init()
 {
+	speed = 5;
+	speed_time = GetTickCount();
 	for (int i = 0; i < 4; ++i)
 	{
 		h_fx[i] = false;
 	}
-	speed_time = GetTickCount();
-	playerAni->getAniSize(_W_, _H_);
+	InitRandom();
 }
 
 
 /*随机数据初始化*/
 void Enemy::InitRandom()
 {
-	// 随机敌人类型
+	std::random_device rd;
+	std::uniform_int_distribution<int> dist(1, 4);
+	// 生成真随机数 随机敌人类型
+	_type = dist(rd);
+	aniNum = _type == 1 ? 6 : 4;
+	playerAni = new Animation(_T("resources/enemy/gw_%d_%d.png"), _type, aniNum * 2, speed);
+	// 出生方向1234 上下左右
+	int fx = dist(rd);
+	playerAni->getAniSize(_W_, _H_);
+	std::uniform_int_distribution<int> mw(0, _mapw_ - 1);
+	std::uniform_int_distribution<int> mh(0, _maph_ - 1);
 	// 随机出生位置
+	switch (fx)
+	{
+	case 1:
+		position.x = mw(rd);
+		position.y = 0 - _H_ / 2;
+		break;
+	case 2:
+		position.x = mw(rd);
+		position.y = _maph_ + _H_ / 2;
+		break;
+	case 3:
+		position.x = 0 - _W_ / 2;
+		position.y = mh(rd);
+		break;
+	case 4:
+		position.x = _mapw_ + _W_ / 2;
+		position.y = mh(rd);
+		break;
+	}
 }
 
 /*
 移动 追逐玩家
-* @player	玩家数据
+* @player*	玩家数据
 */
-void Enemy::Move(const Player & player)
+void Enemy::Move(const Player* player)
 {
-	double x, y;
-	player.getPosition(x, y);
+	playerAni->DrawPlayer();
 
-	setFx(0, y < m_y);
-	setFx(1, y > m_y);
-	setFx(2, x < m_x);
-	setFx(3, x > m_x);
+	POINT p = player->getPosition();
+
+	setFx(0, p.y < position.y);
+	setFx(1, p.y > position.y);
+	setFx(2, p.x < position.x);
+	setFx(3, p.x > position.x);
 
 	DWORD t_time = GetTickCount();
 
@@ -66,29 +95,29 @@ void Enemy::Move(const Player & player)
 		c /= SQRT2;
 	}
 	c /= 1000;
-	double _x = m_x;
+	double _x = position.x;
 	if (h_fx[0])
 	{
-		m_y -= c;
+		position.y -= c;
 	}
 	if (h_fx[1])
 	{
-		m_y += c;
+		position.y += c;
 	}
 	if (h_fx[2])
 	{
-		m_x -= c;
+		position.x -= c;
 	}
 	if (h_fx[3])
 	{
-		m_x += c;
+		position.x += c;
 	}
 
-	if (_x > m_x)
+	if (_x > position.x)
 	{
 		playerAni->setFx(false);
 	}
-	else if (_x < m_x)
+	else if (_x < position.x)
 	{
 		playerAni->setFx(true);
 	}
@@ -104,7 +133,7 @@ bool Enemy::isMove()
 /*绘制角色*/
 void Enemy::Draw()
 {
-	playerAni->play(m_x - _W_ / 2, m_y - _H_ / 2);
+	playerAni->play(position.x - _W_ / 2, position.y - _H_ / 2);
 }
 
 /*
@@ -124,4 +153,59 @@ void Enemy::setFx(int index, bool m)
 void Enemy::upData()
 {
 	playerAni->DrawPlayer();
+}
+
+/*
+* 判断是否和某个坐标点碰撞
+* @p 坐标
+*/
+bool Enemy::checkOfPoint(const POINT& p)
+{
+	return p.x < position.x + _W_ / 2 &&
+		p.x > position.x - _W_ / 2 &&
+		p.y < position.y + _H_ / 2 &&
+		p.y > position.y - _H_ / 2;
+}
+
+/*
+* 与玩家碰撞检测
+* @plyer
+*/
+bool Enemy::checkPlayer(Player* player)
+{
+	//检测怪物中心点是否在玩家体内
+	return player->checkOfPoint(position);
+}
+
+/*
+* 与子弹碰撞检测
+* @bullet
+*/
+bool Enemy::checkBullet(Bullet* bullet)
+{
+	//检测子弹中心点是否在怪物体内
+	return checkOfPoint(bullet->position);
+}
+
+/*
+* 与玩家碰撞检测
+* @plyer
+*/
+COllISION Enemy::checkCollision(Player* player)
+{
+	if (checkPlayer(player))
+	{
+		return PLAYER;
+	}
+
+	unsigned int n = player->getBulletNum();
+
+	for (int i = 0;i < n;++i)
+	{
+		if (checkBullet(player->getBulletOfIndex(i)))
+		{
+			return BULLET;
+		}
+	}
+	return OTHER;
 }

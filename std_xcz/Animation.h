@@ -1,9 +1,11 @@
 #pragma once
 #include <vector>
 #include <graphics.h>
+#include <stdlib.h>
 
 
 using namespace std;
+//srand((unsigned int)time(NULL));
 
 
 #pragma comment(lib, "MSIMG32.LIB")
@@ -28,6 +30,15 @@ public:
 	@speed	播放速度
 	*/
 	Animation(LPCTSTR path, int num, double speed);
+
+	/*
+	构造函数
+	@path 资源路径
+	@type 类型
+	@num 资源数量
+	@speed	播放速度
+	*/
+	Animation(LPCTSTR path, unsigned int type, int num, double speed);
 
 	~Animation();
 	/*
