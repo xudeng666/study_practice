@@ -8,12 +8,11 @@
 /*
 * 构造函数
 @num 动画帧数
-@spd 角色初始速度
 */
-Player::Player(int num, double spd) :aniNum(num)
+Player::Player(Atlas* atl)
 {
+	playerAni = new Animation(atl, speed);
 	speed_time = 0;
-	playerAni = new Animation(_T("resources/hero/kdss_%d.png"), aniNum * 2 + 2, speed);
 }
 /*析构*/
 Player::~Player()
@@ -39,7 +38,7 @@ void Player::Init(int w, int h)
 		h_fx[i] = false;
 	}
 	bul_time = speed_time = GetTickCount();
-	playerAni->getAniSize(_W_, _H_);
+	playerAni->getAniSize(_W_,_H_);
 	addBullet(0);
 }
 
@@ -52,7 +51,7 @@ void Player::Move()
 {
 	DWORD t_time = GetTickCount();
 
-	double c = _W_ * 2 / aniNum * speed * (t_time - speed_time);
+	double c = _W_ * 2 / (playerAni->getAniFrameNum() - 1) * speed * (t_time - speed_time);
 
 	if ((h_fx[0] || h_fx[1]) && (h_fx[2] || h_fx[3]))
 	{
@@ -201,6 +200,8 @@ unsigned int Player::getBulletNum()
 	return bul_num;
 }
 
+
+
 /*
 * 获取子弹
 * @index 子弹下标
@@ -208,6 +209,14 @@ unsigned int Player::getBulletNum()
 Bullet* Player::getBulletOfIndex(int index)
 {
 	return bullet_list[index];
+}
+
+/*
+* 获取子弹列表
+*/
+vector<Bullet*>& Player::getBulletList()
+{
+	return bullet_list;
 }
 
 /*

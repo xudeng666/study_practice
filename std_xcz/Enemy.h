@@ -4,6 +4,12 @@
 #include <iostream>
 #include <random>
 
+/*
+*敌人碰撞结果
+* @PLAYER	敌人碰到角色
+* @BULLET	敌人碰到子弹
+* @OTHER	未发生碰撞
+*/
 enum COllISION
 {
 	PLAYER = 0,
@@ -17,10 +23,11 @@ class Enemy
 public:
 	/*
 	* 构造函数
-	@w	窗口宽度
-	@h	窗口高度
+	* @list 资源列表
+	*@w	窗口宽度
+	*@h	窗口高度
 	*/
-	Enemy(int w, int h);
+	Enemy(vector<Atlas*>& list, int w, int h);
 	/*析构*/
 	~Enemy();
 
@@ -29,7 +36,9 @@ public:
 	*/
 	void Init();
 
-	/*随机数据初始化*/
+	/*
+	* 随机数据初始化
+	*/
 	void InitRandom();
 
 	/*
@@ -85,8 +94,6 @@ private:
 	int _W_;
 	// 角色高度
 	int _H_;
-	// 角色动画帧数
-	int aniNum;
 	// 速度计算时间
 	DWORD speed_time = 0;
 	// 角色方向数据
@@ -103,6 +110,8 @@ private:
 	int _mapw_;
 	// 地图高度
 	int _maph_;
+	// 资源列表
+	vector<Atlas*>& atllist;
 };
 
 

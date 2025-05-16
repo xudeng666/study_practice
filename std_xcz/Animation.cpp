@@ -7,47 +7,16 @@
 @num 资源数量
 @speed	播放速度
 */
-Animation::Animation(LPCTSTR path, int num, double speed)
+Animation::Animation(Atlas* atl, double speed)
 {
 	ani_speed = speed;
-	TCHAR path_file[256];
-	for (size_t i = 0; i < num; ++i)
-	{
-		_stprintf_s(path_file, path, i);
-		IMAGE* frame = new IMAGE();
-		loadimage(frame, path_file);
-		frame_list.push_back(frame);
-	}
+	atlas = atl;
+	frameNum = atlas->getFrameNum() / 2;
 }
 
-/*
-构造函数
-@path 资源路径
-@type 类型
-@num 资源数量
-@speed	播放速度
-*/
-Animation::Animation(LPCTSTR path, unsigned int type, int num, double speed)
-{
-	ani_speed = speed;
-	TCHAR path_file[256];
-	for (size_t i = 0; i < num; ++i)
-	{
-		_stprintf_s(path_file, path, type, i);
-		IMAGE* frame = new IMAGE();
-		loadimage(frame, path_file);
-		frame_list.push_back(frame);
-	}
-}
-
-Animation::~Animation()
-{
-	for (size_t i = 0; i < frame_list.size(); ++i)
-	{
-		delete frame_list[i];
-		frame_list[i] = nullptr;
-	}
-}
+//Animation::~Animation()
+//{
+//}
 /*
 动画播放
 @x	x坐标位置
@@ -55,8 +24,8 @@ Animation::~Animation()
 */
 void Animation::play(int x, int y)
 {
-	int t = ani_fx ? idx_frame + frame_list.size() / 2 : idx_frame;
-	putimage_alpha(x, y, frame_list[t]);
+	int t = ani_fx ? idx_frame + frameNum : idx_frame;
+	putimage_alpha(x, y, atlas->getFrameByIndex(t));
 }
 
 /*
@@ -72,7 +41,7 @@ void Animation::DrawPlayer(bool isMove)
 		timer = t_time;
 		idx_frame++;
 	}
-	int t = frame_list.size() / 2 - 1;
+	int t = frameNum - 1;
 	idx_frame = isMove ? (idx_frame % t) : t;
 }
 
@@ -87,7 +56,7 @@ void Animation::DrawPlayer()
 		timer = t_time;
 		idx_frame++;
 	}
-	idx_frame %= (frame_list.size() / 2);
+	idx_frame %= frameNum;
 }
 
 void Animation::setAniSpeed(double speed)
@@ -98,4 +67,23 @@ void Animation::setAniSpeed(double speed)
 void Animation::setFx(bool isLeft)
 {
 	ani_fx = isLeft;
+}
+
+/*
+获取动画尺寸
+@w	赋值变量w
+@h	赋值变量h
+*/
+void Animation::getAniSize(int& w, int& h)
+{
+	atlas->getFrameSize(w, h);
+}
+
+
+/*
+获取动画帧数
+*/
+unsigned int Animation::getAniFrameNum()
+{
+	return frameNum;
 }

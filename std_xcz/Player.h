@@ -8,10 +8,9 @@ class Player
 public:
 	/*
 	* 构造函数
-	@num 动画帧数
-	@spd 角色初始速度
+	@atl 资源指针
 	*/
-	Player(int num, double spd);
+	Player(Atlas* atl);
 	/*析构*/
 	~Player();
 
@@ -66,6 +65,10 @@ public:
 	*/
 	Bullet* getBulletOfIndex(int index);
 
+	/*
+	* 获取子弹列表
+	*/
+	vector<Bullet*>& getBulletList();
 
 	/*
 	减少子弹数量
@@ -98,8 +101,6 @@ private:
 	int _W_;
 	// 角色高度
 	int _H_;
-	// 角色动画帧数
-	const int aniNum;
 	// 速度计算时间
 	DWORD speed_time = 0;
 	// 角色方向数据
@@ -129,8 +130,8 @@ private:
 	// 子弹速度计算时间
 	DWORD bul_time = 0;
 	// 地图宽度
-	int _mapw_;
+	int _mapw_ = 0;
 	// 地图高度
-	int _maph_;
+	int _maph_ = 0;
 };
 

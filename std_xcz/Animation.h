@@ -1,21 +1,7 @@
 #pragma once
-#include <vector>
 #include <graphics.h>
 #include <stdlib.h>
-
-
-using namespace std;
-//srand((unsigned int)time(NULL));
-
-
-#pragma comment(lib, "MSIMG32.LIB")
-/*渲染图片并识别透明区域*/
-inline void putimage_alpha(int x, int y, IMAGE* img)
-{
-	int w = img->getwidth();
-	int h = img->getheight();
-	AlphaBlend(GetImageHDC(nullptr), x, y, w, h, GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER, 0,255,AC_SRC_ALPHA });
-}
+#include "Atlas.h"
 
 /*
 * 帧动画基类
@@ -26,21 +12,11 @@ public:
 	/*
 	构造函数
 	@path 资源路径
-	@num 资源数量
 	@speed	播放速度
 	*/
-	Animation(LPCTSTR path, int num, double speed);
+	Animation(Atlas* atl, double speed);
 
-	/*
-	构造函数
-	@path 资源路径
-	@type 类型
-	@num 资源数量
-	@speed	播放速度
-	*/
-	Animation(LPCTSTR path, unsigned int type, int num, double speed);
-
-	~Animation();
+	~Animation() = default;
 	/*
 	动画播放
 	@x	x坐标位置
@@ -71,13 +47,14 @@ public:
 	@w	赋值变量w
 	@h	赋值变量h
 	*/
-	void getAniSize(int& w, int& h)
-	{
-		w = frame_list[0]->getwidth();
-		h = frame_list[0]->getheight();
-	}
+	void getAniSize(int& w, int& h);
+	/*
+	获取动画帧数
+	*/
+	unsigned int getAniFrameNum();
 private:
-	vector<IMAGE*> frame_list;
+	// 图集指针
+	Atlas* atlas;
 	// 动画播放速度
 	double ani_speed = 0;
 	// 动画计时器
@@ -86,5 +63,7 @@ private:
 	int idx_frame = 0;
 	// 朝向 true 向左 false 向右
 	bool ani_fx = false;
+	// 动画帧数
+	unsigned int frameNum = 0;
 };
 

@@ -1,18 +1,20 @@
 #include "Enemy.h"
 
 
+
 /*
 * 构造函数
-@num 动画帧数
-@w	窗口宽度
-@h	窗口高度
+* @list 资源列表
+*@w	窗口宽度
+*@h	窗口高度
 */
-Enemy::Enemy(int w, int h)
+Enemy::Enemy(vector<Atlas*>& list, int w, int h):atllist(list)
 {
 	_mapw_ = w;
 	_maph_ = h;
 	Init();
 }
+
 /*析构*/
 Enemy::~Enemy()
 {
@@ -39,32 +41,30 @@ void Enemy::Init()
 void Enemy::InitRandom()
 {
 	std::random_device rd;
-	std::uniform_int_distribution<int> dist(1, 4);
+	std::uniform_int_distribution<int> dist(FRAME_TYPE_ENEMY_1, FRAME_TYPE_ENEMY_4);
 	// 生成真随机数 随机敌人类型
 	_type = dist(rd);
-	aniNum = _type == 1 ? 6 : 4;
-	playerAni = new Animation(_T("resources/enemy/gw_%d_%d.png"), _type, aniNum * 2, speed);
-	// 出生方向1234 上下左右
-	int fx = dist(rd);
+	playerAni = new Animation(atllist[_type], speed);
 	playerAni->getAniSize(_W_, _H_);
 	std::uniform_int_distribution<int> mw(0, _mapw_ - 1);
 	std::uniform_int_distribution<int> mh(0, _maph_ - 1);
 	// 随机出生位置
-	switch (fx)
+	// 出生方向1234 上下左右
+	switch (dist(rd))
 	{
-	case 1:
+	case FRAME_TYPE_ENEMY_1:
 		position.x = mw(rd);
 		position.y = 0 - _H_ / 2;
 		break;
-	case 2:
+	case FRAME_TYPE_ENEMY_2:
 		position.x = mw(rd);
 		position.y = _maph_ + _H_ / 2;
 		break;
-	case 3:
+	case FRAME_TYPE_ENEMY_3:
 		position.x = 0 - _W_ / 2;
 		position.y = mh(rd);
 		break;
-	case 4:
+	case FRAME_TYPE_ENEMY_4:
 		position.x = _mapw_ + _W_ / 2;
 		position.y = mh(rd);
 		break;
@@ -88,7 +88,7 @@ void Enemy::Move(const Player* player)
 
 	DWORD t_time = GetTickCount();
 
-	double c = _W_ * 2 / aniNum * speed * (t_time - speed_time);
+	double c = _W_ * 2 / playerAni->getAniFrameNum() * speed * (t_time - speed_time);
 
 	if ((h_fx[0] || h_fx[1]) && (h_fx[2] || h_fx[3]))
 	{
@@ -198,11 +198,9 @@ COllISION Enemy::checkCollision(Player* player)
 		return PLAYER;
 	}
 
-	unsigned int n = player->getBulletNum();
-
-	for (int i = 0;i < n;++i)
+	for (Bullet* bullet : player->getBulletList())
 	{
-		if (checkBullet(player->getBulletOfIndex(i)))
+		if (checkBullet(bullet))
 		{
 			return BULLET;
 		}
