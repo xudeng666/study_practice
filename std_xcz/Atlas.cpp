@@ -16,6 +16,7 @@ Atlas::Atlas(LPCTSTR path, int num)
 		loadimage(frame, path_file);
 		frame_list.push_back(frame);
 	}
+	frame_num = num;
 }
 
 /*
@@ -34,6 +35,7 @@ Atlas::Atlas(LPCTSTR path, unsigned int type, int num)
 		loadimage(frame, path_file);
 		frame_list.push_back(frame);
 	}
+	frame_num = num;
 }
 
 Atlas::~Atlas()
@@ -50,4 +52,75 @@ Atlas::~Atlas()
 vector <IMAGE*> Atlas::getFrameList()
 {
 	return frame_list;
+}
+/*
+获取图片
+@index 下标
+*/
+IMAGE* Atlas::getFrameByIndex(unsigned int index)
+{
+	return frame_list[index];
+}
+
+/*
+获取资源总数
+*/
+unsigned int Atlas::getFrameNum()
+{
+	return frame_num;
+}
+
+/*
+获取动画尺寸
+@w	赋值变量w
+@h	赋值变量h
+*/
+void Atlas::getFrameSize(int& w, int& h)
+{
+	w = frame_list[0]->getwidth();
+	h = frame_list[0]->getheight();
+}
+
+/*生成反向资源*/
+void Atlas::greatRightDirect()
+{
+	unsigned int n = getFrameNum();
+	for (int i = 0; i < n; ++i)
+	{
+		int w = frame_list[i]->getwidth();
+		int h = frame_list[i]->getheight();
+		IMAGE* p = new IMAGE();
+		Resize(p, w, h);
+		DWORD* color_buf_0 = GetImageBuffer(frame_list[i]);
+		DWORD* color_buf_1 = GetImageBuffer(p);
+		for (int j = 0; j < w * h;++j)
+		{
+			color_buf_1[j] = color_buf_0[j / w * w + (w - j % w) - 1];
+		}
+		frame_list.push_back(p);
+	}
+}
+
+/*生成白色剪影资源*/
+void Atlas::greatWhitePix()
+{
+	unsigned int n = frame_list.size();
+	for (int i = 0; i < n; ++i)
+	{
+		int w = frame_list[i]->getwidth();
+		int h = frame_list[i]->getheight();
+		IMAGE* p = new IMAGE();
+		Resize(p, w, h);
+		DWORD* color_buf_0 = GetImageBuffer(frame_list[i]);
+		DWORD* color_buf_1 = GetImageBuffer(p);
+		for (int j = 0; j < w * h;++j)
+		{
+			if (color_buf_0[j] & 0xFF000000 >> 24)
+			{
+				//color_buf_1[j] = BGR(RGB(255, 255, 255)) | (((DWORD)(BYTE)(255)) << 24);
+				color_buf_1[j] |= 0xFFFF0000;
+			}
+		}
+		frame_list.push_back(p);
+	}
 }

@@ -59,31 +59,28 @@ public:
 	获取图片
 	@index 下标
 	*/
-	IMAGE* getFrameByIndex(unsigned int index)
-	{
-		return frame_list[index];
-	}
+	IMAGE* getFrameByIndex(unsigned int index);
 
 	/*
 	获取资源总数
 	*/
-	unsigned int getFrameNum()
-	{
-		return frame_list.size();
-	}
+	unsigned int getFrameNum();
 
 	/*
 	获取动画尺寸
 	@w	赋值变量w
 	@h	赋值变量h
 	*/
-	void getFrameSize(int& w, int& h)
-	{
-		w = frame_list[0]->getwidth();
-		h = frame_list[0]->getheight();
-	}
+	void getFrameSize(int& w, int& h);
+
+	/*生成反向资源*/
+	void greatRightDirect();
+
+	/*生成白色剪影资源*/
+	void greatWhitePix();
 
 private:
 	vector <IMAGE*> frame_list;
+	unsigned int frame_num;
 };
 

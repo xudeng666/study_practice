@@ -28,6 +28,7 @@ Player::~Player()
 void Player::Init(int w, int h, Atlas* atl)
 {
 	playerAni = new Animation(atl, speed);
+	_HP_ = 10;
 	_mapw_ = w;
 	_maph_ = h;
 	bul_radBf = 0;
@@ -310,4 +311,19 @@ Player* Player::_getPlayer()
 		_THIS_ = new Player();
 	}
 	return _THIS_;
+}
+
+/*角色受到伤害*/
+void Player::playerInjured()
+{
+	// 播放受伤特效
+	playerAni->playEff();
+	// 掉血
+	_HP_--;
+}
+
+/*获取角色生命值*/
+int Player::get_HP()
+{
+	return _HP_;
 }

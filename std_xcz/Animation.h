@@ -52,6 +52,10 @@ public:
 	获取动画帧数
 	*/
 	unsigned int getAniFrameNum();
+
+	/*白闪特效*/
+	void playEff();
+
 private:
 	// 图集指针
 	Atlas* atlas;
@@ -65,5 +69,11 @@ private:
 	bool ani_fx = false;
 	// 动画帧数
 	unsigned int frameNum = 0;
+	// 是否播放特效
+	bool onEff = false;
+	// 特效振荡器
+	int effFlicker = 0;
+	// 特效计时器
+	int efftime = 0;
 };
 

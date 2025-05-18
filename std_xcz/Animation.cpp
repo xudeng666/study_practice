@@ -11,7 +11,8 @@ Animation::Animation(Atlas* atl, double speed)
 {
 	ani_speed = speed;
 	atlas = atl;
-	frameNum = atlas->getFrameNum() / 2;
+	onEff = false;
+	frameNum = atlas->getFrameNum();// / 2;
 }
 
 //Animation::~Animation()
@@ -25,6 +26,21 @@ Animation::Animation(Atlas* atl, double speed)
 void Animation::play(int x, int y)
 {
 	int t = ani_fx ? idx_frame + frameNum : idx_frame;
+	if (onEff)
+	{
+		DWORD t_time = GetTickCount() - efftime;
+		if (t_time > 500)
+		{
+			onEff = false;
+			effFlicker = 0;
+			efftime = 0;
+		}
+		if (effFlicker++ % 2 == 0)
+		{
+			t += (frameNum * 2);
+		}
+	}
+	IMAGE* img = atlas->getFrameByIndex(t);
 	putimage_alpha(x, y, atlas->getFrameByIndex(t));
 }
 
@@ -86,4 +102,12 @@ void Animation::getAniSize(int& w, int& h)
 unsigned int Animation::getAniFrameNum()
 {
 	return frameNum;
+}
+
+/*≤•∑≈Ãÿ–ß*/
+void Animation::playEff()
+{
+	efftime = GetTickCount();
+	onEff = true;
+	effFlicker = 0;
 }

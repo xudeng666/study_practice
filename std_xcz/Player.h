@@ -99,6 +99,12 @@ public:
 	/*获取单例对象*/
 	static Player* _getPlayer();
 
+	/*角色受到伤害*/
+	void playerInjured();
+
+	/*获取角色生命值*/
+	int get_HP();
+
 private:
 	// 角色坐标
 	POINT position;
@@ -138,6 +144,8 @@ private:
 	int _mapw_ = 0;
 	// 地图高度
 	int _maph_ = 0;
+	// 生命值
+	int _HP_ = 10;
 
 private:
 	/*

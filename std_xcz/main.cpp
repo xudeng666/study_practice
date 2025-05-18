@@ -61,6 +61,10 @@ void atlListClear();
 void playerDie();
 /*绘制开始界面*/
 void gameStartDraw();
+/*加载次生资源*/
+void loadSecondResous();
+/*绘制ui文字*/
+void textUIDraw();
 
 // 背景图
 IMAGE m_bg;
@@ -82,6 +86,10 @@ DWORD etime;
 Player* player = nullptr;
 // 敌人数组
 vector<Enemy*> enemyArr;
+// 次生资源是否已加载
+bool loadSec = false;
+// 玩家积分
+int playerIntegral = 0;
 
 bool gamestart = false;
 bool running = false;
@@ -110,6 +118,7 @@ void gameInit()
 	running = true;
 	player = Player::_getPlayer();
 	player->Init(_XCZ_W_, _XCZ_H_, atlList[FRAME_TYPE_PLAYER]);
+	playerIntegral = 0;
 	enemyClear();
 }
 
@@ -119,6 +128,7 @@ void gameRun()
 	while (running)
 	{
 		stime = GetTickCount();
+		loadSecondResous();
 		if (gamestart)// 游戏界面
 		{
 			getOperation();
@@ -147,6 +157,7 @@ void gameOver()
 	delete player;
 	player = nullptr;
 	enemyClear();
+	atlListClear();
 }
 
 void login()
@@ -161,17 +172,17 @@ void login()
 		switch (i)
 		{
 		case FRAME_TYPE_PLAYER:
-			atl = new Atlas(_T("resources/hero/kdss_%d.png"), 14);
+			atl = new Atlas(_T("resources/hero/kdss_%d.png"), 7);
 			atlList.push_back(atl);
 			break;
 		case FRAME_TYPE_ENEMY_1:
-			atl = new Atlas(_T("resources/enemy/gw_%d_%d.png"), i, 12);
+			atl = new Atlas(_T("resources/enemy/gw_%d_%d.png"), i, 6);
 			atlList.push_back(atl);
 			break;
 		case FRAME_TYPE_ENEMY_2:
 		case FRAME_TYPE_ENEMY_3:
 		case FRAME_TYPE_ENEMY_4:
-			atl = new Atlas(_T("resources/enemy/gw_%d_%d.png"), i, 8);
+			atl = new Atlas(_T("resources/enemy/gw_%d_%d.png"), i, 4);
 			atlList.push_back(atl);
 		}
 	}
@@ -222,6 +233,7 @@ void gameDraw()
 	player->Draw();
 	player->drawBullet();
 	enemyDraw();
+	textUIDraw();
 }
 
 // 敌人增加
@@ -303,28 +315,20 @@ void checkCollision()
 		switch (enemyArr[i]->checkCollision(player))
 		{
 		case PLAYER:
-			return playerDie();
+			enemyRed(enemyArr[i]);
+			player->playerInjured();
+			if (player->get_HP() <= 0)
+			{
+				return playerDie();
+			}
 			break;
 		case BULLET:
 			mciSendString(_T("play hit from 0"), nullptr, 0, nullptr);
 			enemyRed(enemyArr[i]);
+			playerIntegral++;
 			break;
 		}
 	}
-
-	/*
-	* if (checkWin())
-	{
-		wstring path = board_data[m_x][m_y] == 'X' ? L"X 玩家获胜, 本轮游戏结束！\n是否重开游戏？":L"O 玩家获胜, 本轮游戏结束！\n是否重开游戏？";
-		result = MessageBox(GetHWnd(), path.c_str(), _T("提示"), MB_YESNO);
-		running = false;
-	}
-	else if (checkDraw())
-	{
-		result = MessageBox(GetHWnd(), _T("平局, 本轮游戏结束！\n是否重开游戏？"), _T("提示"), MB_YESNO);
-		running = false;
-	}
-	*/
 }
 
 
@@ -395,4 +399,31 @@ void gameStartDraw()
 		BtnSta->ProcessEvent(msg);
 		BtnEnd->ProcessEvent(msg);
 	}
+}
+
+/*加载次生资源*/
+void loadSecondResous()
+{
+	if (loadSec)
+		return;
+	if (!loadSec && etime > 0 && etime < stime)
+	{
+		loadSec = true;
+		for (int i = 0; i < atlList.size(); ++i)
+		{
+			atlList[i]->greatRightDirect();
+			atlList[i]->greatWhitePix();
+		}
+	}
+}
+
+/*绘制ui文字*/
+void textUIDraw()
+{
+	settextcolor(YELLOW);
+	LPCTSTR path = _T("玩家当前生命值：%d      当前积分：%d");
+	TCHAR path_file[256];
+	_stprintf_s(path_file, path, player->get_HP(), playerIntegral);
+	outtextxy(10, 10, path_file);
+
 }
