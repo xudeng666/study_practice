@@ -2,6 +2,7 @@
 #include <string>
 #include "Player.h"
 #include "Enemy.h"
+#include "Button.h"
 //  幸存者小游戏
 
 // 帧率
@@ -56,15 +57,23 @@ void enemyByHit(int index);
 void checkCollision();
 /*资源清空*/
 void atlListClear();
+/*角色死亡*/
+void playerDie();
+/*绘制开始界面*/
+void gameStartDraw();
 
 // 背景图
 IMAGE m_bg;
+// 游戏地图
+IMAGE m_map;
+/*开始按钮*/
+StartGameBut* BtnSta;
+/*结束按钮*/
+OverGameBut* BtnEnd;
 /*消息*/
 ExMessage msg;
 /*图集数组*/
 vector<Atlas*> atlList;
-// 主循环是否开启
-bool running = false;
 // 帧开始时间
 DWORD stime;
 // 帧结束时间
@@ -74,6 +83,8 @@ Player* player = nullptr;
 // 敌人数组
 vector<Enemy*> enemyArr;
 
+bool gamestart = false;
+bool running = false;
 
 
 int main()
@@ -90,14 +101,16 @@ void openWindow()
 	initgraph(_XCZ_W_, _XCZ_H_, EX_SHOWCONSOLE);
 	login();
 	// 播放背景音乐
-	mciSendString(_T("play bgm repeat from 0"), nullptr, 0, nullptr);// repeat表示循环播放 from 0指从头开始播放
+	// mciSendString(_T("play bgm repeat from 0"), nullptr, 0, nullptr);// repeat表示循环播放 from 0指从头开始播放
 }
 
 void gameInit()
 {
+	gamestart = false;
 	running = true;
-	player = new Player(atlList[FRAME_TYPE_PLAYER]);
-	player->Init(_XCZ_W_, _XCZ_H_);
+	player = Player::_getPlayer();
+	player->Init(_XCZ_W_, _XCZ_H_, atlList[FRAME_TYPE_PLAYER]);
+	enemyClear();
 }
 
 void gameRun()
@@ -106,9 +119,18 @@ void gameRun()
 	while (running)
 	{
 		stime = GetTickCount();
-		getOperation();
-		dataProcessing();
-		gameDraw();
+		if (gamestart)// 游戏界面
+		{
+			getOperation();
+			dataProcessing();
+			gameDraw();
+		}
+		else// 开始界面
+		{
+			// 绘制背景图和按钮
+			gameStartDraw();
+		}
+
 		FlushBatchDraw();
 		etime = GetTickCount();
 		DWORD dtime = etime - stime;
@@ -130,7 +152,8 @@ void gameOver()
 void login()
 {
 	// 加载背景资源
-	loadimage(&m_bg, _T("resources/map/map_1.png"));
+	loadimage(&m_map, _T("resources/map/map_1.png"));
+	loadimage(&m_bg, _T("resources/bg/bg_1.png"));
 	// 加载角色/敌人资源
 	for (int i = 0; i < FRAME_TYPE_COUNT;++i)
 	{
@@ -156,6 +179,17 @@ void login()
 	mciSendString(_T("open music/bg_music_1.mp3 alias bgm"), nullptr, 0, nullptr);
 	// 加载命中音效
 	mciSendString(_T("open music/yx_1.mp3 alias hit"), nullptr, 0, nullptr);
+
+	/*
+	* open 路径 alias xx	加载音乐资源并取别名为xx,后续操作都直接用该别名即可。如果后续操作与别名不一致会报错
+	*		【注意】如果文件路径包含空格，需用双引号包裹（如 "C:\\my music.mp3"）。
+	* close xx				关闭xx音乐并释放资源，close过的音乐要播放必须重新open一下
+	* play xx				播放xx音乐
+	* stop xx				停止播放xx音乐，停止后可用play重新播放
+	* pause	xx				暂停播放xx音乐
+	* resume xx				从暂停处继续播放xx音乐
+	* seek xx to start		xx音乐跳转到开头
+	*/
 }
 
 void intData()
@@ -182,9 +216,9 @@ void dataProcessing()
 
 void gameDraw()
 {
-	double w = m_bg.getwidth();
-	double h = m_bg.getheight();
-	putimage((_XCZ_W_ - w)/2, (_XCZ_H_-h)/2, &m_bg);
+	double w = m_map.getwidth();
+	double h = m_map.getheight();
+	putimage((_XCZ_W_ - w)/2, (_XCZ_H_-h)/2, &m_map);
 	player->Draw();
 	player->drawBullet();
 	enemyDraw();
@@ -269,11 +303,9 @@ void checkCollision()
 		switch (enemyArr[i]->checkCollision(player))
 		{
 		case PLAYER:
-			cout << "游戏结束" << endl;
-			return;
+			return playerDie();
 			break;
 		case BULLET:
-			cout << "敌人消失" << endl;
 			mciSendString(_T("play hit from 0"), nullptr, 0, nullptr);
 			enemyRed(enemyArr[i]);
 			break;
@@ -315,4 +347,52 @@ void atlListClear()
 		atlList[i] = nullptr;
 	}
 	atlList.clear();
+}
+
+
+/*角色死亡*/
+void playerDie()
+{
+	gamestart = false;
+
+	// 关闭背景音乐
+	mciSendString(_T("stop bgm"), nullptr, 0, nullptr);
+
+	gameInit();
+
+}
+
+/*绘制开始界面*/
+void gameStartDraw()
+{
+	// 生成按钮
+	if (nullptr == BtnSta)
+	{
+		BtnSta = new StartGameBut({ 600,600,870,678 },
+			_T("resources/btn/btn_ksyx_2.png"),
+			_T("resources/btn/btn_ksyx_1.png"),
+			_T("resources/btn/btn_ksyx_3.png"));
+	}
+	if (nullptr == BtnEnd)
+	{
+		BtnEnd = new OverGameBut({ 830,600,1000,678 },
+			_T("resources/btn/btn_tcyx_2.png"),
+			_T("resources/btn/btn_tcyx_1.png"),
+			_T("resources/btn/btn_tcyx_3.png"));
+	}
+
+
+	// 绘制背景
+	double w = m_bg.getwidth();
+	double h = m_bg.getheight();
+	putimage((_XCZ_W_ - w) / 2, (_XCZ_H_ - h) / 2, &m_bg);
+	// 绘制按钮
+	BtnSta->Draw();
+	BtnEnd->Draw();
+
+	while (peekmessage(&msg, EX_MOUSE))
+	{
+		BtnSta->ProcessEvent(msg);
+		BtnEnd->ProcessEvent(msg);
+	}
 }

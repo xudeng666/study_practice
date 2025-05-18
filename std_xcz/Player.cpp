@@ -9,10 +9,8 @@
 * 构造函数
 @num 动画帧数
 */
-Player::Player(Atlas* atl)
+Player::Player()
 {
-	playerAni = new Animation(atl, speed);
-	speed_time = 0;
 }
 /*析构*/
 Player::~Player()
@@ -27,10 +25,14 @@ Player::~Player()
 @w 窗口宽度
 @h 窗口高度
 */
-void Player::Init(int w, int h)
+void Player::Init(int w, int h, Atlas* atl)
 {
+	playerAni = new Animation(atl, speed);
 	_mapw_ = w;
 	_maph_ = h;
+	bul_radBf = 0;
+	bul_radType = true;
+	bul_degrees = 0;
 	position.x = _mapw_ / 2;
 	position.y = _maph_ / 2;
 	for (int i = 0; i < 4; ++i)
@@ -298,4 +300,14 @@ bool Player::checkOfPoint(const POINT& p)
 		p.x > position.x - _W_ / 2 &&
 		p.y < position.y + _H_ / 2 &&
 		p.y > position.y - _H_ / 2;
+}
+
+/*获取单例指针*/
+Player* Player::_getPlayer()
+{
+	if (nullptr == _THIS_)
+	{
+		_THIS_ = new Player();
+	}
+	return _THIS_;
 }

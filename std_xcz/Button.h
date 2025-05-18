@@ -1,5 +1,11 @@
 #pragma once
 #include <graphics.h>
+#include <iostream>
+
+// 主循环是否开启
+extern bool running;
+/*游戏是否开始*/
+extern bool gamestart;
 
 /*按钮类*/
 class Button
@@ -36,24 +42,6 @@ public:
 	/*鼠标监听*/
 	void ProcessEvent(const ExMessage& msg)
 	{
-		/*if (msg.message == MOUSEEVENTF_MOVE || msg.message == MOUSEEVENTF_LEFTDOWN || msg.message == MOUSEEVENTF_LEFTUP)
-		{
-			if (checkCursor(msg.x,msg.y))
-			{
-				if (msg.message == MOUSEEVENTF_LEFTDOWN)
-				{
-					status = Status::Pushed;
-				}
-				else
-				{
-					status = Status::Hovered;
-				}
-			}
-			else
-			{
-				status = Status::Idle;
-			}	
-		}*/
 		switch (msg.message)
 		{
 		case WM_MOUSEMOVE:
@@ -127,18 +115,22 @@ public:
 protected:
 	void OnClick()
 	{
+		gamestart = true;
+		// 播放背景音乐
+		mciSendString(_T("play bgm repeat from 0"), nullptr, 0, nullptr);// repeat表示循环播放 from 0指从头开始播放
 	}
 };
 
-class StartOverBut :public Button
+class OverGameBut :public Button
 {
 public:
-	StartOverBut(RECT rect, LPCTSTR path_idl, LPCTSTR path_hov, LPCTSTR path_pus)
+	OverGameBut(RECT rect, LPCTSTR path_idl, LPCTSTR path_hov, LPCTSTR path_pus)
 		:Button(rect, path_idl, path_hov, path_pus) {}
-	~StartOverBut() = default;
+	~OverGameBut() = default;
 protected:
 	void OnClick()
 	{
+		running = false;
 	}
 };
 

@@ -2,6 +2,7 @@
 #include "Animation.h"
 #include "Bullet.h"
 
+
 /*玩家类*/
 class Player
 {
@@ -10,7 +11,7 @@ public:
 	* 构造函数
 	@atl 资源指针
 	*/
-	Player(Atlas* atl);
+	//Player(Atlas* atl);
 	/*析构*/
 	~Player();
 
@@ -18,8 +19,9 @@ public:
 	数据初始化
 	@w 窗口宽度
 	@h 窗口高度
+	@atl 资源指针
 	*/
-	void Init(int w, int h);
+	void Init(int w, int h, Atlas* atl);
 
 	/*
 	角色移动
@@ -94,6 +96,9 @@ public:
 	*/
 	bool checkOfPoint(const POINT& p);
 
+	/*获取单例对象*/
+	static Player* _getPlayer();
+
 private:
 	// 角色坐标
 	POINT position;
@@ -133,5 +138,13 @@ private:
 	int _mapw_ = 0;
 	// 地图高度
 	int _maph_ = 0;
+
+private:
+	/*
+	* 构造函数
+	*/
+	Player();
 };
+
+static Player* _THIS_ = nullptr;
 
