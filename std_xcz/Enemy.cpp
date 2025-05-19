@@ -36,7 +36,6 @@ void Enemy::Init()
 	InitRandom();
 }
 
-
 /*随机数据初始化*/
 void Enemy::InitRandom()
 {
@@ -88,13 +87,13 @@ void Enemy::Move(const Player* player)
 
 	DWORD t_time = GetTickCount();
 
-	double c = _W_ * 2 / playerAni->getAniFrameNum() * speed * (t_time - speed_time);
+	double t = _W_ * 2 / playerAni->getAniFrameNum() * speed * (t_time - speed_time);
 
-	if ((h_fx[0] || h_fx[1]) && (h_fx[2] || h_fx[3]))
+	if ((h_fx[0] ^ h_fx[1]) && (h_fx[2] ^ h_fx[3]))
 	{
-		c /= SQRT2;
+		t /= SQRT2;
 	}
-	c /= 1000;
+	int c = t / 1000;
 	double _x = position.x;
 	if (h_fx[0])
 	{
