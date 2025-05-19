@@ -162,8 +162,7 @@ void Atlas::greatWhitePix()
 		{
 			if (color_buf_0[j] & 0xFF000000 >> 24)
 			{
-				//color_buf_1[j] = BGR(RGB(255, 255, 255)) | (((DWORD)(BYTE)(255)) << 24);
-				color_buf_1[j] |= 0xFFFFFFFF;
+				color_buf_1[j] = 0xFFFFFFFF;
 			}
 		}
 		frame_list.push_back(p);
