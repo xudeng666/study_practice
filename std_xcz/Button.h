@@ -45,11 +45,11 @@ public:
 		switch (msg.message)
 		{
 		case WM_MOUSEMOVE:
-			if (status == Status::Idle && checkCursor(msg.x, msg.y))
+			if (checkCursor(msg.x, msg.y))
 			{
-				status = Status::Hovered;
+				status = status == Status::Pushed ? Status::Pushed : Status::Hovered;
 			}
-			else if (status == Status::Hovered && !checkCursor(msg.x, msg.y))
+			else
 			{
 				status = Status::Idle;
 			}

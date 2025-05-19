@@ -43,6 +43,7 @@ public:
 	*@num 资源数量
 	*/
 	Atlas(LPCTSTR path, int num);
+
 	/*
 	构造函数
 	@path 资源路径
@@ -50,6 +51,23 @@ public:
 	@num 资源数量
 	*/
 	Atlas(LPCTSTR path, unsigned int type, int num);
+
+	/*
+	构造函数
+	@path 资源路径
+	@ice_path	冰雪资源路径
+	@type 类型
+	@num 资源数量
+	*/
+	Atlas(LPCTSTR path, LPCTSTR ice_path, unsigned int type, int num);
+
+	/*
+	构造函数
+	@path 资源路径
+	@ice_path	冰雪资源路径
+	@num 资源数量
+	*/
+	Atlas(LPCTSTR path, LPCTSTR ice_path, int num);
 
 	~Atlas();
 	/*获取资源列表*/
@@ -79,8 +97,12 @@ public:
 	/*生成白色剪影资源*/
 	void greatWhitePix();
 
+	/*生成冰雪特效资源*/
+	void greatIcePix();
+
 private:
 	vector <IMAGE*> frame_list;
+	IMAGE* img_ice;
 	unsigned int frame_num;
 };
 

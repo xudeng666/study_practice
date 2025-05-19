@@ -413,6 +413,7 @@ void loadSecondResous()
 		{
 			atlList[i]->greatRightDirect();
 			atlList[i]->greatWhitePix();
+			//atlList[i]->greatIcePix();
 		}
 	}
 }
