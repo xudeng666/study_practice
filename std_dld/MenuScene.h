@@ -1,9 +1,11 @@
 #pragma once
 #include "Scene.h"
+#include "Atlas.h"
+#include "Animation.h"
 #include "SceneManager.h"
 #include <iostream>
 
-
+extern Atlas atlas_peashooter_run_right;
 extern SceneManager scene_manager;
 
 /*菜单类*/
@@ -17,18 +19,25 @@ public:
 	/*进入场景初始化*/
 	void on_enter()
 	{
-		// 进入主菜单
-		std::cout<<"进入主菜单" << std::endl;
+		animation_peashooter_run_right.set_atlas(&atlas_peashooter_run_right);
+		animation_peashooter_run_right.set_interval(75);
+		animation_peashooter_run_right.set_loop(false);
+		animation_peashooter_run_right.set_callback(
+			[]()
+			{
+				scene_manager.exchange_scene(SceneManager::SceneType::Game);
+			}
+		);
 	}
 	/*处理数据*/
-	void on_update()
+	void on_update(int delta)
 	{
-		std::cout << "主菜单运行中..." << std::endl;
+		animation_peashooter_run_right.on_updata(delta);
 	}
-	/*用于渲染绘图*/
+	/*渲染绘图*/
 	void on_draw()
 	{
-		outtextxy(0,0,_T("绘制主菜单"));
+		animation_peashooter_run_right.on_draw(100,100);
 	}
 	/*处理玩家输入*/
 	void on_input(const ExMessage& msg)
@@ -44,5 +53,6 @@ public:
 		std::cout << "退出主菜单" << std::endl;
 	}
 private:
+	Animation animation_peashooter_run_right;
 };
 

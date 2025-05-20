@@ -11,7 +11,7 @@ public:
 	/*进入场景初始化*/
 	virtual void on_enter() {}
 	/*处理数据*/
-	virtual void on_update() {}
+	virtual void on_update(int delta) {}
 	/*用于渲染绘图*/
 	virtual void on_draw() {}
 	/*处理玩家输入*/

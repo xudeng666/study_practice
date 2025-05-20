@@ -20,7 +20,7 @@ public:
 		std::cout << "进入游戏" << std::endl;
 	}
 	/*处理数据*/
-	void on_update()
+	void on_update(int delta)
 	{
 		std::cout << "游戏运行中..." << std::endl;
 	}

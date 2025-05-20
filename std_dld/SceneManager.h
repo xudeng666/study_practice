@@ -53,9 +53,9 @@ public:
 	}
 
 	/*处理数据*/
-	void on_update()
+	void on_update(int delta)
 	{
-		current_scene->on_update();
+		current_scene->on_update(delta);
 	}
 	/*用于渲染绘图*/
 	void on_draw()

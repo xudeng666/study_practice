@@ -19,7 +19,7 @@ public:
 		std::cout << "进入选角界面" << std::endl;
 	}
 	/*处理数据*/
-	void on_update()
+	void on_update(int delta)
 	{
 		std::cout << "选角界面运行中..." << std::endl;
 	}
