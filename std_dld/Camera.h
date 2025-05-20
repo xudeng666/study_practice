@@ -1,11 +1,21 @@
 #pragma once
+#include "Timer.h"
 #include "Vector2.h"
 
 /*摄像机类*/
 class Camera
 {
 public:
-	Camera() = default;
+	Camera()
+	{
+		timer_shake.set_one_shot(true);
+		timer_shake.set_callback([&]()
+			{
+				is_shaking = false;
+				reset_position();
+			}
+		);
+	}
 	~Camera() = default;
 
 	const Vector2& get_position()const
@@ -25,11 +35,39 @@ public:
 
 	void on_update(int delta)
 	{
-		const Vector2 speed = { -0.35f, 0 };
-		position += speed * (float)delta;
+		/*const Vector2 speed = { -0.35f, 0 };
+		position += speed * (float)delta;*/
+		shake_update(delta);
+
 	}
 
+	/*
+	* 抖动
+	* @strength	抖动幅度
+	* @timer	抖动时长(毫秒)
+	*/
+	void shake(float strength, int timer)
+	{
+		timer_shake.set_wait_time(timer);
+		timer_shake.restart();
+		shaking_strength = strength;
+		is_shaking = true;
+	}
+
+	void shake_update(int delta)
+	{
+		timer_shake.on_update(delta);
+		if (is_shaking)
+		{
+			position = position.getCircleRandVct(1.0f * shaking_strength);
+		}
+	}
+
+
 private:
-	Vector2 position;
+	Vector2 position;			//摄像机位置
+	Timer timer_shake;			//抖动计时器
+	bool is_shaking = false;	//是否抖动
+	float shaking_strength = 0;	//抖动幅度
 };
 

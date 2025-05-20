@@ -1,5 +1,6 @@
 #pragma once
 #include <graphics.h>
+#include <random>
 
 #pragma comment(lib,"MSIMG32.LIB")
 
@@ -55,4 +56,45 @@ inline void set_silh_img(IMAGE* src, IMAGE* dst, DWORD rgb = 0xFFFFFFFF)
 			dst_buf[i] = rgb;
 		}
 	}
+}
+
+/*
+* 获取随机整数
+* @min = 0	最小值
+* @max = 1	最大值
+*/
+inline int getIntRand(int min = 0, int max = 1)
+{
+	std::random_device rd;  // 真随机数种子
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> dist(min, max);
+	return dist(gen);
+}
+
+/*
+* 获取随机浮点数
+* @min = 0.0	最小值
+* @max = 1.0	最大值
+*/
+inline double getRealRand(double min = 0.0, double max = 1.0)
+{
+	std::random_device rd;  // 真随机数种子
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<double> dist(min, max);
+	return dist(gen);
+}
+
+/*
+* 获取随机高斯分布数值
+* @<T>			类型模板：int float double...
+* @mean			均值
+* @std_dev		标准差
+*/
+template <typename T>
+T getRormalDistributionRand(T mean, T std_dev)
+{
+	std::random_device rd;
+	std::default_random_engine gen(rd());
+	std::normal_distribution<T> dist(mean, std_dev);
+	return dist(gen);
 }

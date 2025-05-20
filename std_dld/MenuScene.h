@@ -58,7 +58,8 @@ public:
 	{
 		if (msg.message == WM_KEYDOWN)
 		{
-			scene_manager.exchange_scene(SceneManager::SceneType::Selector);
+			//scene_manager.exchange_scene(SceneManager::SceneType::Selector);
+			mainCamera.shake(10, 350);
 		}
 	}
 	/*退出场景处理*/

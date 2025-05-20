@@ -1,4 +1,5 @@
 #pragma once
+#include "util.h"
 #include <cmath>
 
 /*向量类*/
@@ -70,6 +71,39 @@ public:
 		}
 		return Vector2(x / len, y / len);
 	}
+
+	/*
+	* 随机圆形区域坐标
+	* radius 	半径
+	*/
+	Vector2 getCircleRandVct(float radius)
+	{
+		if (0 == radius)
+		{
+			return Vector2(0, 0);
+		}
+		float x = getRealRand(-radius, radius);
+		float m = sqrt(radius * radius - x * x);
+		float y = getRealRand(-m, m);
+		return Vector2(x, y);
+	}
+
+	/*
+	* 随机方形区域坐标
+	* radius 	半径
+	*/
+	Vector2 getSquareRandVct(float radius)
+	{
+		if (0 == radius)
+		{
+			return Vector2(0, 0);
+		}
+		float x = getRealRand(-radius, radius);
+		float y = getRealRand(-radius, radius);
+		return Vector2(x, y);
+	}
+
+
 
 };
 
