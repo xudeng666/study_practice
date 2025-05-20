@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
 #include "Atlas.h"
+#include "Camera.h"
+#include "Timer.h"
 #include "Animation.h"
 #include "SceneManager.h"
 #include <iostream>
@@ -21,23 +23,35 @@ public:
 	{
 		animation_peashooter_run_right.set_atlas(&atlas_peashooter_run_right);
 		animation_peashooter_run_right.set_interval(75);
-		animation_peashooter_run_right.set_loop(false);
-		animation_peashooter_run_right.set_callback(
+		animation_peashooter_run_right.set_loop(true);
+
+		timer.set_wait_time(1000);
+		timer.set_one_shot(false);
+		timer.set_callback(
+			[]()
+			{
+				std::cout << "Shot!" << std::endl;
+			}
+		);
+		/*animation_peashooter_run_right.set_callback(
 			[]()
 			{
 				scene_manager.exchange_scene(SceneManager::SceneType::Game);
 			}
-		);
+		);*/
 	}
 	/*处理数据*/
 	void on_update(int delta)
 	{
 		animation_peashooter_run_right.on_updata(delta);
+		mainCamera.on_update(delta);
+		timer.on_update(delta);
 	}
 	/*渲染绘图*/
 	void on_draw()
 	{
-		animation_peashooter_run_right.on_draw(100,100);
+		const Vector2& pos_mcamera = mainCamera.get_position();
+		animation_peashooter_run_right.on_draw((int)(100 - pos_mcamera.x), (int)(100 - pos_mcamera.y));
 	}
 	/*处理玩家输入*/
 	void on_input(const ExMessage& msg)
@@ -54,5 +68,7 @@ public:
 	}
 private:
 	Animation animation_peashooter_run_right;
+	Camera mainCamera;
+	Timer timer;
 };
 

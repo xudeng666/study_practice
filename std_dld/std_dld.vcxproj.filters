@@ -42,6 +42,15 @@
     <ClCompile Include="Animation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -66,6 +75,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
