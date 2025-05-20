@@ -1,6 +1,6 @@
 #pragma once
-#include <graphics.h>
-#include <random>
+#include "utils.h"
+#include "Camera.h"
 
 #pragma comment(lib,"MSIMG32.LIB")
 
@@ -8,93 +8,25 @@ inline void putimage_alpha(int x, int y, IMAGE* img)
 {
 	int w = img->getwidth();
 	int h = img->getheight();
-	AlphaBlend(GetImageHDC(GetWorkingImage()), x, y, w, h, 
+	AlphaBlend(GetImageHDC(GetWorkingImage()), x, y, w, h,
 		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER,0,255,AC_SRC_ALPHA });
 }
 
-/*工具类文件*/
-
-/*
-* 图片水平翻转
-* @src	原始图片
-* @dst	新图片
-*/
-inline void hor_flip_img(IMAGE* src, IMAGE* dst)
+inline void putimage_alpha(const Camera& camera, int x, int y, IMAGE* img)
 {
-	int w = src->getwidth();
-	int h = src->getheight();
-	dst->Resize(w, h);
-
-	DWORD* src_buf = GetImageBuffer(src);
-	DWORD* dst_buf = GetImageBuffer(dst);
-
-	for (int i = 0; i < w * h; ++i)
-	{
-		dst_buf[i] = src_buf[i / w * w + (w - i % w) - 1];
-	}
+	int w = img->getwidth();
+	int h = img->getheight();
+	const Vector2& pos = camera.get_position();
+	x = (int)(x - pos.x);
+	y = (int)(y - pos.y);
+	AlphaBlend(GetImageHDC(GetWorkingImage()), x, y, w, h,
+		GetImageHDC(img), 0, 0, w, h, { AC_SRC_OVER,0,255,AC_SRC_ALPHA });
 }
 
-/*
-* 水平翻转
-* @src	原始图片
-* @dst	新图片
-* @rgb	设置剪影颜色（默认白色）
-*/
-inline void set_silh_img(IMAGE* src, IMAGE* dst, DWORD rgb = 0xFFFFFFFF)
+inline void putimage_alpha(int dst_x, int dst_y, int dst_w, int dst_h, IMAGE* img, int src_x, int src_y)
 {
-	int w = src->getwidth();
-	int h = src->getheight();
-	dst->Resize(w, h);
-
-	DWORD* src_buf = GetImageBuffer(src);
-	DWORD* dst_buf = GetImageBuffer(dst);
-
-	for (int i = 0; i < w * h; ++i)
-	{
-		if (src_buf[i] & 0xFF000000 >> 24)
-		{
-			dst_buf[i] = rgb;
-		}
-	}
-}
-
-/*
-* 获取随机整数
-* @min = 0	最小值
-* @max = 1	最大值
-*/
-inline int getIntRand(int min = 0, int max = 1)
-{
-	std::random_device rd;  // 真随机数种子
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<int> dist(min, max);
-	return dist(gen);
-}
-
-/*
-* 获取随机浮点数
-* @min = 0.0	最小值
-* @max = 1.0	最大值
-*/
-inline double getRealRand(double min = 0.0, double max = 1.0)
-{
-	std::random_device rd;  // 真随机数种子
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<double> dist(min, max);
-	return dist(gen);
-}
-
-/*
-* 获取随机高斯分布数值
-* @<T>			类型模板：int float double...
-* @mean			均值
-* @std_dev		标准差
-*/
-template <typename T>
-T getRormalDistributionRand(T mean, T std_dev)
-{
-	std::random_device rd;
-	std::default_random_engine gen(rd());
-	std::normal_distribution<T> dist(mean, std_dev);
-	return dist(gen);
+	int w = dst_w > 0 ? dst_w : img->getwidth();
+	int h = dst_h > 0 ? dst_h : img->getheight();
+	AlphaBlend(GetImageHDC(GetWorkingImage()), dst_x, dst_y, w, h,
+		GetImageHDC(img), src_x, src_y, w, h, { AC_SRC_OVER,0,255,AC_SRC_ALPHA });
 }

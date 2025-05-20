@@ -1,6 +1,8 @@
 #pragma once
 #include "util.h"
 #include "Atlas.h"
+#include "Camera.h"
+
 #include <functional>
 
 /*动画类*/
@@ -70,10 +72,9 @@ public:
 		}
 	}
 	/*绘制动画*/
-	void on_draw(int x, int y) const
+	void on_draw(const Camera& camera, int x, int y) const
 	{
-		putimage_alpha(x, y, atlas->getImageByIndex(idx_frame));
-		//putimage_alpha(x, y, get_frame());
+		putimage_alpha(camera, x, y, atlas->getImageByIndex(idx_frame));
 	}
 	/*设置回调函数*/
 	void set_callback(std::function<void()> callback)

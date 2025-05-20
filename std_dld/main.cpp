@@ -204,6 +204,9 @@ int main()
 	load_game_resources();
 	initgraph(1280, 720, EX_SHOWCONSOLE);
 
+	settextstyle(28, 0, _T("IPix"));//设置字体
+	setbkmode(TRANSPARENT);			//设置文本背景为透明
+
 	BeginBatchDraw();
 
 	menu_scene = new MenuScene();

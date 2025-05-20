@@ -32,8 +32,9 @@ public:
 	/*处理玩家输入*/
 	void on_input(const ExMessage& msg)
 	{
-		if (msg.message == WM_KEYDOWN)
+		if (msg.message == WM_KEYUP)
 		{
+			mciSendString(_T("play ui_confirm from 0"), nullptr, 0, nullptr);
 			scene_manager.exchange_scene(SceneManager::SceneType::Menu);
 		}
 	}
