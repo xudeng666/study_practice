@@ -58,9 +58,9 @@ public:
 		current_scene->on_update(delta);
 	}
 	/*用于渲染绘图*/
-	void on_draw()
+	void on_draw(const Camera& camera)
 	{
-		current_scene->on_draw();
+		current_scene->on_draw(camera);
 	}
 	/*处理玩家输入*/
 	void on_input(const ExMessage& msg)

@@ -25,7 +25,7 @@ public:
 		std::cout << "游戏运行中..." << std::endl;
 	}
 	/*用于渲染绘图*/
-	void on_draw()
+	void on_draw(const Camera& camera)
 	{
 		outtextxy(0, 0, _T("绘制游戏"));
 	}

@@ -83,6 +83,8 @@ Scene* game_scene = nullptr;
 Scene* menu_scene = nullptr;
 Scene* selector_scene = nullptr;
 
+
+Camera main_camera;
 SceneManager scene_manager;
 
 /*
@@ -227,7 +229,7 @@ int main()
 		last_tick_time = current_tick_time;
 
 		cleardevice();
-		scene_manager.on_draw();
+		scene_manager.on_draw(main_camera);
 		FlushBatchDraw();
 
 		DWORD etime = GetTickCount();
