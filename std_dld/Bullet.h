@@ -32,10 +32,25 @@ public:
     {
         return position;
     }
+    /*设置位置*/
+    void set_size(float x, float y)
+    {
+        size.x = x, size.y = y;
+    }
+    /*获取位置*/
+    const Vector2& get_size() const
+    {
+        return size;
+    }
     /*设置速度*/
     void set_velocity(float x, float y)
     {
         velocity.x = x, velocity.y = y;
+    }
+    /*获取速度*/
+    const Vector2& get_velocity() const
+    {
+        return velocity;
     }
     /*设置敌对id*/
     void set_collide_target(PlayerID target)
@@ -87,10 +102,9 @@ public:
     */
     virtual bool check_cllide(const Vector2& pos,const Vector2& size)
     {
-        return checkPointToRect(position.x + this->size.x / 2, position.y + this->size.y / 2, 
+        return checkPointToRect<float>(position.x + this->size.x / 2, position.y + this->size.y / 2, 
             pos.x, pos.x + size.x, pos.y, pos.y + size.y);
     }
-
 
     virtual void on_update(int delta)
     {

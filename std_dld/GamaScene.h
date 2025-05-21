@@ -95,7 +95,7 @@ public:
 		if (is_debug)
 		{
 			settextcolor(RGB(255, 0, 0));
-			outtextxy(0,0, _T("已开启调试模式，按‘G’键关闭"));
+			outtextxy(0,0, _T("已开启调试模式，按‘Q’键关闭"));
 		}
 
 		player_1->on_draw(camera);
@@ -111,7 +111,7 @@ public:
 		{
 			switch (msg.vkcode)
 			{
-			case 'G':
+			case 'Q':
 				is_debug = !is_debug;
 				break;
 			default:

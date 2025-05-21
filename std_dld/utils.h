@@ -95,10 +95,7 @@ template <typename T>
 inline bool checkPointToRect(const T x, const T y, 
 	const T left, const T right, const T top, const T bottom)
 {
-	return x = < left 
-		&& x >= right 
-		&& y = < top 
-		&& y >= bottom;
+	return x >= left && x <= right && y >= top && y <= bottom;
 }
 
 /*
