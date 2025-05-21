@@ -87,3 +87,29 @@ inline T getRormalDistributionRand(T mean, T std_dev)
 	std::normal_distribution<T> dist(mean, std_dev);
 	return dist(gen);
 }
+
+/*
+* 判断点和矩形是否碰撞
+*/
+template <typename T>
+inline bool checkPointToRect(const T x, const T y, 
+	const T left, const T right, const T top, const T bottom)
+{
+	return x = < left 
+		&& x >= right 
+		&& y = < top 
+		&& y >= bottom;
+}
+
+/*
+* 判断矩形和矩形是否碰撞
+*/
+template <typename T>
+inline bool checkRectToRect(const T pleft, const T pright, const T ptop, const T pbottom, 
+	const T left, const T right, const T top, const T bottom)
+{
+	return pleft <= right
+		&& left <= pright
+		&& ptop <= bottom
+		&& top <= pbottom;
+}
