@@ -30,3 +30,9 @@ inline void putimage_alpha(int dst_x, int dst_y, int dst_w, int dst_h, IMAGE* im
 	AlphaBlend(GetImageHDC(GetWorkingImage()), dst_x, dst_y, w, h,
 		GetImageHDC(img), src_x, src_y, w, h, { AC_SRC_OVER,0,255,AC_SRC_ALPHA });
 }
+
+inline void line(const Camera& camera, int x1, int y1, int x2, int y2 )
+{
+	const Vector2& pos = camera.get_position();
+	line((int)(x1 - pos.x), (int)(y1 - pos.y), (int)(x2 - pos.x), (int)(y2 - pos.y));
+}

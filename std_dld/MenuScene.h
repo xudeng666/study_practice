@@ -41,7 +41,7 @@ public:
 	/*退出场景处理*/
 	void on_exit()
 	{
-		std::cout << "退出主菜单" << std::endl;
+		//std::cout << "退出主菜单" << std::endl;
 	}
 private:
 };

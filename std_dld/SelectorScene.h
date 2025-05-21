@@ -1,7 +1,10 @@
 #pragma once
 #include "Scene.h"
+#include "PlayerID.h"
 #include "Animation.h"
 #include "SceneManager.h"
+#include "PeashooterPlayer.h"
+#include "SunflowerPlayer.h"
 #include <iostream>
 
 extern IMAGE img_VS;
@@ -33,6 +36,9 @@ extern IMAGE img_avatar_peashooter;
 extern IMAGE img_avatar_sunflower;
 
 extern SceneManager scene_manager;
+
+extern Player* player_1;
+extern Player* player_2;
 
 /*选取角色场景*/
 class SelectorScene :
@@ -82,8 +88,6 @@ public:
 		pos_2P_selector_btn_left.y = pos_1P_selector_btn_left.y;
 		pos_2P_selector_btn_right.x = pos_img_2P_gravestone.x + img_gravestone_left.getwidth();
 		pos_2P_selector_btn_right.y = pos_1P_selector_btn_left.y;
-
-		//pos_text_1p_name.x = pos_ani_1P.x 
 	}
 	/*处理数据*/
 	void on_update(int delta)
@@ -243,7 +247,28 @@ public:
 	/*退出游戏场景*/
 	void on_exit()
 	{
-		std::cout << "退出选角界面" << std::endl;
+		switch (player_type_1)
+		{
+		case PlayerType::Peashooter:
+			player_1 = new PeashooterPlayer();
+			break;
+		case PlayerType::Sunflower:
+			player_1 = new SunflowerPlayer();
+			break;
+		}
+
+		switch (player_type_2)
+		{
+		case PlayerType::Peashooter:
+			player_2 = new PeashooterPlayer();
+			break;
+		case PlayerType::Sunflower:
+			player_2 = new SunflowerPlayer();
+			break;
+		}
+
+		player_1->setId(PlayerID::P1);
+		player_2->setId(PlayerID::P2);
 	}
 private:
 	enum class PlayerType

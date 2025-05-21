@@ -1,12 +1,16 @@
 /*游戏----大乱斗*/
 #include "util.h"
 #include "Atlas.h"
+#include "Player.h"
+#include "Platform.h"
 #include "MenuScene.h"
 #include "GamaScene.h"
 #include "SelectorScene.h"
 #include "SceneManager.h"
 
 #pragma comment(lib, "Winmm.lib")
+
+bool is_debug = true;
 
 
 IMAGE img_menu_background;						// 主菜单背景图片
@@ -86,6 +90,11 @@ Scene* selector_scene = nullptr;
 
 Camera main_camera;
 SceneManager scene_manager;
+
+std::vector<Platform> platform_list;
+
+Player* player_1 = nullptr;
+Player* player_2 = nullptr;
 
 /*
 * 图集水平翻转

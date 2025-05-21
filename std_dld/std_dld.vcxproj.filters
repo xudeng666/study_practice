@@ -16,6 +16,9 @@
     <Filter Include="头文件\scene">
       <UniqueIdentifier>{62efa504-ecf7-48f8-a998-0b1a40160af7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\player">
+      <UniqueIdentifier>{fba4b610-3e3c-468c-8eba-9a643d45ad8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,18 @@
     <ClCompile Include="Timer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PeashooterPlayer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SunflowerPlayer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -60,9 +75,6 @@
       <Filter>头文件\scene</Filter>
     </ClInclude>
     <ClInclude Include="MenuScene.h">
-      <Filter>头文件\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectorScene.h">
       <Filter>头文件\scene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
@@ -88,6 +100,24 @@
     </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>头文件\player</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectorScene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PeashooterPlayer.h">
+      <Filter>头文件\player</Filter>
+    </ClInclude>
+    <ClInclude Include="SunflowerPlayer.h">
+      <Filter>头文件\player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerID.h">
+      <Filter>头文件\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
