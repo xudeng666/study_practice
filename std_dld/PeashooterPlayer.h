@@ -86,7 +86,7 @@ public:
         Player::on_input(mag);
     }
 
-    void on_input(const Camera& camera)
+    void on_draw(const Camera& camera)
     {
         Player::on_draw(camera);
     }

@@ -42,8 +42,6 @@ public:
         main_camera.shake(20, 350);
 
         mciSendString(_T("play sun_explode_ex from 0"), nullptr, 0, nullptr);
-
-
     }
     /*
     * ×Óµ¯Åö×²¼ì²â

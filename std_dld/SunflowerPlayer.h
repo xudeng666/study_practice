@@ -1,6 +1,7 @@
 #pragma once
 #include "Player.h"
 #include "SunBullet.h"
+#include "SunBulletEx.h"
 
 
 extern Atlas atlas_sunflower_idle_left;
@@ -91,8 +92,8 @@ public:
 
         is_face_right ? ani_attack_ex_right.reset() : ani_attack_ex_left.reset();
 
-        Bullet* bullet = new SunBullet();
-        Player* enemyer = (id == PlayerID::P1 ? player_1 : player_2);
+        Bullet* bullet = new SunBulletEx();
+        Player* enemyer = (id == PlayerID::P1 ? player_2 : player_1);
 
         bullet->set_position(enemyer->getPosition().x + (enemyer->getSize().x - bullet->get_size().x) / 2, -bullet->get_size().y);
         bullet->set_velocity(0, speed_sun_ex);
@@ -122,7 +123,7 @@ public:
 
     }
 
-    void on_input(const Camera& camera)
+    void on_draw(const Camera& camera)
     {
         Player::on_draw(camera);
         if (is_sun_text_visible)

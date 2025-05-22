@@ -11,7 +11,7 @@
 
 #pragma comment(lib, "Winmm.lib")
 
-bool is_debug = true;
+bool is_debug = false;
 
 
 IMAGE img_menu_background;						// Ö÷²Ëµ¥±³¾°Í¼Æ¬

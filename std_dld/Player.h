@@ -31,13 +31,16 @@ public:
 		if (0 != dirc)
 		{
 			is_face_right = dirc > 0;
-			currentAni = is_face_right ? &ani_run_right : &ani_run_left;
+			currentAni = is_face_right ? (is_attack_ex ? &ani_attack_ex_right : &ani_run_right)
+				: (is_attack_ex ? &ani_attack_ex_left : &ani_run_left);
 			float distance = dirc * run_velocity * delta;
 			on_run(distance);
 		}
 		else
 		{
-			currentAni = is_face_right ? &ani_idle_right : &ani_idle_left;
+			currentAni = is_face_right ? (is_attack_ex ? &ani_attack_ex_right : &ani_idle_right) 
+				: (is_attack_ex ? &ani_attack_ex_left : &ani_idle_left);
+			
 		}
 		currentAni->on_updata(delta);
 		timer_attack_cd.on_update(delta);
@@ -65,6 +68,7 @@ public:
 					break;
 				case 'D':
 					is_right_kd = true;
+					break;
 				case 'W':
 					on_jump();
 					break;
@@ -168,6 +172,20 @@ public:
 						break;
 					}
 				}
+			}
+		}
+
+		for (Bullet* bullet : bullet_list)
+		{
+			if (!bullet->get_valid() || bullet->get_collide_target() != id)
+			{
+				continue;
+			}
+			if (bullet->check_cllide(position, size))
+			{
+				bullet->on_collide();
+				bullet->set_valid(false);
+				hp -= bullet->get_damage();
 			}
 		}
 	}

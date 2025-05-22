@@ -81,6 +81,17 @@ public:
 		player_1->on_update(delta);
 		player_2->on_update(delta);
 
+		main_camera.on_update(delta);
+
+		bullet_list.erase(std::remove_if(
+			bullet_list.begin(), bullet_list.end(),
+			[](const Bullet* bullet)
+			{
+				bool del = bullet->check_can_remove();
+				if (del) delete bullet;
+				return del;
+			}), bullet_list.end());
+
 		for (Bullet* bullet : bullet_list)
 		{
 			bullet->on_update(delta);
