@@ -6,6 +6,9 @@ extern Atlas atlas_peashooter_idle_left;
 extern Atlas atlas_peashooter_idle_right;
 extern Atlas atlas_peashooter_run_left;
 extern Atlas atlas_peashooter_run_right;
+extern Atlas atlas_peashooter_attack_ex_left;			// 豌豆射手朝向左的特殊攻击动画图集
+extern Atlas atlas_peashooter_attack_ex_right;			// 豌豆射手朝向右的特殊攻击动画图集
+extern Camera main_camera;
 
 class PeashooterPlayer :
     public Player
@@ -17,11 +20,15 @@ public:
         ani_idle_right.set_atlas(&atlas_peashooter_idle_right);
         ani_run_left.set_atlas(&atlas_peashooter_run_left);
         ani_run_right.set_atlas(&atlas_peashooter_run_right);
+        ani_attack_ex_left.set_atlas(&atlas_peashooter_attack_ex_left);
+        ani_attack_ex_right.set_atlas(&atlas_peashooter_attack_ex_right);
 
         ani_idle_left.set_interval(75);
         ani_idle_right.set_interval(75);
         ani_run_left.set_interval(75);
         ani_run_right.set_interval(75);
+        ani_attack_ex_left.set_interval(75);
+        ani_attack_ex_right.set_interval(75);
 
         size.x = 96;
         size.y = 96;
@@ -30,8 +37,10 @@ public:
         timer_attack_ex.set_one_shot(true);
         timer_attack_ex.set_callback([&]() {is_attack_ex = false;});
 
-        timer_attack.set_wait_time(100);
-        timer_attack.set_callback([&]() {spawn_bullet(speed_bullet);});
+        timer_spawn_attack_ex.set_wait_time(100);
+        timer_spawn_attack_ex.set_callback([&]() {spawn_bullet(speed_bullet_ex);});
+
+        attack_cd = 100;
     }
     ~PeashooterPlayer() = default;
 
@@ -53,8 +62,37 @@ public:
     {
         is_attack_ex = true;
         timer_attack_ex.restart();
-        spawn_bullet(speed_bullet_ex);
+
+        is_face_right ? ani_attack_ex_right.reset() : ani_attack_ex_left.reset();
+        //spawn_bullet(speed_bullet_ex);
+
+        mciSendString(_T("play pea_shoot_ex from 0"), nullptr, 0, nullptr);
     }
+
+    void on_update(int delta)
+    {
+        Player::on_update(delta);
+
+        if (is_attack_ex)
+        {
+            main_camera.shake(5, 100);
+            timer_attack_ex.on_update(delta);
+            timer_spawn_attack_ex.on_update(delta);
+        }
+    }
+
+    void on_input(const ExMessage& mag)
+    {
+        Player::on_input(mag);
+    }
+
+    void on_input(const Camera& camera)
+    {
+        Player::on_draw(camera);
+    }
+
+
+
 
 private:
     /*
@@ -91,9 +129,9 @@ private:
     /*特攻持续时长*/
     const float attack_ex_time = 2500;
 
-    /*特攻定时器*/
+    /*特攻状态定时器*/
     Timer timer_attack_ex;
-    /*普攻定时器*/
-    Timer timer_attack;
+    /*特攻状态攻击定时器*/
+    Timer timer_spawn_attack_ex;
 };
 

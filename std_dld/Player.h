@@ -218,6 +218,16 @@ public:
 		is_face_right = isRight;
 	}
 
+	const Vector2& getPosition()const
+	{
+		return position;
+	}
+
+	const Vector2& getSize()const
+	{
+		return size;
+	}
+
 protected:
 	const float run_velocity = 0.55f;	// 跑动速度
 	const float jump_velocity = -0.85f;	// 跳跃速度
@@ -239,6 +249,8 @@ protected:
     Animation ani_idle_right;
     Animation ani_run_left;      // 移动动画左边
     Animation ani_run_right;
+    Animation ani_attack_ex_left;      // 大招动画左边
+    Animation ani_attack_ex_right;
 
 	Animation* currentAni = nullptr;	// 当前动画
 

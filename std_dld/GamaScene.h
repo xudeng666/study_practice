@@ -80,6 +80,11 @@ public:
 	{
 		player_1->on_update(delta);
 		player_2->on_update(delta);
+
+		for (Bullet* bullet : bullet_list)
+		{
+			bullet->on_update(delta);
+		}
 	}
 	/*用于渲染绘图*/
 	void on_draw(const Camera& camera)
@@ -100,6 +105,11 @@ public:
 
 		player_1->on_draw(camera);
 		player_2->on_draw(camera);
+
+		for (const Bullet* bullet : bullet_list)
+		{
+			bullet->on_draw(camera);
+		}
 	}
 	/*处理玩家输入*/
 	void on_input(const ExMessage& msg)
