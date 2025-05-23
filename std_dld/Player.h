@@ -9,7 +9,9 @@
 extern bool is_debug;
 extern std::vector<Platform> platform_list;
 extern std::vector<Bullet*> bullet_list;
-extern Atlas atlas_run_effect;
+extern Atlas atlas_run_effect;						// 奔跑特效动画图集
+extern Atlas atlas_jump_effect;						// 跳跃特效动画图集
+extern Atlas atlas_land_effect;						// 落地特效动画图集
 
 
 /*玩家基类*/
@@ -20,6 +22,16 @@ public:
 	{
 		currentAni = &ani_idle_right;
 		position.x = position.y = 0;
+
+		ani_jump_eff.set_atlas(&atlas_jump_effect);
+		ani_jump_eff.set_interval(25);
+		ani_jump_eff.set_loop(false);
+		ani_jump_eff.set_callback([&]() {is_jump_eff_show = false;});
+
+		ani_land_eff.set_atlas(&atlas_land_effect);
+		ani_land_eff.set_interval(50);
+		ani_land_eff.set_loop(false);
+		ani_land_eff.set_callback([&]() {is_land_eff_show = false;});
 
 		timer_attack_cd.set_wait_time(attack_cd);
 		timer_attack_cd.set_one_shot(true);
@@ -101,6 +113,16 @@ public:
 			set_silh_img(currentAni->get_frame(), &img_sketch);
 		}
 
+		if (is_jump_eff_show)
+		{
+			ani_jump_eff.on_updata(delta);
+		}
+
+		if (is_land_eff_show)
+		{
+			ani_land_eff.on_updata(delta);
+		}
+
 		move_and_collide(delta);
     }
 
@@ -110,6 +132,16 @@ public:
 		for (const Particle& par : par_list)
 		{
 			par.on_draw(camera);
+		}
+
+		if (is_jump_eff_show)
+		{
+			ani_jump_eff.on_draw(camera, pos_jump_eff.x, pos_jump_eff.y);
+		}
+
+		if (is_land_eff_show)
+		{
+			ani_land_eff.on_draw(camera, pos_land_eff.x, pos_land_eff.y);
 		}
 
 		if (hp > 0 && is_invincible && is_sketch_show)
@@ -227,6 +259,7 @@ public:
 	/*移动和撞击*/
 	virtual void move_and_collide(int delta)
 	{
+		float last_v_y = velocity.y;
 		velocity.y += gravity * delta;
 		position.y += velocity.y * (float)delta;
 
@@ -243,6 +276,10 @@ public:
 					{
 						position.y = plat.shape.y - size.y;
 						velocity.y = 0;
+						if (last_v_y != 0)
+						{
+							on_land();
+						}
 						break;
 					}
 				}
@@ -288,6 +325,20 @@ public:
 			return;
 		}
 		velocity.y += jump_velocity;
+
+		is_jump_eff_show = true;
+		ani_jump_eff.reset();
+		pos_jump_eff.x = position.x + (size.x - ani_jump_eff.get_frame()->getwidth()) / 2;
+		pos_jump_eff.y = position.y + size.y - ani_jump_eff.get_frame()->getheight();
+	}
+
+	/*落地*/
+	virtual void on_land()
+	{
+		is_land_eff_show = true;
+		ani_land_eff.reset();
+		pos_land_eff.x = position.x + (size.x - ani_land_eff.get_frame()->getwidth()) / 2;
+		pos_land_eff.y = position.y + size.y - ani_land_eff.get_frame()->getheight();
 	}
 
 	/*普通攻击*/
@@ -371,11 +422,20 @@ protected:
     Animation ani_run_right;
     Animation ani_attack_ex_left;      // 大招动画左边
     Animation ani_attack_ex_right;
+	Animation ani_jump_eff;
+	Animation ani_land_eff;
 
 	Animation* currentAni = nullptr;	// 当前动画
 	IMAGE img_sketch;			// 剪影图片
 
     PlayerID id = PlayerID::P1; // 玩家序号
+
+
+	bool is_jump_eff_show = false;// 跳跃动画是否显示
+	bool is_land_eff_show = false;// 落地动画是否显示
+
+	Vector2 pos_jump_eff;
+	Vector2 pos_land_eff;
 
     bool is_left_kd = false;// 是否左边按钮按下
     bool is_right_kd = false;// 是否右边按钮按下
