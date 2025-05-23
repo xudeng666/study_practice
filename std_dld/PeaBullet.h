@@ -53,7 +53,6 @@ public:
 
     void on_draw(const Camera& camera)const
     {
-        Bullet::on_draw(camera);
         if (can_remove)
         {
             return;
@@ -66,6 +65,7 @@ public:
         {
             ani_break.on_draw(camera, position.x, position.y);
         }
+        Bullet::on_draw(camera);
     }
 
 private:

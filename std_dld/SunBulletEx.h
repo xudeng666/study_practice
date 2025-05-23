@@ -79,7 +79,6 @@ public:
 
     void on_draw(const Camera& camera)const
     {
-        Bullet::on_draw(camera);
         if (can_remove)
         {
             return;
@@ -90,6 +89,7 @@ public:
             pos += exp_render_set;
         }
         currentAni->on_draw(camera, (int)pos.x, (int)pos.y);
+        Bullet::on_draw(camera);
     }
 
 private:

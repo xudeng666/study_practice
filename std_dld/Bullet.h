@@ -117,7 +117,9 @@ public:
         if (is_debug)
         {
             setlinecolor(RGB(255, 0, 0));
+            setfillcolor(RGB(255, 0, 0));
             rectangle(position.x, position.y, position.x + size.x, position.y + size.y);
+            solidcircle(position.x + size.x / 2, position.y + size.y / 2, 5);
         }
     }
 protected:
