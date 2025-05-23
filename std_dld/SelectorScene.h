@@ -39,6 +39,8 @@ extern SceneManager scene_manager;
 
 extern Player* player_1;
 extern Player* player_2;
+extern IMAGE* img_head_player_1;
+extern IMAGE* img_head_player_2;
 
 /*选取角色场景*/
 class SelectorScene :
@@ -111,9 +113,11 @@ public:
 		{
 		case PlayerType::Peashooter:
 			img_p2_back = &img_sunflower_selector_background_left;
+			img_head_player_2 = &img_avatar_peashooter;
 			break;
 		case PlayerType::Sunflower:
 			img_p2_back = &img_peashooter_selector_background_left;
+			img_head_player_2 = &img_avatar_sunflower;
 			break;
 		default:
 			break;
@@ -122,9 +126,11 @@ public:
 		{
 		case PlayerType::Peashooter:
 			img_p1_back = &img_sunflower_selector_background_right;
+			img_head_player_1 = &img_avatar_peashooter;
 			break;
 		case PlayerType::Sunflower:
 			img_p1_back = &img_peashooter_selector_background_right;
+			img_head_player_1 = &img_avatar_sunflower;
 			break;
 		default:
 			break;

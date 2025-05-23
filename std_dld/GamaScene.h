@@ -1,5 +1,6 @@
 #pragma once
 #include "util.h"
+#include "StatusBar.h"
 #include "Player.h"
 #include "Platform.h"
 #include "Scene.h"
@@ -18,6 +19,8 @@ extern SceneManager scene_manager;
 
 extern Player* player_1;
 extern Player* player_2;
+extern IMAGE* img_head_player_1;
+extern IMAGE* img_head_player_2;
 
 
 /*游戏场景*/
@@ -74,6 +77,12 @@ public:
 		small_platform_3.shape.left = (float)small_platform_3.render_pos.x + 40;
 		small_platform_3.shape.right = (float)small_platform_3.render_pos.x + img_platform_small.getwidth() - 40;
 		small_platform_3.shape.y = (float)small_platform_3.render_pos.y + img_platform_small.getheight() / 2;
+
+		player_bar1.set_head(img_head_player_1);
+		player_bar2.set_head(img_head_player_2);
+
+		player_bar1.set_position(200, 620);
+		player_bar2.set_position(694, 620);
 	}
 	/*处理数据*/
 	void on_update(int delta)
@@ -96,6 +105,11 @@ public:
 		{
 			bullet->on_update(delta);
 		}
+
+		player_bar1.set_hp(player_1->get_hp());
+		player_bar1.set_mp(player_1->get_mp());
+		player_bar2.set_hp(player_2->get_hp());
+		player_bar2.set_mp(player_2->get_mp());
 	}
 	/*用于渲染绘图*/
 	void on_draw(const Camera& camera)
@@ -121,6 +135,9 @@ public:
 		{
 			bullet->on_draw(camera);
 		}
+
+		player_bar1.on_draw();
+		player_bar2.on_draw();
 	}
 	/*处理玩家输入*/
 	void on_input(const ExMessage& msg)
@@ -147,5 +164,8 @@ public:
 private:
 	POINT pos_img_sky = { 0 };
 	POINT pos_img_hills = { 0 };
+
+	StatusBar player_bar1;
+	StatusBar player_bar2;
 };
 

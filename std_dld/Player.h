@@ -277,6 +277,22 @@ public:
 	{
 		return size;
 	}
+
+	const PlayerID getId()
+	{
+		return id;
+	}
+
+	const int get_hp()
+	{
+		return hp;
+	}
+
+	const int get_mp()
+	{
+		return mp;
+	}
+
 	//ÉèÖÃÎªÎŞµĞ×´Ì¬
 	void make_invincible()
 	{

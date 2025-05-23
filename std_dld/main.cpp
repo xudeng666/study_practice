@@ -98,6 +98,9 @@ std::vector<Bullet*> bullet_list;
 Player* player_1 = nullptr;
 Player* player_2 = nullptr;
 
+IMAGE* img_head_player_1 = nullptr;
+IMAGE* img_head_player_2 = nullptr;
+
 /*
 * 图集水平翻转
 * @src	原始图集

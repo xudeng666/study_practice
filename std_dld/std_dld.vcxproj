@@ -141,6 +141,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SelectorScene.cpp" />
+    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="SunBullet.cpp" />
     <ClCompile Include="SunBulletEx.cpp" />
     <ClCompile Include="SunflowerPlayer.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SelectorScene.h" />
+    <ClInclude Include="StatusBar.h" />
     <ClInclude Include="SunBullet.h" />
     <ClInclude Include="SunBulletEx.h" />
     <ClInclude Include="SunflowerPlayer.h" />
