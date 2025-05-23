@@ -6,6 +6,8 @@
 #include <functional>
 #include <graphics.h>
 
+extern bool is_debug;
+
 /*子弹基类*/
 class Bullet
 {
@@ -112,6 +114,11 @@ public:
 
     virtual void on_draw(const Camera& camera)const
     {
+        if (is_debug)
+        {
+            setlinecolor(RGB(255, 0, 0));
+            rectangle(position.x, position.y, position.x + size.x, position.y + size.y);
+        }
     }
 protected:
     Vector2 size;                      // 子弹尺寸

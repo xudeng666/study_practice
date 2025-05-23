@@ -53,6 +53,7 @@ public:
 
     void on_draw(const Camera& camera)const
     {
+        Bullet::on_draw(camera);
         if (can_remove)
         {
             return;

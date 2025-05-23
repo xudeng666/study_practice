@@ -110,3 +110,16 @@ inline bool checkRectToRect(const T pleft, const T pright, const T ptop, const T
 		&& ptop <= bottom
 		&& top <= pbottom;
 }
+
+/*
+* 判断矩形和水平线段
+*/
+template <typename T>
+inline bool checkRectToHLine(const T pleft, const T pright, const T ptop, const T pbottom, 
+	const T left, const T right, const T y)
+{
+	return pleft <= right
+		&& left <= pright
+		&& ptop <= y
+		&& y <= pbottom;
+}

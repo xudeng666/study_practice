@@ -187,8 +187,8 @@ public:
 		{
 			for (const Platform& plat : platform_list)
 			{
-				if (checkRectToRect<float>(position.x, position.x + size.x, position.y, position.y + size.y,
-					plat.shape.left, plat.shape.right, plat.shape.y, plat.shape.y))
+				if (checkRectToHLine<float>(position.x, position.x + size.x, position.y, position.y + size.y,
+					plat.shape.left, plat.shape.right, plat.shape.y))
 				{
 					float posy = velocity.y * (float)delta;
 					float last_posy = position.y + size.y - posy;

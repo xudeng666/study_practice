@@ -50,7 +50,7 @@ public:
     */
     bool check_cllide(const Vector2& pos, const Vector2& size)
     {
-        return checkRectToRect<float>(position.x, position.y, position.x + this->size.x, position.y + this->size.y,
+        return checkRectToRect<float>(position.x, position.x + this->size.x, position.y, position.y + this->size.y,
             pos.x, pos.x + size.x, pos.y, pos.y + size.y);
     }
 
@@ -79,6 +79,7 @@ public:
 
     void on_draw(const Camera& camera)const
     {
+        Bullet::on_draw(camera);
         if (can_remove)
         {
             return;
