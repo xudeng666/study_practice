@@ -12,16 +12,19 @@ extern std::vector<Bullet*> bullet_list;
 extern Atlas atlas_run_effect;						// 奔跑特效动画图集
 extern Atlas atlas_jump_effect;						// 跳跃特效动画图集
 extern Atlas atlas_land_effect;						// 落地特效动画图集
+extern IMAGE img_1P_cursor;							// 1P 指示光标图片
+extern IMAGE img_2P_cursor;							// 2P 指示光标图片
 
 
 /*玩家基类*/
 class Player
 {
 public:
-	Player()
+	Player(bool right = true):is_face_right(right)
 	{
 		currentAni = &ani_idle_right;
 		position.x = position.y = 0;
+		is_cursor_show = true;
 
 		ani_jump_eff.set_atlas(&atlas_jump_effect);
 		ani_jump_eff.set_interval(25);
@@ -66,6 +69,10 @@ public:
 				par_list.emplace_back(par_pos, &atlas_run_effect, 150);
 			}
 		);
+
+		timer_cursor_show.set_wait_time(2500);
+		timer_cursor_show.set_one_shot(true);
+		timer_cursor_show.set_callback([&]() {is_cursor_show = false;});
 	}
     ~Player() = default;
 
@@ -123,6 +130,11 @@ public:
 			ani_land_eff.on_updata(delta);
 		}
 
+		if (is_cursor_show)
+		{
+			timer_cursor_show.on_update(delta);
+		}
+
 		move_and_collide(delta);
     }
 
@@ -156,6 +168,12 @@ public:
 		{
 			setlinecolor(RGB(255, 0, 0));
 			rectangle(position.x, position.y, position.x + size.x, position.y + size.y);
+		}
+
+		if (is_cursor_show)
+		{
+			IMAGE* img = id == PlayerID::P1 ? &img_1P_cursor : &img_2P_cursor;
+			putimage_alpha(camera, position.x + (size.x - img->getwidth()) / 2, position.y - img->getheight(), img);
 		}
     }
 
@@ -382,14 +400,24 @@ public:
 		return id;
 	}
 
-	const int get_hp()
+	int get_hp() const
 	{
 		return hp;
 	}
 
-	const int get_mp()
+	int get_mp() const
 	{
 		return mp;
+	}
+
+	void set_hp(int val)
+	{
+		hp = val;
+	}
+
+	void set_mp(int val)
+	{
+		mp = val;
 	}
 
 	//设置为无敌状态
@@ -457,6 +485,9 @@ protected:
 	Timer timer_die_eff_par;	// 死亡粒子发射定时器
 
 	std::vector<Particle> par_list;
+
+	bool is_cursor_show = false;
+	Timer timer_cursor_show;
 
 
 };

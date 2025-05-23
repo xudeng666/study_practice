@@ -19,7 +19,7 @@ class SunflowerPlayer :
     public Player
 {
 public:
-    SunflowerPlayer()
+    SunflowerPlayer(bool right = true) :Player(right)
     {
         ani_idle_left.set_atlas(&atlas_sunflower_idle_left);
         ani_idle_right.set_atlas(&atlas_sunflower_idle_right);

@@ -14,7 +14,7 @@ class PeashooterPlayer :
     public Player
 {
 public:
-    PeashooterPlayer()
+    PeashooterPlayer(bool right = true) :Player(right)
     {
         ani_idle_left.set_atlas(&atlas_peashooter_idle_left);
         ani_idle_right.set_atlas(&atlas_peashooter_idle_right);

@@ -266,15 +266,17 @@ public:
 		switch (player_type_2)
 		{
 		case PlayerType::Peashooter:
-			player_2 = new PeashooterPlayer();
+			player_2 = new PeashooterPlayer(false);
 			break;
 		case PlayerType::Sunflower:
-			player_2 = new SunflowerPlayer();
+			player_2 = new SunflowerPlayer(false);
 			break;
 		}
 
 		player_1->setId(PlayerID::P1);
 		player_2->setId(PlayerID::P2);
+
+		mciSendString(_T("stop bgm_menu"), nullptr, 0, nullptr);
 	}
 private:
 	enum class PlayerType

@@ -35,10 +35,7 @@ public:
 
 	void on_update(int delta)
 	{
-		/*const Vector2 speed = { -0.35f, 0 };
-		position += speed * (float)delta;*/
 		shake_update(delta);
-
 	}
 
 	/*
