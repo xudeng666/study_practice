@@ -5,7 +5,7 @@
 #include "Animation.h"
 #include <graphics.h>
 
-
+extern bool is_debug;
 extern std::vector<Platform> platform_list;
 extern std::vector<Bullet*> bullet_list;
 
@@ -22,6 +22,14 @@ public:
 		timer_attack_cd.set_wait_time(attack_cd);
 		timer_attack_cd.set_one_shot(true);
 		timer_attack_cd.set_callback([&]() {can_attack = true;});
+
+		timer_invincible.set_wait_time(750);
+		timer_invincible.set_one_shot(true);
+		timer_invincible.set_callback([&]() {is_invincible = false;});
+
+		timer_sketch_blink.set_wait_time(75);
+		timer_sketch_blink.set_one_shot(false);
+		timer_sketch_blink.set_callback([&]() {is_sketch_show = !is_sketch_show;});
 	}
     ~Player() = default;
 
@@ -44,13 +52,32 @@ public:
 		}
 		currentAni->on_updata(delta);
 		timer_attack_cd.on_update(delta);
+		timer_invincible.on_update(delta);
+		timer_sketch_blink.on_update(delta);
+
+		if (is_sketch_show)
+		{
+			set_silh_img(currentAni->get_frame(), &img_sketch);
+		}
 
 		move_and_collide(delta);
     }
 
     virtual void on_draw(const Camera& camera)
     {
-		currentAni->on_draw(camera, (int)position.x, (int)position.y);
+		if (hp > 0 && is_invincible && is_sketch_show)
+		{
+			putimage_alpha(camera, (int)position.x, (int)position.y, &img_sketch);
+		}
+		else
+		{
+			currentAni->on_draw(camera, (int)position.x, (int)position.y);
+		}
+		if (is_debug)
+		{
+			setlinecolor(RGB(255, 0, 0));
+			rectangle(position.x, position.y, position.x + size.x, position.y + size.y);
+		}
     }
 
     virtual void on_input(const ExMessage& msg)
@@ -175,19 +202,24 @@ public:
 			}
 		}
 
-		for (Bullet* bullet : bullet_list)
+		if (!is_invincible)// 无敌状态不受到子弹碰撞
 		{
-			if (!bullet->get_valid() || bullet->get_collide_target() != id)
+			for (Bullet* bullet : bullet_list)
 			{
-				continue;
-			}
-			if (bullet->check_cllide(position, size))
-			{
-				bullet->on_collide();
-				bullet->set_valid(false);
-				hp -= bullet->get_damage();
+				if (!bullet->get_valid() || bullet->get_collide_target() != id)
+				{
+					continue;
+				}
+				if (bullet->check_cllide(position, size))
+				{
+					make_invincible();
+					bullet->on_collide();
+					bullet->set_valid(false);
+					hp -= bullet->get_damage();
+				}
 			}
 		}
+
 	}
 
 	/*移动*/
@@ -245,6 +277,12 @@ public:
 	{
 		return size;
 	}
+	//设置为无敌状态
+	void make_invincible()
+	{
+		is_invincible = true;
+		timer_invincible.restart();
+	}
 
 protected:
 	const float run_velocity = 0.55f;	// 跑动速度
@@ -274,15 +312,21 @@ protected:
 
     PlayerID id = PlayerID::P1; // 玩家序号
 
-    bool is_left_kd = false;
-    bool is_right_kd = false;
+    bool is_left_kd = false;// 是否左边按钮按下
+    bool is_right_kd = false;// 是否右边按钮按下
 
-	bool is_face_right = false;
+	bool is_face_right = false; //是否面向右
 
 	int attack_cd = 500;		// 普攻冷却时间
 	Timer timer_attack_cd;		// 普攻冷却计时器
 	bool can_attack = true;		// 是否可以普攻
 
 	bool is_attack_ex = false;	// 是否特殊攻击中
+
+	bool is_invincible = false;	// 是否无敌状态
+	bool is_sketch_show = false;// 是否显示剪影 
+	Timer timer_invincible;		// 无敌状态计时器
+	Timer timer_sketch_blink;	// 剪影闪烁计时器
+	IMAGE img_sketch;			// 剪影图片
 };
 
