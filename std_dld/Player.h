@@ -2,12 +2,14 @@
 #include "PlayerID.h"
 #include "Platform.h"
 #include "Bullet.h"
+#include "Particle.h"
 #include "Animation.h"
 #include <graphics.h>
 
 extern bool is_debug;
 extern std::vector<Platform> platform_list;
 extern std::vector<Bullet*> bullet_list;
+extern Atlas atlas_run_effect;
 
 
 /*玩家基类*/
@@ -30,6 +32,28 @@ public:
 		timer_sketch_blink.set_wait_time(75);
 		timer_sketch_blink.set_one_shot(false);
 		timer_sketch_blink.set_callback([&]() {is_sketch_show = !is_sketch_show;});
+
+		timer_run_eff_par.set_wait_time(75);
+		timer_run_eff_par.set_callback([&]() 
+			{
+				Vector2 par_pos;
+				IMAGE* img = atlas_run_effect.getImageByIndex(0);
+				par_pos.x = position.x + (size.x - img->getwidth()) / 2;
+				par_pos.y = position.y + size.y - img->getheight();
+				par_list.emplace_back(par_pos, &atlas_run_effect, 45);
+			}
+		);
+
+		timer_die_eff_par.set_wait_time(35);
+		timer_die_eff_par.set_callback([&]() 
+			{
+				Vector2 par_pos;
+				IMAGE* img = atlas_run_effect.getImageByIndex(0);
+				par_pos.x = position.x + (size.x - img->getwidth()) / 2;
+				par_pos.y = position.y + size.y - img->getheight();
+				par_list.emplace_back(par_pos, &atlas_run_effect, 150);
+			}
+		);
 	}
     ~Player() = default;
 
@@ -39,21 +63,38 @@ public:
 		if (0 != dirc)
 		{
 			is_face_right = dirc > 0;
-			currentAni = is_face_right ? (is_attack_ex ? &ani_attack_ex_right : &ani_run_right)
-				: (is_attack_ex ? &ani_attack_ex_left : &ani_run_left);
+			currentAni = is_face_right ? &ani_run_right : &ani_run_left;
 			float distance = dirc * run_velocity * delta;
 			on_run(distance);
 		}
 		else
 		{
-			currentAni = is_face_right ? (is_attack_ex ? &ani_attack_ex_right : &ani_idle_right) 
-				: (is_attack_ex ? &ani_attack_ex_left : &ani_idle_left);
-			
+			currentAni = is_face_right ? &ani_run_right : &ani_run_left;
+			timer_run_eff_par.pause();	
 		}
 		currentAni->on_updata(delta);
 		timer_attack_cd.on_update(delta);
 		timer_invincible.on_update(delta);
 		timer_sketch_blink.on_update(delta);
+		timer_run_eff_par.on_update(delta);
+
+		if (hp <= 0)
+		{
+			timer_die_eff_par.on_update(delta);
+		}
+
+		par_list.erase(std::remove_if(
+			par_list.begin(), par_list.end(), 
+			[](const Particle& particle)
+			{
+				return !particle.check_valid();
+			}
+		), par_list.end());
+
+		for (Particle& par : par_list)
+		{
+			par.on_updata(delta);
+		}
 
 		if (is_sketch_show)
 		{
@@ -65,6 +106,12 @@ public:
 
     virtual void on_draw(const Camera& camera)
     {
+
+		for (const Particle& par : par_list)
+		{
+			par.on_draw(camera);
+		}
+
 		if (hp > 0 && is_invincible && is_sketch_show)
 		{
 			putimage_alpha(camera, (int)position.x, (int)position.y, &img_sketch);
@@ -230,6 +277,7 @@ public:
 			return;
 		}
 		position.x += distance;
+		timer_run_eff_par.resume();
 	}
 
 	/*跳跃*/
@@ -325,6 +373,7 @@ protected:
     Animation ani_attack_ex_right;
 
 	Animation* currentAni = nullptr;	// 当前动画
+	IMAGE img_sketch;			// 剪影图片
 
     PlayerID id = PlayerID::P1; // 玩家序号
 
@@ -343,6 +392,12 @@ protected:
 	bool is_sketch_show = false;// 是否显示剪影 
 	Timer timer_invincible;		// 无敌状态计时器
 	Timer timer_sketch_blink;	// 剪影闪烁计时器
-	IMAGE img_sketch;			// 剪影图片
+
+	Timer timer_run_eff_par;	// 跑动粒子发射定时器
+	Timer timer_die_eff_par;	// 死亡粒子发射定时器
+
+	std::vector<Particle> par_list;
+
+
 };
 
