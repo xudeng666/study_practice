@@ -11,6 +11,8 @@ extern Atlas atlas_sunflower_run_right;
 extern Atlas atlas_sunflower_attack_ex_left;
 extern Atlas atlas_sunflower_attack_ex_right;
 extern Atlas atlas_sun_text;
+extern Atlas atlas_sunflower_die_left;					// 龙日葵朝向左的死亡动画图集
+extern Atlas atlas_sunflower_die_right;				// 龙日葵朝向右的死亡动画图集
 
 extern Player* player_1;
 extern Player* player_2;
@@ -28,6 +30,8 @@ public:
         ani_attack_ex_left.set_atlas(&atlas_sunflower_attack_ex_left);
         ani_attack_ex_right.set_atlas(&atlas_sunflower_attack_ex_right);
         ani_sun_text.set_atlas(&atlas_sun_text);
+        ani_die_left.set_atlas(&atlas_sunflower_die_left);
+        ani_die_right.set_atlas(&atlas_sunflower_die_right);
 
         ani_idle_left.set_interval(75);
         ani_idle_right.set_interval(75);
@@ -36,8 +40,11 @@ public:
         ani_attack_ex_left.set_interval(100);
         ani_attack_ex_right.set_interval(100);
         ani_sun_text.set_interval(100);
+        ani_die_left.set_interval(150);
+        ani_die_right.set_interval(150);
 
-
+        ani_die_left.set_loop(false);
+        ani_die_right.set_loop(false);
         ani_attack_ex_left.set_loop(false);
         ani_attack_ex_right.set_loop(false);
         ani_sun_text.set_loop(false);

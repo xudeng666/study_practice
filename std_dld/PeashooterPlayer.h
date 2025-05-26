@@ -8,6 +8,9 @@ extern Atlas atlas_peashooter_run_left;
 extern Atlas atlas_peashooter_run_right;
 extern Atlas atlas_peashooter_attack_ex_left;			// 豌豆射手朝向左的特殊攻击动画图集
 extern Atlas atlas_peashooter_attack_ex_right;			// 豌豆射手朝向右的特殊攻击动画图集
+extern Atlas atlas_peashooter_die_left;				// 豌豆射手朝向左的死亡动画图集
+extern Atlas atlas_peashooter_die_right;				// 豌豆射手朝向右的死亡动画图集
+
 extern Camera main_camera;
 
 class PeashooterPlayer :
@@ -22,6 +25,8 @@ public:
         ani_run_right.set_atlas(&atlas_peashooter_run_right);
         ani_attack_ex_left.set_atlas(&atlas_peashooter_attack_ex_left);
         ani_attack_ex_right.set_atlas(&atlas_peashooter_attack_ex_right);
+        ani_die_left.set_atlas(&atlas_peashooter_die_left);
+        ani_die_right.set_atlas(&atlas_peashooter_die_right);
 
         ani_idle_left.set_interval(75);
         ani_idle_right.set_interval(75);
@@ -29,6 +34,12 @@ public:
         ani_run_right.set_interval(75);
         ani_attack_ex_left.set_interval(75);
         ani_attack_ex_right.set_interval(75);
+        ani_attack_ex_right.set_interval(75);
+        ani_die_left.set_interval(150);
+        ani_die_right.set_interval(150);
+
+        ani_die_left.set_loop(false);
+        ani_die_right.set_loop(false);
 
         size.x = 96;
         size.y = 96;

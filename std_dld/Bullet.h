@@ -34,6 +34,11 @@ public:
     {
         return position;
     }
+    /*获取中心位置*/
+    Vector2 get_center_position()
+    {
+        return { position.x + size.x / 2,position.x + size.y / 2 };
+    }
     /*设置位置*/
     void set_size(float x, float y)
     {

@@ -78,7 +78,7 @@ public:
 
     virtual void on_update(int delta)
     {
-		int dirc = is_right_kd - is_left_kd;
+		int dirc = is_right_kd - is_left_kd;//朝向
 		if (0 != dirc)
 		{
 			is_face_right = dirc > 0;
@@ -89,8 +89,19 @@ public:
 		else
 		{
 			currentAni = is_face_right ? &ani_run_right : &ani_run_left;
-			timer_run_eff_par.pause();	
+			timer_run_eff_par.pause();
 		}
+
+		if (is_attack_ex)
+		{
+			currentAni = is_face_right ? &ani_attack_ex_right : &ani_attack_ex_left;
+		}
+
+		if (hp <= 0)
+		{
+			currentAni = is_face_right ? &ani_die_left : &ani_die_right;
+		}
+
 		currentAni->on_updata(delta);
 		timer_attack_cd.on_update(delta);
 		timer_invincible.on_update(delta);
@@ -280,8 +291,12 @@ public:
 		float last_v_y = velocity.y;
 		velocity.y += gravity * delta;
 		position.y += velocity.y * (float)delta;
+		position.x += velocity.x * (float)delta;
 
-		if (velocity.y > 0)
+		if (hp <= 0)
+			return;
+
+		if ( velocity.y > 0)
 		{
 			for (const Platform& plat : platform_list)
 			{
@@ -318,10 +333,15 @@ public:
 					bullet->on_collide();
 					bullet->set_valid(false);
 					hp -= bullet->get_damage();
+					last_hunt_dir = bullet->get_center_position() - get_center_position();
+					if ( hp <= 0)
+					{
+						velocity.x = last_hunt_dir.x < 0 ? 0.35f : -0.35f;
+						velocity.y = -1.0f;
+					}
 				}
 			}
 		}
-
 	}
 
 	/*移动*/
@@ -383,6 +403,12 @@ public:
 	void setFaceRight(bool isRight)
 	{
 		is_face_right = isRight;
+	}
+
+	/*获取中心位置*/
+	Vector2 get_center_position()
+	{
+		return { position.x + size.x / 2,position.x + size.y / 2 };
 	}
 
 	const Vector2& getPosition()const
@@ -448,6 +474,8 @@ protected:
     Animation ani_idle_right;
     Animation ani_run_left;      // 移动动画左边
     Animation ani_run_right;
+    Animation ani_die_left;      // 死亡动画左边
+    Animation ani_die_right;
     Animation ani_attack_ex_left;      // 大招动画左边
     Animation ani_attack_ex_right;
 	Animation ani_jump_eff;
@@ -488,6 +516,8 @@ protected:
 
 	bool is_cursor_show = false;
 	Timer timer_cursor_show;
+
+	Vector2 last_hunt_dir;// 最后受击方向
 
 
 };
