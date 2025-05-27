@@ -4,7 +4,6 @@
 #include "Bullet.h"
 #include "Particle.h"
 #include "Animation.h"
-#include <graphics.h>
 
 extern bool is_debug;
 extern std::vector<Platform> platform_list;

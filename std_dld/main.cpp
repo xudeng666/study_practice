@@ -1,6 +1,4 @@
 /*游戏----大乱斗*/
-#include "util.h"
-#include "Atlas.h"
 #include "Bullet.h"
 #include "Player.h"
 #include "Platform.h"
@@ -100,22 +98,6 @@ Player* player_2 = nullptr;
 
 IMAGE* img_head_player_1 = nullptr;
 IMAGE* img_head_player_2 = nullptr;
-
-/*
-* 图集水平翻转
-* @src	原始图集
-* @dst	新图集
-*/
-void hor_flip_Atlas(Atlas& src, Atlas& dts)
-{
-	dts.img_list_clear();
-	for (int i = 0; i < src.get_imglist_size(); ++i)
-	{
-		IMAGE* p = new IMAGE();
-		hor_flip_img(src.getImageByIndex(i), p);
-		dts.add_imgList(p);
-	}
-}
 
 /*资源加载函数*/
 void load_game_resources()

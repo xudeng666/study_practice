@@ -1,8 +1,25 @@
 #pragma once
 #include "utils.h"
+#include "Atlas.h"
 #include "Camera.h"
 
 #pragma comment(lib,"MSIMG32.LIB")
+
+/*
+* 图集水平翻转
+* @src	原始图集
+* @dst	新图集
+*/
+inline void hor_flip_Atlas(Atlas& src, Atlas& dts)
+{
+	dts.img_list_clear();
+	for (int i = 0; i < src.get_imglist_size(); ++i)
+	{
+		IMAGE* p = new IMAGE();
+		hor_flip_img(src.getImageByIndex(i), p);
+		dts.add_imgList(p);
+	}
+}
 
 inline void putimage_alpha(int x, int y, IMAGE* img)
 {
