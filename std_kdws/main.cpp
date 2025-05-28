@@ -2,6 +2,24 @@
 #include <chrono>
 #include <thread>
 
+/**
+* @brief 帧率
+*/
+#define _FPS_ 144
+
+static void draw_background()
+{
+    static IMAGE* img_background = ResourceManager::instance()->find_image("background");
+    static Rect rect_dst =
+    {
+        (getwidth() - img_background->getwidth()) / 2,//除以2是为了居中显示
+        (getheight() - img_background->getheight()) / 2,
+        img_background->getwidth(),
+        img_background->getheight()
+    };
+    putimage_alpha_ex(img_background, &rect_dst);
+}
+
 int main(int argc, char** argv)
 {
     using namespace std::chrono;
@@ -21,7 +39,7 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    const nanoseconds frame_duration(1000000000 / 144);
+    const nanoseconds frame_duration(1000000000 / _FPS_);
     steady_clock::time_point last_tick = steady_clock::now();
 
     ExMessage msg;
@@ -46,6 +64,7 @@ int main(int argc, char** argv)
         cleardevice();
 
         // 处理绘图
+        draw_background();
 
         FlushBatchDraw();
         last_tick = frome_start;
