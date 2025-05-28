@@ -57,7 +57,11 @@ static const std::vector<AtlasResInfo> atlas_info_list =
 };
 
 
-
+/**
+* @brief ÅÐ¶ÏÍ¼Æ¬ÊÇ·ñ¼ÓÔØ³É¹¦
+* @param imgÍ¼Æ¬Ö¸Õë
+* @return ·µ»ØÍ¼Æ¬»º³åÇø£¬Îª¿ÕÔò¼ÓÔØÊ§°Ü
+*/
 static inline bool check_image_valid(IMAGE* img)
 {
 	return GetImageBuffer(img);
@@ -73,7 +77,7 @@ void ResourceManager::load()
 		loadimage(p, info.path);
 		if (!check_image_valid(p))
 		{
-			throw info.path;
+			throw info.path;//Òì³£Å×³ö¼ÓÔØÂ·¾¶
 		}
 		image_pool[info.id] = p;
 	}
@@ -167,7 +171,7 @@ IMAGE* ResourceManager::find_image(const std::string& id)const
 	return itor->second;
 }
 
-void ResourceManager::hor_flip_img(IMAGE* src, IMAGE* dst, int num = 1)
+void ResourceManager::hor_flip_img(IMAGE* src, IMAGE* dst, int num)
 {
 	int w = src->getwidth();
 	int wf = w / num;
@@ -179,17 +183,17 @@ void ResourceManager::hor_flip_img(IMAGE* src, IMAGE* dst, int num = 1)
 	{
 		int _left = i * wf;
 		int _right = _left + wf;
-		for (int y = 0; i < h; ++y)
+		for (int y = 0; y < h; ++y)
 		{
 			for (int x = _left; x < _right; ++x)
 			{
-				dst_buf[y * h + x] = src_buf[y * h + _right - (x - _left)];
+				dst_buf[y * w + x] = src_buf[y * w + _right - (x - _left) - 1];
 			}
 		}
 	}
 }
 
-void ResourceManager::hor_flip_img(const std::string& src, const std::string& dst, int num = 1)
+void ResourceManager::hor_flip_img(const std::string& src, const std::string& dst, int num)
 {
 	IMAGE* p = new IMAGE();
 	hor_flip_img(image_pool[src], p, num);
@@ -200,10 +204,11 @@ void ResourceManager::hor_flip_atlas(const std::string& src, const std::string& 
 {
 	Atlas* p = new Atlas();
 	Atlas* q = atlas_pool[src];
-	p->set_size(q->get_size());
 	for (size_t i = 0; i < q->get_size(); i++)
 	{
-		hor_flip_img(q->getImage(i), p->getImage(i));
+		IMAGE* img = new IMAGE();
+		hor_flip_img(q->getImage(i), img);
+		p->add_image(img);
 	}
 	atlas_pool[dst] = p;
 }
