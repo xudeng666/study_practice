@@ -93,13 +93,13 @@ void ResourceManager::load()
 		atlas_pool[info.id] = p;
 	}
 
-	hor_flip_img("player_attack_right", "player_attack_right", 5);
-	hor_flip_img("player_dead_right", "player_dead_right", 6);
-	hor_flip_img("player_fall_right", "player_fall_right", 5);
-	hor_flip_img("player_idle_right", "player_idle_right", 5);
-	hor_flip_img("player_jump_right", "player_jump_right", 5);
-	hor_flip_img("player_run_right", "player_run_right", 10);
-	hor_flip_img("player_roll_right", "player_roll_right", 7);
+	hor_flip_img("player_attack_right", "player_attack_left", 5);
+	hor_flip_img("player_dead_right", "player_dead_left", 6);
+	hor_flip_img("player_fall_right", "player_fall_left", 5);
+	hor_flip_img("player_idle_right", "player_idle_left", 5);
+	hor_flip_img("player_jump_right", "player_jump_left", 5);
+	hor_flip_img("player_run_right", "player_run_left", 10);
+	hor_flip_img("player_roll_right", "player_roll_left", 7);
 
 	hor_flip_atlas("enemy_aim_left", "enemy_aim_right");
 	hor_flip_atlas("enemy_dash_in_air_left", "enemy_dash_in_air_right");
@@ -115,6 +115,27 @@ void ResourceManager::load()
 
 	hor_flip_atlas("enemy_vfx_dash_in_air_left", "enemy_vfx_dash_in_air_right");
 	hor_flip_atlas("enemy_vfx_dash_on_floor_left", "enemy_vfx_dash_on_floor_right");
+
+	load_audio(_T(R"(resources\audio\bgm.mp3)"), _T("bgm"));
+	load_audio(_T(R"(resources\audio\barb_break.mp3)"), _T("barb_break"));
+	load_audio(_T(R"(resources\audio\bullet_time.mp3)"), _T("bullet_time"));
+	load_audio(_T(R"(resources\audio\enemy_dash.mp3)"), _T("enemy_dash"));
+	load_audio(_T(R"(resources\audio\enemy_run.mp3)"), _T("enemy_run"));
+	load_audio(_T(R"(resources\audio\enemy_hurt_1.mp3)"), _T("enemy_hurt_1"));
+	load_audio(_T(R"(resources\audio\enemy_hurt_2.mp3)"), _T("enemy_hurt_2"));
+	load_audio(_T(R"(resources\audio\enemy_hurt_3.mp3)"), _T("enemy_hurt_3"));
+	load_audio(_T(R"(resources\audio\enemy_throw_barbs.mp3)"), _T("enemy_throw_barbs"));
+	load_audio(_T(R"(resources\audio\enemy_throw_silk.mp3)"), _T("enemy_throw_silk"));
+	load_audio(_T(R"(resources\audio\enemy_throw_sword.mp3)"), _T("enemy_throw_sword"));
+	load_audio(_T(R"(resources\audio\player_attack_1.mp3)"), _T("player_attack_1"));
+	load_audio(_T(R"(resources\audio\player_attack_2.mp3)"), _T("player_attack_2"));
+	load_audio(_T(R"(resources\audio\player_attack_3.mp3)"), _T("player_attack_3"));
+	load_audio(_T(R"(resources\audio\player_dead.mp3)"), _T("player_dead"));
+	load_audio(_T(R"(resources\audio\player_hurt.mp3)"), _T("player_hurt"));
+	load_audio(_T(R"(resources\audio\player_jump.mp3)"), _T("player_jump"));
+	load_audio(_T(R"(resources\audio\player_land.mp3)"), _T("player_land"));
+	load_audio(_T(R"(resources\audio\player_roll.mp3)"), _T("player_roll"));
+	load_audio(_T(R"(resources\audio\player_run.mp3)"), _T("player_run"));
 }
 
 ResourceManager* ResourceManager::instance()
@@ -128,32 +149,63 @@ ResourceManager* ResourceManager::instance()
 
 Atlas* ResourceManager::find_atlas(const std::string& id)const
 {
+	const auto& itor = atlas_pool.find(id);
+	if (itor == atlas_pool.end())
+	{
+		return nullptr;
+	}
+	return itor->second;
 }
 
 IMAGE* ResourceManager::find_image(const std::string& id)const
 {
-	image_pool[id]
+	const auto& itor = image_pool.find(id);
+	if (itor == image_pool.end())
+	{
+		return nullptr;
+	}
+	return itor->second;
 }
 
 void ResourceManager::hor_flip_img(IMAGE* src, IMAGE* dst, int num = 1)
 {
 	int w = src->getwidth();
+	int wf = w / num;
 	int h = src->getheight();
 	dst->Resize(w, h);
 	DWORD* src_buf = GetImageBuffer(src);
 	DWORD* dst_buf = GetImageBuffer(dst);
-	for (int i = 0; i < w * h; ++i)
+	for (int i = 0; i < num; ++i)
 	{
-		dst_buf[i] = src_buf[i / w * w + (w - i % w) - 1];
+		int _left = i * wf;
+		int _right = _left + wf;
+		for (int y = 0; i < h; ++y)
+		{
+			for (int x = _left; x < _right; ++x)
+			{
+				dst_buf[y * h + x] = src_buf[y * h + _right - (x - _left)];
+			}
+		}
 	}
 }
 
 void ResourceManager::hor_flip_img(const std::string& src, const std::string& dst, int num = 1)
 {
+	IMAGE* p = new IMAGE();
+	hor_flip_img(image_pool[src], p, num);
+	image_pool[dst] = p;
 }
 
 void ResourceManager::hor_flip_atlas(const std::string& src, const std::string& dst)
 {
+	Atlas* p = new Atlas();
+	Atlas* q = atlas_pool[src];
+	p->set_size(q->get_size());
+	for (size_t i = 0; i < q->get_size(); i++)
+	{
+		hor_flip_img(q->getImage(i), p->getImage(i));
+	}
+	atlas_pool[dst] = p;
 }
 
 

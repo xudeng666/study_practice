@@ -1,28 +1,7 @@
 #pragma once
 #include <graphics.h>
 #include <random>
-#include <string>
 /*工具类文件*/
-
-/*
-* 图片水平翻转
-* @src	原始图片
-* @dst	新图片
-*/
-inline void hor_flip_img(IMAGE* src, IMAGE* dst)
-{
-	int w = src->getwidth();
-	int h = src->getheight();
-	dst->Resize(w, h);
-
-	DWORD* src_buf = GetImageBuffer(src);
-	DWORD* dst_buf = GetImageBuffer(dst);
-
-	for (int i = 0; i < w * h; ++i)
-	{
-		dst_buf[i] = src_buf[i / w * w + (w - i % w) - 1];
-	}
-}
 
 /*
 * 设置图片剪影

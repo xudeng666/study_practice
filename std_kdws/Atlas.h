@@ -15,14 +15,13 @@ public:
 	void load(LPCTSTR path, int num)
 	{
 		clear();
-
+		img_list.resize(num);
 		TCHAR path_file[256];
 		for (int i = 0; i < num; ++i)
 		{
 			_stprintf_s(path_file, path, i + 1);
-			IMAGE* p = new IMAGE();
-			loadimage(p, path_file);
-			img_list.push_back(p);
+			img_list[i] = new IMAGE();
+			loadimage(img_list[i], path_file);
 		}
 	}
 
@@ -36,6 +35,10 @@ public:
 		img_list.clear();
 	}
 
+	void set_size(int num)
+	{
+		img_list.resize(num);
+	}
 	int get_size()
 	{
 		return (int)img_list.size();

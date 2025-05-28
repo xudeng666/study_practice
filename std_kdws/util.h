@@ -12,23 +12,12 @@ struct Rect
 	int x, y;
 	int w, h;
 };
-
-/*
-* 图集水平翻转
-* @src	原始图集
-* @dst	新图集
+/**
+* 绘制图片（能展示透明信息）
+* @param x		绘制坐标
+* @param y		绘制坐标
+* @param img	绘制图片指针
 */
-inline void hor_flip_Atlas(Atlas& src, Atlas& dts)
-{
-	dts.clear();
-	for (int i = 0; i < src.get_size(); ++i)
-	{
-		IMAGE* p = new IMAGE();
-		hor_flip_img(src.getImage(i), p);
-		dts.add_image(p);
-	}
-}
-
 inline void putimage_alpha(int x, int y, IMAGE* img)
 {
 	int w = img->getwidth();
@@ -68,4 +57,25 @@ inline void line(const Camera& camera, int x1, int y1, int x2, int y2 )
 {
 	const Vector2& pos = camera.get_position();
 	line((int)(x1 - pos.x), (int)(y1 - pos.y), (int)(x2 - pos.x), (int)(y2 - pos.y));
+}
+
+inline void load_audio(LPCTSTR path, LPCTSTR id)
+{
+	static TCHAR str_cmd[512];
+	_stprintf_s(str_cmd, _T("open %s alias %s"), path, id);
+	mciSendString(str_cmd, NULL, 0, NULL);
+}
+
+inline void play_audio(LPCTSTR id, bool is_loop = false)
+{
+	static TCHAR str_cmd[512];
+	_stprintf_s(str_cmd, _T("play %s %s from 0"), id, is_loop ? _T("repeat") : _T(""));
+	mciSendString(str_cmd, NULL, 0, NULL);
+}
+
+inline void stop_audio(LPCTSTR id)
+{
+	static TCHAR str_cmd[512];
+	_stprintf_s(str_cmd, _T("stop %s"), id);
+	mciSendString(str_cmd, NULL, 0, NULL);
 }
