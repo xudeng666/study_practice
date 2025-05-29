@@ -78,8 +78,11 @@ inline bool checkPointToRect(const T x, const T y,
 	return x >= left && x <= right && y >= top && y <= bottom;
 }
 
-/*
-* 判断矩形和矩形是否碰撞
+/**
+* @brief 	判断矩形和矩形是否碰撞
+* @param 	pleft,pright,ptop,pbottom
+* @param 	left,right,top,bottom
+* @return 	碰撞返回true，反之返回false  
 */
 template <typename T>
 inline bool checkRectToRect(const T pleft, const T pright, const T ptop, const T pbottom, 

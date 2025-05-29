@@ -58,10 +58,10 @@ public:
 		position = pos;
 	}
 
-	/*
+	/**
 	* 添加帧动画
-	* @img 图集资源
-	* @num 数量
+	* @param img 图集资源
+	* @param num 数量
 	*/
 	void add_frame(IMAGE* img, int num)
 	{
@@ -76,7 +76,7 @@ public:
 	}
 	/*
 	* 添加帧动画
-	* @atl 图集资源
+	* @param atl 图集资源
 	*/
 	void add_frame(Atlas* atl)
 	{
@@ -108,7 +108,7 @@ public:
 		return (idx_frame == frame_list.size() - 1);
 	}
 	/*动画更新*/
-	void on_updata(int delta)
+	void on_update(int delta)
 	{
 		timer.on_update(delta);
 	}
