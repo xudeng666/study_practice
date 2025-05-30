@@ -1,4 +1,7 @@
 #include "ResourceManager.h"
+#include "CollisionManager.h"
+#include "CharacterManager.h"
+
 #include <chrono>
 #include <thread>
 
@@ -50,21 +53,23 @@ int main(int argc, char** argv)
     {
         while (peekmessage(&msg))
         {
-            // 处理消息
+            CharacterManager::instance()->on_input(msg);
         }
 
         steady_clock::time_point frome_start = steady_clock::now();
         duration<float> delta = duration<float>(frome_start - last_tick);
 
-
-
         // 处理更新
+        CharacterManager::instance()->on_update(delta.count());
+        CollisionManager::instance()->processCollide();
 
         setbkcolor(RGB(0, 0, 0));
         cleardevice();
 
         // 处理绘图
         draw_background();
+        CharacterManager::instance()->on_draw();
+        CollisionManager::instance()->onDebugRender();
 
         FlushBatchDraw();
         last_tick = frome_start;

@@ -45,6 +45,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>头文件</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerStateNodes.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -135,6 +141,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateNodes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

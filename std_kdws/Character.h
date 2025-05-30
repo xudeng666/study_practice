@@ -86,12 +86,18 @@ public:
     {
         enable_gravity = flag;
     }
-
+    /// <summary>
+    /// 获取攻击碰撞箱
+    /// </summary>
+    /// <returns></returns>
     CollisionBox* get_hit_box()
     {
         return hit_box;
     }
-
+    /// <summary>
+    /// 获取受击碰撞箱
+    /// </summary>
+    /// <returns></returns>
     CollisionBox* get_hurt_box()
     {
         return hurt_box;

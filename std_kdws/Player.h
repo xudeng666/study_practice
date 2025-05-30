@@ -2,7 +2,7 @@
 #include "Character.h"
 
 /*玩家类*/
-class Player:Character
+class Player:public Character
 {
 public:
 	/*标记攻击方向*/

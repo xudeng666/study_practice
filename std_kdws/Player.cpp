@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "ResourceManager.h"
+#include "PlayerStateNodes.h"
 
 #include <cmath>
 
@@ -166,6 +167,15 @@ Player::Player()
 	animation_land_vfx.set_call_back([&]() { is_land_vfx_visible = false; });
 
 	//TODO£º×´Ì¬»ú³õÊ¼»¯
+	state_machine.register_state("attack", new PlayerAttackState());
+	state_machine.register_state("dead", new PlayerDeadState());
+	state_machine.register_state("fall", new PlayerFallState());
+	state_machine.register_state("idle", new PlayerIdleState());
+	state_machine.register_state("jump", new PlayerJumpState());
+	state_machine.register_state("roll", new PlayerRollState());
+	state_machine.register_state("run", new PlayerRunState());
+
+	state_machine.set_entry("idle");
 }
 
 Player::~Player() = default;
