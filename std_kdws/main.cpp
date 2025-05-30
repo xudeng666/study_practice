@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 #include "CollisionManager.h"
 #include "CharacterManager.h"
+#include "BulletTimeManager.h"
 
 #include <chrono>
 #include <thread>
@@ -60,7 +61,8 @@ int main(int argc, char** argv)
         duration<float> delta = duration<float>(frome_start - last_tick);
 
         // 处理更新
-        CharacterManager::instance()->on_update(delta.count());
+        float s_delta = BulletTimeManager::instance()->on_update(delta.count());
+        CharacterManager::instance()->on_update(s_delta);
         CollisionManager::instance()->processCollide();
 
         setbkcolor(RGB(0, 0, 0));

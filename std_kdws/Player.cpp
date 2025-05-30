@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "ResourceManager.h"
 #include "PlayerStateNodes.h"
+#include "BulletTimeManager.h"
 
 #include <cmath>
 
@@ -238,9 +239,13 @@ void Player::on_input(const ExMessage& msg)
 		break;
 	case WM_RBUTTONDOWN:
 		// TODO:进入子弹时间
+		play_audio(_T("bullet_time"), false);
+		BulletTimeManager::instance()->set_status(BulletTimeManager::Status::Entering);
 		break;
 	case WM_RBUTTONUP:
 		// TODO:退出子弹时间
+		stop_audio(_T("bullet_time"));
+		BulletTimeManager::instance()->set_status(BulletTimeManager::Status::Exiting);
 		break;
 	}
 }

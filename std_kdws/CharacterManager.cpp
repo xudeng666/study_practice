@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "CharacterManager.h"
+#include "BulletTimeManager.h"
 
 CharacterManager* CharacterManager::manager = nullptr;
 
@@ -23,6 +24,7 @@ void CharacterManager::on_update(float delta)
 
 void CharacterManager::on_draw()
 {
+    BulletTimeManager::instance()->post_process();// 在玩家绘制前调用，就不会影响玩家效果
     player->on_draw();
 }
 

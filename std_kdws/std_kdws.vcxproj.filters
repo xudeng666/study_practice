@@ -63,6 +63,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BulletTimeManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h">
@@ -136,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="StateNode.h">
       <Filter>头文件\state</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletTimeManager.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
