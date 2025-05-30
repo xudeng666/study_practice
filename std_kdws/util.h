@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "Atlas.h"
 #include "Camera.h"
+#include <iostream>
 
 #pragma comment(lib,"WINMM.lib")
 #pragma comment(lib,"MSIMG32.LIB")

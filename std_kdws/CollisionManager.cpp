@@ -42,14 +42,10 @@ void CollisionManager::processCollide()
 			}
 
 			bool is_collision = checkRectToRect(
-				/*box_src->position.x - box_src->size.x/2, box_src->position.x + box_src->size.x/2, 
+				box_src->position.x - box_src->size.x/2, box_src->position.x + box_src->size.x/2, 
 				box_src->position.y - box_src->size.y/2, box_src->position.y + box_src->size.y/2,
 				box_dst->position.x - box_dst->size.x/2, box_dst->position.x + box_dst->size.x/2, 
-				box_dst->position.y - box_dst->size.y/2, box_dst->position.y + box_dst->size.y/2*/
-				box_src->position.x, box_src->position.x + box_src->size.x, 
-				box_src->position.y, box_src->position.y + box_src->size.y,
-				box_dst->position.x, box_dst->position.x + box_dst->size.x, 
-				box_dst->position.y, box_dst->position.y + box_dst->size.y
+				box_dst->position.y - box_dst->size.y/2, box_dst->position.y + box_dst->size.y/2
 			);
 			if (is_collision && box_dst->call_back)
 			{
@@ -64,13 +60,10 @@ void CollisionManager::onDebugRender()
 	{
 		setlinecolor(box->enabled ? RGB(255, 195, 195) : RGB(115, 115, 175));
 		rectangle(
-			/*box->position.x - box->size.x / 2, 
+			box->position.x - box->size.x / 2, 
 			box->position.y - box->size.y / 2, 
 			box->position.x + box->size.x / 2,
-			box->position.y + box->size.y / 2*/
-			box->position.x, box->position.y, 
-			box->position.x + box->size.x,
-			box->position.y + box->size.y
+			box->position.y + box->size.y / 2
 		);
 	}
 }

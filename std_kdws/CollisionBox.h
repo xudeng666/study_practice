@@ -9,7 +9,7 @@ class CollisionManager;
 *@brief		碰撞箱
 *@note		构造和析构私有，是因为不能随意创建碰撞箱。不被碰撞管理器管理的碰撞箱没有意义
 *@author 	xd  
-*@date 		20-5-9  
+*@date 		20-5-29  
 */
 class CollisionBox
 {

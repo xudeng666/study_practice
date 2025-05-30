@@ -19,6 +19,18 @@
     <Filter Include="头文件\util">
       <UniqueIdentifier>{7ec87c1c-b7eb-41cd-87f2-779e61f488e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\player">
+      <UniqueIdentifier>{ae07ad51-3c63-46e8-ba11-b39117ff36aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\resource">
+      <UniqueIdentifier>{5298060e-5ac4-4618-84a0-8c6c775e2049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\collision">
+      <UniqueIdentifier>{d2c846f6-2b48-4990-a304-af5e0293cca2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\state">
+      <UniqueIdentifier>{43eff140-9733-44bb-baa8-24fa817b20d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,23 +54,17 @@
     <ClCompile Include="Character.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>头文件</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerStateNodes.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CharacterManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Atlas.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -68,16 +74,7 @@
     <ClInclude Include="Particle.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PeaBullet.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PeashooterPlayer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Platform.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PlayerID.h">
@@ -86,28 +83,10 @@
     <ClInclude Include="StatusBar.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="SunBullet.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SunBulletEx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SunflowerPlayer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>头文件\scene</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
-      <Filter>头文件\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="GamaScene.h">
-      <Filter>头文件\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuScene.h">
-      <Filter>头文件\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectorScene.h">
       <Filter>头文件\scene</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
@@ -122,32 +101,41 @@
     <ClInclude Include="Timer.h">
       <Filter>头文件\util</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision_layer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionBox.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="StateNode.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>头文件\player</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStateNodes.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>头文件\player</Filter>
     </ClInclude>
     <ClInclude Include="CharacterManager.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Atlas.h">
+      <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>头文件\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision_layer.h">
+      <Filter>头文件\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionBox.h">
+      <Filter>头文件\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>头文件\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>头文件\state</Filter>
+    </ClInclude>
+    <ClInclude Include="StateNode.h">
+      <Filter>头文件\state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

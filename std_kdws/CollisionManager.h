@@ -1,6 +1,11 @@
 #pragma once
 #include "CollisionBox.h"
 
+/**
+* @brief Åö×²¹ÜÀíÆ÷
+*@author 	xd  
+*@date 		20-5-30
+*/
 class CollisionManager
 {
 public:

@@ -1,11 +1,6 @@
 #pragma once
 #include "Scene.h"
 
-
-extern Scene* menu_scene;
-extern Scene* game_scene;
-extern Scene* selector_scene;
-
 /*≥°æ∞π‹¿Ì∆˜*/
 class SceneManager
 {
@@ -37,13 +32,10 @@ public:
 		switch (type)
 		{
 		case SceneManager::SceneType::Menu:
-			current_scene = menu_scene;
 			break;
 		case SceneManager::SceneType::Game:
-			current_scene = game_scene;
 			break;
 		case SceneManager::SceneType::Selector:
-			current_scene = selector_scene;
 			break;
 		default:
 			break;

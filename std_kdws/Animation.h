@@ -66,7 +66,7 @@ public:
 	void add_frame(IMAGE* img, int num)
 	{
 		int w = img->getwidth();
-		int h = img->getwidth();
+		int h = img->getheight();
 		int wf = w / num;
 		for (int i = 0; i < num; i++)
 		{

@@ -166,7 +166,6 @@ Player::Player()
 	animation_land_vfx.add_frame(ResourceManager::instance()->find_image("player_vfx_land"), 2);
 	animation_land_vfx.set_call_back([&]() { is_land_vfx_visible = false; });
 
-	//TODO£º×´Ì¬»ú³õÊ¼»¯
 	state_machine.register_state("attack", new PlayerAttackState());
 	state_machine.register_state("dead", new PlayerDeadState());
 	state_machine.register_state("fall", new PlayerFallState());

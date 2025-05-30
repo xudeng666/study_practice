@@ -148,11 +148,7 @@
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Collision_layer.h" />
-    <ClInclude Include="GamaScene.h" />
-    <ClInclude Include="MenuScene.h" />
     <ClInclude Include="Particle.h" />
-    <ClInclude Include="PeaBullet.h" />
-    <ClInclude Include="PeashooterPlayer.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerID.h" />
@@ -160,13 +156,9 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="SelectorScene.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="StateNode.h" />
     <ClInclude Include="StatusBar.h" />
-    <ClInclude Include="SunBullet.h" />
-    <ClInclude Include="SunBulletEx.h" />
-    <ClInclude Include="SunflowerPlayer.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="utils.h" />
