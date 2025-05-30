@@ -8,14 +8,14 @@ Character::Character()
 
     timer_invulnerable_status.set_wait_time(1.0f);
     timer_invulnerable_status.set_one_shot(true);
-    timer_invulnerable_status.set_callback([&]()
+    timer_invulnerable_status.set_call_back([&]()
         {
             is_invulnerable = false;
         });
 
     timer_invulnerable_blink.set_wait_time(0.075f);
     timer_invulnerable_blink.set_one_shot(false);
-    timer_invulnerable_blink.set_callback([&]()
+    timer_invulnerable_blink.set_call_back([&]()
         {
             is_blink_invisible = !is_blink_invisible;
         });

@@ -9,7 +9,7 @@ public:
 	Camera()
 	{
 		timer_shake.set_one_shot(true);
-		timer_shake.set_callback([&]()
+		timer_shake.set_call_back([&]()
 			{
 				is_shaking = false;
 				reset_position();

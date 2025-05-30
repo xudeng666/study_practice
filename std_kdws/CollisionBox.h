@@ -33,16 +33,26 @@ public:
     /**
     *@note 碰撞检测逻辑归碰撞管理器管，所以此处主要提供set接口即可
     */
+    /// <summary>
+    /// 设置碰撞箱启用状态
+    /// </summary>
+    /// <param name="flag"></param>
     void set_enabled(bool flag)
     {
         enabled = flag;
     }
-
+    /// <summary>
+    /// 设置自身碰撞层
+    /// </summary>
+    /// <param name="layer"></param>
     void set_layer_src(CollisionLayer layer)
     {
         layer_src = layer;
     }
-
+    /// <summary>
+    /// 设置目标碰撞层
+    /// </summary>
+    /// <param name="layer"></param>
     void set_layer_dst(CollisionLayer layer)
     {
         layer_dst = layer;

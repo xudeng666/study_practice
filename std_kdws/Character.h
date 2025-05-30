@@ -15,10 +15,6 @@
 */
 class Character
 {
-public:
-    Character();
-    ~Character();
-
 protected:
     /*动画组*/
     struct AnimationGroup
@@ -49,7 +45,9 @@ protected:
 public:
     Character();
     ~Character();
-
+    /// <summary>
+    /// 受到攻击，刷新血量
+    /// </summary>
     void decrease_hp();
 
     int get_hp() const

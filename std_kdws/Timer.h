@@ -22,7 +22,7 @@ public:
 	{
 		one_shot = flag;
 	}
-	void set_callback(std::function<void()> callback)
+	void set_call_back(std::function<void()> callback)
 	{
 		this->callback = callback;
 	}

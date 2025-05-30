@@ -16,7 +16,7 @@ public:
 	Animation()
 	{
 		timer.set_one_shot(false);
-		timer.set_callback([&]()
+		timer.set_call_back([&]()
 			{
 				if (++idx_frame>=frame_list.size())
 				{
@@ -124,7 +124,7 @@ public:
 		putimage_alpha_ex(fm.img, &dst, &fm.rect_src);
 	}
 	/*设置回调函数*/
-	void set_callback(std::function<void()> callback)
+	void set_call_back(std::function<void()> callback)
 	{
 		this->callback = callback;
 	}

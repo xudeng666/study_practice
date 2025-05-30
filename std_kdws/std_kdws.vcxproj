@@ -131,6 +131,7 @@
     <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="StateNode.cpp" />
