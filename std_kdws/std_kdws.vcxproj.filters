@@ -66,6 +66,18 @@
     <ClCompile Include="BulletTimeManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Barb.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStateNodes.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h">
@@ -107,9 +119,6 @@
     <ClInclude Include="Player.h">
       <Filter>头文件\player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerStateNodes.h">
-      <Filter>头文件\player</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>头文件\player</Filter>
     </ClInclude>
@@ -142,6 +151,21 @@
     </ClInclude>
     <ClInclude Include="BulletTimeManager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Barb.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateNodes.h">
+      <Filter>头文件\state</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStateNodes.h">
+      <Filter>头文件\state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -62,7 +62,9 @@ public:
 	void on_input(const ExMessage& msg) override;//对重写的函数用override声明，确保在编译时检查重写方法的一致性。避免因为函数签名不同错过调用重写逻辑
 	void on_update(float delta) override;
 	void on_draw() override;
-
+	/// <summary>
+	/// 受击
+	/// </summary>
 	void on_hurt() override;
 	/// <summary>
 	/// 设置翻滚状态

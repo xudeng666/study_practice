@@ -81,7 +81,10 @@ public:
     {
         return Vector2(position.x, position.y - logic_height / 2);
     }
-
+    /// <summary>
+    /// 开关重力模拟
+    /// </summary>
+    /// <param name="flag"></param>
     void set_gravity_enabled(bool flag)
     {
         enable_gravity = flag;

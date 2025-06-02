@@ -10,7 +10,7 @@
 * @brief 帧率
 */
 #define _FPS_ 144
-
+/*绘制背景图*/
 static void draw_background()
 {
     static IMAGE* img_background = ResourceManager::instance()->find_image("background");
@@ -22,6 +22,17 @@ static void draw_background()
         img_background->getheight()
     };
     putimage_alpha_ex(img_background, &rect_dst);
+}
+/*显示玩家血量*/
+static void draw_remain_hp()
+{
+    static IMAGE* img_ui_heart = ResourceManager::instance()->find_image("ui_heart");
+    Rect rect_dst = { 0, 10, img_ui_heart->getwidth(), img_ui_heart->getheight() };
+    for (int i = 0; i < CharacterManager::instance()->get_player()->get_hp(); i++)
+    {
+        rect_dst.x = 10 + i * 40;
+        putimage_alpha_ex(img_ui_heart, &rect_dst);
+    }
 }
 
 int main(int argc, char** argv)
@@ -42,6 +53,8 @@ int main(int argc, char** argv)
         MessageBox(hwnd, err_msg, _T("资源加载失败"), MB_OK | MB_ICONERROR);
         return -1;
     }
+
+    play_audio(_T("bgm"), true);
 
     const nanoseconds frame_duration(1000000000 / _FPS_);
     steady_clock::time_point last_tick = steady_clock::now();
@@ -72,6 +85,7 @@ int main(int argc, char** argv)
         draw_background();
         CharacterManager::instance()->on_draw();
         CollisionManager::instance()->onDebugRender();
+        draw_remain_hp();
 
         FlushBatchDraw();
         last_tick = frome_start;
