@@ -61,7 +61,7 @@ public:
 		return sqrt(x * x + y * y);
 	}
 
-	/*计算单位长度下的坐标*/
+	/*计算单位长度下的坐标向量*/
 	Vector2 normalize()
 	{
 		float len = lenth();

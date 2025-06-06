@@ -116,6 +116,7 @@ void ResourceManager::load()
 	hor_flip_atlas("enemy_throw_barb_left", "enemy_throw_barb_right");
 	hor_flip_atlas("enemy_throw_silk_left", "enemy_throw_silk_right");
 	hor_flip_atlas("enemy_throw_sword_left", "enemy_throw_sword_right");
+	hor_flip_atlas("sword_left", "sword_right");
 
 	hor_flip_atlas("enemy_vfx_dash_in_air_left", "enemy_vfx_dash_in_air_right");
 	hor_flip_atlas("enemy_vfx_dash_on_floor_left", "enemy_vfx_dash_on_floor_right");
@@ -204,7 +205,7 @@ void ResourceManager::hor_flip_atlas(const std::string& src, const std::string& 
 {
 	Atlas* p = new Atlas();
 	Atlas* q = atlas_pool[src];
-	for (size_t i = 0; i < q->get_size(); i++)
+	for (int i = 0; i < q->get_size(); i++)
 	{
 		IMAGE* img = new IMAGE();
 		hor_flip_img(q->getImage(i), img);

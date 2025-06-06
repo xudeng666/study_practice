@@ -28,13 +28,13 @@ void CollisionManager::destroyCollisionBox(CollisionBox* box)
 
 void CollisionManager::processCollide()
 {
-	for (CollisionBox* box_src : box_list)
+	for (CollisionBox* box_src : box_list)//¹¥»÷Ñ­»·
 	{
-		if (!box_src->enabled || box_src->layer_src == CollisionLayer::None)
+		if (!box_src->enabled || box_src->layer_dst == CollisionLayer::None)
 		{
 			continue;
 		}
-		for (CollisionBox* box_dst : box_list)
+		for (CollisionBox* box_dst : box_list)//ÊÜ»÷Ñ­»·
 		{
 			if (!box_dst->enabled || box_dst == box_src || box_dst->layer_src != box_src->layer_dst)
 			{

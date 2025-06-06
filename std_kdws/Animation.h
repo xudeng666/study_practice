@@ -7,6 +7,7 @@
 class Animation
 {
 public:
+	/*动画锚点模式*/
 	enum class AnchorMode
 	{
 		CENTER,
@@ -18,7 +19,8 @@ public:
 		timer.set_one_shot(false);
 		timer.set_call_back([&]()
 			{
-				if (++idx_frame>=frame_list.size())
+				++idx_frame;
+				if (idx_frame>=frame_list.size())
 				{
 					idx_frame = is_loop ? 0 : frame_list.size() - 1;
 					if (!is_loop && callback)
@@ -48,7 +50,7 @@ public:
 		is_loop = loop;
 	}
 	/*设置帧间隔*/
-	void set_interval(int val)
+	void set_interval(float val)
 	{
 		timer.set_wait_time(val);
 	}
@@ -80,7 +82,7 @@ public:
 	*/
 	void add_frame(Atlas* atl)
 	{
-		for (size_t i = 0; i < atl->get_size(); i++)
+		for (int i = 0; i < atl->get_size(); i++)
 		{
 			IMAGE* img = atl->getImage(i);
 			Rect src = {0, 0, img->getwidth(), img->getheight()};
@@ -108,7 +110,7 @@ public:
 		return (idx_frame == frame_list.size() - 1);
 	}
 	/*动画更新*/
-	void on_update(int delta)
+	void on_update(float delta)
 	{
 		timer.on_update(delta);
 	}

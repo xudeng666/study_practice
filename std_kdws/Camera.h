@@ -33,7 +33,7 @@ public:
 		position.x = 0, position.y = 0;
 	}
 
-	void on_update(int delta)
+	void on_update(float delta)
 	{
 		shake_update(delta);
 	}
@@ -43,7 +43,7 @@ public:
 	* @strength	抖动幅度
 	* @timer	抖动时长(毫秒)
 	*/
-	void shake(float strength, int timer)
+	void shake(float strength, float timer)
 	{
 		timer_shake.set_wait_time(timer);
 		timer_shake.restart();
@@ -51,7 +51,7 @@ public:
 		is_shaking = true;
 	}
 
-	void shake_update(int delta)
+	void shake_update(float delta)
 	{
 		timer_shake.on_update(delta);
 		if (is_shaking)

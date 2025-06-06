@@ -158,14 +158,14 @@
     <ClInclude Include="Barb.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerStateNodes.h">
       <Filter>头文件\state</Filter>
     </ClInclude>
     <ClInclude Include="EnemyStateNodes.h">
       <Filter>头文件\state</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>头文件\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

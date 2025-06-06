@@ -353,9 +353,13 @@ void Enemy::on_dash()
 {
     if (is_dashing_in_air)
         current_dash_animation = velocity.x < 0 ? &animation_dash_in_air_vfx.left : &animation_dash_in_air_vfx.right;
-    else
+    else if (is_dashing_on_floor)
         current_dash_animation = velocity.x < 0 ? &animation_dash_on_floor_vfx.left : &animation_dash_on_floor_vfx.right;
-
+    else
+    {
+        std::cout << "³å´Ì´íÎó" << std::endl;
+        return;
+    }
     current_dash_animation->reset();
 }
 

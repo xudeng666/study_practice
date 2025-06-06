@@ -102,6 +102,6 @@ private:
 
     std::vector<Barb*> barb_list;
     std::vector<Sword*> sword_list;
-    CollisionBox* collision_box_silk = nullptr;
+    CollisionBox* collision_box_silk = nullptr;// Ë¿ÏßÅö×²Ïä
 };
 

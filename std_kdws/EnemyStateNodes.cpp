@@ -41,8 +41,8 @@ void EnemyDashInAirState::on_enter()
 
     Enemy* enemy = (Enemy*)CharacterManager::instance()->get_enemy();
     const Character* player = CharacterManager::instance()->get_player();
-    Vector2 pos_target = { player->get_position().x, player->get_floor_y() };
-    enemy->set_velocity((pos_target - enemy->get_position()).normalize() * SPEED_DASH);
+    //Vector2 pos_target = { player->get_position().x, player->get_floor_y() };
+    enemy->set_velocity((player->get_position() - enemy->get_position()).normalize() * SPEED_DASH);
     enemy->set_dashing_in_air(true);
     enemy->set_gravity_enabled(false);
     enemy->on_dash();
@@ -137,6 +137,8 @@ EnemyIdleState::EnemyIdleState()
             Enemy* enemy = (Enemy*)CharacterManager::instance()->get_enemy();
 
             int rand_num = getIntRand(0, 100);
+
+            //std::cout << "idle»Øµ÷£¬rand:" << rand_num << " hp:" << enemy->get_hp() << std::endl;
             if (enemy->get_hp() > 5)
             {
                 if (rand_num <= 25)
@@ -188,13 +190,14 @@ void EnemyIdleState::on_enter()
     Enemy* enemy = (Enemy*)CharacterManager::instance()->get_enemy();
     enemy->set_velocity({ 0, 0 });
 
-    float wait_time = 0;
-    if (enemy->get_hp() > 5)
-        wait_time = getIntRand(0, 2) * 0.25f; // 0.0s ~ 0.5s
-    else
-        wait_time = getIntRand(0, 1) * 0.25f; // 0.0s ~ 0.25s
+    //float wait_time = 0;
+    //if (enemy->get_hp() > 5)
+    //    wait_time = getRealRand(0.0, 0.5); // 0.0s ~ 0.5s
+    //else
+    //    wait_time = getRealRand(0.0, 0.25); // 0.0s ~ 0.25s
 
-    timer.set_wait_time(wait_time);
+    //timer.set_wait_time(wait_time);
+    timer.set_wait_time(getRealRand(0.0f, (enemy->get_hp() > 5 ? 0.5f : 0.25f)));
     timer.restart();
 }
 
