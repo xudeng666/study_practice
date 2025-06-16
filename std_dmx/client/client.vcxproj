@@ -130,8 +130,11 @@
     <ClCompile Include="client.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Atlas.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="util.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
