@@ -23,23 +23,23 @@ inline void putimage_ex(const Camera& camera, IMAGE* img, const Rect* rect_dst, 
 		rect_src ? rect_src->w : img->getwidth(), rect_src ? rect_src->h : img->getheight(), blend_func);
 }
 
-inline void load_audio(LPCSTR path, LPCSTR id)
+inline void load_audio(LPCTSTR path, LPCTSTR id)
 {
-    static TCHAR str_cmd[512];
-    _stprintf_s(str_cmd, _T("open %s alias %s"), path, id);
-    mciSendString(str_cmd, NULL, 0, NULL);
+	static TCHAR str_cmd[512];
+	_stprintf_s(str_cmd, _T("open %s alias %s"), path, id);
+	mciSendString(str_cmd, NULL, 0, NULL);
 }
 
-inline void play_audio(LPCSTR id, bool is_loop = false)
+inline void play_audio(LPCTSTR id, bool is_loop = false)
 {
-    static TCHAR str_cmd[512];
-    _stprintf_s(str_cmd, _T("play %s %s from 0"), id, is_loop ? _T("repeat") : _T(""));
-    mciSendString(str_cmd, NULL, 0, NULL);
+	static TCHAR str_cmd[512];
+	_stprintf_s(str_cmd, _T("play %s %s from 0"), id, is_loop ? _T("repeat") : _T(""));
+	mciSendString(str_cmd, NULL, 0, NULL);
 }
 
-inline void stop_audio(LPCSTR id)
+inline void stop_audio(LPCTSTR id)
 {
-    static TCHAR str_cmd[512];
-    _stprintf_s(str_cmd, _T("stop %s"), id);
-    mciSendString(str_cmd, NULL, 0, NULL);
+	static TCHAR str_cmd[512];
+	_stprintf_s(str_cmd, _T("stop %s"), id);
+	mciSendString(str_cmd, NULL, 0, NULL);
 }
