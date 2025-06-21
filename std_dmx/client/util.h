@@ -5,7 +5,7 @@
 #include <graphics.h>
 
 #pragma comment(lib,"WINMM.lib")
-#pragma commert(lib,"MSIMG32.lib")
+#pragma comment(lib,"MSIMG32.lib")
 
 struct Rect
 {

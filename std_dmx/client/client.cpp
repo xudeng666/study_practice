@@ -5,7 +5,6 @@
 
 #include <chrono>
 #include <string>
-#include <vector>
 #include <thread>
 #include <codecvt>
 #include <fstream>
@@ -117,9 +116,9 @@ void load_resources(HWND hwnd)
         exit(-1);
     }
 
-    std::stringstream str_stream;
-    str_stream << file.rdbuf();
-    str_address = str_stream.str();
+    std::stringstream str_stream;        // 1. 创建字符串流对象
+    str_stream << file.rdbuf();           // 2. 将文件缓冲区内容写入字符串流
+    str_address = str_stream.str();       // 3. 获取字符串流中的所有内容
 
     file.close();
 }
@@ -158,6 +157,8 @@ void login_to_server(HWND hwnd)
         num_total_char += (int)str_line.length();
     }
 
+    std::cout << "id:" << id_player << 
+
     //开辟独立的网络通信线程
     std::thread([&]()
         {
@@ -185,7 +186,7 @@ void login_to_server(HWND hwnd)
 int main(int argc, char** argv)
 {
     using namespace std::chrono;
-    HWND hwnd = initgraph(1280, 720/*, EW_SHOWCONSOLE*/);
+    HWND hwnd = initgraph(1280, 720, EW_SHOWCONSOLE);
     SetWindowText(hwnd, _T("哈基米大冒险！"));
     settextstyle(28, 0, _T("IPix"));
     setbkmode(TRANSPARENT);
@@ -290,7 +291,7 @@ int main(int argc, char** argv)
                 || (id_player == 2 && progress_1 >= num_total_char))
             {
                 stop_audio(_T("bgm"));
-                MessageBox(hwnd, _T("输光！"), _T("游戏结束"), MB_OK | MB_ICONINFORMATION);
+                MessageBox(hwnd, _T("输光光！"), _T("游戏结束"), MB_OK | MB_ICONINFORMATION);
                 exit(0);
             }
 
@@ -324,7 +325,7 @@ int main(int argc, char** argv)
             };
             putimage_ex(camera_scene, &img_background, &rect_bg);
 
-            // 绘制玩家
+            // 绘制玩家  
             if (player_1.get_position().y > player_2.get_position().y)
             {
                 player_2.on_draw(camera_scene);

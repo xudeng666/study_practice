@@ -3,10 +3,6 @@
 #include "util.h"
 #include "Timer.h"
 #include "Atlas.h"
-#include "Vector2.h"
-
-#include <vector>
-#include <functional>
 
 class Animation
 {

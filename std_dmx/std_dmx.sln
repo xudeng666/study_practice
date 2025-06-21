@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "server\server.vcxproj", "{EE73F01F-B17F-4136-81C4-973563F13ADF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "client\client.vcxproj", "{A990F48D-0259-4CD8-8D1B-D19EDE31D41D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EE73F01F-B17F-4136-81C4-973563F13ADF} = {EE73F01F-B17F-4136-81C4-973563F13ADF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
