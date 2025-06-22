@@ -39,11 +39,14 @@ int main(int argc, char** argv)
 			}
 			res.set_content(progress_1 >= 0 ? "2" : "1", "text/plain");	//给先后登录的玩家返回id 1 2
 			(progress_1 >= 0) ? (progress_2 = 0) : (progress_1 = 0);	//给先后登录的玩家初始化进度为0
-			std::cout << "p1:" << progress_1
-				<< "p2:" << progress_2 << std::endl;
 		});
 
-	server.Post("/query_text", [&](const httplib::Request& req, httplib::Response& res)//创建了一个 HTTP 服务器的 POST 接口 /query_text
+	server.Post("/query_text", [&](const httplib::Request& req, httplib::Response& res)
+		{
+			res.set_content(str_text, "text/plain");
+		});
+
+	server.Post("/update_1", [&](const httplib::Request& req, httplib::Response& res)//创建了一个 HTTP 服务器的 POST 接口 /query_text
 		{
 			std::lock_guard<std::mutex> lock(g_mutex);
 
@@ -52,7 +55,7 @@ int main(int argc, char** argv)
 			res.set_content(std::to_string(progress_2), "text/plain"); // 返回 progress_2 的值 MIME 类型为 text/plain（纯文本）
 		});
 
-	server.Post("/query_text", [&](const httplib::Request& req, httplib::Response& res)
+	server.Post("/update_2", [&](const httplib::Request& req, httplib::Response& res)
 		{
 			std::lock_guard<std::mutex> lock(g_mutex);
 

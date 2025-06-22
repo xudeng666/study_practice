@@ -80,14 +80,14 @@ void load_resources(HWND hwnd)
     atlas_1P_run_down.load(_T("resources/hajimi_run_front_%d.png"), 4);
     atlas_1P_run_left.load(_T("resources/hajimi_run_left_%d.png"), 4);
     atlas_1P_run_right.load(_T("resources/hajimi_run_right_%d.png"), 4);
-    atlas_2P_idle_up.load(_T("resources/mambo_idle_back_%d.png"), 4);
-    atlas_2P_idle_down.load(_T("resources/mambo_idle_front_%d.png"), 4);
-    atlas_2P_idle_left.load(_T("resources/mambo_idle_left_%d.png"), 4);
-    atlas_2P_idle_right.load(_T("resources/mambo_idle_right_%d.png"), 4);
-    atlas_2P_run_up.load(_T("resources/mambo_run_back_%d.png"), 4);
-    atlas_2P_run_down.load(_T("resources/mambo_run_front_%d.png"), 4);
-    atlas_2P_run_left.load(_T("resources/mambo_run_left_%d.png"), 4);
-    atlas_2P_run_right.load(_T("resources/mambo_run_right_%d.png"), 4);
+    atlas_2P_idle_up.load(_T("resources/manbo_idle_back_%d.png"), 4);
+    atlas_2P_idle_down.load(_T("resources/manbo_idle_front_%d.png"), 4);
+    atlas_2P_idle_left.load(_T("resources/manbo_idle_left_%d.png"), 4);
+    atlas_2P_idle_right.load(_T("resources/manbo_idle_right_%d.png"), 4);
+    atlas_2P_run_up.load(_T("resources/manbo_run_back_%d.png"), 4);
+    atlas_2P_run_down.load(_T("resources/manbo_run_front_%d.png"), 4);
+    atlas_2P_run_left.load(_T("resources/manbo_run_left_%d.png"), 4);
+    atlas_2P_run_right.load(_T("resources/manbo_run_right_%d.png"), 4);
 
     loadimage(&img_ui_1, _T("resources/ui_1.png"));
     loadimage(&img_ui_2, _T("resources/ui_2.png"));
@@ -149,15 +149,13 @@ void login_to_server(HWND hwnd)
 
     str_text = client->Post("/query_text")->body;
 
-    std::stringstream str_stream;
+    std::stringstream str_stream(str_text);
     std::string str_line;
     while (std::getline(str_stream, str_line))
     {
         str_line_list.push_back(str_line);
         num_total_char += (int)str_line.length();
     }
-
-    std::cout << "id:" << id_player << 
 
     //开辟独立的网络通信线程
     std::thread([&]()
