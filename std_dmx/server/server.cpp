@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 			res.set_content(str_text, "text/plain");
 		});
 
-	server.Post("/update_1", [&](const httplib::Request& req, httplib::Response& res)//创建了一个 HTTP 服务器的 POST 接口 /query_text
+	server.Post("/update_1", [&](const httplib::Request& req, httplib::Response& res)//创建了一个 HTTP 服务器的 POST 接口 /update_1
 		{
 			std::lock_guard<std::mutex> lock(g_mutex);
 
