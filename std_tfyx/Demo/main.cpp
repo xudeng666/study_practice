@@ -21,10 +21,21 @@ int main()
 	SDL_Renderer* render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	bool is_quit = false;
+	SDL_Event event;
 
 	while (!is_quit)
 	{
+		// 处理消息
+		while (SDL_PollEvent(&event))
+		{
+			if (event.type == SDL_QUIT)
+			{
+				is_quit = true;
+			}
+		}
+		// 处理数据
 
+		// 渲染绘图
 	}
 
 	return 0;

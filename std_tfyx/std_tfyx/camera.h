@@ -1,0 +1,92 @@
+#pragma once
+
+#include "timer.h"
+#include "vector2.h"
+
+#include <SDL.h>
+
+class Camera
+{
+public:
+	Camera(SDL_Renderer* rend)
+	{
+		renderer = rend;
+
+		timer_shake.set_one_shot(true);
+		timer_shake.set_timeout([&]()
+			{
+				is_shaking = false;
+				reset();
+			});
+	}
+
+	~Camera() = default;
+
+	void reset()
+	{
+		position.x = 0;
+		position.y = 0;
+	}
+
+	const Vector2& get_position()const
+	{
+		return position;
+	}
+
+	void set_position(float x, float y)
+	{
+		position.x = x, position.y = y;
+	}
+
+	void set_position(const Vector2& pos)
+	{
+		position = pos;
+	}
+
+	void on_update(float delta)
+	{
+		timer_shake.on_update(delta);
+		if (is_shaking)
+		{
+			position = position.getCircleRandVct(shaking_strength);
+		}
+	}
+
+	/// <summary>
+	/// 执行抖动
+	/// </summary>
+	/// <param name="strength">设置抖动幅度半径</param>
+	/// <param name="timer">设置抖动时长</param>
+	void shake(float strength, float timer)
+	{
+		shaking_strength = strength;
+		is_shaking = true;
+		timer_shake.set_wait_time(timer);
+		timer_shake.restart();
+	}
+
+	/// <summary>
+	/// 渲染纹理
+	/// </summary>
+	/// <param name="texture">纹理资源指针</param>
+	/// <param name="rect_src"></param>
+	/// <param name="rect_dst"></param>
+	/// <param name="angle"></param>
+	/// <param name="center"></param>
+	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src,
+		const SDL_FRect* rect_dst, double angle, const SDL_FPoint* center)const
+	{
+		SDL_FRect win = *rect_dst;
+		win.x -= position.x;
+		win.y -= position.y;
+
+		SDL_RenderCopyExF(renderer, texture, rect_src, &win, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
+	}
+
+private:
+	SDL_Renderer* renderer;		//渲染器
+	Vector2 position;			//摄像机位置
+	Timer timer_shake;			//抖动计时器
+	bool is_shaking = false;	//是否抖动
+	float shaking_strength = 0;	//抖动幅度
+};
