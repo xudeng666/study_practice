@@ -13,7 +13,10 @@ public:
 
 	~Atlas()
 	{
-		clear();
+		for (SDL_Texture* texture : tex_list)
+		{
+			SDL_DestroyTexture(texture);
+		}
 	}
 	/// <summary>
 	/// 加载资源
@@ -35,10 +38,7 @@ public:
 
 	void clear()
 	{
-		for (SDL_Texture* texture : tex_list)
-		{
-			SDL_DestroyTexture(texture);
-		}
+		tex_list.clear();
 	}
 
 	int get_size()const
@@ -66,9 +66,6 @@ public:
 	{
 		tex_list.push_back(texture);
 	}
-
-
-
 private:
 	// 图片纹理列表
 	std::vector<SDL_Texture*> tex_list;
