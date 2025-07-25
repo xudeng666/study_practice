@@ -38,7 +38,10 @@ public:
 
 	void clear()
 	{
-		tex_list.clear();
+		for (SDL_Texture* texture : tex_list)
+		{
+			SDL_DestroyTexture(texture);
+		}
 	}
 
 	int get_size()const

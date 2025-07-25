@@ -123,3 +123,23 @@ inline bool checkRectToHLine(const T pleft, const T pright, const T ptop, const 
 		&& ptop <= y
 		&& y <= pbottom;
 }
+
+/// <summary>
+/// 角度转弧度
+/// </summary>
+/// <param name="angle">角度值</param>
+/// <returns>弧度值</returns>
+double getRadiansByAngle(double angle)
+{
+	return angle * PI / 180;
+}
+
+/// <summary>
+/// 弧度转角度
+/// </summary>
+/// <param name="radians">弧度值</param>
+/// <returns>角度值</returns>
+double getAngleByRadians(double radians)
+{
+	return radians * 180 / PI;
+}

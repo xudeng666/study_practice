@@ -13,7 +13,7 @@ public:
 		renderer = rend;
 
 		timer_shake.set_one_shot(true);
-		timer_shake.set_timeout([&]()
+		timer_shake.set_on_timeout([&]()
 			{
 				is_shaking = false;
 				reset();
@@ -76,11 +76,11 @@ public:
 	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src,
 		const SDL_FRect* rect_dst, double angle, const SDL_FPoint* center)const
 	{
-		SDL_FRect win = *rect_dst;
-		win.x -= position.x;
-		win.y -= position.y;
+		SDL_FRect dst = *rect_dst;
+		dst.x -= position.x;
+		dst.y -= position.y;
 
-		SDL_RenderCopyExF(renderer, texture, rect_src, &win, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
+		SDL_RenderCopyExF(renderer, texture, rect_src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
 	}
 
 private:

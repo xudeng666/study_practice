@@ -134,8 +134,14 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation.h" />
     <ClInclude Include="atlas.h" />
+    <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="chicken_slow.h" />
+    <ClInclude Include="chicken.h" />
+    <ClInclude Include="chicken_fast.h" />
+    <ClInclude Include="chicken_medium.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector2.h" />

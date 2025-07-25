@@ -22,7 +22,7 @@ public:
 	{
 		one_shot = flag;
 	}
-	void set_timeout(std::function<void()> timeout)
+	void set_on_timeout(std::function<void()> timeout)
 	{
 		on_timeout = timeout;
 	}
