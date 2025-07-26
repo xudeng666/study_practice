@@ -43,7 +43,7 @@ public:
         return position;
     }
 
-    void on_update(int delta)
+    void on_update(float delta)
     {
         if (valid)
         {

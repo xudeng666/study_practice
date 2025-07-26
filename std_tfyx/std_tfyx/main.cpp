@@ -62,6 +62,7 @@ Timer timer_increase_num_per_gen;				// 增加每次生成数量定时器
 
 Vector2 pos_crosshair;							// 准星位置
 double angle_barrel = 0;						// 炮管旋转角度
+float barrel_speed = 0.04f;						// 炮管射速
 const Vector2 pos_battery = { 640, 600 };		// 炮台基座中心位置
 const Vector2 pos_barrel = { 592, 585 };		// 炮管无旋转默认位置
 const SDL_FPoint center_barrel = { 48, 25 };	// 炮管旋转中心点坐标
@@ -176,7 +177,7 @@ void init()
 		{ num_per_gen += 1; });
 
 	animation_barrel_fire.set_loop(false);
-	animation_barrel_fire.set_interval(0.04f);
+	animation_barrel_fire.set_interval(barrel_speed);
 	animation_barrel_fire.set_center(center_barrel);
 	animation_barrel_fire.add_frame(&atlas_barrel_fire);
 	animation_barrel_fire.set_on_finished([&]()
@@ -247,6 +248,8 @@ void on_update(float delta)
 		}
 	}
 
+	animation_barrel_fire.set_interval(max(0.01f, barrel_speed * (1000 - score) / 1000));
+
 	bullet_list.erase(std::remove_if(bullet_list.begin(), bullet_list.end(),
 		[](const Bullet& bullet)				// T date 指代vector中元素的类型和遍历的数据
 		{
@@ -285,7 +288,7 @@ void on_update(float delta)
 
 		bullet_list.emplace_back(angle_barrel);                  // 构造新的子弹对象
 		Bullet& bullet = bullet_list.back();
-		double angle_bullet = angle_barrel + getIntRand(-15,15);  // 在 30° 范围内随机偏移
+		double angle_bullet = angle_barrel + getIntRand(-5,5);  // 在 10° 范围内随机偏移
 		double radians = getRadiansByAngle(angle_bullet);
 		Vector2 direction = { (float)std::cos(radians), (float)sin(radians) };
 		bullet.set_position(pos_barrel_center + direction * length_barrel);
@@ -330,7 +333,7 @@ void on_render(const Camera& camera)
 
 	int w_pj, h_pj;
 	SDL_QueryTexture(tex_battery, nullptr, nullptr, &w_pj, &h_pj);
-	const SDL_FRect rect_bj = { pos_battery.x - w_bg / 2,pos_battery.y - h_pj / 2,(float)w_pj,(float)h_pj };
+	const SDL_FRect rect_bj = { pos_battery.x - w_pj / 2,pos_battery.y - h_pj / 2,(float)w_pj,(float)h_pj };
 	camera.render_texture(tex_battery, nullptr, &rect_bj, 0, nullptr);
 
 	int w_pt, h_pt;
@@ -398,7 +401,7 @@ void mainloop()
 				pos_crosshair.x = (float)event.motion.x;
 				pos_crosshair.y = (float)event.motion.y;
 				Vector2 dir = pos_crosshair - pos_battery;
-				angle_barrel = getAngleByRadians(std::atan2(dir.x, dir.y));
+				angle_barrel = getAngleByRadians(std::atan2(dir.y, dir.x));
 				break;
 			}
 			case SDL_MOUSEBUTTONDOWN:

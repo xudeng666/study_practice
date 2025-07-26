@@ -74,8 +74,8 @@ public:
 
 		for (int i = 0; i < num; i++)
 		{
-			SDL_Rect src = { i * wf,0,wf,h };
-			frame_list.emplace_back(texture,src);
+			SDL_Rect src = { i * wf, 0, wf, h };
+			frame_list.emplace_back(texture, src);
 		}
 	}
 	/*
@@ -125,7 +125,7 @@ public:
 	{
 		const Frame& frame = frame_list[idx_frame];
 
-		SDL_FRect dst = { position.x - frame.rect_src.w / 2,position.y - frame.rect_src.h / 2,(float)frame.rect_src.w, (float)frame.rect_src.y };
+		SDL_FRect dst = { position.x - frame.rect_src.w / 2, position.y - frame.rect_src.h / 2, (float)frame.rect_src.w, (float)frame.rect_src.h };
 		camera.render_texture(frame.texture, &frame.rect_src, &dst, angle, &center);
 	}
 	/*设置回调函数*/

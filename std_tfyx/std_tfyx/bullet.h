@@ -93,7 +93,7 @@ protected:
     Vector2 velocity;                   // 子弹速度
     double angle = 0;                   // 子弹旋转角度
     bool valid = true;                  // 子弹是否有效
-    float speed = 800.0f;               // 速度参数
+    float speed = 1000.0f;               // 速度参数
 
 protected:
     /*检测子弹飞出屏幕*/
