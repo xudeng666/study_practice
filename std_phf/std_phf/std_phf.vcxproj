@@ -132,14 +132,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bundle.cpp" />
     <ClCompile Include="cursor_mgr.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="microwave_oven.cpp" />
+    <ClCompile Include="region_mgr.cpp" />
     <ClCompile Include="res_mgr.cpp" />
+    <ClCompile Include="takeout_box.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bundle.h" />
     <ClInclude Include="cursor_mgr.h" />
     <ClInclude Include="meal.h" />
+    <ClInclude Include="microwave_oven.h" />
+    <ClInclude Include="region.h" />
+    <ClInclude Include="region_mgr.h" />
     <ClInclude Include="res_mgr.h" />
+    <ClInclude Include="takeout_box.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

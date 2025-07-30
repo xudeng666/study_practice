@@ -1,5 +1,6 @@
 #pragma once
 
+/*餐品类型*/
 enum class Meal
 {
 	None,                // 无

@@ -24,6 +24,18 @@
     <ClCompile Include="cursor_mgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="region_mgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="bundle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="takeout_box.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="microwave_oven.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res_mgr.h">
@@ -33,6 +45,24 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="cursor_mgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="region.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="region_mgr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="bundle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="takeout_box.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="microwave_oven.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="util.h">

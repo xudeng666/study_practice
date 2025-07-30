@@ -13,7 +13,9 @@ public:
 	void on_input(const SDL_Event& event);
 	void on_render(SDL_Renderer* renderer);
 
+	// 设置当前抓取的餐品
 	void set_picked(Meal meal);
+	// 获取当前抓取的餐品
 	Meal get_picked();
 
 private:
