@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="bundle.cpp" />
     <ClCompile Include="cursor_mgr.cpp" />
+    <ClCompile Include="delivery_driver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="microwave_oven.cpp" />
     <ClCompile Include="region_mgr.cpp" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="bundle.h" />
     <ClInclude Include="cursor_mgr.h" />
+    <ClInclude Include="delivery_driver.h" />
     <ClInclude Include="meal.h" />
     <ClInclude Include="microwave_oven.h" />
     <ClInclude Include="region.h" />

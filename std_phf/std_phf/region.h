@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-/*点击区域基类*/
+/*点击对象基类*/
 class Region
 {
 public:

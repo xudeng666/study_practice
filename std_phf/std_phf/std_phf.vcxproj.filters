@@ -36,6 +36,9 @@
     <ClCompile Include="microwave_oven.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="delivery_driver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res_mgr.h">
@@ -66,6 +69,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="delivery_driver.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
