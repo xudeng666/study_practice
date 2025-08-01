@@ -5,6 +5,8 @@
 #include "res_mgr.h"
 #include "cursor_mgr.h"
 
+#include <string>
+
 /*ŒÔ∆∑∂—ª˘¿‡*/
 class Bundle :
     public Region
@@ -48,7 +50,7 @@ class ColaBundle :
 {
 public:
     ColaBundle(int x, int y) :
-        Bundle({ x, y, 120, 124 }, Meal::Cola, "cola_bundle") {
+        Bundle({ x, y, 120, 124 }, Meal::Cola, std::string("cola_bundle")) {
     }
     ~ColaBundle() = default;
 };
@@ -59,7 +61,7 @@ class SpriteBundle :
 {
 public:
     SpriteBundle(int x, int y) :
-        Bundle({ x, y, 120, 124 }, Meal::Sprite, "sprite_bundle") {
+        Bundle({ x, y, 120, 124 }, Meal::Sprite, std::string("sprite_bundle")) {
     }
     ~SpriteBundle() = default;
 };
@@ -70,41 +72,41 @@ class TbBundle :
 {
 public:
     TbBundle(int x, int y) :
-        Bundle({ x, y, 112, 96 }, Meal::TakeoutBox, "tb_bundle") {
+        Bundle({ x, y, 112, 96 }, Meal::TakeoutBox, std::string("tb_bundle")) {
     }
     ~TbBundle() = default;
 };
 
 /*»‚ÕË∂—*/
-class MbBoxBundl :
+class MbBoxBundle :
     public Bundle
 {
 public:
-    MbBoxBundl(int x, int y) :
-        Bundle({ x, y, 160, 88 }, Meal::MeatBall_Box, "mb_box_bundle") {
+    MbBoxBundle(int x, int y) :
+        Bundle({ x, y, 160, 88 }, Meal::MeatBall_Box, std::string("mb_box_bundle")) {
     }
-    ~MbBoxBundl() = default;
+    ~MbBoxBundle() = default;
 };
 
 /*ª∆ÏÀº¶∂—*/
-class BcBoxBundl :
+class BcBoxBundle :
     public Bundle
 {
 public:
-    BcBoxBundl(int x, int y) :
-        Bundle({ x, y, 160, 88 }, Meal::BraisedChicken_Box, "bc_box_bundle") {
+    BcBoxBundle(int x, int y) :
+        Bundle({ x, y, 160, 88 }, Meal::BraisedChicken_Box, std::string("bc_box_bundle")) {
     }
-    ~BcBoxBundl() = default;
+    ~BcBoxBundle() = default;
 };
 
 /*∫Ï…’»‚∂—*/
-class RcpBoxBundl :
+class RcpBoxBundle :
     public Bundle
 {
 public:
-    RcpBoxBundl(int x, int y) :
-        Bundle({ x, y, 160, 88 }, Meal::RedCookedPork_Box, "rcp_box_bundle") {
+    RcpBoxBundle(int x, int y) :
+        Bundle({ x, y, 160, 88 }, Meal::RedCookedPork_Box, std::string("rcp_box_bundle")) {
     }
-    ~RcpBoxBundl() = default;
+    ~RcpBoxBundle() = default;
 };
 

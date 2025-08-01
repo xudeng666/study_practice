@@ -1,6 +1,7 @@
 #include "region_mgr.h"
-#include "util.h"
 
+
+RegionMgr* RegionMgr::manager = nullptr;
 
 RegionMgr* RegionMgr::instance()
 {

@@ -1,6 +1,9 @@
 #include "cursor_mgr.h"
 #include "res_mgr.h"
+
 #include "util.h"
+
+CursorMgr* CursorMgr::manager = nullptr;
 
 CursorMgr* CursorMgr::instance()
 {

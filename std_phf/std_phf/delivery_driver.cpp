@@ -1,8 +1,9 @@
 #include "delivery_driver.h"
 
-#include "util.h"
 #include "res_mgr.h"
 #include "cursor_mgr.h"
+
+#include "util.h"
 
 DeliveryDriver::DeliveryDriver(int x, int y) :Region({x, y, 192, 272})
 {
@@ -109,10 +110,12 @@ void DeliveryDriver::refresh()
 	is_waiting = false;
 	meal_list.clear();
 	status_list.clear();
-	num_dish = num_drink = 0;
+	num_dish = 0;
+	num_drink = 0;
 
 	// 随机刷新时间
-	timer_refresh.set_wait_time(getIntRand(10,20));
+	float n = (float)getIntRand(10, 20);
+	timer_refresh.set_wait_time(n);
 	timer_refresh.restart();
 
 	// 随机外卖员
