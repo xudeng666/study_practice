@@ -12,7 +12,7 @@ class Bundle :
     public Region
 {
 public:
-    Bundle(SDL_Rect rect, Meal meal, const std::string& tex_name) : Region(rect), meal(meal), tex_name(tex_name) {}
+    Bundle(const SDL_Rect rect, Meal meal, const std::string& tex_name) : Region(rect), meal(meal), tex_name(tex_name){}
     ~Bundle() = default;
 
     void on_cursor_up() override;

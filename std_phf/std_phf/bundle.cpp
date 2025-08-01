@@ -14,6 +14,6 @@ void Bundle::on_cursor_down()
 
 void Bundle::on_render(SDL_Renderer* renderer)
 {
-    static SDL_Texture* texture = ResMgr::instance()->find_texture(tex_name);
+    SDL_Texture* texture = ResMgr::instance()->find_texture(tex_name);
     SDL_RenderCopy(renderer, texture, nullptr, &rect);
 }

@@ -87,7 +87,7 @@ void DeliveryDriver::on_render(SDL_Renderer* renderer)
 	}
 
 	// »æÖÆÒûÁÏ
-	for (int i = num_dish; i < meal_list.max_size(); i++)
+	for (int i = num_dish; i < meal_list.size(); i++)
 	{
 		SDL_Texture* texture = nullptr;
 		switch (meal_list[i])
@@ -100,7 +100,6 @@ void DeliveryDriver::on_render(SDL_Renderer* renderer)
 		SDL_SetTextureAlphaMod(texture, (Uint8)((status_list[i] == Status::Waiting ? 1.0f : 0.35f) * 255));
 		SDL_RenderCopy(renderer, texture, nullptr, &rect);
 	}
-
 }
 
 void DeliveryDriver::refresh()

@@ -63,6 +63,10 @@ void TakeoutBox::on_render(SDL_Renderer* renderer)
         SDL_QueryTexture(texture, nullptr, nullptr, &rect_texture.w, &rect_texture.h);
         SDL_RenderCopy(renderer, texture, nullptr, &rect_texture);
     }
+    else
+    {
+        SDL_RenderDrawRect(renderer, &rect);
+    }
 }
 
 bool TakeoutBox::can_place(Meal target)
