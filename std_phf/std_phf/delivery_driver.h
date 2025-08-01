@@ -34,7 +34,7 @@ private:
     std::vector<Meal> meal_list;        // 餐品列表
     std::vector<Status> status_list;    // 餐品状态列表
     int num_drink = 0, num_dish = 0;    // 饮料和菜品数量
-    const float time_waited_limit = 40; // 等待时间上限
+    const float time_waited_limit = 60; // 等待时间上限
 
 private:
     // 刷新外卖员

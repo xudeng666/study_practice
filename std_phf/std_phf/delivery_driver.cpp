@@ -23,6 +23,7 @@ void DeliveryDriver::on_cursor_up()
 	{
 		CursorMgr::instance()->set_picked(Meal::None);
 		Mix_PlayChannel(-1, ResMgr::instance()->find_audio("complete"), 0);
+		time_waited -= 5.0f;
 	}
 }
 
@@ -62,6 +63,10 @@ void DeliveryDriver::on_render(SDL_Renderer* renderer)
 	SDL_RenderCopy(renderer, ResMgr::instance()->find_texture("patience_border"), nullptr, &rect_pb);
 
 	// 绘制心情条
+	if (time_waited < 0)
+	{
+		time_waited = 0.0f;
+	}
 	int h = (int)(rect_pb.h - 28) * (time_waited / time_waited_limit);
 	SDL_Rect rect_pc_src = { 0, h, rect_pb.w, rect_pb.h - h };
 	SDL_Rect rect_pc_dst = { rect_pb.x, rect_pb.y + h, rect_pb.w, rect_pb.h - h };
