@@ -118,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,27 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Atlas.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="GamaScene.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MenuScene.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="PeaBullet.cpp" />
-    <ClCompile Include="PeashooterPlayer.cpp" />
-    <ClCompile Include="Platform.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="SelectorScene.cpp" />
-    <ClCompile Include="StatusBar.cpp" />
-    <ClCompile Include="SunBullet.cpp" />
-    <ClCompile Include="SunBulletEx.cpp" />
-    <ClCompile Include="SunflowerPlayer.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -162,6 +143,8 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerID.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SelectorScene.h" />
@@ -173,6 +156,12 @@
     <ClInclude Include="util.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="std_dld1.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

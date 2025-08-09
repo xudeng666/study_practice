@@ -30,66 +30,6 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuScene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GamaScene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectorScene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Atlas.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Platform.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PeashooterPlayer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SunflowerPlayer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PeaBullet.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SunBullet.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SunBulletEx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusBar.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -161,5 +101,21 @@
     <ClInclude Include="Particle.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="std_dld1.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

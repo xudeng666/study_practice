@@ -1,4 +1,4 @@
-#define SDL_MAIN_HANDLED
+//#define SDL_MAIN_HANDLED
 
 #define _W_ 1280
 #define _H_ 720
@@ -33,7 +33,7 @@ void on_update(float delta);			// 逻辑更新
 void on_render(SDL_Renderer* renderer);	// 画面渲染
 void mainloop();						// 游戏主循环
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	init();
 	mainloop();
@@ -52,7 +52,7 @@ void init()
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	// Mix_AllocateChannels(32); //该游戏几乎没有并发的音效，所以默认即可
 
-	window = SDL_CreateWindow(u8"拼好饭-外卖", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _W_, _H_, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow(u8"拼好饭传奇", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _W_, _H_, SDL_WINDOW_SHOWN);
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 

@@ -198,7 +198,8 @@ int main()
 	ExMessage msg;
 	const int FPS = 60;
 	load_game_resources();
-	initgraph(1280, 720, EX_SHOWCONSOLE);
+	HWND hwnd = initgraph(1280, 720);
+	SetWindowText(hwnd, _T("植物大乱斗"));
 
 	settextstyle(28, 0, _T("IPix"));//设置字体
 	setbkmode(TRANSPARENT);			//设置文本背景为透明
@@ -210,8 +211,6 @@ int main()
 	selector_scene = new SelectorScene();
 
 	scene_manager.set_current_scene(menu_scene);
-
-
 
 	while (true)
 	{
