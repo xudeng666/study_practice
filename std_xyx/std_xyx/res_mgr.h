@@ -3,8 +3,9 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 
-#include <string>
 #include <unordered_map>
+
+#include "game_type.h"
 
 /*资源管理器*/
 class ResMgr
@@ -12,17 +13,21 @@ class ResMgr
 public:
 	static ResMgr* instance();
 
-	void load(SDL_Renderer* renderer);
+	void load(SDL_Renderer* renderer, GameType type);
 	Mix_Chunk* find_audio(const std::string& name);
+	Mix_Music* find_music(const std::string& name);
 	SDL_Texture* find_texture(const std::string& name);
+	// 释放所有资源
+	void releaseAll();
 
 private:
-	ResMgr();
-	~ResMgr();
+	ResMgr() = default;  // 私有构造
+	~ResMgr() = default; // 私有析构
 
 private:
 	static ResMgr* manager;
 	std::unordered_map<std::string, Mix_Chunk* > audio_pool;
+	std::unordered_map<std::string, Mix_Music* > music_pool;
 	std::unordered_map<std::string, SDL_Texture* > texture_pool;
 
 };

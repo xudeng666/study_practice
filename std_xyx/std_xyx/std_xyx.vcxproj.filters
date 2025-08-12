@@ -47,5 +47,8 @@
     <ClInclude Include="res_mgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="game_type.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
