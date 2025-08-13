@@ -5,7 +5,7 @@
 // 游戏类型
 enum class GameType
 {
-	NONE = 0,	// 无
+	NONE = 0,	// 游戏开始
 	XCZ,		// 提瓦特幸存者
 	KDWS,		// 空洞武士
 	DLD,		// 大乱斗
@@ -25,3 +25,25 @@ std::string getStrByGameType(GameType type)
 	case GameType::PHF:		return "phf";	break;
 	}
 }
+
+/*锚点模式*/
+enum class AnchorMode
+{
+	TOPLEFT = 0,	// 左上
+	TOPCENTER,		// 上中
+	TOPRIGHT,		// 右上
+	LEFTCENTER,		// 左中
+	CENTER,			// 正中
+	RIGHTCENTER,	// 右中
+	BOTTOMLEFT,		// 左下
+	BOTTOMCENTER,	// 下中
+	BOTTOMRIGHT		// 右下
+};
+
+/*场景类型*/
+enum class SceneType
+{
+	MENUE = 0,	// 菜单场景
+	GAME,		// 游戏场景
+	SELECTOR,	// 选择场景
+};

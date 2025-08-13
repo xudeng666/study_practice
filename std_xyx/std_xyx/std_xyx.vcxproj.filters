@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\util">
+      <UniqueIdentifier>{89b66945-d898-4a9b-b36d-0a1b97ce077a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\game">
+      <UniqueIdentifier>{3ebb23d1-52da-48ee-b841-420d076d79cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,20 +30,11 @@
     <ClCompile Include="res_mgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="timer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="vector2.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="region.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -47,7 +44,31 @@
     <ClInclude Include="res_mgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
     <ClInclude Include="game_type.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
