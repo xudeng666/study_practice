@@ -11,6 +11,8 @@ public:
 	Game() = default;
 	~Game() = default;
 
+	/*进入游戏加载资源*/
+	virtual void on_load() {}
 	/*进入游戏初始化*/
 	virtual void on_enter() {}
 	/*处理数据*/
@@ -27,7 +29,6 @@ public:
 	virtual void exchange_scene(SceneType type) {}
 
 private:
-	GameType game_type = GameType::NONE;
 	/*当前场景*/
 	Scene* current_scene = nullptr;
 };

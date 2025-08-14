@@ -33,6 +33,9 @@
     <ClCompile Include="game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="game_mgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="region.h">
@@ -68,8 +71,8 @@
     <ClInclude Include="scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene_manager.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="game_mgr.h">
+      <Filter>头文件\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 // 游戏类型
 enum class GameType
 {
-	NONE = 0,	// 游戏开始
+	START = 0,	// 游戏开始
 	XCZ,		// 提瓦特幸存者
 	KDWS,		// 空洞武士
 	DLD,		// 大乱斗
@@ -17,7 +17,7 @@ std::string getStrByGameType(GameType type)
 {
 	switch (type)
 	{
-	case GameType::NONE:	return "";		break;
+	case GameType::START:	return "start";	break;
 	case GameType::XCZ:		return "xcz";	break;
 	case GameType::KDWS:	return "kdws";	break;
 	case GameType::DLD:		return "dld";	break;

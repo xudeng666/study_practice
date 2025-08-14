@@ -1,7 +1,8 @@
 #pragma once
 #include <random>
+#include <cmath>
 
-#define _PI_ 3.1415926
+#define _PI_ acos(-1)
 #define _WIN_W_ 1280
 #define _WIN_H_ 720
 #define _FPS_ 60

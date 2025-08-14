@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="game_mgr.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="region_mgr.cpp" />
     <ClCompile Include="res_mgr.cpp" />
@@ -141,12 +142,12 @@
     <ClInclude Include="animation.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="game_mgr.h" />
     <ClInclude Include="game_type.h" />
     <ClInclude Include="region.h" />
     <ClInclude Include="region_mgr.h" />
     <ClInclude Include="res_mgr.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="scene_manager.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector2.h" />

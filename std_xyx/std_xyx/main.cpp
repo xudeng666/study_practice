@@ -8,17 +8,16 @@
 #include <thread>
 
 #include "util.h"
+#include "game_mgr.h"
 
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
-
-bool is_quit = false;
+Camera* camera = nullptr;
 
 void init();							// 游戏程序初始化
-void init_regions();					// 初始化可交互区域
 void deinit();							// 游戏程序反初始化(释放资源)
 void on_update(float delta);			// 逻辑更新
-void on_render(SDL_Renderer* renderer);	// 画面渲染
+void on_render(Camera* camera);			// 画面渲染
 void mainloop();						// 游戏主循环
 
 int main(int argc, char* argv[])
@@ -45,41 +44,14 @@ void init()
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	SDL_ShowCursor(SDL_DISABLE);//设置隐藏鼠标光标
-
-	//ResMgr::instance()->load(renderer);
-	init_regions();
-
-	//Mix_PlayChannel(-1, ResMgr::instance()->find_audio("bgm"), -1);
-}
-
-void init_regions()
-{
-	/*RegionMgr::instance()->add("delivery_driver_1", new DeliveryDriver(385, 142));
-	RegionMgr::instance()->add("delivery_driver_2", new DeliveryDriver(690, 142));
-	RegionMgr::instance()->add("delivery_driver_3", new DeliveryDriver(995, 142));
-
-	RegionMgr::instance()->add("cola_bundle", new ColaBundle(300, 390));
-	RegionMgr::instance()->add("sprite_bundle", new SpriteBundle(425, 390));
-	RegionMgr::instance()->add("tb_bundle", new TbBundle(550, 418));
-
-	RegionMgr::instance()->add("mb_box_bundle", new MbBoxBundle(225, 520));
-	RegionMgr::instance()->add("bc_box_bundle", new BcBoxBundle(395, 520));
-	RegionMgr::instance()->add("rcp_box_bundle", new RcpBoxBundle(565, 520));
-
-	RegionMgr::instance()->add("microwave_oven_1", new MicrowaveOven(740, 400));
-	RegionMgr::instance()->add("microwave_oven_2", new MicrowaveOven(975, 400));
-
-	RegionMgr::instance()->add("takeout_box_1", new TakeoutBox(830, 580));
-	RegionMgr::instance()->add("takeout_box_2", new TakeoutBox(935, 580));
-	RegionMgr::instance()->add("takeout_box_3", new TakeoutBox(1040, 580));
-	RegionMgr::instance()->add("takeout_box_4", new TakeoutBox(1145, 580));*/
+	camera = new Camera(renderer);
 }
 
 void deinit()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	delete camera;
 
 	TTF_Quit();
 	Mix_Quit();
@@ -89,16 +61,12 @@ void deinit()
 
 void on_update(float delta)
 {
-	//RegionMgr::instance()->on_update(delta);
+	GameMgr::instance()->on_update(delta);
 }
 
-void on_render(SDL_Renderer* renderer)
+void on_render(Camera* camera)
 {
-	//SDL_Rect rect_bg = { 0, 0, _W_, _H_ };
-	//SDL_RenderCopy(renderer, ResMgr::instance()->find_texture("background"), nullptr, &rect_bg);
-
-	//RegionMgr::instance()->on_render(renderer);
-	//CursorMgr::instance()->on_render(renderer);
+	GameMgr::instance()->on_render(camera);
 }
 
 void mainloop()
@@ -110,16 +78,15 @@ void mainloop()
 	const nanoseconds frame_duration(1000000000 / _FPS_);
 	steady_clock::time_point last_tick = steady_clock::now();
 
-	while (!is_quit)
+	while (GameMgr::instance()->get_is_run())
 	{
 		while (SDL_PollEvent(&event))
 		{
 			switch (event.type)
 			{
-			case SDL_QUIT: is_quit = true; break;
+			case SDL_QUIT:	GameMgr::instance()->set_is_run(false);	break;
 			}
-			//CursorMgr::instance()->on_input(event);
-			//RegionMgr::instance()->on_input(event);
+			GameMgr::instance()->on_input(event);
 		}
 
 		steady_clock::time_point frome_start = steady_clock::now();
@@ -130,7 +97,7 @@ void mainloop()
 		// 清空上一帧
 		SDL_RenderClear(renderer);
 		// 渲染绘图
-		on_render(renderer);
+		on_render(camera);
 		SDL_RenderPresent(renderer);
 
 		last_tick = frome_start;
