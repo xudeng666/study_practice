@@ -17,9 +17,9 @@ public:
 	virtual void on_enter() {}
 	/*处理数据*/
 	virtual void on_update(int delta) {}
-	/*渲染绘图*/
-	virtual void on_input(const SDL_Event& event) {}
 	/*玩家输入*/
+	virtual void on_input(const SDL_Event& event) {}
+	/*渲染绘图*/
 	virtual void on_render(const Camera* camera) {}
 	/*退出游戏*/
 	virtual void on_exit() {}

@@ -40,10 +40,71 @@ enum class AnchorMode
 	BOTTOMRIGHT		// 右下
 };
 
+/// <summary>
+/// 获取绘制FRect
+/// </summary>
+/// <param name="src">游戏FRect</param>
+/// <param name="mode">锚点类型</param>
+/// <returns>SDL_FRect</returns>
+SDL_FRect get_dst_rect(SDL_FRect& src, AnchorMode mode)
+{
+	float x, y;
+
+	switch (mode)
+	{
+	case AnchorMode::TOPLEFT:
+		x = src.x;
+		y = src.y;
+		break;
+	case AnchorMode::TOPCENTER:
+		x = src.x - src.w / 2;
+		y = src.y;
+		break;
+	case AnchorMode::TOPRIGHT:
+		x = src.x - src.w;
+		y = src.y;
+		break;
+	case AnchorMode::LEFTCENTER:
+		x = src.x;
+		y = src.y - src.h / 2;
+		break;
+	case AnchorMode::CENTER:
+		x = src.x - src.w / 2;
+		y = src.y - src.h / 2;
+		break;
+	case AnchorMode::RIGHTCENTER:
+		x = src.x - src.w;
+		y = src.y - src.h / 2;
+		break;
+	case AnchorMode::BOTTOMLEFT:
+		x = src.x;
+		y = src.y - src.h;
+		break;
+	case AnchorMode::BOTTOMCENTER:
+		x = src.x - src.w / 2;
+		y = src.y - src.h;
+		break;
+	case AnchorMode::BOTTOMRIGHT:
+		x = src.x - src.w;
+		y = src.y - src.h;
+		break;
+	}
+
+	return { x, y, (float)src.w, (float)src.h };
+}
+
 /*场景类型*/
 enum class SceneType
 {
 	MENUE = 0,	// 菜单场景
 	GAME,		// 游戏场景
 	SELECTOR,	// 选择场景
+};
+
+/*按钮状态*/
+enum class ButtonState {
+	PRESSED = 0,	// 按下
+	NORMAL,			// 正常
+	HOVER,			// 悬停
+	DISABLED		// 禁用状态（灰化、不可交互）
 };

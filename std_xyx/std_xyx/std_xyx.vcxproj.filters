@@ -19,6 +19,9 @@
     <Filter Include="头文件\game">
       <UniqueIdentifier>{3ebb23d1-52da-48ee-b841-420d076d79cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\game">
+      <UniqueIdentifier>{c3c2c62e-3eb1-4614-afb1-406b05de3681}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -30,17 +33,23 @@
     <ClCompile Include="res_mgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="game_obj.cpp">
+      <Filter>源文件\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game_ani.cpp">
+      <Filter>源文件\game</Filter>
     </ClCompile>
     <ClCompile Include="game_mgr.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game_img.cpp">
+      <Filter>源文件\game</Filter>
+    </ClCompile>
+    <ClCompile Include="game_btn.cpp">
+      <Filter>源文件\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="region.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="region_mgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -56,9 +65,6 @@
     <ClInclude Include="vector2.h">
       <Filter>头文件\util</Filter>
     </ClInclude>
-    <ClInclude Include="animation.h">
-      <Filter>头文件\util</Filter>
-    </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>头文件\util</Filter>
     </ClInclude>
@@ -72,6 +78,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="game_mgr.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game_obj.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game_ani.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game_img.h">
+      <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game_btn.h">
       <Filter>头文件\game</Filter>
     </ClInclude>
   </ItemGroup>

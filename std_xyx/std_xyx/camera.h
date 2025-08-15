@@ -2,6 +2,7 @@
 
 #include "timer.h"
 #include "vector2.h"
+#include "game_type.h"
 
 #include <SDL.h>
 
@@ -69,11 +70,11 @@ public:
 	/// 渲染纹理
 	/// </summary>
 	/// <param name="texture">纹理资源指针</param>
-	/// <param name="rect_src"></param>
-	/// <param name="rect_dst"></param>
-	/// <param name="angle"></param>
-	/// <param name="center"></param>
-	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src,
+	/// <param name="rect_src">纹理rect</param>
+	/// <param name="rect_dst">绘制区域Frect</param>
+	/// <param name="angle">角度</param>
+	/// <param name="center">旋转中心点</param>
+	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src, 
 		const SDL_FRect* rect_dst, double angle, const SDL_FPoint* center)const
 	{
 		SDL_FRect dst = *rect_dst;
