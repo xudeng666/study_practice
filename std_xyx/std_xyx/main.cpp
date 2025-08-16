@@ -10,14 +10,10 @@
 #include "util.h"
 #include "game_mgr.h"
 
-SDL_Window* window = nullptr;
-SDL_Renderer* renderer = nullptr;
-Camera* camera = nullptr;
-
 void init();							// 游戏程序初始化
 void deinit();							// 游戏程序反初始化(释放资源)
 void on_update(float delta);			// 逻辑更新
-void on_render(Camera* camera);			// 画面渲染
+void on_render();						// 画面渲染
 void mainloop();						// 游戏主循环
 
 int main(int argc, char* argv[])
@@ -39,19 +35,12 @@ void init()
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	Mix_AllocateChannels(32);
 
-	window = SDL_CreateWindow(u8"集合小游戏", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _WIN_W_, _WIN_H_, SDL_WINDOW_SHOWN);
-	SDL_SetWindowTitle(window, "小游戏");
-
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-	camera = new Camera(renderer);
+	GameMgr::instance()->init();
 }
 
 void deinit()
 {
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	delete camera;
+	GameMgr::instance()->deinit();
 
 	TTF_Quit();
 	Mix_Quit();
@@ -64,9 +53,9 @@ void on_update(float delta)
 	GameMgr::instance()->on_update(delta);
 }
 
-void on_render(Camera* camera)
+void on_render()
 {
-	GameMgr::instance()->on_render(camera);
+	GameMgr::instance()->on_render();
 }
 
 void mainloop()
@@ -95,10 +84,10 @@ void mainloop()
 		on_update(delta.count());
 
 		// 清空上一帧
-		SDL_RenderClear(renderer);
+		SDL_RenderClear(GameMgr::instance()->get_renderer());
 		// 渲染绘图
-		on_render(camera);
-		SDL_RenderPresent(renderer);
+		on_render();
+		SDL_RenderPresent(GameMgr::instance()->get_renderer());
 
 		last_tick = frome_start;
 		nanoseconds sleep_duration = frame_duration - (steady_clock::now() - frome_start);

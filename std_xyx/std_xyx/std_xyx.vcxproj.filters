@@ -22,12 +22,15 @@
     <Filter Include="源文件\game">
       <UniqueIdentifier>{c3c2c62e-3eb1-4614-afb1-406b05de3681}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\scene">
+      <UniqueIdentifier>{eca21b0d-1e28-498f-8d9b-602956f03c63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\scene">
+      <UniqueIdentifier>{99c904d2-8563-4946-8c70-cc0b0c7659b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="region_mgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="res_mgr.cpp">
@@ -48,11 +51,20 @@
     <ClCompile Include="game_btn.cpp">
       <Filter>源文件\game</Filter>
     </ClCompile>
+    <ClCompile Include="game_xcz.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="game_start.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>源文件\game</Filter>
+    </ClCompile>
+    <ClCompile Include="start_menue_scene.cpp">
+      <Filter>源文件\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="region_mgr.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="res_mgr.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -74,9 +86,6 @@
     <ClInclude Include="game_type.h">
       <Filter>头文件\game</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="game_mgr.h">
       <Filter>头文件\game</Filter>
     </ClInclude>
@@ -91,6 +100,18 @@
     </ClInclude>
     <ClInclude Include="game_btn.h">
       <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game_xcz.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="game_start.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>头文件\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="start_menue_scene.h">
+      <Filter>头文件\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

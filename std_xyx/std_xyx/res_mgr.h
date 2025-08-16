@@ -13,10 +13,11 @@ class ResMgr
 public:
 	static ResMgr* instance();
 
-	void load(SDL_Renderer* renderer, GameType type);
+	void load();
 	Mix_Chunk* find_audio(const std::string& name);
 	Mix_Music* find_music(const std::string& name);
 	SDL_Texture* find_texture(const std::string& name);
+	std::string removeFileExtension(const std::string& filename);
 	// 释放所有资源
 	void releaseAll();
 

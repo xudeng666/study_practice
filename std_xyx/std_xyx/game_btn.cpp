@@ -2,10 +2,11 @@
 #include "res_mgr.h"
 
 
-GameBtn::GameBtn(const Vector2 pos, const std::string name)
+GameBtn::GameBtn(const Vector2 pos, const std::string name, std::function<void()> click)
 {
 	position = pos;
 	res_name = name;
+	on_click = click;
 }
 
 void GameBtn::on_update(float delta)
@@ -13,7 +14,7 @@ void GameBtn::on_update(float delta)
 	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(status)));
 }
 
-//void GameBtn::on_render(const Camera* camera)
+//void GameBtn::on_render()
 //{
 //
 //}
@@ -26,7 +27,10 @@ void GameBtn::on_cursor_down()
 void GameBtn::on_cursor_up()
 {
 	status = ButtonState::NORMAL;
-	on_click();
+	if (on_click)
+	{
+		on_click();
+	}
 }
 
 void GameBtn::on_cursor_hover(bool is_hover)
@@ -39,4 +43,9 @@ void GameBtn::on_cursor_hover(bool is_hover)
 	{
 		status = ButtonState::NORMAL;
 	}
+}
+
+void GameBtn::set_on_click(std::function<void()> click)
+{
+	on_click = click;
 }

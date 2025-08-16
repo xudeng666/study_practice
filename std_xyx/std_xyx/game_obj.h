@@ -14,7 +14,7 @@ public:
     ~GameObj() = default;
 
     virtual void on_update(float delta) {}
-    virtual void on_render(const Camera* camera) {}
+    virtual void on_render() {}
     virtual void on_cursor_down() {}
     virtual void on_cursor_up() {}
     virtual void on_cursor_hover(bool is_hover) {}

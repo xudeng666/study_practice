@@ -11,8 +11,10 @@ void GameObj::on_input(const SDL_Event& event)
 	switch (event.type)
 	{
 	case SDL_MOUSEMOTION:
+	{
 		SDL_Point p = { event.motion.x,event.motion.y };
 		on_cursor_hover(SDL_PointInRect(&p, &click_rect));
+	}
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_LEFT)

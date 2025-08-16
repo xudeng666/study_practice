@@ -11,7 +11,7 @@ public:
 	GameAni(const Vector2 pos, const std::string name, const int num);
 
 	void on_update(float delta) override;
-	void on_render(const Camera* camera) override;
+	void on_render() override;
 	/*重置动画状态*/
 	void reset();
 	/*设置循环*/

@@ -91,7 +91,7 @@ inline bool checkRectToHLine(const T pleft, const T pright, const T ptop, const 
 /// </summary>
 /// <param name="angle">角度值</param>
 /// <returns>弧度值</returns>
-double getRadiansByAngle(double angle)
+inline double getRadiansByAngle(double angle)
 {
 	return angle * _PI_ / 180;
 }
@@ -101,7 +101,7 @@ double getRadiansByAngle(double angle)
 /// </summary>
 /// <param name="radians">弧度值</param>
 /// <returns>角度值</returns>
-double getAngleByRadians(double radians)
+inline double getAngleByRadians(double radians)
 {
 	return radians * 180 / _PI_;
 }

@@ -10,7 +10,7 @@ public:
 	GameImg(const Vector2 pos, const std::string name);
 
 	void on_update(float delta) override;
-	void on_render(const Camera* camera) override;
+	void on_render() override;
 
 protected:
 	SDL_Texture* texture = nullptr;

@@ -1,4 +1,5 @@
 #include "res_mgr.h"
+#include "game_mgr.h"
 
 #include <SDL_image.h>
 #include <filesystem>
@@ -15,11 +16,11 @@ ResMgr* ResMgr::instance()
 	return manager;
 }
 
-void ResMgr::load(SDL_Renderer* renderer, GameType type)
+void ResMgr::load()
 {
 	using namespace std::filesystem;
 
-	const std::string resRoot = "resources/" + getStrByGameType(type);
+	const std::string resRoot = "resources/" + getStrByGameType(GameMgr::instance()->get_current_type());
 
 	for (const auto& entry:recursive_directory_iterator(resRoot))
 	{
@@ -32,13 +33,18 @@ void ResMgr::load(SDL_Renderer* renderer, GameType type)
 			std::string ext = p.extension().string();
 			std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower); // 扩展名转小写
 
-			std::string keyStr = p.stem().u8string();						// 路径正文下划线替换
+			std::string keyStr = relative(p, resRoot).string();				// 路径正文下划线替换
 			std::replace(keyStr.begin(), keyStr.end(), '/', '_');
 			std::replace(keyStr.begin(), keyStr.end(), '\\', '_');
+			keyStr = removeFileExtension(keyStr);
+
+			/*std::cout << "p: " << p << std::endl
+				<< "ext: " << ext << std::endl
+				<< "keystr: " << keyStr << std::endl;*/
 
 			if (ext == ".png")
 			{
-				SDL_Texture* texture = IMG_LoadTexture(renderer, p.u8string().c_str());
+				SDL_Texture* texture = IMG_LoadTexture(GameMgr::instance()->get_renderer(), p.u8string().c_str());
 				if (texture)
 				{
 					texture_pool[keyStr] = texture;
@@ -113,4 +119,17 @@ Mix_Music* ResMgr::find_music(const std::string& name)
 SDL_Texture* ResMgr::find_texture(const std::string& name)
 {
 	return texture_pool[name];
+}
+
+std::string ResMgr::removeFileExtension(const std::string& filename) {
+	// 查找最后一个 '.' 的位置
+	size_t dotPos = filename.find_last_of('.');
+
+	// 若找到 '.' 且不在开头（避免处理 ".bashrc" 这类隐藏文件时返回空）
+	if (dotPos != std::string::npos && dotPos > 0) {
+		return filename.substr(0, dotPos);  // 截取到 '.' 之前
+	}
+
+	// 未找到 '.' 或 '.' 在开头，返回原字符串
+	return filename;
 }

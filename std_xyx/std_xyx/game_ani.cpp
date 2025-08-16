@@ -25,10 +25,10 @@ void GameAni::on_update(float delta)
 
 }
 
-void GameAni::on_render(const Camera* camera)
+void GameAni::on_render()
 {
 	texture = get_Texture();
-	GameImg::on_render(camera);
+	GameImg::on_render();
 }
 
 /*ÖØÖÃ¶¯»­×´Ì¬*/

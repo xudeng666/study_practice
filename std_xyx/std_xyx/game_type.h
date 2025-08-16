@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "SDL.h"
 
 // 游戏类型
 enum class GameType
@@ -13,7 +14,7 @@ enum class GameType
 	PHF			// 拼好饭
 };
 
-std::string getStrByGameType(GameType type)
+inline std::string getStrByGameType(GameType type)
 {
 	switch (type)
 	{
@@ -46,9 +47,10 @@ enum class AnchorMode
 /// <param name="src">游戏FRect</param>
 /// <param name="mode">锚点类型</param>
 /// <returns>SDL_FRect</returns>
-SDL_FRect get_dst_rect(SDL_FRect& src, AnchorMode mode)
+inline SDL_FRect get_dst_rect(SDL_FRect& src, AnchorMode mode)
 {
-	float x, y;
+	float x = 0;
+	float y = 0;
 
 	switch (mode)
 	{
@@ -97,8 +99,8 @@ SDL_FRect get_dst_rect(SDL_FRect& src, AnchorMode mode)
 enum class SceneType
 {
 	MENUE = 0,	// 菜单场景
-	GAME,		// 游戏场景
 	SELECTOR,	// 选择场景
+	GAME,		// 游戏场景
 };
 
 /*按钮状态*/

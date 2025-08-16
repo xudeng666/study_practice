@@ -16,7 +16,7 @@ public:
 	/*渲染绘图*/
 	virtual void on_input(const SDL_Event& event) {}
 	/*玩家输入*/
-	virtual void on_render(const Camera* camera) {}
+	virtual void on_render() {}
 	/*退出场景*/
 	virtual void on_exit() {}
 };

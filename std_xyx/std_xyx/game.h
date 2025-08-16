@@ -12,24 +12,30 @@ public:
 	~Game() = default;
 
 	/*进入游戏加载资源*/
-	virtual void on_load() {}
+	void on_load();
 	/*进入游戏初始化*/
-	virtual void on_enter() {}
+	void on_enter();
 	/*处理数据*/
-	virtual void on_update(int delta) {}
+	void on_update(int delta);
 	/*玩家输入*/
-	virtual void on_input(const SDL_Event& event) {}
+	void on_input(const SDL_Event& event);
 	/*渲染绘图*/
-	virtual void on_render(const Camera* camera) {}
+	void on_render();
 	/*退出游戏*/
-	virtual void on_exit() {}
+	void on_exit();
 	/*设置当前场景*/
-	virtual void set_current_scene(Scene* scene) {}
+	void set_current_scene(Scene* scene);
+	/*获取当前场景*/
+	Scene* get_current_scene();
 	/*场景切换*/
 	virtual void exchange_scene(SceneType type) {}
+	/*场景初始化*/
+	virtual void on_scene_init() {}
 
-private:
+protected:
 	/*当前场景*/
 	Scene* current_scene = nullptr;
+	/*当前场景类型*/
+	SceneType current_scene_type = SceneType::MENUE;
 };
 
