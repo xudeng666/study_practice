@@ -6,6 +6,7 @@
 // 游戏类型
 enum class GameType
 {
+	//NONE = -1,	// 空
 	START = 0,	// 游戏开始
 	XCZ,		// 提瓦特幸存者
 	KDWS,		// 空洞武士
@@ -13,19 +14,6 @@ enum class GameType
 	ZMDJ,		// 致命打鸡
 	PHF			// 拼好饭
 };
-
-inline std::string getStrByGameType(GameType type)
-{
-	switch (type)
-	{
-	case GameType::START:	return "start";	break;
-	case GameType::XCZ:		return "xcz";	break;
-	case GameType::KDWS:	return "kdws";	break;
-	case GameType::DLD:		return "dld";	break;
-	case GameType::ZMDJ:	return "zmdj";	break;
-	case GameType::PHF:		return "phf";	break;
-	}
-}
 
 /*锚点模式*/
 enum class AnchorMode

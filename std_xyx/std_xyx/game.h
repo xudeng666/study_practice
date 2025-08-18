@@ -8,11 +8,9 @@
 class Game
 {
 public:
-	Game() = default;
-	~Game() = default;
+	Game();
+	~Game();
 
-	/*进入游戏加载资源*/
-	void on_load();
 	/*进入游戏初始化*/
 	void on_enter();
 	/*处理数据*/
@@ -23,19 +21,17 @@ public:
 	void on_render();
 	/*退出游戏*/
 	void on_exit();
-	/*设置当前场景*/
-	void set_current_scene(Scene* scene);
 	/*获取当前场景*/
 	Scene* get_current_scene();
 	/*场景切换*/
 	virtual void exchange_scene(SceneType type) {}
 	/*场景初始化*/
-	virtual void on_scene_init() {}
+	virtual void on_scene_init() = 0;
 
 protected:
-	/*当前场景*/
-	Scene* current_scene = nullptr;
 	/*当前场景类型*/
 	SceneType current_scene_type = SceneType::MENUE;
+
+	std::unordered_map<SceneType, Scene* > scene_pool;
 };
 

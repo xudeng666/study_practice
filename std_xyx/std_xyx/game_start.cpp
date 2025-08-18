@@ -1,20 +1,29 @@
 #include "game_start.h"
 #include "start_menue_scene.h"
+#include <iostream>
 
+void GameStart::on_scene_init()
+{
+	scene_pool[SceneType::MENUE] = new StartMenueScene();
+}
 
 void GameStart::on_enter()
 {
 	current_scene_type = SceneType::MENUE;
-	current_scene = start_menue_scene;
 	Game::on_enter();
 }
-
-
-void GameStart::on_scene_init()
+void GameStart::on_exit()
 {
-	start_menue_scene = new StartMenueScene();
+	Game::on_exit();
 }
 
-void GameStart::exchange_scene(SceneType type)
+GameStart::GameStart() 
 {
+	on_scene_init();
 }
+
+GameStart::~GameStart() {}
+
+//void GameStart::exchange_scene(SceneType type)
+//{
+//}

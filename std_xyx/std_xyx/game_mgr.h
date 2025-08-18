@@ -12,14 +12,14 @@ public:
 	void init();
 	/*退出游戏*/
 	void deinit();
-	/*设置当前类型游戏*/
-	void set_current_game(Game* game);
 	/*获取当前游戏*/
 	Game* get_current_game();
 	/*获取当前游戏类型*/
 	GameType get_current_type();
 	/*游戏切换*/
 	void exchange_scene(GameType type);
+	/*游戏初始化*/
+	void on_enter();
 	/*处理数据*/
 	void on_update(int delta);
 	/*用于渲染绘图*/
@@ -49,14 +49,7 @@ private:
 	bool is_run = true;
 
 	GameType current_type = GameType::START;
-	/*当前游戏*/
-	Game* current_game = nullptr;
 
-	Game* start_game = nullptr;
-	Game* xcz_game = nullptr;
-	Game* kdws_game = nullptr;
-	Game* dld_game = nullptr;
-	Game* zmdj_game = nullptr;
-	Game* phf_game = nullptr;
+	std::unordered_map<GameType, Game*> game_pool;
 };
 

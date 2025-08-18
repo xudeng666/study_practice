@@ -3,7 +3,6 @@
 
 #include <SDL_image.h>
 #include <filesystem>
-#include <iostream>
 
 ResMgr* ResMgr::manager = nullptr;
 
@@ -20,7 +19,7 @@ void ResMgr::load()
 {
 	using namespace std::filesystem;
 
-	const std::string resRoot = "resources/" + getStrByGameType(GameMgr::instance()->get_current_type());
+	const std::string resRoot = "resources/" + get_str_of_type(GameMgr::instance()->get_current_type());
 
 	for (const auto& entry:recursive_directory_iterator(resRoot))
 	{
@@ -118,6 +117,7 @@ Mix_Music* ResMgr::find_music(const std::string& name)
 
 SDL_Texture* ResMgr::find_texture(const std::string& name)
 {
+	// std::cout << name << texture_pool[name] << std::endl;
 	return texture_pool[name];
 }
 
@@ -132,4 +132,17 @@ std::string ResMgr::removeFileExtension(const std::string& filename) {
 
 	// 未找到 '.' 或 '.' 在开头，返回原字符串
 	return filename;
+}
+
+std::string ResMgr::get_str_of_type(GameType type)
+{
+	switch (type)
+	{
+	case GameType::START:	return "start";	break;
+	case GameType::XCZ:		return "xcz";	break;
+	case GameType::KDWS:	return "kdws";	break;
+	case GameType::DLD:		return "dld";	break;
+	case GameType::ZMDJ:	return "zmdj";	break;
+	case GameType::PHF:		return "phf";	break;
+	}
 }

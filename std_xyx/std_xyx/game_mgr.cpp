@@ -1,4 +1,7 @@
 #include "game_mgr.h"
+#include "game_start.h"
+
+#include <iostream>
 
 GameMgr* GameMgr::manager = nullptr;
 
@@ -19,37 +22,35 @@ void GameMgr::init()
 
 	camera = new Camera(renderer);
 
-	GameMgr::instance()->get_current_game()->on_load();
+	game_pool[GameType::START] = new GameStart();
+	/*game_pool[GameType::XCZ] = new GameStart();
+	game_pool[GameType::KDWS] = new GameStart();
+	game_pool[GameType::DLD] = new GameStart();
+	game_pool[GameType::ZMDJ] = new GameStart();
+	game_pool[GameType::PHF] = new GameStart();*/
+
+	current_type = GameType::START;
+
+	on_enter();
 }
 
 void GameMgr::deinit()
 {
+	// 释放游戏列表
+	for (auto& [name, game] : game_pool) {
+		delete game;
+	}
+	game_pool.clear();
+
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	delete camera;
 }
 
-/*设置当前游戏*/
-void GameMgr::set_current_game(Game* game)
-{
-	current_game = game;
-	current_game->on_enter();
-}
-
 Game* GameMgr::get_current_game()
 {
-	switch (current_type)
-	{
-	case GameType::START:	return start_game;	break;
-	case GameType::XCZ:		return xcz_game;	break;
-	case GameType::KDWS:	return kdws_game;	break;
-	case GameType::DLD:		return dld_game;	break;
-	case GameType::ZMDJ:	return zmdj_game;	break;
-	case GameType::PHF:		return phf_game;	break;
-	}
-	return nullptr;
+	return game_pool[current_type];
 }
-
 
 GameType GameMgr::get_current_type()
 {
@@ -60,35 +61,39 @@ GameType GameMgr::get_current_type()
 void GameMgr::exchange_scene(GameType type)
 {
 	if (type == current_type) return;
-
+	// 只允许从开始游戏和子游戏互相切换
 	if (type != GameType::START && current_type != GameType::START)
 	{
 		return;
 	}
+	// 退出当前游戏
+	get_current_game()->on_exit();
 
 	current_type = type;
-	// 退出当前游戏
-	current_game->on_exit();
 
-	current_game = get_current_game();
+	on_enter();
+}
 
-	current_game->on_enter();
+/*游戏初始化*/
+void GameMgr::on_enter()
+{
+	get_current_game()->on_enter();
 }
 
 /*处理数据*/
 void GameMgr::on_update(int delta)
 {
-	current_game->on_update(delta);
+	get_current_game()->on_update(delta);
 }
 /*用于渲染绘图*/
 void GameMgr::on_render()
 {
-	current_game->on_render();
+	get_current_game()->on_render();
 }
 /*处理玩家输入*/
 void GameMgr::on_input(const SDL_Event& event)
 {
-	current_game->on_input(event);
+	get_current_game()->on_input(event);
 }
 /*获取游戏运行*/
 bool GameMgr::get_is_run()

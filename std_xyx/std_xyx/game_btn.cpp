@@ -7,11 +7,15 @@ GameBtn::GameBtn(const Vector2 pos, const std::string name, std::function<void()
 	position = pos;
 	res_name = name;
 	on_click = click;
+	status = ButtonState::NORMAL;
 }
 
 void GameBtn::on_update(float delta)
 {
 	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(status)));
+	click_rect.x = position.x;
+	click_rect.y = position.y;
+	SDL_QueryTexture(texture, nullptr, nullptr, &click_rect.w, &click_rect.h);
 }
 
 //void GameBtn::on_render()
