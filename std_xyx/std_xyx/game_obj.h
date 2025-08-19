@@ -41,7 +41,7 @@ public:
     /*获取点击区域状态*/
     bool get_enabled();
     /*设置点击区域*/
-    void set_rect(SDL_Rect* rect);
+    void set_rect(SDL_Rect* rect = nullptr);
 
 protected:
     // 旋转角度

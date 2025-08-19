@@ -31,7 +31,7 @@ private:
 	/*定时器*/
 	Timer timer;
 	// 帧索引
-	size_t idx_frame = 1;
+	int idx_frame = 1;
 	// 是否循环
 	bool is_loop = true;
 	// 动画播放完的回调函数

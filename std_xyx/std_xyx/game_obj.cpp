@@ -78,7 +78,7 @@ bool GameObj::get_enabled()
 	return click_enabled;
 }
 
-void GameObj::set_rect(SDL_Rect* rect = nullptr)
+void GameObj::set_rect(SDL_Rect* rect)
 {
 	if (!click_enabled) 
 		return;
@@ -88,9 +88,10 @@ void GameObj::set_rect(SDL_Rect* rect = nullptr)
 		click_rect = *rect;
 		return;
 	}
-
+	SDL_FRect rst = { position.x, position.y, (float)size.x, (float)size.y };
+	SDL_FRect dst = get_dst_rect(rst, anchor_mode);
 	// 默认为对象尺寸
-	click_rect = { (int)position.x, (int)position.y, size.x, size.y };
+	click_rect = { (int)dst.x,(int)dst.y,(int)dst.w,(int)dst.h };
 }
 
 void GameObj::set_anchor_mode(const AnchorMode mode)

@@ -12,7 +12,7 @@ public:
 	/*场景初始化*/
 	virtual void on_enter() {}
 	/*处理数据*/
-	virtual void on_update(int delta) {}
+	virtual void on_update(float delta) {}
 	/*渲染绘图*/
 	virtual void on_input(const SDL_Event& event) {}
 	/*玩家输入*/

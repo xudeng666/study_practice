@@ -6,16 +6,17 @@ GameBtn::GameBtn(const Vector2 pos, const std::string name, std::function<void()
 {
 	position = pos;
 	res_name = name;
+	click_enabled = true;
 	on_click = click;
 	status = ButtonState::NORMAL;
+	set_rect();
 }
 
 void GameBtn::on_update(float delta)
 {
 	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(status)));
-	click_rect.x = position.x;
-	click_rect.y = position.y;
-	SDL_QueryTexture(texture, nullptr, nullptr, &click_rect.w, &click_rect.h);
+	SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
+	set_rect();
 }
 
 //void GameBtn::on_render()
@@ -30,6 +31,8 @@ void GameBtn::on_cursor_down()
 
 void GameBtn::on_cursor_up()
 {
+	if (status != ButtonState::PRESSED)
+		return;
 	status = ButtonState::NORMAL;
 	if (on_click)
 	{
@@ -41,7 +44,7 @@ void GameBtn::on_cursor_hover(bool is_hover)
 {
 	if (is_hover)
 	{
-		status = status == ButtonState::PRESSED ? ButtonState::DISABLED : ButtonState::HOVER;
+		status = status == ButtonState::PRESSED ? ButtonState::PRESSED : ButtonState::HOVER;
 	}
 	else
 	{

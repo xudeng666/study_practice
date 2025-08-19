@@ -22,7 +22,7 @@ void Game::on_enter()
 	get_current_scene()->on_enter();
 }
 
-void Game::on_update(int delta)
+void Game::on_update(float delta)
 {
 	get_current_scene()->on_update(delta);
 }

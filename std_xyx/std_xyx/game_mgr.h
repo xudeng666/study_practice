@@ -21,7 +21,7 @@ public:
 	/*游戏初始化*/
 	void on_enter();
 	/*处理数据*/
-	void on_update(int delta);
+	void on_update(float delta);
 	/*用于渲染绘图*/
 	void on_render();
 	/*处理玩家输入*/

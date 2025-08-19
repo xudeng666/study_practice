@@ -14,7 +14,7 @@ public:
 	/*进入游戏初始化*/
 	void on_enter();
 	/*处理数据*/
-	void on_update(int delta);
+	void on_update(float delta);
 	/*玩家输入*/
 	void on_input(const SDL_Event& event);
 	/*渲染绘图*/

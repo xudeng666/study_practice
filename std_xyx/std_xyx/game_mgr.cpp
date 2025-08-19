@@ -81,7 +81,7 @@ void GameMgr::on_enter()
 }
 
 /*处理数据*/
-void GameMgr::on_update(int delta)
+void GameMgr::on_update(float delta)
 {
 	get_current_game()->on_update(delta);
 }

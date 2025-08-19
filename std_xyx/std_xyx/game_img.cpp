@@ -19,7 +19,7 @@ void GameImg::on_render()
 	SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
 
 	SDL_Rect src = { 0, 0, size.x, size.y };
-	SDL_FRect t_dst = { position.x, position.y, size.x, size.y };
+	SDL_FRect t_dst = { position.x, position.y, (float)size.x, (float)size.y };
 	SDL_FRect dst = get_dst_rect(t_dst, anchor_mode);
 
 	GameMgr::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);

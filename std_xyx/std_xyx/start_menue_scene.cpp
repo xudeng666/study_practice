@@ -31,7 +31,7 @@ StartMenueScene::~StartMenueScene()
 void StartMenueScene::on_enter()
 {
 }
-void StartMenueScene::on_update(int delta)
+void StartMenueScene::on_update(float delta)
 {
     btn_xcz->on_update(delta);
     btn_kdws->on_update(delta);
@@ -53,7 +53,7 @@ void StartMenueScene::on_render()
 {
     int w_bg, h_bg;
     SDL_QueryTexture(bg, nullptr, nullptr, &w_bg, &h_bg);
-    const SDL_FRect rect_bg = { (_WIN_W_ - w_bg) / 2,(_WIN_H_ - h_bg) / 2,(float)w_bg,(float)h_bg };
+    const SDL_FRect rect_bg = { (float)(_WIN_W_ - w_bg) / 2,(float)(_WIN_H_ - h_bg) / 2,(float)w_bg,(float)h_bg };
     GameMgr::instance()->get_camera()->render_texture(bg, nullptr, &rect_bg, 0, nullptr);
     btn_xcz->on_render();
     btn_kdws->on_render();
