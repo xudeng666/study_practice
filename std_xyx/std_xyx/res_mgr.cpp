@@ -37,9 +37,9 @@ void ResMgr::load()
 			std::replace(keyStr.begin(), keyStr.end(), '\\', '_');
 			keyStr = removeFileExtension(keyStr);
 
-			/*std::cout << "p: " << p << std::endl
+			std::cout << "p: " << p << std::endl
 				<< "ext: " << ext << std::endl
-				<< "keystr: " << keyStr << std::endl;*/
+				<< "keystr: " << keyStr << std::endl;
 
 			if (ext == ".png")
 			{

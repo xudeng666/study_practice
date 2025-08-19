@@ -1,6 +1,5 @@
 #include "game_start.h"
 #include "start_menue_scene.h"
-#include <iostream>
 
 void GameStart::on_scene_init()
 {

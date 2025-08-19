@@ -11,8 +11,5 @@ public:
 	void on_enter();
 	void on_exit();
 	void on_scene_init() override;
-
-	/*³¡¾°ÇÐ»»*/
-	//void exchange_scene(SceneType type) override;
 };
 

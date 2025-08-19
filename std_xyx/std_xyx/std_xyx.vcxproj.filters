@@ -63,6 +63,9 @@
     <ClCompile Include="game_start.cpp">
       <Filter>源文件\game</Filter>
     </ClCompile>
+    <ClCompile Include="xcz_menue_scene.cpp">
+      <Filter>源文件\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res_mgr.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="game_xcz.h">
       <Filter>头文件\game</Filter>
+    </ClInclude>
+    <ClInclude Include="xcz_menue_scene.h">
+      <Filter>头文件\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

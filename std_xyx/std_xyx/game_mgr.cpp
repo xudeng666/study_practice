@@ -1,5 +1,6 @@
 #include "game_mgr.h"
 #include "game_start.h"
+#include "game_xcz.h"
 
 #include <iostream>
 
@@ -23,8 +24,8 @@ void GameMgr::init()
 	camera = new Camera(renderer);
 
 	game_pool[GameType::START] = new GameStart();
-	/*game_pool[GameType::XCZ] = new GameStart();
-	game_pool[GameType::KDWS] = new GameStart();
+	game_pool[GameType::XCZ] = new GameXcz();
+	/*game_pool[GameType::KDWS] = new GameStart();
 	game_pool[GameType::DLD] = new GameStart();
 	game_pool[GameType::ZMDJ] = new GameStart();
 	game_pool[GameType::PHF] = new GameStart();*/
@@ -58,7 +59,7 @@ GameType GameMgr::get_current_type()
 }
 
 /*游戏切换*/
-void GameMgr::exchange_scene(GameType type)
+void GameMgr::exchange_game(GameType type)
 {
 	if (type == current_type) return;
 	// 只允许从开始游戏和子游戏互相切换

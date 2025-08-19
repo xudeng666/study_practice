@@ -5,14 +5,40 @@
 
 StartMenueScene::StartMenueScene()
 {
-    bg = ResMgr::instance()->find_texture("bg");
     btn_xcz = new GameBtn({ 200,280 }, "btn_xcz_");
+    btn_xcz->set_on_click([]() {
+        std::cout << "ÇÐ»»ÓÎÏ·ÐÒ´æÕß" << std::endl;
+        GameMgr::instance()->exchange_game(GameType::XCZ);
+        }
+    );
+
     btn_kdws = new GameBtn({ 420,280 }, "btn_kdws_");
+    btn_kdws->set_on_click([]() {
+        std::cout << "ÇÐ»»ÓÎÏ·¿Õ¶´ÎäÊ¿" << std::endl;
+        //GameMgr::instance()->exchange_game(GameType::KDWS);
+        }
+    );
     btn_dld = new GameBtn({ 640,280 }, "btn_dld_");
+    btn_dld->set_on_click([]() {
+        std::cout << "ÇÐ»»ÓÎÏ·´óÂÒ¶·" << std::endl;
+        //GameMgr::instance()->exchange_game(GameType::DLD);
+        }
+    );
     btn_zmdj = new GameBtn({ 860,280 }, "btn_zmdj_");
+    btn_zmdj->set_on_click([]() {
+        std::cout << "ÇÐ»»ÓÎÏ·ÖÂÃü´ò¼¦" << std::endl;
+        //GameMgr::instance()->exchange_game(GameType::ZMDJ);
+        }
+    );
     btn_phf = new GameBtn({ 1080,280 }, "btn_phf_");
+    btn_phf->set_on_click([]() {
+        std::cout << "ÇÐ»»ÓÎÏ·Æ´ºÃ·¹" << std::endl;
+        //GameMgr::instance()->exchange_game(GameType::PHF);
+        }
+    );
     btn_exit = new GameBtn({ 640,660 }, "btn_tc_");
     btn_exit->set_on_click([]() {
+        //std::cout << "ÍË³öÓÎÏ·" << std::endl;
         GameMgr::instance()->set_is_run(false);
         }
     );
@@ -30,6 +56,7 @@ StartMenueScene::~StartMenueScene()
 
 void StartMenueScene::on_enter()
 {
+    bg = ResMgr::instance()->find_texture("bg");
 }
 void StartMenueScene::on_update(float delta)
 {

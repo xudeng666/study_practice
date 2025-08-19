@@ -24,7 +24,7 @@ public:
 	/*获取当前场景*/
 	Scene* get_current_scene();
 	/*场景切换*/
-	virtual void exchange_scene(SceneType type) {}
+	void exchange_scene(SceneType type);
 	/*场景初始化*/
 	virtual void on_scene_init() = 0;
 

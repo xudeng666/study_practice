@@ -17,7 +17,7 @@ public:
 	/*获取当前游戏类型*/
 	GameType get_current_type();
 	/*游戏切换*/
-	void exchange_scene(GameType type);
+	void exchange_game(GameType type);
 	/*游戏初始化*/
 	void on_enter();
 	/*处理数据*/
