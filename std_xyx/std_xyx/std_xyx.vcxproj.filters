@@ -16,61 +16,79 @@
     <Filter Include="头文件\util">
       <UniqueIdentifier>{89b66945-d898-4a9b-b36d-0a1b97ce077a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\game">
+    <Filter Include="头文件\obj">
       <UniqueIdentifier>{3ebb23d1-52da-48ee-b841-420d076d79cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\game">
+    <Filter Include="源文件\obj">
       <UniqueIdentifier>{c3c2c62e-3eb1-4614-afb1-406b05de3681}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\scene">
+    <Filter Include="头文件\game_start">
+      <UniqueIdentifier>{a43d8e6b-e3ce-40c8-998a-e9d1b42c5041}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\game_xcz">
       <UniqueIdentifier>{eca21b0d-1e28-498f-8d9b-602956f03c63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\scene">
+    <Filter Include="源文件\game_start">
+      <UniqueIdentifier>{4138dac4-43be-4df7-b7dd-4b1e9b8814f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\game_xcz">
       <UniqueIdentifier>{99c904d2-8563-4946-8c70-cc0b0c7659b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\manager">
+      <UniqueIdentifier>{a687bc3d-15b0-489e-8954-aa064d9c35ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\manager">
+      <UniqueIdentifier>{38f1f3f0-3bb1-4209-b84f-e8ea54167dcf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="res_mgr.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="game_obj.cpp">
-      <Filter>源文件\game</Filter>
+      <Filter>源文件\obj</Filter>
     </ClCompile>
     <ClCompile Include="game_ani.cpp">
-      <Filter>源文件\game</Filter>
-    </ClCompile>
-    <ClCompile Include="game_mgr.cpp">
-      <Filter>源文件\game</Filter>
+      <Filter>源文件\obj</Filter>
     </ClCompile>
     <ClCompile Include="game_img.cpp">
-      <Filter>源文件\game</Filter>
+      <Filter>源文件\obj</Filter>
     </ClCompile>
     <ClCompile Include="game_btn.cpp">
-      <Filter>源文件\game</Filter>
+      <Filter>源文件\obj</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
-      <Filter>源文件\game</Filter>
-    </ClCompile>
-    <ClCompile Include="start_menue_scene.cpp">
-      <Filter>源文件\scene</Filter>
+      <Filter>源文件\obj</Filter>
     </ClCompile>
     <ClCompile Include="game_xcz.cpp">
-      <Filter>源文件\game</Filter>
-    </ClCompile>
-    <ClCompile Include="game_start.cpp">
-      <Filter>源文件\game</Filter>
+      <Filter>源文件\obj</Filter>
     </ClCompile>
     <ClCompile Include="xcz_menue_scene.cpp">
-      <Filter>源文件\scene</Filter>
+      <Filter>源文件\game_xcz</Filter>
+    </ClCompile>
+    <ClCompile Include="xcz_game_scene.cpp">
+      <Filter>源文件\game_xcz</Filter>
+    </ClCompile>
+    <ClCompile Include="game_start.cpp">
+      <Filter>源文件\game_start</Filter>
+    </ClCompile>
+    <ClCompile Include="start_menue_scene.cpp">
+      <Filter>源文件\game_start</Filter>
+    </ClCompile>
+    <ClCompile Include="collision_mgr.cpp">
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="game_mgr.cpp">
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="res_mgr.cpp">
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="game_collision_box.cpp">
+      <Filter>源文件\obj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="res_mgr.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="timer.h">
       <Filter>头文件\util</Filter>
     </ClInclude>
@@ -84,40 +102,52 @@
       <Filter>头文件\util</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
-      <Filter>头文件\game</Filter>
+      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_type.h">
-      <Filter>头文件\game</Filter>
-    </ClInclude>
-    <ClInclude Include="game_mgr.h">
-      <Filter>头文件\game</Filter>
+      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_obj.h">
-      <Filter>头文件\game</Filter>
+      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_ani.h">
-      <Filter>头文件\game</Filter>
+      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_img.h">
-      <Filter>头文件\game</Filter>
+      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_btn.h">
-      <Filter>头文件\game</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>头文件\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="start_menue_scene.h">
-      <Filter>头文件\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="game_start.h">
-      <Filter>头文件\game</Filter>
+      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_xcz.h">
-      <Filter>头文件\game</Filter>
+      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="xcz_menue_scene.h">
-      <Filter>头文件\scene</Filter>
+      <Filter>头文件\game_xcz</Filter>
+    </ClInclude>
+    <ClInclude Include="xcz_game_scene.h">
+      <Filter>头文件\game_xcz</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>头文件\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="game_start.h">
+      <Filter>头文件\game_start</Filter>
+    </ClInclude>
+    <ClInclude Include="start_menue_scene.h">
+      <Filter>头文件\game_start</Filter>
+    </ClInclude>
+    <ClInclude Include="game_collision_box.h">
+      <Filter>头文件\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="game_mgr.h">
+      <Filter>头文件\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="res_mgr.h">
+      <Filter>头文件\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_mgr.h">
+      <Filter>头文件\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

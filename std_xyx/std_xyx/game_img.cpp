@@ -22,5 +22,5 @@ void GameImg::on_render()
 	SDL_FRect t_dst = { position.x, position.y, (float)size.x, (float)size.y };
 	SDL_FRect dst = get_dst_rect(t_dst, anchor_mode);
 
-	GameMgr::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
+	GameMgr::instance()->get_camera()->render_texture(texture, position, size, anchor_mode, angle, &center);
 }

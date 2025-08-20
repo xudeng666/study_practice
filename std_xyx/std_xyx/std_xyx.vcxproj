@@ -132,8 +132,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="collision_mgr.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_btn.cpp" />
+    <ClCompile Include="game_collision_box.cpp" />
     <ClCompile Include="game_img.cpp" />
     <ClCompile Include="game_obj.cpp" />
     <ClCompile Include="game_ani.cpp" />
@@ -143,13 +145,16 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="res_mgr.cpp" />
     <ClCompile Include="start_menue_scene.cpp" />
+    <ClCompile Include="xcz_game_scene.cpp" />
     <ClCompile Include="xcz_menue_scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="collision_mgr.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game_ani.h" />
     <ClInclude Include="game_btn.h" />
+    <ClInclude Include="game_collision_box.h" />
     <ClInclude Include="game_img.h" />
     <ClInclude Include="game_mgr.h" />
     <ClInclude Include="game_obj.h" />
@@ -162,6 +167,7 @@
     <ClInclude Include="timer.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector2.h" />
+    <ClInclude Include="xcz_game_scene.h" />
     <ClInclude Include="xcz_menue_scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -65,6 +65,65 @@ public:
 		timer_shake.set_wait_time(timer);
 		timer_shake.restart();
 	}
+	/// <summary>
+	/// 获取dst_rect
+	/// </summary>
+	/// <param name="pos">位置</param>
+	/// <param name="size">尺寸</param>
+	/// <param name="mode">锚点</param>
+	/// <returns>SDL_FRect</returns>
+	SDL_FRect get_dst_rect(Vector2& pos, SDL_Point& size, AnchorMode mode)
+	{
+		float x = 0;
+		float y = 0;
+
+		switch (mode)
+		{
+		case AnchorMode::TOPLEFT:
+			x = pos.x;
+			y = pos.y;
+			break;
+		case AnchorMode::TOPCENTER:
+			x = pos.x - size.x / 2;
+			y = pos.y;
+			break;
+		case AnchorMode::TOPRIGHT:
+			x = pos.x - size.x;
+			y = pos.y;
+			break;
+		case AnchorMode::LEFTCENTER:
+			x = pos.x;
+			y = pos.y - size.y / 2;
+			break;
+		case AnchorMode::CENTER:
+			x = pos.x - size.x / 2;
+			y = pos.y - size.y / 2;
+			break;
+		case AnchorMode::RIGHTCENTER:
+			x = pos.x - size.x;
+			y = pos.y - size.y / 2;
+			break;
+		case AnchorMode::BOTTOMLEFT:
+			x = pos.x;
+			y = pos.y - size.y;
+			break;
+		case AnchorMode::BOTTOMCENTER:
+			x = pos.x - size.x / 2;
+			y = pos.y - size.y;
+			break;
+		case AnchorMode::BOTTOMRIGHT:
+			x = pos.x - size.x;
+			y = pos.y - size.y;
+			break;
+		}
+
+		return { x, y, (float)size.x, (float)size.y };
+	}
+
+	SDL_Rect get_rect_of_frect(SDL_FRect& rect)
+	{
+		return { (int)rect.x,(int)rect.y,(int)rect.w,(int)rect.h };
+	}
 
 	/// <summary>
 	/// 渲染纹理
@@ -74,7 +133,7 @@ public:
 	/// <param name="rect_dst">绘制区域Frect</param>
 	/// <param name="angle">角度</param>
 	/// <param name="center">旋转中心点</param>
-	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src, 
+	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src,
 		const SDL_FRect* rect_dst, double angle, const SDL_FPoint* center)const
 	{
 		SDL_FRect dst = *rect_dst;
@@ -82,6 +141,37 @@ public:
 		dst.y -= position.y;
 
 		SDL_RenderCopyExF(renderer, texture, rect_src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
+	}
+
+	/// <summary>
+	/// 渲染纹理
+	/// </summary>
+	/// <param name="pos">坐标</param>
+	/// <param name="size">尺寸</param>
+	/// <param name="mode">锚点</param>
+	/// <param name="angle">旋转角度</param>
+	/// <param name="center">旋转中心</param>
+	void render_texture(SDL_Texture* texture, Vector2& pos, SDL_Point& size, AnchorMode mode,
+		double angle, const SDL_FPoint* center)
+	{
+		SDL_Rect src = { 0,0,size.x,size.y };
+		SDL_FRect dst = get_dst_rect(pos, size, mode);
+		dst.x -= position.x;
+		dst.y -= position.y;
+
+		SDL_RenderCopyExF(renderer, texture, &src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
+	}
+	/// <summary>
+	/// 绘制矩形边框
+	/// </summary>
+	/// <param name="pos">坐标</param>
+	/// <param name="size">尺寸</param>
+	/// <param name="mode">锚点</param>
+	void render_line_rect(Vector2& pos, SDL_Point& size, AnchorMode mode = AnchorMode::CENTER)
+	{
+		SDL_FRect dst = get_dst_rect(pos, size, mode);
+		SDL_Rect rect = get_rect_of_frect(dst);
+		SDL_RenderDrawRect(renderer, &rect);
 	}
 
 private:
