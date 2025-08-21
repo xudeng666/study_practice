@@ -1,5 +1,8 @@
 #pragma once
+
 #include "scene.h"
+#include "game_btn.h"
+
 class XczGameScene :
     public Scene
 {
@@ -15,8 +18,12 @@ public:
 
 private:
     SDL_Texture* bg = nullptr;
+    // 退出按钮
+    GameBtn* btn_exit = nullptr;
+    // 血条
     // 主角
     // 子弹列表
+    // 子弹数
     // 怪物列表
     // 分数
 };

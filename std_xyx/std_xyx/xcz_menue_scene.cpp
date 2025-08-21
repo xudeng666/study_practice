@@ -16,6 +16,8 @@ XczMenueScene::XczMenueScene()
         GameMgr::instance()->exchange_game(GameType::START);
         }
     );
+
+    bg = new GameImg({ _WIN_W_ / 2, _WIN_H_ / 2 }, "menu");
 }
 
 XczMenueScene::~XczMenueScene()
@@ -26,12 +28,12 @@ XczMenueScene::~XczMenueScene()
 
 void XczMenueScene::on_enter()
 {
-    bg = ResMgr::instance()->find_texture("menu");
+    bg->on_enter();
+    btn_start->on_enter();
+    btn_end->on_enter();
 }
 void XczMenueScene::on_update(float delta)
 {
-    btn_start->on_update(delta);
-    btn_end->on_update(delta);
 }
 void XczMenueScene::on_input(const SDL_Event& event)
 {
@@ -40,11 +42,7 @@ void XczMenueScene::on_input(const SDL_Event& event)
 }
 void XczMenueScene::on_render()
 {
-    int w_bg, h_bg;
-    SDL_QueryTexture(bg, nullptr, nullptr, &w_bg, &h_bg);
-    const SDL_FRect rect_bg = { (float)(_WIN_W_ - w_bg) / 2,(float)(_WIN_H_ - h_bg) / 2,(float)w_bg,(float)h_bg };
-    GameMgr::instance()->get_camera()->render_texture(bg, nullptr, &rect_bg, 0, nullptr);
-
+    bg->on_render();
     btn_start->on_render();
     btn_end->on_render();
 }

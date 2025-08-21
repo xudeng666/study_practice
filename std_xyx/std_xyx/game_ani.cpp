@@ -1,7 +1,7 @@
 #include "game_ani.h"
 
 
-GameAni::GameAni(const Vector2 pos, const std::string name, const int num): GameImg(pos),name(name), num(num)
+GameAni::GameAni(const Vector2 pos, const std::string name, const int num): GameImg(pos, name), num(num)
 {
 	timer.set_one_shot(false);
 	timer.set_on_timeout([&]()
@@ -19,15 +19,21 @@ GameAni::GameAni(const Vector2 pos, const std::string name, const int num): Game
 	);
 }
 
+void GameAni::on_enter()
+{
+	reset();
+	GameImg::on_enter();
+}
+
 void GameAni::on_update(float delta)
 {
 	timer.on_update(delta);
-
+	set_Texture();
+	set_size();
 }
 
 void GameAni::on_render()
 {
-	texture = get_Texture();
 	GameImg::on_render();
 }
 
@@ -54,10 +60,16 @@ int GameAni::get_idx_frame()
 	return idx_frame;
 }
 
+/*设置当前帧纹理*/
+void GameAni::set_Texture()
+{
+	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(idx_frame)));
+}
+
 /*获取当前帧纹理*/
 SDL_Texture* GameAni::get_Texture()
 {
-	return ResMgr::instance()->find_texture(name + std::to_string(idx_frame));
+	return texture;
 }
 
 /*动画是否播放完毕*/

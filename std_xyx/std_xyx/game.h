@@ -12,15 +12,15 @@ public:
 	~Game();
 
 	/*进入游戏初始化*/
-	void on_enter();
+	virtual void on_enter();
 	/*处理数据*/
-	void on_update(float delta);
+	virtual void on_update(float delta);
 	/*玩家输入*/
-	void on_input(const SDL_Event& event);
+	virtual void on_input(const SDL_Event& event);
 	/*渲染绘图*/
-	void on_render();
+	virtual void on_render();
 	/*退出游戏*/
-	void on_exit();
+	virtual void on_exit();
 	/*获取当前场景*/
 	Scene* get_current_scene();
 	/*场景切换*/

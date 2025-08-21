@@ -42,6 +42,8 @@ StartMenueScene::StartMenueScene()
         GameMgr::instance()->set_is_run(false);
         }
     );
+
+    bg = new GameImg({_WIN_W_/2, _WIN_H_/2}, "bg");
 }
 
 StartMenueScene::~StartMenueScene()
@@ -56,16 +58,16 @@ StartMenueScene::~StartMenueScene()
 
 void StartMenueScene::on_enter()
 {
-    bg = ResMgr::instance()->find_texture("bg");
+    bg->on_enter();
+    btn_xcz->on_enter();
+    btn_kdws->on_enter();
+    btn_dld->on_enter();
+    btn_zmdj->on_enter();
+    btn_phf->on_enter();
+    btn_exit->on_enter();
 }
 void StartMenueScene::on_update(float delta)
 {
-    btn_xcz->on_update(delta);
-    btn_kdws->on_update(delta);
-    btn_dld->on_update(delta);
-    btn_zmdj->on_update(delta);
-    btn_phf->on_update(delta);
-    btn_exit->on_update(delta);
 }
 void StartMenueScene::on_input(const SDL_Event& event)
 {
@@ -78,10 +80,7 @@ void StartMenueScene::on_input(const SDL_Event& event)
 }
 void StartMenueScene::on_render()
 {
-    int w_bg, h_bg;
-    SDL_QueryTexture(bg, nullptr, nullptr, &w_bg, &h_bg);
-    const SDL_FRect rect_bg = { (float)(_WIN_W_ - w_bg) / 2,(float)(_WIN_H_ - h_bg) / 2,(float)w_bg,(float)h_bg };
-    GameMgr::instance()->get_camera()->render_texture(bg, nullptr, &rect_bg, 0, nullptr);
+    bg->on_render();
     btn_xcz->on_render();
     btn_kdws->on_render();
     btn_dld->on_render();
@@ -91,5 +90,4 @@ void StartMenueScene::on_render()
 }
 void StartMenueScene::on_exit()
 {
-
 }

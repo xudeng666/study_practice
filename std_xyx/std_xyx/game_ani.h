@@ -10,6 +10,7 @@ public:
 	~GameAni() = default;
 	GameAni(const Vector2 pos, const std::string name, const int num);
 
+	void on_enter();
 	void on_update(float delta) override;
 	void on_render() override;
 	/*重置动画状态*/
@@ -20,6 +21,8 @@ public:
 	void set_interval(float val);
 	/*获取当前帧索引*/
 	int get_idx_frame();
+	/*设置当前帧纹理*/
+	void set_Texture();
 	/*获取当前帧纹理*/
 	SDL_Texture* get_Texture();
 	/*动画是否播放完毕*/
@@ -36,8 +39,6 @@ private:
 	bool is_loop = true;
 	// 动画播放完的回调函数
 	std::function<void()> on_finished;
-	// 资源名
-	const std::string name;
 	// 资源数量
 	const int num;
 };

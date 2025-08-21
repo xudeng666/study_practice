@@ -143,35 +143,15 @@ public:
 		SDL_RenderCopyExF(renderer, texture, rect_src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
 	}
 
-	/// <summary>
-	/// äÖÈ¾ÎÆÀí
-	/// </summary>
-	/// <param name="pos">×ø±ê</param>
-	/// <param name="size">³ß´ç</param>
-	/// <param name="mode">Ãªµã</param>
-	/// <param name="angle">Ðý×ª½Ç¶È</param>
-	/// <param name="center">Ðý×ªÖÐÐÄ</param>
-	void render_texture(SDL_Texture* texture, Vector2& pos, SDL_Point& size, AnchorMode mode,
-		double angle, const SDL_FPoint* center)
-	{
-		SDL_Rect src = { 0,0,size.x,size.y };
-		SDL_FRect dst = get_dst_rect(pos, size, mode);
-		dst.x -= position.x;
-		dst.y -= position.y;
-
-		SDL_RenderCopyExF(renderer, texture, &src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
-	}
+	//	SDL_RenderCopyExF(renderer, texture, &src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
+	//}
 	/// <summary>
 	/// »æÖÆ¾ØÐÎ±ß¿ò
 	/// </summary>
-	/// <param name="pos">×ø±ê</param>
-	/// <param name="size">³ß´ç</param>
-	/// <param name="mode">Ãªµã</param>
-	void render_line_rect(Vector2& pos, SDL_Point& size, AnchorMode mode = AnchorMode::CENTER)
+	/// <param name="rect">·¶Î§</param>
+	void render_line_rect(SDL_Rect* rect)
 	{
-		SDL_FRect dst = get_dst_rect(pos, size, mode);
-		SDL_Rect rect = get_rect_of_frect(dst);
-		SDL_RenderDrawRect(renderer, &rect);
+		SDL_RenderDrawRect(renderer, rect);
 	}
 
 private:

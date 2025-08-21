@@ -17,7 +17,7 @@ public:
     void on_exit()override;
 
 private:
-    SDL_Texture* bg = nullptr;
+    GameImg* bg = nullptr;
     GameBtn* btn_xcz = nullptr;
     GameBtn* btn_kdws = nullptr;
     GameBtn* btn_dld = nullptr;

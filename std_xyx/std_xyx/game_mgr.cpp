@@ -72,7 +72,7 @@ void GameMgr::exchange_game(GameType type)
 
 	current_type = type;
 
-	on_enter();
+	get_current_game()->on_enter();
 }
 
 /*ÓÎÏ·³õÊ¼»¯*/

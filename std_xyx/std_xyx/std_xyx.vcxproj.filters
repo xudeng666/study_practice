@@ -60,9 +60,6 @@
     <ClCompile Include="game.cpp">
       <Filter>源文件\obj</Filter>
     </ClCompile>
-    <ClCompile Include="game_xcz.cpp">
-      <Filter>源文件\obj</Filter>
-    </ClCompile>
     <ClCompile Include="xcz_menue_scene.cpp">
       <Filter>源文件\game_xcz</Filter>
     </ClCompile>
@@ -86,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="game_collision_box.cpp">
       <Filter>源文件\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="game_xcz.cpp">
+      <Filter>源文件\game_xcz</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,9 +119,6 @@
     <ClInclude Include="game_btn.h">
       <Filter>头文件\obj</Filter>
     </ClInclude>
-    <ClInclude Include="game_xcz.h">
-      <Filter>头文件\obj</Filter>
-    </ClInclude>
     <ClInclude Include="xcz_menue_scene.h">
       <Filter>头文件\game_xcz</Filter>
     </ClInclude>
@@ -148,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="collision_mgr.h">
       <Filter>头文件\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="game_xcz.h">
+      <Filter>头文件\game_xcz</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

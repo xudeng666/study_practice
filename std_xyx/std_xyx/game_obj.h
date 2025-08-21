@@ -13,6 +13,7 @@ public:
     GameObj(const Vector2 pos) : position(pos) {}
     ~GameObj() = default;
 
+    virtual void on_enter() {}
     virtual void on_update(float delta) {}
     virtual void on_render() {}
     virtual void on_cursor_down() {}
@@ -37,11 +38,14 @@ public:
     /*设置角度*/
     void set_rotation(double val);
     /*设置点击区域状态*/
-    void set_enabled(bool enable);
+    void set_click_enabled(bool enable);
     /*获取点击区域状态*/
-    bool get_enabled();
-    /*设置点击区域*/
-    void set_rect(SDL_Rect* rect = nullptr);
+    bool get_click_enabled();
+    /*获取对象区域*/
+    SDL_FRect get_FRect();
+    /*获取对象区域*/
+    SDL_Rect get_Rect();
+
 
 protected:
     // 旋转角度
@@ -56,6 +60,4 @@ protected:
     SDL_FPoint center = { 0 };
 	/*锚点*/
     AnchorMode anchor_mode = AnchorMode::CENTER;
-    /*点击区域*/
-    SDL_Rect click_rect = { 0 };
 };

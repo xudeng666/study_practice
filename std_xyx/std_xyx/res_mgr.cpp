@@ -37,9 +37,9 @@ void ResMgr::load()
 			std::replace(keyStr.begin(), keyStr.end(), '\\', '_');
 			keyStr = removeFileExtension(keyStr);
 
-			std::cout << "p: " << p << std::endl
+			/*std::cout << "p: " << p << std::endl
 				<< "ext: " << ext << std::endl
-				<< "keystr: " << keyStr << std::endl;
+				<< "keystr: " << keyStr << std::endl;*/
 
 			if (ext == ".png")
 			{
@@ -112,6 +112,7 @@ Mix_Chunk* ResMgr::find_audio(const std::string& name)
 
 Mix_Music* ResMgr::find_music(const std::string& name)
 {
+	std::cout << "»ñÈ¡ÒôÀÖ£º" << name << std::endl;
 	return music_pool[name];
 }
 

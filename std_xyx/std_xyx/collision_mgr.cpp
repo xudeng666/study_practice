@@ -50,7 +50,7 @@ void CollisionMgr::processCollide()
 	}
 }
 
-bool is_collision(GameCollisionBox* box_t, GameCollisionBox* box_p)
+bool CollisionMgr::is_collision(GameCollisionBox* box_t, GameCollisionBox* box_p)
 {
 	Vector2 pos_t = box_t->get_position();
 	SDL_Point size_t = box_t->get_size();
@@ -69,6 +69,5 @@ void CollisionMgr::onDebugRender()
 	}
 }
 
-std::vector<GameCollisionBox*> box_list;
 CollisionMgr::CollisionMgr() = default;
 CollisionMgr::~CollisionMgr() = default;

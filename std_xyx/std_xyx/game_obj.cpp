@@ -1,4 +1,5 @@
 #include "game_obj.h"
+#include "game_mgr.h"
 
 
 void GameObj::on_input(const SDL_Event& event)
@@ -13,14 +14,16 @@ void GameObj::on_input(const SDL_Event& event)
 	case SDL_MOUSEMOTION:
 		{
 			SDL_Point p = { event.motion.x,event.motion.y };
-			on_cursor_hover(SDL_PointInRect(&p, &click_rect));
+			SDL_Rect t = get_Rect();
+			on_cursor_hover(SDL_PointInRect(&p, &t));
 		}
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_LEFT)
 		{
 			SDL_Point p = { event.motion.x,event.motion.y };
-			if (SDL_PointInRect(&p, &click_rect))
+			SDL_Rect t = get_Rect();
+			if (SDL_PointInRect(&p, &t))
 			{
 				on_cursor_down();
 			}
@@ -30,7 +33,8 @@ void GameObj::on_input(const SDL_Event& event)
 		if (event.button.button == SDL_BUTTON_LEFT)
 		{
 			SDL_Point p = { event.motion.x,event.motion.y };
-			if (SDL_PointInRect(&p, &click_rect))
+			SDL_Rect t = get_Rect();
+			if (SDL_PointInRect(&p, &t))
 			{
 				on_cursor_up();
 			}
@@ -68,30 +72,14 @@ void GameObj::set_rotation(double val)
 	angle = val;
 }
 
-void GameObj::set_enabled(bool enable)
+void GameObj::set_click_enabled(bool enable)
 {
 	click_enabled = enable;
 }
 
-bool GameObj::get_enabled()
+bool GameObj::get_click_enabled()
 {
 	return click_enabled;
-}
-
-void GameObj::set_rect(SDL_Rect* rect)
-{
-	if (!click_enabled) 
-		return;
-
-	if (rect != nullptr)
-	{
-		click_rect = *rect;
-		return;
-	}
-	SDL_FRect rst = { position.x, position.y, (float)size.x, (float)size.y };
-	SDL_FRect dst = get_dst_rect(rst, anchor_mode);
-	// 默认为对象尺寸
-	click_rect = { (int)dst.x,(int)dst.y,(int)dst.w,(int)dst.h };
 }
 
 void GameObj::set_anchor_mode(const AnchorMode mode)
@@ -102,4 +90,100 @@ void GameObj::set_anchor_mode(const AnchorMode mode)
 const AnchorMode GameObj::get_anchor_mode() const
 {
 	return anchor_mode;
+}
+
+SDL_FRect GameObj::get_FRect()
+{
+	float x = 0;
+	float y = 0;
+
+	switch (anchor_mode)
+	{
+	case AnchorMode::TOPLEFT:
+		x = position.x;
+		y = position.y;
+		break;
+	case AnchorMode::TOPCENTER:
+		x = position.x - size.x / 2;
+		y = position.y;
+		break;
+	case AnchorMode::TOPRIGHT:
+		x = position.x - size.x;
+		y = position.y;
+		break;
+	case AnchorMode::LEFTCENTER:
+		x = position.x;
+		y = position.y - size.y / 2;
+		break;
+	case AnchorMode::CENTER:
+		x = position.x - size.x / 2;
+		y = position.y - size.y / 2;
+		break;
+	case AnchorMode::RIGHTCENTER:
+		x = position.x - size.x;
+		y = position.y - size.y / 2;
+		break;
+	case AnchorMode::BOTTOMLEFT:
+		x = position.x;
+		y = position.y - size.y;
+		break;
+	case AnchorMode::BOTTOMCENTER:
+		x = position.x - size.x / 2;
+		y = position.y - size.y;
+		break;
+	case AnchorMode::BOTTOMRIGHT:
+		x = position.x - size.x;
+		y = position.y - size.y;
+		break;
+	}
+
+	return { x, y, (float)size.x, (float)size.y };
+}
+
+SDL_Rect GameObj::get_Rect()
+{
+	float x = 0;
+	float y = 0;
+
+	switch (anchor_mode)
+	{
+	case AnchorMode::TOPLEFT:
+		x = position.x;
+		y = position.y;
+		break;
+	case AnchorMode::TOPCENTER:
+		x = position.x - size.x / 2;
+		y = position.y;
+		break;
+	case AnchorMode::TOPRIGHT:
+		x = position.x - size.x;
+		y = position.y;
+		break;
+	case AnchorMode::LEFTCENTER:
+		x = position.x;
+		y = position.y - size.y / 2;
+		break;
+	case AnchorMode::CENTER:
+		x = position.x - size.x / 2;
+		y = position.y - size.y / 2;
+		break;
+	case AnchorMode::RIGHTCENTER:
+		x = position.x - size.x;
+		y = position.y - size.y / 2;
+		break;
+	case AnchorMode::BOTTOMLEFT:
+		x = position.x;
+		y = position.y - size.y;
+		break;
+	case AnchorMode::BOTTOMCENTER:
+		x = position.x - size.x / 2;
+		y = position.y - size.y;
+		break;
+	case AnchorMode::BOTTOMRIGHT:
+		x = position.x - size.x;
+		y = position.y - size.y;
+		break;
+	}
+
+	return { (int)x, (int)y, size.x, size.y };
 }
