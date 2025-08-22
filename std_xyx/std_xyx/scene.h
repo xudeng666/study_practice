@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Camera.h"
+#include "game_obj.h"
 
 /*场景类-基类*/
 class Scene
@@ -19,5 +20,9 @@ public:
 	virtual void on_render() {}
 	/*退出场景*/
 	virtual void on_exit() {}
+protected:
+	// UI 根目录
+	GameObj* root = nullptr;
+	std::unordered_map<std::string, GameObj* > ui_map;
 };
 

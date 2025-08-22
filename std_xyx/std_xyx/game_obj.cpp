@@ -94,58 +94,22 @@ const AnchorMode GameObj::get_anchor_mode() const
 
 SDL_FRect GameObj::get_FRect()
 {
-	float x = 0;
-	float y = 0;
-
-	switch (anchor_mode)
-	{
-	case AnchorMode::TOPLEFT:
-		x = position.x;
-		y = position.y;
-		break;
-	case AnchorMode::TOPCENTER:
-		x = position.x - size.x / 2;
-		y = position.y;
-		break;
-	case AnchorMode::TOPRIGHT:
-		x = position.x - size.x;
-		y = position.y;
-		break;
-	case AnchorMode::LEFTCENTER:
-		x = position.x;
-		y = position.y - size.y / 2;
-		break;
-	case AnchorMode::CENTER:
-		x = position.x - size.x / 2;
-		y = position.y - size.y / 2;
-		break;
-	case AnchorMode::RIGHTCENTER:
-		x = position.x - size.x;
-		y = position.y - size.y / 2;
-		break;
-	case AnchorMode::BOTTOMLEFT:
-		x = position.x;
-		y = position.y - size.y;
-		break;
-	case AnchorMode::BOTTOMCENTER:
-		x = position.x - size.x / 2;
-		y = position.y - size.y;
-		break;
-	case AnchorMode::BOTTOMRIGHT:
-		x = position.x - size.x;
-		y = position.y - size.y;
-		break;
-	}
-
-	return { x, y, (float)size.x, (float)size.y };
+	Vector2 p = get_anchor_position(anchor_mode);
+	return { p.x, p.y, (float)size.x, (float)size.y };
 }
 
 SDL_Rect GameObj::get_Rect()
 {
+	Vector2 p = get_anchor_position(anchor_mode);
+	return { (int)p.x, (int)p.y, size.x, size.y };
+}
+
+Vector2 GameObj::get_anchor_position(const AnchorMode mode)
+{
 	float x = 0;
 	float y = 0;
 
-	switch (anchor_mode)
+	switch (mode)
 	{
 	case AnchorMode::TOPLEFT:
 		x = position.x;
@@ -184,6 +148,5 @@ SDL_Rect GameObj::get_Rect()
 		y = position.y - size.y;
 		break;
 	}
-
-	return { (int)x, (int)y, size.x, size.y };
+	return Vector2(x, y);
 }

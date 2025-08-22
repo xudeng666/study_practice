@@ -14,6 +14,8 @@ public:
 	void on_render() override;
 	/*设置尺寸*/
 	void set_size();
+	/*设置尺寸*/
+	void set_size(const SDL_Point& size);
 	/*设置纹理*/
 	void set_texture();
 	/*获取纹理*/

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <forward_list>
+
 #include <SDL.h>
 
 #include "game_type.h"
@@ -33,7 +35,7 @@ public:
     void set_anchor_mode(const AnchorMode mode);
     /*获取锚点*/
     const AnchorMode get_anchor_mode() const;
-    /*设置中心*/
+    /*设置旋转中心*/
     void set_center(const SDL_FPoint& pos);
     /*设置角度*/
     void set_rotation(double val);
@@ -45,6 +47,8 @@ public:
     SDL_FRect get_FRect();
     /*获取对象区域*/
     SDL_Rect get_Rect();
+    /*获取对象锚点坐标*/
+    Vector2 get_anchor_position(const AnchorMode mode);
 
 
 protected:
@@ -54,10 +58,21 @@ protected:
     bool click_enabled = false;
 	/*坐标*/
 	Vector2 position;
+    // 点击区域 暂时不单独列出
+    // 是否显示
+    // bool is_display = true;
 	/*尺寸*/
     SDL_Point size = { 0 };
     // 中心点
     SDL_FPoint center = { 0 };
-	/*锚点*/
-    AnchorMode anchor_mode = AnchorMode::CENTER;
+	/*自身锚点*/
+    AnchorMode anchor_mode = AnchorMode::TOPLEFT;
+	/*父锚点*/
+    AnchorMode parent_mode = AnchorMode::TOPLEFT;
+
+protected:
+    // 父节点
+    GameObj* parent = nullptr;
+    // 子节点
+    std::list<GameObj*> children;
 };

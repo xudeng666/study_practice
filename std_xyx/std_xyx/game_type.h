@@ -29,6 +29,18 @@ enum class AnchorMode
 	BOTTOMRIGHT		// 右下
 };
 
+/*尺寸计算方式*/
+enum class SizeType
+{
+	AUTO = 0,	// 自动		根据资源自适应大小
+	PIXEL		// 像素		由输入的像素值决定
+	// 和父节点宽相 乘 加
+	// 和父节点高相 乘 加
+	// 保持比例，宽和父节点对齐
+	// 保持比例，高和父节点对齐
+	// 其他，还没想好
+};
+
 /*场景类型*/
 enum class SceneType
 {

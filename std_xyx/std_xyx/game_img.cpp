@@ -31,6 +31,11 @@ void GameImg::set_size()
 	SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
 }
 
+void GameImg::set_size(const SDL_Point& size)
+{
+	this->size = size;
+}
+
 void GameImg::set_texture()
 {
 	texture = ResMgr::instance()->find_texture(res_name);
