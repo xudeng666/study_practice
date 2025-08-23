@@ -2,6 +2,14 @@
 #include "game_mgr.h"
 
 
+void GameObj::on_enter()
+{
+}
+
+void GameObj::on_exit()
+{
+}
+
 void GameObj::on_input(const SDL_Event& event)
 {
 	if (!click_enabled)
@@ -43,6 +51,14 @@ void GameObj::on_input(const SDL_Event& event)
 	}
 }
 
+void GameObj::on_update(float delta)
+{
+}
+
+void GameObj::on_render()
+{
+}
+
 void GameObj::set_position(const Vector2& pos)
 {
 	position = pos;
@@ -60,6 +76,16 @@ void GameObj::set_size(const SDL_Point& size)
 const SDL_Point& GameObj::get_size() const
 {
 	return size;
+}
+
+void GameObj::set_display(bool display)
+{
+	is_display = display;
+}
+
+const bool GameObj::get_display() const
+{
+	return is_display;
 }
 
 void GameObj::set_center(const SDL_FPoint& pos)
@@ -92,6 +118,16 @@ const AnchorMode GameObj::get_anchor_mode() const
 	return anchor_mode;
 }
 
+void GameObj::set_parent_anchor_mode(const AnchorMode mode)
+{
+	parent_anchor_mode = mode;
+}
+
+const AnchorMode GameObj::get_parent_anchor_mode() const
+{
+	return parent_anchor_mode;
+}
+
 SDL_FRect GameObj::get_FRect()
 {
 	Vector2 p = get_anchor_position(anchor_mode);
@@ -104,7 +140,7 @@ SDL_Rect GameObj::get_Rect()
 	return { (int)p.x, (int)p.y, size.x, size.y };
 }
 
-Vector2 GameObj::get_anchor_position(const AnchorMode mode)
+Vector2& GameObj::get_anchor_position(const AnchorMode mode)
 {
 	float x = 0;
 	float y = 0;
@@ -148,5 +184,44 @@ Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 		y = position.y - size.y;
 		break;
 	}
-	return Vector2(x, y);
+	Vector2 p = parent ? parent->get_anchor_position(parent_anchor_mode) : Vector2(0, 0);
+	p.x += x;
+	p.y += y;
+	return p;
+}
+
+void GameObj::set_parent(GameObj* p)
+{
+	if (p)
+	{
+		p->add_children(this);
+	}
+}
+
+GameObj* GameObj::get_parent()
+{
+	return parent;
+}
+
+std::list<GameObj*> GameObj::get_children()
+{
+	return children;
+}
+
+void GameObj::add_children(GameObj* obj)
+{
+	GameObj* p = obj->parent;
+	if (p == this)
+	{
+		children.remove(obj);
+		children.push_back(obj);
+		return;
+	}
+
+	if (p)
+	{
+		p->children.remove(obj);
+	}
+	obj->parent = this;
+	children.push_back(obj);
 }

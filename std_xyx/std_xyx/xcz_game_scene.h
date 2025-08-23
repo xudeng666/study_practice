@@ -11,11 +11,11 @@ public:
     XczGameScene();
     ~XczGameScene();
 
-    void on_enter()override;
-    void on_update(float delta)override;
-    void on_input(const SDL_Event& event)override;
-    void on_render()override;
-    void on_exit()override;
+    void on_enter();
+    void on_update(float delta);
+    void on_input(const SDL_Event& event);
+    void on_render();
+    void on_exit();
 
 private:
     GameBtn* bg = nullptr;

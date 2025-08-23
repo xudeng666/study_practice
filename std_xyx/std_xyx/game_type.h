@@ -49,6 +49,23 @@ enum class SceneType
 	GAME,		// 游戏场景
 };
 
+/*纹理映射/采样模式*/
+enum class TextureMapType
+{
+	AUTO = 0,	// 自动		完全显示纹理内容
+	// 平铺
+	// 拉伸
+
+};
+
+/*渲染层*/
+enum RenderLayer
+{
+	BACKGROUND,	// 背景层	存放地图之类
+	ENTITY,		// 实体体	游戏实体对象之类
+	UI			// UI层
+};
+
 /*按钮状态*/
 enum class ButtonState {
 	PRESSED = 0,	// 按下
