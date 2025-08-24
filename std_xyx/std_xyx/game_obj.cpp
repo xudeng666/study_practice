@@ -59,6 +59,16 @@ void GameObj::on_render()
 {
 }
 
+void GameObj::set_ID(const std::string id)
+{
+	ID = id;
+}
+
+std::string GameObj::get_ID()
+{
+	return ID;
+}
+
 void GameObj::set_position(const Vector2& pos)
 {
 	position = pos;

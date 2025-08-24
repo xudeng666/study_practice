@@ -17,7 +17,7 @@ public:
 	/*设置尺寸*/
 	void set_size(const SDL_Point& size);
 	/*设置纹理*/
-	void set_texture();
+	virtual void set_texture();
 	/*获取纹理*/
 	SDL_Texture* get_texture();
 	/*设置资源*/

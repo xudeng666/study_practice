@@ -23,6 +23,10 @@ public:
     virtual void on_cursor_down() {}
     virtual void on_cursor_up() {}
     virtual void on_cursor_hover(bool is_hover) {}
+    /*设置ID*/
+    void set_ID(const std::string id);
+    /*获取ID*/
+    std::string get_ID();
     /*设置坐标*/
     void set_position(const Vector2& pos);
     /*获取坐标*/
@@ -59,10 +63,11 @@ public:
     Vector2& get_anchor_position(const AnchorMode mode);
 
 protected:
+    std::string ID;
     // 旋转角度
     double angle = 0;
     /*点击区域开关状态*/
-    bool click_enabled = false;
+    bool click_enabled = true;
     // 是否显示
     bool is_display = true;
 	/*相对父节点坐标*/

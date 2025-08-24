@@ -19,12 +19,13 @@ void GameBtn::on_enter()
 
 void GameBtn::on_update(float delta)
 {
+	GameImg::on_update(delta);
 }
 
-//void GameBtn::on_render()
-//{
-//
-//}
+void GameBtn::on_render()
+{
+	GameImg::on_render();
+}
 
 void GameBtn::on_cursor_down()
 {
@@ -48,21 +49,30 @@ void GameBtn::on_cursor_up()
 
 void GameBtn::on_cursor_hover(bool is_hover)
 {
+	ButtonState t;
 	if (is_hover)
 	{
-		status = status == ButtonState::PRESSED ? ButtonState::PRESSED : ButtonState::HOVER;
+		t = status == ButtonState::PRESSED ? ButtonState::PRESSED : ButtonState::HOVER;
 	}
 	else
 	{
-		status = ButtonState::NORMAL;
+		t = ButtonState::NORMAL;
 	}
-	set_texture();
-	set_size();
+	if (t != status)
+	{
+		status = t;
+		set_texture();
+		set_size();
+	}
 }
 
 void GameBtn::set_texture()
 {
 	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(status)));
+	if (!texture)
+	{
+		std::cout << ID << " texture null" << std::endl;
+	}
 }
 
 void GameBtn::set_on_click(std::function<void()> click)

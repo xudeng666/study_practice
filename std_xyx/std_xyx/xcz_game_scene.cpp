@@ -2,6 +2,7 @@
 
 XczGameScene::XczGameScene()
 {
+	set_ID("XczGameScene");
 }
 
 XczGameScene::~XczGameScene()
