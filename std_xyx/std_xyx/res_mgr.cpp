@@ -84,6 +84,20 @@ void ResMgr::load()
 	}
 }
 
+
+void ResMgr::res_traversal()
+{
+	for (auto& [name, music] : music_pool) {
+		std::cout << "music:   " << name << std::endl;
+	}
+	for (auto& [name, audio] : audio_pool) {
+		std::cout << "audio:   " << name << std::endl;
+	}
+	for (auto& [name, tex] : texture_pool) {
+		std::cout << "image:   " << name << std::endl;
+	}
+}
+
 void ResMgr::releaseAll()
 {
 	// ÊÍ·Å±³¾°ÒôÀÖ

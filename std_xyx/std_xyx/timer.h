@@ -57,10 +57,10 @@ public:
 	}
 
 private:
-	float pass_time = 0;			//已过时间
-	float wait_time = 0;			//等待时间
+	float pass_time = 0.0f;			//已过时间
+	float wait_time = 0.0f;			//等待时间
 	bool paused = false;			//是否暂停
 	bool shotted = false;			//是否触发
 	bool one_shot = false;			//是否单次触发
-	std::function<void()> on_timeout;	//回调函数
+	std::function<void()> on_timeout = nullptr;	//回调函数
 };

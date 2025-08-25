@@ -7,8 +7,8 @@
 class Vector2
 {
 public:
-	float x = 0;
-	float y = 0;
+	float x = 0.0f;
+	float y = 0.0f;
 public:
 	Vector2() = default;
 	~Vector2() = default;
@@ -95,7 +95,6 @@ public:
 	{
 		return (*this - vec).length() <= 0.0001f;
 	}
-
 
 	/*
 	* 随机圆形区域坐标

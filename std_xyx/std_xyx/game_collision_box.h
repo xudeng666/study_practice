@@ -29,7 +29,7 @@ private:
 	// 是否启用碰撞检测
 	bool collision_enabled = true;
 	// 碰撞后的回调函数
-	std::function<void()> call_back;
+	std::function<void()> call_back = nullptr;
 	// 自身碰撞层
 	CollisionLayer layer_src = CollisionLayer::NONE;
 	// 目标碰撞层

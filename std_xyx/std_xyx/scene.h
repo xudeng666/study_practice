@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "game_obj.h"
+#include "res_mgr.h"
 
 #include <queue>
 #include <iostream>
@@ -39,7 +40,6 @@ public:
 		root->add_children(background);
 		root->add_children(entity);
 		root->add_children(ui);
-
 	}
 
 	~Scene()
@@ -55,6 +55,15 @@ public:
 		pre_order_traversal(root, [&](GameObj* obj) {
 			obj->on_enter();
 			});
+		if (is_debug)
+		{
+			ResMgr::instance()->res_traversal();
+			pre_order_traversal(root, [&](GameObj* obj) {
+				SDL_FRect r = obj->get_FRect();
+				std::cout << "obj   " << obj->get_ID() << std::endl <<
+					"         x: " << r.x << "  y: " << r.y << "  w: " << r.w << "  h: " << r.h << std::endl;
+				});
+		}
 	}
 	/*处理数据*/
 	void on_update(float delta)
@@ -191,13 +200,15 @@ public:
 protected:
 	std::string ID;
 	// UI 根目录
-	GameObj* root;
+	GameObj* root = nullptr;
 	// UI 根目录
-	GameObj* background;
+	GameObj* background = nullptr;
 	// UI 根目录
-	GameObj* entity;
+	GameObj* entity = nullptr;
 	// UI 根目录
-	GameObj* ui;
+	GameObj* ui = nullptr;
+
+	bool is_debug = false;
 	// UI 索引表 暂时用不着
 	// std::unordered_map<std::string, GameObj* > ui_map;
 };

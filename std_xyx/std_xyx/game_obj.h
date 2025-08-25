@@ -60,24 +60,24 @@ public:
     /*获取对象区域*/
     SDL_Rect get_Rect();
     /*获取对象锚点坐标*/
-    Vector2& get_anchor_position(const AnchorMode mode);
+    Vector2 get_anchor_position(const AnchorMode mode);
 
 protected:
     std::string ID;
     // 旋转角度
-    double angle = 0;
+    double angle = 0.0;
     /*点击区域开关状态*/
     bool click_enabled = true;
     // 是否显示
     bool is_display = true;
 	/*相对父节点坐标*/
-	Vector2 position;
+    Vector2 position = { 0.0f, 0.0f };
     // 点击区域 暂时不单独列出
     // SDL_FRect click_rect;
 	/*尺寸*/
-    SDL_Point size = { 0 };
+    SDL_Point size = { 0, 0 };
     // 中心点
-    SDL_FPoint center = { 0 };
+    SDL_FPoint center = { 0.0f, 0.0f };
 	/*自身锚点*/
     AnchorMode anchor_mode = AnchorMode::TOPLEFT;
     /*父锚点*/

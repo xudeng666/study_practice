@@ -155,9 +155,9 @@ public:
 	}
 
 private:
-	SDL_Renderer* renderer;		//渲染器
-	Vector2 position;			//摄像机位置
-	Timer timer_shake;			//抖动计时器
-	bool is_shaking = false;	//是否抖动
-	float shaking_strength = 0;	//抖动幅度
+	SDL_Renderer* renderer = nullptr;	//渲染器
+	Vector2 position;					//摄像机位置
+	Timer timer_shake;					//抖动计时器
+	bool is_shaking = false;			//是否抖动
+	float shaking_strength = 0.0f;		//抖动幅度
 };

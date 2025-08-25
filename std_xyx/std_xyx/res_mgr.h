@@ -15,6 +15,7 @@ public:
 	static ResMgr* instance();
 
 	void load();
+	void res_traversal();
 	Mix_Chunk* find_audio(const std::string& name);
 	Mix_Music* find_music(const std::string& name);
 	SDL_Texture* find_texture(const std::string& name);

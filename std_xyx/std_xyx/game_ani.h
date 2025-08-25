@@ -38,7 +38,7 @@ private:
 	// 是否循环
 	bool is_loop = true;
 	// 动画播放完的回调函数
-	std::function<void()> on_finished;
+	std::function<void()> on_finished = nullptr;
 	// 资源数量
 	const int num;
 };

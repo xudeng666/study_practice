@@ -33,7 +33,7 @@ protected:
 	// 进度条
 	GameImg* img_pro = nullptr;
 	// 当前值
-	float percent_num = 0;
+	float percent_num = 0.0f;
 	// 是否点状进度条
 	int is_point = false;
 	// 点数

@@ -140,72 +140,39 @@ const AnchorMode GameObj::get_parent_anchor_mode() const
 
 SDL_FRect GameObj::get_FRect()
 {
-	Vector2 p = get_anchor_position(anchor_mode);
+	Vector2 p = get_anchor_position(AnchorMode::TOPLEFT);
 	return { p.x, p.y, (float)size.x, (float)size.y };
 }
 
 SDL_Rect GameObj::get_Rect()
 {
-	Vector2 p = get_anchor_position(anchor_mode);
+	Vector2 p = get_anchor_position(AnchorMode::TOPLEFT);
 	return { (int)p.x, (int)p.y, size.x, size.y };
 }
 
-Vector2& GameObj::get_anchor_position(const AnchorMode mode)
+/// <summary>
+/// 获取对象锚点的全局坐标
+/// </summary>
+/// <param name="mode">锚点类型</param>
+/// <returns>Vector2</returns>
+Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 {
-	float x = 0;
-	float y = 0;
-
-	switch (mode)
+	Vector2 t = { 0.0f,0.0f };
+	if (parent) // 获取父节点的对齐锚点全局坐标
 	{
-	case AnchorMode::TOPLEFT:
-		x = position.x;
-		y = position.y;
-		break;
-	case AnchorMode::TOPCENTER:
-		x = position.x - size.x / 2;
-		y = position.y;
-		break;
-	case AnchorMode::TOPRIGHT:
-		x = position.x - size.x;
-		y = position.y;
-		break;
-	case AnchorMode::LEFTCENTER:
-		x = position.x;
-		y = position.y - size.y / 2;
-		break;
-	case AnchorMode::CENTER:
-		x = position.x - size.x / 2;
-		y = position.y - size.y / 2;
-		break;
-	case AnchorMode::RIGHTCENTER:
-		x = position.x - size.x;
-		y = position.y - size.y / 2;
-		break;
-	case AnchorMode::BOTTOMLEFT:
-		x = position.x;
-		y = position.y - size.y;
-		break;
-	case AnchorMode::BOTTOMCENTER:
-		x = position.x - size.x / 2;
-		y = position.y - size.y;
-		break;
-	case AnchorMode::BOTTOMRIGHT:
-		x = position.x - size.x;
-		y = position.y - size.y;
-		break;
+		t = parent->get_anchor_position(parent_anchor_mode);
 	}
-	Vector2 p = parent ? parent->get_anchor_position(parent_anchor_mode) : Vector2(0, 0);
-	p.x += x;
-	p.y += y;
-	return p;
+	Vector2 p = position;
+	int m = static_cast<int>(mode) - static_cast<int>(anchor_mode);
+	p.x += ((m % 3) * size.x / 2);
+	p.y += ((m / 3) * size.y / 2);
+	t += p;
+	return t;
 }
 
 void GameObj::set_parent(GameObj* p)
 {
-	if (p)
-	{
-		p->add_children(this);
-	}
+	parent = p;
 }
 
 GameObj* GameObj::get_parent()
@@ -221,13 +188,6 @@ std::list<GameObj*> GameObj::get_children()
 void GameObj::add_children(GameObj* obj)
 {
 	GameObj* p = obj->parent;
-	if (p == this)
-	{
-		children.remove(obj);
-		children.push_back(obj);
-		return;
-	}
-
 	if (p)
 	{
 		p->children.remove(obj);
