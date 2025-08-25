@@ -55,7 +55,7 @@ public:
 		pre_order_traversal(root, [&](GameObj* obj) {
 			obj->on_enter();
 			});
-		if (is_debug)
+		if (_DE_BUG_)
 		{
 			ResMgr::instance()->res_traversal();
 			pre_order_traversal(root, [&](GameObj* obj) {
@@ -181,7 +181,7 @@ public:
 		while (!q.empty())
 		{
 			int length = q.size();
-			for (size_t i = 0; i < length; i++)
+			for (int i = 0; i < length; i++)
 			{
 				GameObj* p = q.front();
 				q.pop();
@@ -207,8 +207,6 @@ protected:
 	GameObj* entity = nullptr;
 	// UI 根目录
 	GameObj* ui = nullptr;
-
-	bool is_debug = false;
 	// UI 索引表 暂时用不着
 	// std::unordered_map<std::string, GameObj* > ui_map;
 };

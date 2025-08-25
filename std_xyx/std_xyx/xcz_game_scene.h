@@ -12,13 +12,10 @@ public:
     ~XczGameScene();
 
     void on_enter();
-    void on_update(float delta);
-    void on_input(const SDL_Event& event);
-    void on_render();
     void on_exit();
 
 private:
-    GameBtn* bg = nullptr;
+    GameImg* bg = nullptr;
     // ÍË³ö°´Å¥
     GameBtn* btn_exit = nullptr;
     // ÑªÌõ

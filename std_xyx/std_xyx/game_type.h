@@ -53,9 +53,8 @@ enum class SceneType
 enum class TextureMapType
 {
 	AUTO = 0,	// 自动		完全显示纹理内容
-	// 平铺
-	// 拉伸
-
+	TILE,		// 平铺		根据尺寸，平铺裁剪
+	STRETCH		// 拉伸		根据尺寸，拉伸填满
 };
 
 /*渲染层*/

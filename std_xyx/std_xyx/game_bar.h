@@ -12,20 +12,18 @@ public:
 	void on_enter() override;
 	void on_update(float delta) override;
 	void on_render() override;
-	/*设置背景纹理*/
-	void set_img_bg_texture(const std::string name);
-	/*设置资源*/
-	void set_img_pro_texture(const std::string name);
-	/*设置当前值*/
-	void set_point_num(int num);
-	/*设置初始值值*/
-	void set_init_point(int num);
+	GameImg* get_img_bg();
+	GameImg* get_img_pro();
 	/// <summary>
 	/// 设置进度条百分比
 	/// </summary>
 	/// <param name="num">0.0~1.0</param>
 	void set_percent_num(float num);
-	void set_is_point(bool point);
+	/// <summary>
+	/// 设置最大宽度
+	/// </summary>
+	/// <param name="num">0.0~1.0</param>
+	void set_max_value(float num);
 
 protected:
 	// 背景
@@ -34,11 +32,7 @@ protected:
 	GameImg* img_pro = nullptr;
 	// 当前值
 	float percent_num = 0.0f;
-	// 是否点状进度条
-	int is_point = false;
-	// 点数
-	int point_num = 0;
-	// 初始点数
-	int init_point = 0;
+	// 最大宽度
+	float max_value = 0.0f;
 };
 

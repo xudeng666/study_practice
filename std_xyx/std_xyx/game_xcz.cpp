@@ -1,5 +1,6 @@
 #include "game_xcz.h"
 #include "xcz_menue_scene.h"
+#include "xcz_game_scene.h"
 #include "res_mgr.h"
 
 #include <SDL_mixer.h>
@@ -8,7 +9,7 @@
 void GameXcz::on_scene_init()
 {
 	scene_pool[SceneType::MENUE] = new XczMenueScene();
-	//scene_pool[SceneType::GAME] = new XczGameScene();
+	scene_pool[SceneType::GAME] = new XczGameScene();
 }
 
 void GameXcz::on_enter()

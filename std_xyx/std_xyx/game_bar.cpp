@@ -5,79 +5,53 @@
 
 GameBar::GameBar(const Vector2 pos):GameObj(pos)
 {
-	anchor_mode = AnchorMode::TOPLEFT;
-	img_bg = new GameImg(pos);
-	img_pro = new GameImg(pos);
+	img_bg = new GameImg({0,0});
+	img_bg->set_anchor_mode(AnchorMode::LEFTCENTER);
+	img_bg->set_parent_anchor_mode(AnchorMode::LEFTCENTER);
+
+	img_pro = new GameImg({ 0,0 });
+	img_pro->set_anchor_mode(AnchorMode::LEFTCENTER);
+	img_pro->set_parent_anchor_mode(AnchorMode::LEFTCENTER);
+
+	add_children(img_bg);
+	add_children(img_pro);
 }
 
 void GameBar::on_enter()
 {
-	point_num = init_point;
-	img_bg->set_anchor_mode(anchor_mode);
-	img_pro->set_anchor_mode(anchor_mode);
+	GameObj::on_enter();
 }
 
 void GameBar::on_update(float delta)
 {
+	GameObj::on_update(delta);
 }
 
 void GameBar::on_render()
 {
-	if (img_bg)
-	{
-		img_bg->on_render();
-	}
-	if (img_pro)
-	{
-		SDL_Texture* pro_t = img_pro->get_texture();
-		SDL_Point s = img_pro->get_size();
-		SDL_Rect src = { 0,0,s.x,s.y };
-		SDL_FRect dst = img_pro->get_FRect();
-		if (is_point)
-		{
-			for (size_t i = 0; i < point_num; i++)
-			{
-				GameMgr::instance()->get_camera()->render_texture(pro_t, &src, &dst, angle, &center);
-				dst.x += dst.w;
-			}
-		}
-		else
-		{
-			dst.w *= percent_num;
-			GameMgr::instance()->get_camera()->render_texture(pro_t, &src, &dst, angle, &center);
-		}
-	}
+	GameObj::on_render();
 }
 
-void GameBar::set_img_bg_texture(const std::string name)
+GameImg* GameBar::get_img_bg()
 {
-	img_bg->set_res_name(name);
-	img_bg->on_enter();
+	return img_bg;
 }
 
-void GameBar::set_img_pro_texture(const std::string name)
+GameImg* GameBar::get_img_pro()
 {
-	img_pro->set_res_name(name);
-	img_pro->on_enter();
-}
-
-void GameBar::set_point_num(int num)
-{
-	point_num = num;
-}
-
-void GameBar::set_init_point(int num)
-{
-	init_point = num;
+	return img_pro;
 }
 
 void GameBar::set_percent_num(float num)
 {
 	if (num < 0 || num > 1) return;
 	percent_num = num;
+	SDL_Point s = img_pro->get_size();
+	s.x = int(percent_num * max_value);
+	img_pro->set_size(s);
 }
 
-void GameBar::set_is_point(bool point)
+void GameBar::set_max_value(float num)
 {
-	is_point = point;
+	max_value = num;
 }
