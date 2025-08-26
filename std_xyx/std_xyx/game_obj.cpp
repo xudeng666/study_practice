@@ -57,6 +57,11 @@ void GameObj::on_update(float delta)
 
 void GameObj::on_render()
 {
+	if (_DE_BUG_)
+	{
+		SDL_Rect r = get_Rect();
+		GameMgr::instance()->get_camera()->render_line_rect(&r);
+	}
 }
 
 void GameObj::set_ID(const std::string id)
@@ -162,11 +167,30 @@ Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 	{
 		t = parent->get_anchor_position(parent_anchor_mode);
 	}
+
 	Vector2 p = position;
-	int m = static_cast<int>(mode) - static_cast<int>(anchor_mode);
-	p.x += ((m % 3) * size.x / 2);
-	p.y += ((m / 3) * size.y / 2);
+	int m = static_cast<int>(mode);
+	int a = static_cast<int>(anchor_mode);
+
+	/*if (_DE_BUG_)
+	{
+		std::cout << "    ID:  " << get_ID() << std::endl;
+		std::cout << "      mod:  " << static_cast<int>(mode) << std::endl;
+		std::cout << "      p_mode:  " << static_cast<int>(parent_anchor_mode) << std::endl;
+		std::cout << "      a_mode:  " << static_cast<int>(anchor_mode) << std::endl;
+		std::cout << "      t:  " << t.x << "," << t.y << std::endl;
+		std::cout << "      p:  " << p.x << "," << p.y << std::endl;
+	}*/
+
+	p.x += (m % 3 - a % 3) * size.x / 2;
+	p.y += (m / 3 - a / 3) * size.y / 2;
+
 	t += p;
+	/*if (_DE_BUG_)
+	{
+		std::cout << "      p:  " << p.x << "," << p.y << std::endl;
+		std::cout << "      t:  " << t.x << "," << t.y << std::endl;
+	}*/
 	return t;
 }
 

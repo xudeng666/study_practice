@@ -6,7 +6,8 @@
 #define _WIN_W_ 1280
 #define _WIN_H_ 720
 #define _FPS_ 60
-#define _DE_BUG_ false
+#define _DE_BUG_ true
+//#define _DE_BUG_ false
 
 /*工具类文件*/
 

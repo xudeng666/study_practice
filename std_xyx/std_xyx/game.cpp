@@ -56,5 +56,5 @@ void Game::exchange_scene(SceneType type)
 
 	current_scene_type = type;
 
-	on_enter();
+	get_current_scene()->on_enter();
 }

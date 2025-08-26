@@ -42,7 +42,7 @@ public:
 		root->add_children(ui);
 	}
 
-	~Scene()
+	virtual ~Scene()
 	{
 		post_order_traversal(root, [&](GameObj* obj) {
 			delete obj;
@@ -50,14 +50,14 @@ public:
 	}
 
 	/*场景初始化*/
-	void on_enter()
+	virtual void on_enter()
 	{
 		pre_order_traversal(root, [&](GameObj* obj) {
 			obj->on_enter();
 			});
 		if (_DE_BUG_)
 		{
-			ResMgr::instance()->res_traversal();
+			// ResMgr::instance()->res_traversal();
 			pre_order_traversal(root, [&](GameObj* obj) {
 				SDL_FRect r = obj->get_FRect();
 				std::cout << "obj   " << obj->get_ID() << std::endl <<
@@ -66,7 +66,7 @@ public:
 		}
 	}
 	/*处理数据*/
-	void on_update(float delta)
+	virtual void on_update(float delta)
 	{
 		pre_order_traversal(root, [&](GameObj* obj) {
 			obj->on_update(delta);
@@ -74,7 +74,7 @@ public:
 	}
 
 	/*玩家输入*/
-	void on_input(const SDL_Event& event)
+	virtual void on_input(const SDL_Event& event)
 	{
 		pre_order_traversal(root, [&](GameObj* obj) {
 			obj->on_input(event);
@@ -82,14 +82,14 @@ public:
 	}
 
 	/*渲染绘图*/
-	void on_render()
+	virtual void on_render()
 	{
 		pre_order_traversal(root, [&](GameObj* obj) {
 			obj->on_render();
 			});
 	}
 	/*退出场景*/
-	void on_exit()
+	virtual void on_exit()
 	{
 		pre_order_traversal(root, [&](GameObj* obj) {
 			obj->on_exit();
@@ -107,8 +107,19 @@ public:
 	}
 
 public:
-	GameObj* get_obj_of_ID(std::string id)
+	/// <summary>
+	/// 查找对象
+	/// </summary>
+	/// <param name="id">std::string 对象ID</param>
+	/// <returns>GameObj* 对象指针</returns>
+	GameObj* find_obj(std::string id)
 	{
+		pre_order_traversal(root, [&](GameObj* obj) {
+			if (obj->get_ID() == id)
+			{
+				return obj;
+			}
+			});
 	}
 	// 获取UI根节点
 	GameObj* get_ui_root()

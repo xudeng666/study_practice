@@ -37,22 +37,38 @@ void GameImg::on_render()
 	{
 		SDL_Point s;
 		SDL_QueryTexture(texture, nullptr, nullptr, &s.x, &s.y);
-		int len_y = size.y / s.y;
-		int len_x = size.x / s.x;
-		for (int y = 0; y <= len_y; y++)
+		int len_h = size.y / s.y;
+		int len_w = size.x / s.x;
+
+		/*if (_DE_BUG_)
 		{
-			dst.y = y * size.y;
-			int wy = s.y - dst.y;
-			src.h = wy < size.y ? wy : size.y;
-			for (int x = 0; x <= len_x; x++)
+			std::cout << "len_w:	" << len_w << std::endl
+				<< "len_h:	" << len_h << std::endl;
+		}*/
+
+		for (int i = 0; i <= len_h; i++)
+		{
+			dst.y = i * s.y;
+			int wy = size.y - dst.y;
+			src.h = wy < s.y ? wy : s.y;
+			dst.y += p.y;
+			for (int j = 0; j <= len_w; j++)
 			{
-				dst.x = x * size.x;
-				int wx = s.x - dst.x;
-				src.w = wx < size.x ? wx : size.x;
+				dst.x = j * s.x;
+				int wx = size.x - dst.x;
+				src.w = wx < s.x ? wx : s.x;
 
-				dst.w = (float)src.w;
-				dst.h = (float)src.h;
+				dst.x += p.x;
+				dst.w = src.w;
+				dst.h = src.h;
 
+				//if (_DE_BUG_)
+				//{
+				//	std::cout << "dst.x:	" << dst.x << std::endl
+				//		<< "dst.y:	" << dst.y << std::endl
+				//		<< "dst.w:	" << dst.w << std::endl
+				//		<< "dst.h:	" << dst.h << std::endl<< std::endl;
+				//}
 				GameMgr::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
 			}
 		}

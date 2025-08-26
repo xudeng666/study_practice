@@ -143,8 +143,6 @@ public:
 		SDL_RenderCopyExF(renderer, texture, rect_src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
 	}
 
-	//	SDL_RenderCopyExF(renderer, texture, &src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
-	//}
 	/// <summary>
 	/// »æÖÆ¾ØÐÎ±ß¿ò
 	/// </summary>

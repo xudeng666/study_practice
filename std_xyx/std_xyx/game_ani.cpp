@@ -30,6 +30,7 @@ void GameAni::on_update(float delta)
 	timer.on_update(delta);
 	set_Texture();
 	set_size();
+	GameImg::on_update(delta);
 }
 
 void GameAni::on_render()

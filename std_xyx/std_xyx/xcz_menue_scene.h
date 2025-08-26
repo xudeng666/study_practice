@@ -9,8 +9,8 @@ public:
     XczMenueScene();
     ~XczMenueScene();
 
-    void on_enter();
-    void on_exit();
+    void on_enter() override;
+    void on_exit() override;
 
 private:
     GameImg* bg = nullptr;

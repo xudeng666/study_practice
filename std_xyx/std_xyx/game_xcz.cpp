@@ -4,7 +4,6 @@
 #include "res_mgr.h"
 
 #include <SDL_mixer.h>
-//#include "xcz_game_scene.h"
 
 void GameXcz::on_scene_init()
 {

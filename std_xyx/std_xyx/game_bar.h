@@ -20,10 +20,15 @@ public:
 	/// <param name="num">0.0~1.0</param>
 	void set_percent_num(float num);
 	/// <summary>
-	/// 设置最大宽度
+	/// 设置进度条最大值
 	/// </summary>
-	/// <param name="num">0.0~1.0</param>
-	void set_max_value(float num);
+	/// <param name="value">SDL_Point</param>
+	void set_max_value(SDL_Point value);
+	/// <summary>
+	/// 设置进度条方向
+	/// </summary>
+	/// <param name="is_h">true 横向 false 纵向</param>
+	void set_is_horizontal(bool is_h);
 
 protected:
 	// 背景
@@ -32,7 +37,9 @@ protected:
 	GameImg* img_pro = nullptr;
 	// 当前值
 	float percent_num = 0.0f;
-	// 最大宽度
-	float max_value = 0.0f;
+	// 最大值
+	SDL_Point max_value = { 0,0 };
+	// 进度条方向
+	bool is_horizontal = true;
 };
 

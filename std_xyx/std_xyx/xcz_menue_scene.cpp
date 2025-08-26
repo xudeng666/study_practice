@@ -42,10 +42,18 @@ XczMenueScene::~XczMenueScene()
 
 void XczMenueScene::on_enter()
 {
+    if (_DE_BUG_)
+    {
+        std::cout << "XczMenueScene::on_enter" << std::endl;
+    }
     Scene::on_enter();
 }
 
 void XczMenueScene::on_exit()
 {
+    if (_DE_BUG_)
+    {
+        std::cout << "XczMenueScene::on_exit" << std::endl;
+    }
     Scene::on_exit();
 }
