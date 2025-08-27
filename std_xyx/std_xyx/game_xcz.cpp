@@ -3,8 +3,6 @@
 #include "xcz_game_scene.h"
 #include "res_mgr.h"
 
-#include <SDL_mixer.h>
-
 void GameXcz::on_scene_init()
 {
 	scene_pool[SceneType::MENUE] = new XczMenueScene();

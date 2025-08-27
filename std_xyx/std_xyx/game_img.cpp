@@ -1,6 +1,5 @@
 #include "game_img.h"
-#include "res_mgr.h"
-#include "game_mgr.h"
+#include <iostream>
 
 GameImg::GameImg(const Vector2 pos) :GameObj(pos)
 {
@@ -69,7 +68,7 @@ void GameImg::on_render()
 				//		<< "dst.w:	" << dst.w << std::endl
 				//		<< "dst.h:	" << dst.h << std::endl<< std::endl;
 				//}
-				GameMgr::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
+				GameWnd::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
 			}
 		}
 	}
@@ -77,7 +76,7 @@ void GameImg::on_render()
 	{
 		src = { 0,0,size.x,size.y };
 		dst = { p.x,p.y,(float)size.x,(float)size.y };
-		GameMgr::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
+		GameWnd::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
 	}
 
 	GameObj::on_render();
@@ -93,7 +92,7 @@ void GameImg::set_size()
 
 void GameImg::set_size(const SDL_Point& size)
 {
-	this->size = size;
+	GameObj::set_size(size);
 }
 
 void GameImg::set_texture()

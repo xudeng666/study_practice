@@ -15,7 +15,7 @@ public:
 	/*设置尺寸*/
 	virtual void set_size();
 	/*设置尺寸*/
-	void set_size(const SDL_Point& size);
+	virtual void set_size(const SDL_Point& size) override;
 	/*设置纹理*/
 	virtual void set_texture();
 	/*获取纹理*/

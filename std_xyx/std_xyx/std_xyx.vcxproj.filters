@@ -90,6 +90,12 @@
     <ClCompile Include="game_bar.cpp">
       <Filter>源文件\obj</Filter>
     </ClCompile>
+    <ClCompile Include="game_lable.cpp">
+      <Filter>源文件\obj</Filter>
+    </ClCompile>
+    <ClCompile Include="game_wnd.cpp">
+      <Filter>源文件\obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -153,6 +159,12 @@
       <Filter>头文件\game_xcz</Filter>
     </ClInclude>
     <ClInclude Include="game_bar.h">
+      <Filter>头文件\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="game_lable.h">
+      <Filter>头文件\obj</Filter>
+    </ClInclude>
+    <ClInclude Include="game_wnd.h">
       <Filter>头文件\obj</Filter>
     </ClInclude>
   </ItemGroup>

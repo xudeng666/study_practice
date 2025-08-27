@@ -2,7 +2,7 @@
 #include "game_start.h"
 #include "game_xcz.h"
 
-#include <iostream>
+//#include <iostream>
 
 GameMgr* GameMgr::manager = nullptr;
 
@@ -17,12 +17,6 @@ GameMgr* GameMgr::instance()
 
 void GameMgr::init()
 {
-	window = SDL_CreateWindow(u8"小游戏", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _WIN_W_, _WIN_H_, SDL_WINDOW_SHOWN);
-
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-	camera = new Camera(renderer);
-
 	game_pool[GameType::START] = new GameStart();
 	game_pool[GameType::XCZ] = new GameXcz();
 	/*game_pool[GameType::KDWS] = new GameStart();
@@ -42,10 +36,6 @@ void GameMgr::deinit()
 		delete game;
 	}
 	game_pool.clear();
-
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	delete camera;
 }
 
 Game* GameMgr::get_current_game()
@@ -73,6 +63,12 @@ void GameMgr::exchange_game(GameType type)
 	current_type = type;
 
 	get_current_game()->on_enter();
+}
+
+/*场景切换*/
+void GameMgr::exchange_scene(SceneType type)
+{
+	get_current_game()->exchange_scene(type);
 }
 
 /*游戏初始化*/
@@ -105,14 +101,4 @@ bool GameMgr::get_is_run()
 void GameMgr::set_is_run(bool run)
 {
 	is_run = run;
-}
-/*获取摄像机*/
-Camera* GameMgr::get_camera()
-{
-	return camera;
-}
-/*获取渲染器*/
-SDL_Renderer* GameMgr::get_renderer()
-{
-	return renderer;
 }

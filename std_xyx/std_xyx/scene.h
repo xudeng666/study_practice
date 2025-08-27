@@ -2,7 +2,7 @@
 
 #include "Camera.h"
 #include "game_obj.h"
-#include "res_mgr.h"
+#include "game_mgr.h"
 
 #include <queue>
 #include <iostream>

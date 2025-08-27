@@ -1,5 +1,5 @@
 #pragma once
-//#include "game_obj.h"
+
 #include "game_img.h"
 
 class GameBar :public GameObj

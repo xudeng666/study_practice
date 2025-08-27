@@ -1,6 +1,4 @@
 #include "start_menue_scene.h"
-#include "res_mgr.h"
-#include "game_mgr.h"
 
 
 StartMenueScene::StartMenueScene()

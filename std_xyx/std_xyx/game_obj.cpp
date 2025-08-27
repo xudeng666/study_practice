@@ -1,5 +1,4 @@
 #include "game_obj.h"
-#include "game_mgr.h"
 
 
 void GameObj::on_enter()
@@ -60,7 +59,7 @@ void GameObj::on_render()
 	if (_DE_BUG_)
 	{
 		SDL_Rect r = get_Rect();
-		GameMgr::instance()->get_camera()->render_line_rect(&r);
+		GameWnd::instance()->get_camera()->render_line_rect(&r);
 	}
 }
 
@@ -88,6 +87,7 @@ void GameObj::set_size(const SDL_Point& size)
 {
 	this->size = size;
 }
+
 const SDL_Point& GameObj::get_size() const
 {
 	return size;

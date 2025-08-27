@@ -1,7 +1,5 @@
 #include "res_mgr.h"
-#include "game_mgr.h"
 
-#include <SDL_image.h>
 #include <filesystem>
 
 ResMgr* ResMgr::manager = nullptr;
@@ -43,7 +41,7 @@ void ResMgr::load()
 
 			if (ext == ".png")
 			{
-				SDL_Texture* texture = IMG_LoadTexture(GameMgr::instance()->get_renderer(), p.u8string().c_str());
+				SDL_Texture* texture = IMG_LoadTexture(GameWnd::instance()->get_renderer(), p.u8string().c_str());
 				if (texture)
 				{
 					texture_pool[keyStr] = texture;
@@ -84,6 +82,46 @@ void ResMgr::load()
 	}
 }
 
+void ResMgr::ttf_load(const std::string& name)
+{
+	using namespace std::filesystem;
+
+	const std::string resRoot = "resources/" + get_str_of_type(GameMgr::instance()->get_current_type());
+
+	for (const auto& entry:recursive_directory_iterator(resRoot))
+	{
+		if (entry.is_regular_file())
+		{
+			if (!entry.is_regular_file()) continue;
+
+			const path& p = entry.path();
+
+			std::string ext = p.extension().string();
+			std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower); // 扩展名转小写
+
+			std::string keyStr = p.stem().u8string();	// 字体文件不考虑路径
+
+			if (ext == ".ttf")
+			{
+				int size;
+				std::string key;
+				if (splitByLastChar(name, '_', key, size) && key == keyStr)
+				{
+					TTF_Font* font = TTF_OpenFont(p.u8string().c_str(), size);
+					if (font)
+					{
+						ttf_pool[name] = font;
+					}
+					else
+					{
+						std::cout << "字体资源加载失败: " << p << "，错误：" << TTF_GetError() << std::endl;
+					}
+				}
+			}
+		}
+	}
+}
+
 
 void ResMgr::res_traversal()
 {
@@ -95,6 +133,9 @@ void ResMgr::res_traversal()
 	}
 	for (auto& [name, tex] : texture_pool) {
 		std::cout << "image:   " << name << std::endl;
+	}
+	for (auto& [name, ttf] : ttf_pool) {
+		std::cout << "ttf:   " << name << std::endl;
 	}
 }
 
@@ -117,6 +158,12 @@ void ResMgr::releaseAll()
 		SDL_DestroyTexture(tex);
 	}
 	texture_pool.clear();
+
+	// 释放字体
+	for (auto& [name, ttf]:ttf_pool){
+		TTF_CloseFont(ttf);
+	}
+	ttf_pool.clear();
 }
 
 Mix_Chunk* ResMgr::find_audio(const std::string& name)
@@ -126,7 +173,7 @@ Mix_Chunk* ResMgr::find_audio(const std::string& name)
 
 Mix_Music* ResMgr::find_music(const std::string& name)
 {
-	std::cout << "获取音乐：" << name << std::endl;
+	//std::cout << "获取音乐：" << name << std::endl;
 	return music_pool[name];
 }
 
@@ -134,6 +181,16 @@ SDL_Texture* ResMgr::find_texture(const std::string& name)
 {
 	// std::cout << name << texture_pool[name] << std::endl;
 	return texture_pool[name];
+}
+
+TTF_Font* ResMgr::find_ttf(const std::string& name)
+{
+	// std::cout << name << ttf_pool[name] << std::endl;
+	if (!ttf_pool[name])
+	{
+		ttf_load(name);
+	}
+	return ttf_pool[name];
 }
 
 std::string ResMgr::removeFileExtension(const std::string& filename) {

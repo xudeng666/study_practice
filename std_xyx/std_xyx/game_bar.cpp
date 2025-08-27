@@ -1,6 +1,5 @@
 #include "game_bar.h"
-#include "res_mgr.h"
-#include "game_mgr.h"
+//#include "res_mgr.h"
 
 
 GameBar::GameBar(const Vector2 pos):GameObj(pos)

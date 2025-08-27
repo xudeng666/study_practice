@@ -1,6 +1,5 @@
 #pragma once
 
-#include "res_mgr.h"
 #include "game_img.h"
 
 class GameAni : public GameImg

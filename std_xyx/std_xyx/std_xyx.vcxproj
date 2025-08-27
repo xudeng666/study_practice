@@ -138,10 +138,12 @@
     <ClCompile Include="game_btn.cpp" />
     <ClCompile Include="game_collision_box.cpp" />
     <ClCompile Include="game_img.cpp" />
+    <ClCompile Include="game_lable.cpp" />
     <ClCompile Include="game_obj.cpp" />
     <ClCompile Include="game_ani.cpp" />
     <ClCompile Include="game_mgr.cpp" />
     <ClCompile Include="game_start.cpp" />
+    <ClCompile Include="game_wnd.cpp" />
     <ClCompile Include="game_xcz.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="res_mgr.cpp" />
@@ -158,10 +160,12 @@
     <ClInclude Include="game_btn.h" />
     <ClInclude Include="game_collision_box.h" />
     <ClInclude Include="game_img.h" />
+    <ClInclude Include="game_lable.h" />
     <ClInclude Include="game_mgr.h" />
     <ClInclude Include="game_obj.h" />
     <ClInclude Include="game_start.h" />
     <ClInclude Include="game_type.h" />
+    <ClInclude Include="game_wnd.h" />
     <ClInclude Include="game_xcz.h" />
     <ClInclude Include="res_mgr.h" />
     <ClInclude Include="scene.h" />

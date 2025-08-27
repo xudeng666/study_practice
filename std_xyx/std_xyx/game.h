@@ -1,7 +1,6 @@
 #pragma once
 
 #include "game_type.h"
-#include "camera.h"
 #include "scene.h"
 
 /*ÓÎÏ·»ùÀà*/

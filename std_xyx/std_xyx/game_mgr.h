@@ -1,7 +1,6 @@
 #pragma once
 
 #include "game.h"
-#include "game_type.h"
 
 /*游戏管理器*/
 class GameMgr
@@ -18,6 +17,8 @@ public:
 	GameType get_current_type();
 	/*游戏切换*/
 	void exchange_game(GameType type);
+	/*场景切换*/
+	void exchange_scene(SceneType type);
 	/*游戏初始化*/
 	void on_enter();
 	/*处理数据*/
@@ -30,10 +31,6 @@ public:
 	bool get_is_run();
 	/*设置游戏运行*/
 	void set_is_run(bool run);
-	/*获取摄像机*/
-	Camera* get_camera();
-	/*获取渲染器*/
-	SDL_Renderer* get_renderer();
 
 private:
 	GameMgr() = default;
@@ -41,10 +38,6 @@ private:
 
 private:
 	static GameMgr* manager;
-
-	SDL_Window* window = nullptr;
-	SDL_Renderer* renderer = nullptr;
-	Camera* camera = nullptr;
 
 	bool is_run = true;
 

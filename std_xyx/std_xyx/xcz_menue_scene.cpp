@@ -1,6 +1,4 @@
 #include "xcz_menue_scene.h"
-#include "res_mgr.h"
-#include "game_mgr.h"
 
 
 XczMenueScene::XczMenueScene()
@@ -11,7 +9,7 @@ XczMenueScene::XczMenueScene()
     btn_start->set_parent_anchor_mode(AnchorMode::CENTER);
     btn_start->set_on_click([]() {
         std::cout << "切换到幸存者游戏界面" << std::endl;
-        GameMgr::instance()->get_current_game()->exchange_scene(SceneType::GAME);
+        GameMgr::instance()->exchange_scene(SceneType::GAME);
         }
     );
 

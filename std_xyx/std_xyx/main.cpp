@@ -84,10 +84,10 @@ void mainloop()
 		on_update(delta.count());
 
 		// Çå¿ÕÉÏÒ»Ö¡
-		SDL_RenderClear(GameMgr::instance()->get_renderer());
+		SDL_RenderClear(GameWnd::instance()->get_renderer());
 		// äÖÈ¾»æÍ¼
 		on_render();
-		SDL_RenderPresent(GameMgr::instance()->get_renderer());
+		SDL_RenderPresent(GameWnd::instance()->get_renderer());
 
 		last_tick = frome_start;
 		nanoseconds sleep_duration = frame_duration - (steady_clock::now() - frome_start);

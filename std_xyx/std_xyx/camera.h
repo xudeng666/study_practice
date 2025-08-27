@@ -144,6 +144,21 @@ public:
 	}
 
 	/// <summary>
+	/// 渲染纹理
+	/// </summary>
+	/// <param name="texture">纹理资源指针</param>
+	/// <param name="rect_src">纹理rect</param>
+	/// <param name="rect_dst">绘制区域rect</param>
+	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src, const SDL_Rect* rect_dst) const
+	{
+		SDL_Rect dst = *rect_dst;
+		dst.x -= (int)position.x;
+		dst.y -= (int)position.y;
+
+		SDL_RenderCopy(renderer, texture, rect_src, &dst);
+	}
+
+	/// <summary>
 	/// 绘制矩形边框
 	/// </summary>
 	/// <param name="rect">范围</param>

@@ -2,10 +2,10 @@
 
 #include <forward_list>
 
-#include <SDL.h>
+//#include <SDL.h>
 
+#include "res_mgr.h"
 #include "game_type.h"
-#include "camera.h"
 
 /*游戏对象基类*/
 class GameObj
@@ -32,7 +32,7 @@ public:
     /*获取坐标*/
     const Vector2& get_position() const;
     /*设置尺寸*/
-    void set_size(const SDL_Point& size);
+    virtual void set_size(const SDL_Point& size);
     /*获取尺寸*/
     const SDL_Point& get_size() const;
     /*设置显示状态*/

@@ -1,6 +1,8 @@
 #pragma once
 #include <random>
 #include <cmath>
+#include <stdexcept>
+#include <string>
 
 #define _PI_ acos(-1)
 #define _WIN_W_ 1280
@@ -106,4 +108,28 @@ inline double getRadiansByAngle(double angle)
 inline double getAngleByRadians(double radians)
 {
 	return radians * 180 / _PI_;
+}
+
+inline bool splitByLastChar(const std::string& str, const char delimiter, std::string& name, int& size ) {
+	// 查找倒数第一个分隔符的位置
+	size_t lastPos = str.rfind(delimiter);
+
+	if (lastPos == std::string::npos || lastPos == str.size() - 1) {
+		// 未找到分隔符或者没有数字后缀
+		return false;
+	}
+	name = str.substr(0, lastPos);
+	std::string num = str.substr(lastPos + 1);
+	try {
+		size = std::stoi(str);
+	}
+	catch (const std::invalid_argument&) {
+		//"数字部分含非数字字符: "
+		return false;
+	}
+	catch (const std::out_of_range&) {
+		//"数字超出 int 范围: "
+		return false;
+	}
+	return true;
 }
