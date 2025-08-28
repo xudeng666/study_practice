@@ -52,7 +52,7 @@ private:
     // Па»ъ
     Camera* camera = nullptr;
 
-    int width = 1280;
-    int height = 720;
+    int width = _WIN_W_;
+    int height = _WIN_H_;
 };
 

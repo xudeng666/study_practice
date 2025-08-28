@@ -5,14 +5,14 @@ XczGameScene::XczGameScene()
     bg = new GameImg({ 0,0 }, "background");
     bg->set_ID("bg");
     bg->set_anchor_mode(AnchorMode::CENTER);
-    bg->set_parent_anchor_mode(AnchorMode::CENTER);
+    bg->set_anchor_referent_mode(AnchorMode::CENTER);
 
     hp_bar = new GameBar({ -10,10 });
     hp_bar->set_ID("hp_bar");
     hp_bar->set_anchor_mode(AnchorMode::TOPRIGHT);
-    hp_bar->set_parent_anchor_mode(AnchorMode::TOPRIGHT);
+    hp_bar->set_anchor_referent_mode(AnchorMode::TOPRIGHT);
     hp_bar->get_img_pro()->set_anchor_mode(AnchorMode::LEFTCENTER);
-    hp_bar->get_img_pro()->set_parent_anchor_mode(AnchorMode::LEFTCENTER);
+    hp_bar->get_img_pro()->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
     hp_bar->get_img_pro()->set_res_name("ui_heart");
     hp_bar->get_img_pro()->set_texture_map_type(TextureMapType::TILE);
     pre_order_traversal(hp_bar, [&](GameObj* obj) {

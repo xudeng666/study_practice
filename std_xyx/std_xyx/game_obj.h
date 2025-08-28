@@ -44,10 +44,14 @@ public:
     void set_anchor_mode(const AnchorMode mode);
     /*获取锚点*/
     const AnchorMode get_anchor_mode() const;
-    /*设置父节点锚点*/
-    void set_parent_anchor_mode(const AnchorMode mode);
-    /*获取父节点锚点*/
-    const AnchorMode get_parent_anchor_mode() const;
+    /*设置锚定对象锚点*/
+    void set_anchor_referent_mode(const AnchorMode mode);
+    /*获取锚定对象锚点*/
+    const AnchorMode get_anchor_referent_mode() const;
+    /*设置锚定对象*/
+    void set_anchor_referent_obj(GameObj* obj);
+    /*获取锚定对象*/
+    const GameObj* get_anchor_referent_obj();
     /*设置旋转中心*/
     void set_center(const SDL_FPoint& pos);
     /*设置角度*/
@@ -60,8 +64,35 @@ public:
     SDL_FRect get_FRect();
     /*获取对象区域*/
     SDL_Rect get_Rect();
-    /*获取对象锚点坐标*/
+    /// <summary>
+    /// 获取自身某锚点的全局坐标
+    /// </summary>
+    /// <param name="mode">目标锚点</param>
+    /// <returns>Vector2</returns>
     Vector2 get_anchor_position(const AnchorMode mode);
+    /// <summary>
+    /// 获取自身某锚点的全局坐标
+    /// </summary>
+    /// <remarks>
+    /// 计算本节点和指定锚定对象的锚点全局坐标（不会修改实际锚定对象）
+    /// </remarks>
+    /// <param name="obj">锚定对象</param>
+    /// <param name="mode">目标锚点</param>
+    /// <returns>Vector2</returns>
+    Vector2 get_anchor_position(GameObj* obj, const AnchorMode mode);
+    /// <summary>
+    /// 获取假子节点锚点的全局坐标
+    /// </summary>
+    /// <remarks>
+    /// 某个对象以本节点为锚点，计算该对象的某个锚点全局坐标
+    /// </remarks>
+    /// <param name="aligned">自身对齐锚点</param>
+    /// <param name="reference">目标参照锚点</param>
+    /// <param name="target">目标计算锚点</param>
+    /// <param name="pos">目标相对坐标</param>
+    /// <param name="p_size">目标尺寸</param>
+    /// <returns>Vector2</returns>
+    Vector2 get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size);
 
 protected:
     std::string ID;
@@ -81,12 +112,14 @@ protected:
     SDL_FPoint center = { 0.0f, 0.0f };
 	/*自身锚点*/
     AnchorMode anchor_mode = AnchorMode::TOPLEFT;
-    /*父锚点*/
-    AnchorMode parent_anchor_mode = AnchorMode::TOPLEFT;
+    /*锚定对象锚点*/
+    AnchorMode anchor_referent_mode = AnchorMode::TOPLEFT;
 
 protected:
     // 父节点
     GameObj* parent = nullptr;
+    // 锚定对象
+    GameObj* anchor_referent_obj = nullptr;
     // 子节点
     std::list<GameObj*> children;
 

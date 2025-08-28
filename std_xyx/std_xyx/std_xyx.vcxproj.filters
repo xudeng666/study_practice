@@ -170,5 +170,8 @@
     <ClInclude Include="game_wnd.h">
       <Filter>头文件\manager</Filter>
     </ClInclude>
+    <ClInclude Include="SDL_util.h">
+      <Filter>头文件\util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

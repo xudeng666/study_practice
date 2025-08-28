@@ -134,14 +134,27 @@ const AnchorMode GameObj::get_anchor_mode() const
 	return anchor_mode;
 }
 
-void GameObj::set_parent_anchor_mode(const AnchorMode mode)
+void GameObj::set_anchor_referent_mode(const AnchorMode mode)
 {
-	parent_anchor_mode = mode;
+	anchor_referent_mode = mode;
 }
 
-const AnchorMode GameObj::get_parent_anchor_mode() const
+const AnchorMode GameObj::get_anchor_referent_mode() const
 {
-	return parent_anchor_mode;
+	return anchor_referent_mode;
+}
+
+void GameObj::set_anchor_referent_obj(GameObj* obj)
+{
+	if (obj)
+	{
+		anchor_referent_obj = obj;
+	}
+}
+
+const GameObj* GameObj::get_anchor_referent_obj()
+{
+	return anchor_referent_obj;
 }
 
 SDL_FRect GameObj::get_FRect()
@@ -156,17 +169,12 @@ SDL_Rect GameObj::get_Rect()
 	return { (int)p.x, (int)p.y, size.x, size.y };
 }
 
-/// <summary>
-/// 获取对象锚点的全局坐标
-/// </summary>
-/// <param name="mode">锚点类型</param>
-/// <returns>Vector2</returns>
 Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 {
 	Vector2 t = { 0.0f,0.0f };
-	if (parent) // 获取父节点的对齐锚点全局坐标
+	if (anchor_referent_obj) // 获取父节点的对齐锚点全局坐标
 	{
-		t = parent->get_anchor_position(parent_anchor_mode);
+		t = anchor_referent_obj->get_anchor_position(anchor_referent_mode);
 	}
 
 	Vector2 p = position;
@@ -195,9 +203,46 @@ Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 	return t;
 }
 
+Vector2 GameObj::get_anchor_position(GameObj* obj, const AnchorMode mode)
+{
+	Vector2 t = { 0.0f,0.0f };
+	if (obj) // 获取锚定对象的对齐锚点全局坐标
+	{
+		t = obj->get_anchor_position(anchor_referent_mode);
+	}
+
+	Vector2 p = position;
+	int m = static_cast<int>(mode);
+	int a = static_cast<int>(anchor_mode);
+
+	p.x += (m % 3 - a % 3) * size.x / 2;
+	p.y += (m / 3 - a / 3) * size.y / 2;
+	t += p;
+
+	return t;
+}
+
+Vector2 GameObj::get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size)
+{
+	Vector2 t = get_anchor_position(aligned);
+	int m = static_cast<int>(target);
+	int a = static_cast<int>(reference);
+	pos.x += (m % 3 - a % 3) * p_size.x / 2;
+	pos.y += (m / 3 - a / 3) * p_size.y / 2;
+	t += pos;
+	return t;
+}
+
 void GameObj::set_parent(GameObj* p)
 {
-	parent = p;
+	if (p)
+	{
+		if (parent == anchor_referent_obj || !anchor_referent_obj)
+		{
+			anchor_referent_obj = p;
+		}
+		parent = p;
+	}
 }
 
 GameObj* GameObj::get_parent()
@@ -217,6 +262,6 @@ void GameObj::add_children(GameObj* obj)
 	{
 		p->children.remove(obj);
 	}
-	obj->parent = this;
+	obj->set_parent(this);
 	children.push_back(obj);
 }

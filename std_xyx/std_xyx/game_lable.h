@@ -25,11 +25,17 @@ public:
 	/*设置阴影颜色*/
 	void set_shade_color(const int value);
 	/*设置阴影位置*/
-	void set_pos_shade(const SDL_Point pos);
+	void set_pos_lable(const Vector2 pos);
+	/*设置阴影位置*/
+	void set_pos_shade(const Vector2 pos);
 	/*设置字体*/
-	void set_font(std::string font);
+	void set_font(std::string name);
 	/*获取字体*/
 	TTF_Font* get_font();
+	/*设置锚点*/
+	void set_anchor_mode(AnchorMode mode);
+	/*获取锚点*/
+	AnchorMode get_anchor_mode();
 
 protected:
 	// 文本内容
@@ -39,16 +45,13 @@ protected:
 	// 是否显示阴影
 	bool is_shade = false;	// 是否有阴影
 	// 阴影颜色
-	int color_shade = 0xFFFFFFFF;		//ARGB
+	int color_shade = 0x55555555;		//ARGB
+	// 正文的位置
+	Vector2 pos_lable = { 0,0 };
 	// 阴影相对于正文的位置
-	SDL_Point pos_shade = { -1,1 };
+	Vector2 pos_shade = { -2,2 };
 	// 字体指针
 	TTF_Font* font = nullptr;
+	// 文本锚点
+	AnchorMode anchor_mode = AnchorMode::TOPLEFT;
 };
-
-/*
-* TTF_RenderUTF8_Blended(font, str_score.c_str(), { 55, 55, 55, 255 });
-TTF_RenderUTF8_Blended(font, str_score.c_str(), { 255, 255, 255, 255 });
-SDL_CreateTextureFromSurface(renderer, suf_score_bg);
-SDL_CreateTextureFromSurface(renderer, suf_score_fg);
-*/

@@ -7,25 +7,25 @@ Scene::Scene()
 	root->set_ID("root");
 	root->set_size({ _WIN_W_,_WIN_H_ });
 	root->set_anchor_mode(AnchorMode::TOPLEFT);
-	root->set_parent_anchor_mode(AnchorMode::TOPLEFT);
+	root->set_anchor_referent_mode(AnchorMode::TOPLEFT);
 
 	background = new GameObj({ 0,0 });
 	background->set_ID("background");
 	background->set_size({ _WIN_W_,_WIN_H_ });
 	background->set_anchor_mode(AnchorMode::CENTER);
-	background->set_parent_anchor_mode(AnchorMode::CENTER);
+	background->set_anchor_referent_mode(AnchorMode::CENTER);
 
 	entity = new GameObj({ 0,0 });
 	entity->set_ID("entity");
 	entity->set_size({ _WIN_W_,_WIN_H_ });
 	entity->set_anchor_mode(AnchorMode::CENTER);
-	entity->set_parent_anchor_mode(AnchorMode::CENTER);
+	entity->set_anchor_referent_mode(AnchorMode::CENTER);
 
 	ui = new GameObj({ 0,0 });
 	ui->set_ID("ui");
 	ui->set_size({ _WIN_W_,_WIN_H_ });
 	ui->set_anchor_mode(AnchorMode::CENTER);
-	ui->set_parent_anchor_mode(AnchorMode::CENTER);
+	ui->set_anchor_referent_mode(AnchorMode::CENTER);
 
 	root->add_children(background);
 	root->add_children(entity);

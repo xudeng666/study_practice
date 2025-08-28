@@ -6,12 +6,12 @@ GameBar::GameBar(const Vector2 pos):GameObj(pos)
 	img_bg = new GameImg({0,0});
 	img_bg->set_ID("img_bg");
 	img_bg->set_anchor_mode(AnchorMode::LEFTCENTER);
-	img_bg->set_parent_anchor_mode(AnchorMode::LEFTCENTER);
+	img_bg->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
 
 	img_pro = new GameImg({ 0,0 });
 	img_pro->set_ID("img_pro");
 	img_pro->set_anchor_mode(AnchorMode::LEFTCENTER);
-	img_pro->set_parent_anchor_mode(AnchorMode::LEFTCENTER);
+	img_pro->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
 
 	add_children(img_bg);
 	add_children(img_pro);

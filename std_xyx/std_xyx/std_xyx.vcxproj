@@ -170,6 +170,7 @@
     <ClInclude Include="game_xcz.h" />
     <ClInclude Include="res_mgr.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="SDL_util.h" />
     <ClInclude Include="start_menue_scene.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="util.h" />
