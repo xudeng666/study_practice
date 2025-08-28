@@ -9,7 +9,7 @@ void GameCollisionBox::on_update(float delta)
 void GameCollisionBox::on_render()
 {
 	SDL_Rect rect = get_Rect();
-	GameWnd::instance()->get_camera()->render_line_rect(&rect);
+	GameWnd::instance()->render_line_rect(&rect);
 }
 
 void GameCollisionBox::set_collision_enabled(bool flag)

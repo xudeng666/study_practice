@@ -60,7 +60,7 @@ void GameObj::on_render()
 	if (_DE_BUG_)
 	{
 		SDL_Rect r = get_Rect();
-		GameWnd::instance()->get_camera()->render_line_rect(&r);
+		GameWnd::instance()->render_line_rect(&r);
 	}
 }
 

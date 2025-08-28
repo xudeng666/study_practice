@@ -52,12 +52,8 @@ void CollisionMgr::processCollide()
 
 bool CollisionMgr::is_collision(GameCollisionBox* box_t, GameCollisionBox* box_p)
 {
-	Vector2 pos_t = box_t->get_position();
-	SDL_Point size_t = box_t->get_size();
-	SDL_FRect rect_t = GameWnd::instance()->get_camera()->get_dst_rect(pos_t, size_t, box_t->get_anchor_mode());
-	Vector2 pos_p = box_p->get_position();
-	SDL_Point size_p = box_p->get_size();
-	SDL_FRect rect_p = GameWnd::instance()->get_camera()->get_dst_rect(pos_p, size_p, box_p->get_anchor_mode());
+	SDL_FRect rect_t = box_t->get_FRect();
+	SDL_FRect rect_p = box_p->get_FRect();
 	return SDL_HasIntersectionF(&rect_t, &rect_p);
 }
 

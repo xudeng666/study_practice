@@ -69,7 +69,7 @@ void GameImg::on_render()
 				//		<< "dst.w:	" << dst.w << std::endl
 				//		<< "dst.h:	" << dst.h << std::endl<< std::endl;
 				//}
-				GameWnd::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
+				GameWnd::instance()->render_texture(texture, &src, &dst, angle, &center);
 			}
 		}
 	}
@@ -77,7 +77,7 @@ void GameImg::on_render()
 	{
 		src = { 0,0,size.x,size.y };
 		dst = { p.x,p.y,(float)size.x,(float)size.y };
-		GameWnd::instance()->get_camera()->render_texture(texture, &src, &dst, angle, &center);
+		GameWnd::instance()->render_texture(texture, &src, &dst, angle, &center);
 	}
 
 	GameObj::on_render();

@@ -16,6 +16,30 @@ public:
     // 获取相机
     Camera* get_camera();
 
+	/// <summary>
+	/// 渲染纹理
+	/// </summary>
+	/// <param name="texture">纹理资源指针</param>
+	/// <param name="rect_src">纹理rect</param>
+	/// <param name="rect_dst">绘制区域Frect</param>
+	/// <param name="angle">角度</param>
+	/// <param name="center">旋转中心点</param>
+	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src,const SDL_FRect* rect_dst, double angle, const SDL_FPoint* center)const;
+
+	/// <summary>
+	/// 渲染纹理
+	/// </summary>
+	/// <param name="texture">纹理资源指针</param>
+	/// <param name="rect_src">纹理rect</param>
+	/// <param name="rect_dst">绘制区域rect</param>
+	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src, const SDL_Rect* rect_dst) const;
+
+	/// <summary>
+	/// 绘制矩形边框
+	/// </summary>
+	/// <param name="rect">范围</param>
+	void render_line_rect(SDL_Rect* rect);
+
 private:
     GameWnd();
     ~GameWnd();

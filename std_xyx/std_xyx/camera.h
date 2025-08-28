@@ -9,10 +9,8 @@
 class Camera
 {
 public:
-	Camera(SDL_Renderer* rend)
+	Camera()
 	{
-		renderer = rend;
-
 		timer_shake.set_one_shot(true);
 		timer_shake.set_on_timeout([&]()
 			{
@@ -65,110 +63,7 @@ public:
 		timer_shake.set_wait_time(timer);
 		timer_shake.restart();
 	}
-	/// <summary>
-	/// 获取dst_rect
-	/// </summary>
-	/// <param name="pos">位置</param>
-	/// <param name="size">尺寸</param>
-	/// <param name="mode">锚点</param>
-	/// <returns>SDL_FRect</returns>
-	SDL_FRect get_dst_rect(Vector2& pos, SDL_Point& size, AnchorMode mode)
-	{
-		float x = 0;
-		float y = 0;
-
-		switch (mode)
-		{
-		case AnchorMode::TOPLEFT:
-			x = pos.x;
-			y = pos.y;
-			break;
-		case AnchorMode::TOPCENTER:
-			x = pos.x - size.x / 2;
-			y = pos.y;
-			break;
-		case AnchorMode::TOPRIGHT:
-			x = pos.x - size.x;
-			y = pos.y;
-			break;
-		case AnchorMode::LEFTCENTER:
-			x = pos.x;
-			y = pos.y - size.y / 2;
-			break;
-		case AnchorMode::CENTER:
-			x = pos.x - size.x / 2;
-			y = pos.y - size.y / 2;
-			break;
-		case AnchorMode::RIGHTCENTER:
-			x = pos.x - size.x;
-			y = pos.y - size.y / 2;
-			break;
-		case AnchorMode::BOTTOMLEFT:
-			x = pos.x;
-			y = pos.y - size.y;
-			break;
-		case AnchorMode::BOTTOMCENTER:
-			x = pos.x - size.x / 2;
-			y = pos.y - size.y;
-			break;
-		case AnchorMode::BOTTOMRIGHT:
-			x = pos.x - size.x;
-			y = pos.y - size.y;
-			break;
-		}
-
-		return { x, y, (float)size.x, (float)size.y };
-	}
-
-	SDL_Rect get_rect_of_frect(SDL_FRect& rect)
-	{
-		return { (int)rect.x,(int)rect.y,(int)rect.w,(int)rect.h };
-	}
-
-	/// <summary>
-	/// 渲染纹理
-	/// </summary>
-	/// <param name="texture">纹理资源指针</param>
-	/// <param name="rect_src">纹理rect</param>
-	/// <param name="rect_dst">绘制区域Frect</param>
-	/// <param name="angle">角度</param>
-	/// <param name="center">旋转中心点</param>
-	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src,
-		const SDL_FRect* rect_dst, double angle, const SDL_FPoint* center)const
-	{
-		SDL_FRect dst = *rect_dst;
-		dst.x -= position.x;
-		dst.y -= position.y;
-
-		SDL_RenderCopyExF(renderer, texture, rect_src, &dst, angle, center, SDL_RendererFlip::SDL_FLIP_NONE);
-	}
-
-	/// <summary>
-	/// 渲染纹理
-	/// </summary>
-	/// <param name="texture">纹理资源指针</param>
-	/// <param name="rect_src">纹理rect</param>
-	/// <param name="rect_dst">绘制区域rect</param>
-	void render_texture(SDL_Texture* texture, const SDL_Rect* rect_src, const SDL_Rect* rect_dst) const
-	{
-		SDL_Rect dst = *rect_dst;
-		dst.x -= (int)position.x;
-		dst.y -= (int)position.y;
-
-		SDL_RenderCopy(renderer, texture, rect_src, &dst);
-	}
-
-	/// <summary>
-	/// 绘制矩形边框
-	/// </summary>
-	/// <param name="rect">范围</param>
-	void render_line_rect(SDL_Rect* rect)
-	{
-		SDL_RenderDrawRect(renderer, rect);
-	}
-
 private:
-	SDL_Renderer* renderer = nullptr;	//渲染器
 	Vector2 position;					//摄像机位置
 	Timer timer_shake;					//抖动计时器
 	bool is_shaking = false;			//是否抖动
