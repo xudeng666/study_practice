@@ -1,4 +1,6 @@
 #include "res_mgr.h"
+#include "game_wnd.h"
+#include "game_mgr.h"
 
 #include <filesystem>
 

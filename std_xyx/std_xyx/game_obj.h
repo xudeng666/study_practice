@@ -1,11 +1,12 @@
 #pragma once
 
 #include <forward_list>
+#include <functional>
 
-//#include <SDL.h>
+#include <SDL.h>
 
-#include "res_mgr.h"
 #include "game_type.h"
+#include "vector2.h"
 
 /*游戏对象基类*/
 class GameObj

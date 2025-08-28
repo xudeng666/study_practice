@@ -1,110 +1,34 @@
 #pragma once
 
-#include "Camera.h"
-#include "game_obj.h"
-#include "game_mgr.h"
+//#include "game_obj.h"
+//#include "game_mgr.h"
 
 #include <queue>
-#include <iostream>
+#include <functional>
+#include <string>
+
+#include <SDL.h>
+
+class GameObj;
 
 /*场景类-基类*/
 class Scene
 {
 public:
-	Scene()
-	{
-		root = new GameObj({ 0,0 });
-		root->set_ID("root");
-		root->set_size({ _WIN_W_,_WIN_H_ });
-		root->set_anchor_mode(AnchorMode::TOPLEFT);
-		root->set_parent_anchor_mode(AnchorMode::TOPLEFT);
-
-		background = new GameObj({ 0,0 });
-		background->set_ID("background");
-		background->set_size({ _WIN_W_,_WIN_H_ });
-		background->set_anchor_mode(AnchorMode::CENTER);
-		background->set_parent_anchor_mode(AnchorMode::CENTER);
-
-		entity = new GameObj({ 0,0 });
-		entity->set_ID("entity");
-		entity->set_size({ _WIN_W_,_WIN_H_ });
-		entity->set_anchor_mode(AnchorMode::CENTER);
-		entity->set_parent_anchor_mode(AnchorMode::CENTER);
-
-		ui = new GameObj({ 0,0 });
-		ui->set_ID("ui");
-		ui->set_size({ _WIN_W_,_WIN_H_ });
-		ui->set_anchor_mode(AnchorMode::CENTER);
-		ui->set_parent_anchor_mode(AnchorMode::CENTER);
-
-		root->add_children(background);
-		root->add_children(entity);
-		root->add_children(ui);
-	}
-
-	virtual ~Scene()
-	{
-		post_order_traversal(root, [&](GameObj* obj) {
-			delete obj;
-			});
-	}
-
+	Scene();
+	virtual ~Scene();
 	/*场景初始化*/
-	virtual void on_enter()
-	{
-		pre_order_traversal(root, [&](GameObj* obj) {
-			obj->on_enter();
-			});
-		if (_DE_BUG_)
-		{
-			// ResMgr::instance()->res_traversal();
-			pre_order_traversal(root, [&](GameObj* obj) {
-				SDL_FRect r = obj->get_FRect();
-				std::cout << "obj   " << obj->get_ID() << std::endl <<
-					"         x: " << r.x << "  y: " << r.y << "  w: " << r.w << "  h: " << r.h << std::endl;
-				});
-		}
-	}
+	virtual void on_enter();
 	/*处理数据*/
-	virtual void on_update(float delta)
-	{
-		pre_order_traversal(root, [&](GameObj* obj) {
-			obj->on_update(delta);
-			});
-	}
-
+	virtual void on_update(float delta);
 	/*玩家输入*/
-	virtual void on_input(const SDL_Event& event)
-	{
-		pre_order_traversal(root, [&](GameObj* obj) {
-			obj->on_input(event);
-			});
-	}
-
+	virtual void on_input(const SDL_Event& event);
 	/*渲染绘图*/
-	virtual void on_render()
-	{
-		pre_order_traversal(root, [&](GameObj* obj) {
-			obj->on_render();
-			});
-	}
+	virtual void on_render();
 	/*退出场景*/
-	virtual void on_exit()
-	{
-		pre_order_traversal(root, [&](GameObj* obj) {
-			obj->on_exit();
-			});
-	}
-
-	void set_ID(const std::string id)
-	{
-		ID = id;
-	}
-
-	std::string get_ID()
-	{
-		return ID;
-	}
+	virtual void on_exit();
+	void set_ID(const std::string id);
+	std::string get_ID();
 
 public:
 	/// <summary>
@@ -112,20 +36,10 @@ public:
 	/// </summary>
 	/// <param name="id">std::string 对象ID</param>
 	/// <returns>GameObj* 对象指针</returns>
-	GameObj* find_obj(std::string id)
-	{
-		pre_order_traversal(root, [&](GameObj* obj) {
-			if (obj->get_ID() == id)
-			{
-				return obj;
-			}
-			});
-	}
+	GameObj* find_obj(std::string id);
+
 	// 获取UI根节点
-	GameObj* get_ui_root()
-	{
-		return root;
-	}
+	GameObj* get_ui_root();
 
 	/// <summary>
 	/// 前序遍历（深度优先）
@@ -133,45 +47,14 @@ public:
 	/// </summary>
 	/// <param name="current_node">遍历起始节点</param>
 	/// <param name="callback">回调函数</param>
-	void pre_order_traversal(GameObj* current_node, const std::function<void(GameObj*)>& callback)
-	{
-		if (!current_node) return;
-
-		if (!current_node->get_display()) return;
-
-		if (callback)
-		{
-			callback(current_node);
-		}
-
-		for (GameObj* child : current_node->get_children())
-		{
-			pre_order_traversal(child, callback);
-		}
-	}
-
+	void pre_order_traversal(GameObj* current_node, const std::function<void(GameObj*)>& callback);
 	/// <summary>
 	/// 后序遍历（深度优先）
 	/// 先子后父
 	/// </summary>
 	/// <param name="current_node">遍历起始节点</param>
 	/// <param name="callback">回调函数</param>
-	void post_order_traversal(GameObj* current_node, const std::function<void(GameObj*)>& callback)
-	{
-		if (!current_node) return;
-
-		if (!current_node->get_display()) return;
-
-		for (GameObj* child : current_node->get_children())
-		{
-			post_order_traversal(child, callback);
-		}
-
-		if (callback)
-		{
-			callback(current_node);
-		}
-	}
+	void post_order_traversal(GameObj* current_node, const std::function<void(GameObj*)>& callback);
 
 	/// <summary>
 	/// 层序遍历（广度优先）
@@ -179,34 +62,7 @@ public:
 	/// </summary>
 	/// <param name="current_node">遍历起始节点</param>
 	/// <param name="callback">回调函数</param>
-	void level_order_traversal(GameObj* current_node, const std::function<void(GameObj*)>& callback)
-	{
-		if (!current_node) return;
-
-		if (!current_node->get_display()) return;
-
-		std::queue<GameObj*> q;
-
-		q.push(current_node);
-
-		while (!q.empty())
-		{
-			int length = q.size();
-			for (int i = 0; i < length; i++)
-			{
-				GameObj* p = q.front();
-				q.pop();
-				if (callback)
-				{
-					callback(p);
-				}
-				for (GameObj* child: current_node->get_children())
-				{
-					q.push(child);
-				}
-			}
-		}
-	}
+	void level_order_traversal(GameObj* current_node, const std::function<void(GameObj*)>& callback);
 
 protected:
 	std::string ID;

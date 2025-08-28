@@ -1,4 +1,5 @@
 #include "xcz_menue_scene.h"
+#include "game_mgr.h"
 
 
 XczMenueScene::XczMenueScene()

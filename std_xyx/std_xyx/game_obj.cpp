@@ -1,4 +1,5 @@
 #include "game_obj.h"
+#include "game_wnd.h"
 
 
 void GameObj::on_enter()

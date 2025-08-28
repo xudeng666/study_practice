@@ -147,6 +147,7 @@
     <ClCompile Include="game_xcz.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="res_mgr.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="start_menue_scene.cpp" />
     <ClCompile Include="xcz_game_scene.cpp" />
     <ClCompile Include="xcz_menue_scene.cpp" />

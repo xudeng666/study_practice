@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 // ”Œœ∑¿‡–Õ
 enum class GameType

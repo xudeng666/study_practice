@@ -1,7 +1,7 @@
 #pragma once
 
-#include "game_type.h"
 #include "scene.h"
+#include "game_type.h"
 
 /*ÓÎÏ·»ùÀà*/
 class Game

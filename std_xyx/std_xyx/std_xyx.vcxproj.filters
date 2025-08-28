@@ -57,9 +57,6 @@
     <ClCompile Include="game_btn.cpp">
       <Filter>源文件\obj</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>源文件\obj</Filter>
-    </ClCompile>
     <ClCompile Include="xcz_menue_scene.cpp">
       <Filter>源文件\game_xcz</Filter>
     </ClCompile>
@@ -93,8 +90,14 @@
     <ClCompile Include="game_lable.cpp">
       <Filter>源文件\obj</Filter>
     </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
     <ClCompile Include="game_wnd.cpp">
-      <Filter>源文件\obj</Filter>
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>源文件\manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>头文件\util</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_type.h">
       <Filter>头文件\obj</Filter>
@@ -133,9 +133,6 @@
     </ClInclude>
     <ClInclude Include="xcz_game_scene.h">
       <Filter>头文件\game_xcz</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>头文件\obj</Filter>
     </ClInclude>
     <ClInclude Include="game_start.h">
       <Filter>头文件\game_start</Filter>
@@ -164,8 +161,14 @@
     <ClInclude Include="game_lable.h">
       <Filter>头文件\obj</Filter>
     </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>头文件\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>头文件\manager</Filter>
+    </ClInclude>
     <ClInclude Include="game_wnd.h">
-      <Filter>头文件\obj</Filter>
+      <Filter>头文件\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

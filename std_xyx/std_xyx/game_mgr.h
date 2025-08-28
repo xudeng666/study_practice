@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game.h"
+#include "game_type.h"
 
 /*ÓÎÏ·¹ÜÀíÆ÷*/
 class GameMgr

@@ -1,6 +1,6 @@
 #include "game_wnd.h"
 
-static GameWnd* game_wnd = nullptr;
+GameWnd* GameWnd::game_wnd = nullptr;
 
 GameWnd* GameWnd::instance()
 {

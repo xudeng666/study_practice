@@ -1,4 +1,5 @@
 #include "game_ani.h"
+#include "res_mgr.h"
 
 
 GameAni::GameAni(const Vector2 pos, const std::string name, const int num): GameImg(pos, name), num(num)

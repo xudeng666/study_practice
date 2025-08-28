@@ -6,12 +6,8 @@
 #include <SDL_ttf.h>
 
 #include <unordered_map>
-#include <iostream>
 
-#include "game_mgr.h"
-#include "game_wnd.h"
-
-//#include "game_type.h"
+#include "game_type.h"
 
 /*资源管理器*/
 class ResMgr

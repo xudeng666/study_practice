@@ -1,7 +1,8 @@
 #pragma once
-#include "game_obj.h"
 
 #include <SDL_ttf.h>
+
+#include "game_obj.h"
 
 class GameLable :public GameObj
 {

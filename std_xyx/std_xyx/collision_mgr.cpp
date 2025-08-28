@@ -1,5 +1,5 @@
 #include "collision_mgr.h"
-//#include "game_mgr.h"
+#include "game_wnd.h"
 
 
 CollisionMgr* CollisionMgr::manager = nullptr;

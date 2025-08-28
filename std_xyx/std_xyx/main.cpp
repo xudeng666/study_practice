@@ -9,6 +9,7 @@
 
 #include "util.h"
 #include "game_mgr.h"
+#include "game_wnd.h"
 
 void init();							// 游戏程序初始化
 void deinit();							// 游戏程序反初始化(释放资源)

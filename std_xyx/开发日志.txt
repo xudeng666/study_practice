@@ -231,4 +231,63 @@
 	字体组件完成少部分
 	完成上述工作时发现将窗口、渲染器和相机都放在游戏管理器中不合适，于是将三者拿出来单独包装成一个game_wnd类。
 	然后发现游戏的引用体系有问题，然后越调越乱了。明天重新梳理下整个项目的include吧！
-			
+	
+2028-8-28
+	main
+		<SDL.h>
+		<SDL_ttf.h>
+		<SDL_image.h>
+		<SDL_mixer.h>
+
+        <chrono>
+        <thread>
+        
+        "game_wnd.h"
+           
+		game_mgr.h			单例。游戏管理器，记录当前运行游戏类型，管理游戏运行和切换。
+			game.h			游戏基类，游戏管理器的管理对象。里面内置了场景管理器，用于记录当前运行场景和切换场景
+				scene.h		场景基类，场景管理器的管理对象。用于生成游戏UI、地图和角色等。包含游戏对象树相关内容
+					<queue>				对象树层次遍历需要	
+					<functional>
+					<SDL.h>	
+			game_type.h
+				<string>
+				<iostream>
+		"game_obj.h"		游戏对象基类，包括图片、动画、按钮、文字、进度条都基于此。以及资源调用。也是对象树节点，包含父节点指针和子节点链表。
+			<forward_list>		子节点链表所需
+			<functional>		用于按钮点击，或者动画播放回调
+			<SDL.h>
+			game_type.h
+				<string>
+				<iostream>
+			vector2.h
+				util.h
+					<random>
+					<cmath>
+					<stdexcept>
+					<string>
+		res_mgr.h			单例。资源管理器。用于资源的加载、释放、获取和资源池管理。游戏是基于SDL库。
+			<SDL.h>
+			<SDL_image.h>
+			<SDL_mixer.h>
+			<SDL_ttf.h>
+			<unordered_map>		用于建立资源池。
+			game_type.h
+				<string>
+				<iostream>
+				
+		game_wnd.h			单例。统一了游戏窗口、renderer渲染器和摄像机。
+			<string>
+			camera.h			摄像机类，用于实现画面抖动效果
+				timer.h"			定时器
+					<functional>
+				vector2.h"			坐标计算
+					util.h
+						<random>
+						<cmath>
+						<stdexcept>
+						<string>
+				game_type.h"
+					<string>
+					<iostream>
+				<SDL.h>

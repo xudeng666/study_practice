@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game_img.h"
+#include "timer.h"
 
 class GameAni : public GameImg
 {

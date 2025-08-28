@@ -1,4 +1,5 @@
 #include "game_collision_box.h"
+#include "game_wnd.h"
 
 
 void GameCollisionBox::on_update(float delta)

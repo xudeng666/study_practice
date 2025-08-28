@@ -1,4 +1,5 @@
 #pragma once
+
 #include "game_obj.h"
 
 class GameImg : public GameObj

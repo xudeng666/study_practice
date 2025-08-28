@@ -1,5 +1,6 @@
 #include "game_img.h"
-#include <iostream>
+#include "game_wnd.h"
+#include "res_mgr.h"
 
 GameImg::GameImg(const Vector2 pos) :GameObj(pos)
 {
