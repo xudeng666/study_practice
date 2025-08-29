@@ -99,6 +99,9 @@
     <ClCompile Include="game.cpp">
       <Filter>源文件\manager</Filter>
     </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="SDL_util.h">
       <Filter>头文件\util</Filter>
+    </ClInclude>
+    <ClInclude Include="character.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

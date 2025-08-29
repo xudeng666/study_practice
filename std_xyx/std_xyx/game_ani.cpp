@@ -2,15 +2,15 @@
 #include "res_mgr.h"
 
 
-GameAni::GameAni(const Vector2 pos, const std::string name, const int num): GameImg(pos, name), num(num)
+GameAni::GameAni(const Vector2 pos, const Ani_Res res): GameImg(pos, res.name),res_num(res.num)
 {
 	timer.set_one_shot(false);
 	timer.set_on_timeout([&]()
 		{
 			++idx_frame;
-			if (idx_frame > num)
+			if (idx_frame > res_num)
 			{
-				idx_frame = is_loop ? 1 : num;
+				idx_frame = is_loop ? 1 : res_num;
 				if (!is_loop && on_finished)
 				{
 					on_finished();
@@ -23,7 +23,8 @@ GameAni::GameAni(const Vector2 pos, const std::string name, const int num): Game
 void GameAni::on_enter()
 {
 	reset();
-	GameImg::on_enter();
+	set_Texture();
+	set_size();
 }
 
 void GameAni::on_update(float delta)
@@ -62,6 +63,13 @@ int GameAni::get_idx_frame()
 	return idx_frame;
 }
 
+void GameAni::set_res_name(const Ani_Res res)
+{
+	res_name = res.name;
+	res_num = res.num;
+	on_enter();
+}
+
 /*设置当前帧纹理*/
 void GameAni::set_Texture()
 {
@@ -81,7 +89,7 @@ bool GameAni::check_finished()
 	{
 		return false;
 	}
-	return (idx_frame == num);
+	return (idx_frame == res_num);
 }
 
 /*设置回调函数*/

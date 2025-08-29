@@ -10,9 +10,9 @@ public:
 	GameImg(const Vector2 pos);
 	GameImg(const Vector2 pos, const std::string name);
 
-	void on_enter() override;
-	void on_update(float delta) override;
-	void on_render() override;
+	virtual void on_enter() override;
+	virtual void on_update(float delta) override;
+	virtual void on_render() override;
 	/*…Ë÷√≥ﬂ¥Á*/
 	virtual void set_size();
 	/*…Ë÷√≥ﬂ¥Á*/

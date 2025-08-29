@@ -3,16 +3,22 @@
 #include "game_img.h"
 #include "timer.h"
 
+struct Ani_Res
+{
+	std::string name;
+	int num;
+};
+
 class GameAni : public GameImg
 {
 public:
 	GameAni() = default;
 	~GameAni() = default;
-	GameAni(const Vector2 pos, const std::string name, const int num);
+	GameAni(const Vector2 pos, const Ani_Res res);
 
-	void on_enter();
-	void on_update(float delta) override;
-	void on_render() override;
+	virtual void on_enter() override;
+	virtual void on_update(float delta) override;
+	virtual void on_render() override;
 	/*重置动画状态*/
 	void reset();
 	/*设置循环*/
@@ -21,6 +27,8 @@ public:
 	void set_interval(float val);
 	/*获取当前帧索引*/
 	int get_idx_frame();
+	/*设置动画资源*/
+	void set_res_name(const Ani_Res res);
 	/*设置当前帧纹理*/
 	void set_Texture();
 	/*获取当前帧纹理*/
@@ -40,6 +48,6 @@ private:
 	// 动画播放完的回调函数
 	std::function<void()> on_finished = nullptr;
 	// 资源数量
-	const int num;
+	int res_num;
 };
 
