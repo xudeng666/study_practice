@@ -277,7 +277,6 @@
 				<iostream>
 				
 		game_wnd.h			单例。统一了游戏窗口、renderer渲染器和摄像机。
-			<string>
 			camera.h			摄像机类，用于实现画面抖动效果
 				timer.h"			定时器
 					<functional>
@@ -291,3 +290,7 @@
 					<string>
 					<iostream>
 				<SDL.h>
+
+2028-8-29
+	将文本组件添加到场景中，简单测试后基本能用。
+	下一步将添加角色和怪物。需要验证下动画组件是否可用。

@@ -16,6 +16,8 @@ public:
 	void on_render() override;
 	/*设置尺寸*/
 	virtual void set_size();
+	/*设置尺寸*/
+	virtual void set_size(const SDL_Point& size) override;
 	/*设置文本内容*/
 	void set_lable_text(const std::string str);
 	/*设置正文颜色*/
@@ -33,9 +35,9 @@ public:
 	/*获取字体*/
 	TTF_Font* get_font();
 	/*设置锚点*/
-	void set_anchor_mode(AnchorMode mode);
+	void set_lable_anchor_mode(AnchorMode mode);
 	/*获取锚点*/
-	AnchorMode get_anchor_mode();
+	AnchorMode get_lable_anchor_mode();
 
 protected:
 	// 文本内容
@@ -53,5 +55,5 @@ protected:
 	// 字体指针
 	TTF_Font* font = nullptr;
 	// 文本锚点
-	AnchorMode anchor_mode = AnchorMode::TOPLEFT;
+	AnchorMode lable_anchor_mode = AnchorMode::TOPLEFT;
 };

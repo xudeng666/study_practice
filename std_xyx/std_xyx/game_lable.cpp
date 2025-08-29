@@ -3,7 +3,7 @@
 #include "game_wnd.h"
 #include "SDL_util.h"
 
-GameLable::GameLable(const Vector2 pos)
+GameLable::GameLable(const Vector2 pos):GameObj(pos)
 {
 }
 
@@ -23,13 +23,13 @@ void GameLable::on_update(float delta)
 
 void GameLable::on_render()
 {
-	if (!is_display) return;
+	if (!is_display || !font) return;
 	if (is_shade)
 	{
 		SDL_Color color_s = get_SDLColor_ARGB(color_shade);
 		SDL_Surface* suf_shade = TTF_RenderUTF8_Blended(font, lable_text.c_str(), color_s);
 		SDL_Texture* tex_shade = SDL_CreateTextureFromSurface(GameWnd::instance()->get_renderer(), suf_shade);
-		Vector2 p_shade = get_anchor_position(anchor_referent_mode, anchor_referent_mode, AnchorMode::TOPLEFT, pos_lable, { suf_shade->w,suf_shade->h });
+		Vector2 p_shade = get_anchor_position(lable_anchor_mode, lable_anchor_mode, AnchorMode::TOPLEFT, pos_lable, { suf_shade->w,suf_shade->h });
 		p_shade += pos_shade;
 		SDL_Rect rect_shade = { (int)p_shade.x, (int)p_shade.y, suf_shade->w, suf_shade->h };
 		GameWnd::instance()->render_texture(tex_shade, nullptr, &rect_shade);
@@ -40,7 +40,7 @@ void GameLable::on_render()
 	SDL_Color color_l = get_SDLColor_ARGB(color_lable);
 	SDL_Surface* suf_lable = TTF_RenderUTF8_Blended(font, lable_text.c_str(), color_l);
 	SDL_Texture* tex_lable = SDL_CreateTextureFromSurface(GameWnd::instance()->get_renderer(), suf_lable);
-	Vector2 p_lable = get_anchor_position(anchor_referent_mode, anchor_referent_mode, AnchorMode::TOPLEFT, pos_lable, { suf_lable->w,suf_lable->h });
+	Vector2 p_lable = get_anchor_position(lable_anchor_mode, lable_anchor_mode, AnchorMode::TOPLEFT, pos_lable, { suf_lable->w,suf_lable->h });
 	SDL_Rect rect_lable = { (int)p_lable.x, (int)p_lable.y, suf_lable->w, suf_lable->h };
 	GameWnd::instance()->render_texture(tex_lable, nullptr, &rect_lable);
 	SDL_DestroyTexture(tex_lable);
@@ -52,6 +52,11 @@ void GameLable::on_render()
 void GameLable::set_size()
 {
 	// 暂定尺寸自动适应
+}
+
+void GameLable::set_size(const SDL_Point& size)
+{
+	this->size = size;
 }
 
 void GameLable::set_lable_text(const std::string str)
@@ -95,13 +100,13 @@ TTF_Font* GameLable::get_font()
 	return font;
 }
 
-void GameLable::set_anchor_mode(AnchorMode mode)
+void GameLable::set_lable_anchor_mode(AnchorMode mode)
 {
-	if (anchor_mode == mode) return;
-	anchor_mode = mode;
+	if (lable_anchor_mode == mode) return;
+	lable_anchor_mode = mode;
 }
 
-AnchorMode GameLable::get_anchor_mode()
+AnchorMode GameLable::get_lable_anchor_mode()
 {
-	return anchor_mode;
+	return lable_anchor_mode;
 }

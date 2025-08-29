@@ -121,7 +121,7 @@ inline bool splitByLastChar(const std::string& str, const char delimiter, std::s
 	name = str.substr(0, lastPos);
 	std::string num = str.substr(lastPos + 1);
 	try {
-		size = std::stoi(str);
+		size = std::stoi(num);
 	}
 	catch (const std::invalid_argument&) {
 		//"数字部分含非数字字符: "

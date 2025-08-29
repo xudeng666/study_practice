@@ -187,7 +187,7 @@ SDL_Texture* ResMgr::find_texture(const std::string& name)
 
 TTF_Font* ResMgr::find_ttf(const std::string& name)
 {
-	// std::cout << name << ttf_pool[name] << std::endl;
+	//std::cout << "find_ttf A  "<< name << std::endl;
 	if (!ttf_pool[name])
 	{
 		ttf_load(name);

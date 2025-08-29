@@ -3,6 +3,7 @@
 #include "scene.h"
 #include "game_btn.h"
 #include "game_bar.h"
+#include "game_lable.h"
 
 class XczGameScene :
     public Scene
@@ -20,6 +21,8 @@ private:
     GameBtn* btn_exit = nullptr;
     // 血条
     GameBar* hp_bar = nullptr;
+    // 分数文本
+    GameLable* score_lable = nullptr;
     // 主角
     // 子弹列表
     // 怪物列表
