@@ -4,19 +4,19 @@
 #include "game_collision_box.h"
 
 // 角色基类
-class Character
+class Character:public GameObj
 {
 public:
-	Character();
-	~Character();
+    Character();
+    virtual ~Character();
 
-    virtual void on_input(const SDL_Event& event);
-    virtual void on_update(float delta);
-    virtual void on_render();
+    virtual void on_enter() override;
+    virtual void on_exit() override;
+    virtual void on_input(const SDL_Event& event) override;
+    virtual void on_update(float delta) override;
+    virtual void on_render() override;
     virtual void on_hurt();
 
-    void set_position(const Vector2& pos);
-    const Vector2& get_position() const;
     void set_velocity(const Vector2& vel);
     const Vector2& get_velocity() const;
 
@@ -58,14 +58,12 @@ public:
     /// 设置动画
     /// </summary>
     /// <param name="id">动画ID</param>
-    void set_animation(const std::string& id);
+    void set_animation(const Ani_Res& res);
 
 
 protected:
     int hp = 10;                                            // 角色生命值
-    Vector2 position;                                       // 角色脚底位置
     Vector2 velocity;                                       // 角色速度
-    float logic_height = 0;                                 // 角色的逻辑高度
     bool is_facing_left = true;                             // 当前角色是否朝向左
     //StateMachine state_machine;                           // 角色逻辑状态机
     bool enable_gravity = false;                            // 启用重力模拟
@@ -78,4 +76,3 @@ protected:
     GameAni* current_ani = nullptr;                         // 当前角色动画
     std::unordered_map < std::string, Ani_Res > ani_pool;   // 角色动画池 
 };
-

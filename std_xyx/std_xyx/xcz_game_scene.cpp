@@ -1,4 +1,5 @@
 #include "xcz_game_scene.h"
+#include "player_xcz.h"
 
 XczGameScene::XczGameScene()
 {
@@ -32,10 +33,13 @@ XczGameScene::XczGameScene()
     score_lable->set_size({ 200,32 });
     score_lable->set_lable_text("SCORE:"+ std::to_string(score));
 
+    player = new Player_xcz();
+    player->set_ID("player");
 
 
 
     background->add_children(bg);
+    entity->add_children(player);
     ui->add_children(hp_bar);
     ui->add_children(score_lable);
 

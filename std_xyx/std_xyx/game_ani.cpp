@@ -1,16 +1,15 @@
 #include "game_ani.h"
 #include "res_mgr.h"
 
-
-GameAni::GameAni(const Vector2 pos, const Ani_Res res): GameImg(pos, res.name),res_num(res.num)
+GameAni::GameAni()
 {
 	timer.set_one_shot(false);
 	timer.set_on_timeout([&]()
 		{
 			++idx_frame;
-			if (idx_frame > res_num)
+			if (idx_frame >= res_num)
 			{
-				idx_frame = is_loop ? 1 : res_num;
+				idx_frame = is_loop ? 0 : res_num - 1;
 				if (!is_loop && on_finished)
 				{
 					on_finished();
@@ -18,6 +17,10 @@ GameAni::GameAni(const Vector2 pos, const Ani_Res res): GameImg(pos, res.name),r
 			}
 		}
 	);
+}
+
+GameAni::~GameAni()
+{
 }
 
 void GameAni::on_enter()
@@ -44,7 +47,7 @@ void GameAni::on_render()
 void GameAni::reset()
 {
 	timer.restart();
-	idx_frame = 1;
+	idx_frame = 0;
 }
 /*设置循环*/
 void GameAni::set_loop(bool loop)
@@ -56,6 +59,11 @@ void GameAni::set_interval(float val)
 {
 	timer.set_wait_time(val);
 }
+/*设置资源起始序号*/
+void GameAni::set_res_int_val(int val)
+{
+	res_int_val = val;
+}
 
 /*获取当前帧索引*/
 int GameAni::get_idx_frame()
@@ -63,22 +71,26 @@ int GameAni::get_idx_frame()
 	return idx_frame;
 }
 
-void GameAni::set_res_name(const Ani_Res res)
+void GameAni::set_res_name(const Ani_Res& res)
 {
 	res_name = res.name;
 	res_num = res.num;
-	on_enter();
+	reset();
 }
 
 /*设置当前帧纹理*/
 void GameAni::set_Texture()
 {
-	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(idx_frame)));
+	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(idx_frame + res_int_val)));
 }
 
 /*获取当前帧纹理*/
 SDL_Texture* GameAni::get_Texture()
 {
+	if (!texture)
+	{
+		set_Texture();
+	}
 	return texture;
 }
 
@@ -89,7 +101,7 @@ bool GameAni::check_finished()
 	{
 		return false;
 	}
-	return (idx_frame == res_num);
+	return (idx_frame == res_num - 1);
 }
 
 /*设置回调函数*/

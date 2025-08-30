@@ -4,6 +4,7 @@
 #include "game_btn.h"
 #include "game_bar.h"
 #include "game_lable.h"
+#include "character.h"
 
 class XczGameScene :
     public Scene
@@ -24,6 +25,7 @@ private:
     // 分数文本
     GameLable* score_lable = nullptr;
     // 主角
+    Character* player = nullptr;
     // 子弹列表
     // 怪物列表
     // 动画列表

@@ -4,14 +4,28 @@
 
 Character::Character()
 {
+    current_ani = new GameAni();
+    current_ani->set_ID("ani");
     hit_box = CollisionMgr::instance()->creatCollisionBox();
     hurt_box = CollisionMgr::instance()->creatCollisionBox();
+    
+    add_children(current_ani);
 }
 
 Character::~Character()
 {
     CollisionMgr::instance()->destroyCollisionBox(hit_box);
     CollisionMgr::instance()->destroyCollisionBox(hurt_box);
+}
+
+void Character::on_enter()
+{
+    // 初始化
+}
+
+void Character::on_exit()
+{
+    // 反初始化
 }
 
 void Character::on_input(const SDL_Event& event)
@@ -32,16 +46,6 @@ void Character::on_render()
 
 void Character::on_hurt()
 {
-}
-
-void Character::set_position(const Vector2& pos)
-{
-    position = pos;
-}
-
-const Vector2& Character::get_position() const
-{
-    return  position;
 }
 
 void Character::set_velocity(const Vector2& vel)
@@ -93,5 +97,7 @@ void Character::make_invulnerable()
 void Character::switch_state(const std::string& id)
 {}
 
-void Character::set_animation(const std::string& id)
-{}
+void Character::set_animation(const Ani_Res& res)
+{
+    current_ani->set_res_name(res);
+}

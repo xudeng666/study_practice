@@ -7,6 +7,10 @@ GameLable::GameLable(const Vector2 pos):GameObj(pos)
 {
 }
 
+GameLable::GameLable()
+{
+}
+
 GameLable::~GameLable()
 {
 }

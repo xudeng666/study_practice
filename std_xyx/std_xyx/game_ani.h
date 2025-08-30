@@ -7,14 +7,17 @@ struct Ani_Res
 {
 	std::string name;
 	int num;
+
+	Ani_Res() = default;
+	Ani_Res(const std::string name, const int num) :name(name), num(num) {}
+	~Ani_Res() = default;
 };
 
 class GameAni : public GameImg
 {
 public:
-	GameAni() = default;
-	~GameAni() = default;
-	GameAni(const Vector2 pos, const Ani_Res res);
+	GameAni();
+	~GameAni();
 
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;
@@ -25,10 +28,12 @@ public:
 	void set_loop(bool loop);
 	/*设置帧间隔*/
 	void set_interval(float val);
+	/*设置资源起始序号*/
+	void set_res_int_val(int val);
 	/*获取当前帧索引*/
 	int get_idx_frame();
 	/*设置动画资源*/
-	void set_res_name(const Ani_Res res);
+	void set_res_name(const Ani_Res& res);
 	/*设置当前帧纹理*/
 	void set_Texture();
 	/*获取当前帧纹理*/
@@ -42,12 +47,14 @@ private:
 	/*定时器*/
 	Timer timer;
 	// 帧索引
-	int idx_frame = 1;
+	int idx_frame = 0;
 	// 是否循环
 	bool is_loop = true;
+	// 资源起始序号
+	int res_int_val = 0;
 	// 动画播放完的回调函数
 	std::function<void()> on_finished = nullptr;
 	// 资源数量
-	int res_num;
+	int res_num = 0;
 };
 

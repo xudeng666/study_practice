@@ -12,9 +12,9 @@
 class GameObj
 {
 public:
-    GameObj() = default;
+    GameObj() {}
     GameObj(const Vector2 pos) : position(pos) {}
-    ~GameObj() = default;
+    ~GameObj() {}
 
     virtual void on_enter();
     virtual void on_exit();

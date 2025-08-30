@@ -7,7 +7,7 @@
 class GameLable :public GameObj
 {
 public:
-	GameLable() = default;
+	GameLable();
 	~GameLable();
 	GameLable(const Vector2 pos);
 

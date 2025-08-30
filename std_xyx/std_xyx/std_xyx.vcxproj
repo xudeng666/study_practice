@@ -147,6 +147,7 @@
     <ClCompile Include="game_wnd.cpp" />
     <ClCompile Include="game_xcz.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player_xcz.cpp" />
     <ClCompile Include="res_mgr.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="start_menue_scene.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="game_type.h" />
     <ClInclude Include="game_wnd.h" />
     <ClInclude Include="game_xcz.h" />
+    <ClInclude Include="player_xcz.h" />
     <ClInclude Include="res_mgr.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="SDL_util.h" />
