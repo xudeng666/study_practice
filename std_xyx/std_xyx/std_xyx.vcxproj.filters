@@ -111,6 +111,9 @@
     <ClCompile Include="player_xcz.cpp">
       <Filter>源文件\player</Filter>
     </ClCompile>
+    <ClCompile Include="character_xcz.cpp">
+      <Filter>源文件\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -189,6 +192,9 @@
       <Filter>头文件\player</Filter>
     </ClInclude>
     <ClInclude Include="player_xcz.h">
+      <Filter>头文件\player</Filter>
+    </ClInclude>
+    <ClInclude Include="character_xcz.h">
       <Filter>头文件\player</Filter>
     </ClInclude>
   </ItemGroup>

@@ -32,6 +32,8 @@ public:
 	void set_res_int_val(int val);
 	/*获取当前帧索引*/
 	int get_idx_frame();
+	/*获取帧数量*/
+	int get_res_num();
 	/*设置动画资源*/
 	void set_res_name(const Ani_Res& res);
 	/*设置当前帧纹理*/

@@ -71,11 +71,16 @@ int GameAni::get_idx_frame()
 	return idx_frame;
 }
 
+/*获取帧数量*/
+int GameAni::get_res_num()
+{
+	return res_num;
+}
+
 void GameAni::set_res_name(const Ani_Res& res)
 {
 	res_name = res.name;
 	res_num = res.num;
-	reset();
 }
 
 /*设置当前帧纹理*/

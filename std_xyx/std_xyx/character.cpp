@@ -1,5 +1,6 @@
 #include "character.h"
 #include "collision_mgr.h"
+#include "game_wnd.h"
 
 
 Character::Character()
@@ -58,24 +59,15 @@ const Vector2& Character::get_velocity() const
     return velocity;
 }
 
-void Character::decrease_hp()
+void Character::decrease_hp(int val)
 {
-    if (is_invulnerable) return;
-
-    hp -= 1;
-    if (hp > 0)
-        make_invulnerable();
+    hp -= val;
     on_hurt();
 }
 
 int Character::get_hp() const
 {
     return hp;
-}
-
-void Character::set_gravity_enabled(bool flag)
-{
-    enable_gravity = flag;
 }
 
 GameCollisionBox* Character::get_hit_box()
@@ -88,16 +80,23 @@ GameCollisionBox* Character::get_hurt_box()
     return hurt_box;
 }
 
-void Character::make_invulnerable()
-{
-    is_invulnerable = true;
-    timer_invulnerable_status.restart();
-}
-
-void Character::switch_state(const std::string& id)
-{}
-
 void Character::set_animation(const Ani_Res& res)
 {
     current_ani->set_res_name(res);
+}
+
+void Character::lock_in_screen()
+{
+    if (!check_out_of_screen) return;
+
+    SDL_FRect p = get_FRect();
+    if ((velocity.x + p.x) < 0 || (velocity.x + p.x + p.w) > GameWnd::instance()->get_width())
+    {
+        velocity.x = 0;
+    }
+
+    if ((velocity.y + p.y) < 0 || (velocity.y + p.y + p.h) > GameWnd::instance()->get_height())
+    {
+        velocity.y = 0;
+    }
 }

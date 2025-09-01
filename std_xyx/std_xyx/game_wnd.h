@@ -7,8 +7,10 @@ class GameWnd
 public:
     static GameWnd* instance();
 
-    // 获取窗口尺寸
-    std::pair<int, int> getSize() const;
+    // 获取窗口宽
+    int get_width() const;
+    // 获取窗口高
+    int get_height() const;
     // 修改窗口标题
     void set_title(const std::string& title);
     // 获取渲染器

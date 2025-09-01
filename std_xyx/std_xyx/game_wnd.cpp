@@ -11,9 +11,14 @@ GameWnd* GameWnd::instance()
     return game_wnd;
 }
 
-std::pair<int, int> GameWnd::getSize() const
+int GameWnd::get_width() const
 {
-    return { width, height };
+    return  width;
+}
+
+int GameWnd::get_height() const
+{
+    return  height;
 }
 
 void GameWnd::set_title(const std::string& title)
