@@ -181,25 +181,10 @@ Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 	int m = static_cast<int>(mode);
 	int a = static_cast<int>(anchor_mode);
 
-	/*if (_DE_BUG_)
-	{
-		std::cout << "    ID:  " << get_ID() << std::endl;
-		std::cout << "      mod:  " << static_cast<int>(mode) << std::endl;
-		std::cout << "      p_mode:  " << static_cast<int>(parent_anchor_mode) << std::endl;
-		std::cout << "      a_mode:  " << static_cast<int>(anchor_mode) << std::endl;
-		std::cout << "      t:  " << t.x << "," << t.y << std::endl;
-		std::cout << "      p:  " << p.x << "," << p.y << std::endl;
-	}*/
-
 	p.x += (m % 3 - a % 3) * size.x / 2;
 	p.y += (m / 3 - a / 3) * size.y / 2;
-
 	t += p;
-	/*if (_DE_BUG_)
-	{
-		std::cout << "      p:  " << p.x << "," << p.y << std::endl;
-		std::cout << "      t:  " << t.x << "," << t.y << std::endl;
-	}*/
+
 	return t;
 }
 
@@ -264,4 +249,27 @@ void GameObj::add_children(GameObj* obj)
 	}
 	obj->set_parent(this);
 	children.push_back(obj);
+}
+
+bool GameObj::check_in_screen(int val = 0)
+{
+	SDL_FRect r = get_FRect();
+	int w = GameWnd::instance()->get_width();
+	int h = GameWnd::instance()->get_height();
+
+	bool b_w = !(r.x + r.w<0 || r.x>w);
+	bool b_h = !(r.y + r.h<0 || r.y>h);
+
+	if (val < 0)
+	{
+		return b_w;
+	}
+	else if (val > 0)
+	{
+		return b_h;
+	}
+	else
+	{
+		return b_w && b_h;
+	}
 }

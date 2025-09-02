@@ -3,9 +3,9 @@
 
 Player_xcz::Player_xcz()
 {
-
 	ani_pool["left"] = Ani_Res("paimon_left_", 6);
 	ani_pool["right"] = Ani_Res("paimon_right_", 6);
+	add_bullet(0);
 }
 
 Player_xcz::~Player_xcz()
@@ -21,13 +21,13 @@ void Player_xcz::on_enter()
 	}
 
 	set_step_length(48);
-	set_speed(100);
+	set_speed(150);
 
 	click_enabled = false;
 	position = { 0,0 };
-	size = { 0,0 };
+	size = { 40,60 };
 	hp = 10;
-	anchor_mode = AnchorMode::CENTER;
+	anchor_mode = AnchorMode::BOTTOMCENTER;
 	anchor_referent_mode = AnchorMode::CENTER;
 
 	current_ani->set_position({ 0,0 });
@@ -40,18 +40,22 @@ void Player_xcz::on_enter()
 	current_ani->set_loop(true);
 	set_interval();
 
-
 	img_shade->set_position({ 0,0 });
 	img_shade->set_anchor_mode(AnchorMode::CENTER);
 	img_shade->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
 	img_shade->set_anchor_referent_obj(current_ani);
 	img_shade->set_res_name("shadow_player");
 	img_shade->set_ID("shade");
+
+	for (int i = 0; i < bullet_list.size(); i++)
+	{
+		SDL_Point p = bullet_list[i]->get_size();
+		bullet_list[i]->set_center({ (float)p.x, (float)p.y });
+	}
 }
 
 void Player_xcz::on_input(const SDL_Event& event)
 {
-
 	switch (event.type)
 	{
 	case SDL_KEYDOWN:
@@ -105,6 +109,7 @@ void Player_xcz::on_update(float delta)
 		//std::cout << ID << "  on_update" << std::endl;
 	}
 	on_move(delta);
+	move_bullet(delta);
 }
 
 void Player_xcz::set_face(bool is_left)
@@ -117,4 +122,40 @@ void Player_xcz::on_render()
 }
 void Player_xcz::on_hurt()
 {
+}
+void Player_xcz::add_bullet(const int num)
+{
+	bul_num += num;
+	while (bul_num > bullet_list.size())
+	{
+		BulletXcz* p = new BulletXcz();
+		p->set_ID("bul_" + bul_num);
+		p->set_anchor_referent_obj(current_ani);
+		add_children(p);
+		bullet_list.push_back(p);
+	}
+}
+void Player_xcz::reduce_bullet(const int num)
+{
+	bul_num -= num;
+	if (bul_num < 1)
+	{
+		bul_num = 1;
+	}
+}
+
+int Player_xcz::get_bullet_num()
+{
+	return bul_num;
+}
+void Player_xcz::move_bullet(float delta)
+{
+	bul_degrees += delta * angle_speed;
+	for (int i = 0; i < bul_num; ++i)
+	{
+		int dre = bul_degrees + 360 / bul_num * i;
+		dre %= 360;
+		bullet_list[i]->set_position({ (float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius) });
+		bullet_list[i]->set_rotation(90-dre);
+	}
 }

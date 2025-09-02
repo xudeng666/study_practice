@@ -76,8 +76,9 @@ enum class ButtonState {
 /*碰撞层*/
 enum class CollisionLayer
 {
-	NONE,	// 空
-	BULLET,	// 子弹
-	PLAYER,	// 玩家
-	ENEMY,	// 敌人（怪）
+	NONE,		// 空
+	BULLET,		// 子弹
+	PLAYER_1,	// 玩家1
+	PLAYER_2,	// 玩家2
+	ENEMY,		// 敌人（怪）
 };

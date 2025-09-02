@@ -105,14 +105,20 @@
     <ClCompile Include="game.cpp">
       <Filter>源文件\manager</Filter>
     </ClCompile>
-    <ClCompile Include="character.cpp">
-      <Filter>源文件\player</Filter>
+    <ClCompile Include="bullet.cpp">
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet_xcz.cpp">
+      <Filter>源文件\game_xcz</Filter>
     </ClCompile>
     <ClCompile Include="player_xcz.cpp">
-      <Filter>源文件\player</Filter>
+      <Filter>源文件\game_xcz</Filter>
     </ClCompile>
     <ClCompile Include="character_xcz.cpp">
-      <Filter>源文件\player</Filter>
+      <Filter>源文件\game_xcz</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>源文件\manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,14 +194,20 @@
     <ClInclude Include="SDL_util.h">
       <Filter>头文件\util</Filter>
     </ClInclude>
-    <ClInclude Include="character.h">
-      <Filter>头文件\player</Filter>
+    <ClInclude Include="bullet.h">
+      <Filter>头文件\manager</Filter>
     </ClInclude>
-    <ClInclude Include="player_xcz.h">
-      <Filter>头文件\player</Filter>
+    <ClInclude Include="character.h">
+      <Filter>头文件\manager</Filter>
     </ClInclude>
     <ClInclude Include="character_xcz.h">
-      <Filter>头文件\player</Filter>
+      <Filter>头文件\game_xcz</Filter>
+    </ClInclude>
+    <ClInclude Include="player_xcz.h">
+      <Filter>头文件\game_xcz</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet_xcz.h">
+      <Filter>头文件\game_xcz</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

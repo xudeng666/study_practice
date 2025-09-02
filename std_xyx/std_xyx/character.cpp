@@ -90,12 +90,12 @@ void Character::lock_in_screen()
     if (!check_out_of_screen) return;
 
     SDL_FRect p = get_FRect();
-    if ((velocity.x + p.x) < 0 || (velocity.x + p.x + p.w) > GameWnd::instance()->get_width())
+    if ((velocity.x + p.x + p.w) < 0 || (velocity.x + p.x) > GameWnd::instance()->get_width())
     {
         velocity.x = 0;
     }
 
-    if ((velocity.y + p.y) < 0 || (velocity.y + p.y + p.h) > GameWnd::instance()->get_height())
+    if ((velocity.y + p.y + p.h) < 0 || (velocity.y + p.y) > GameWnd::instance()->get_height())
     {
         velocity.y = 0;
     }

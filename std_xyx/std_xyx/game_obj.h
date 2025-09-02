@@ -93,6 +93,12 @@ public:
     /// <param name="p_size">目标尺寸</param>
     /// <returns>Vector2</returns>
     Vector2 get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size);
+    /// <summary>
+    /// 检测是否在屏幕内
+    /// </summary>
+    /// <param name="val">-1 0 1 横向，整体，纵向</param>
+    /// <returns>true/false 在/不在</returns>
+    bool check_in_screen(int val);
 
 protected:
     std::string ID;
