@@ -251,6 +251,12 @@ void GameObj::add_children(GameObj* obj)
 	children.push_back(obj);
 }
 
+void GameObj::delete_children(GameObj* obj)
+{
+	children.remove(obj);
+	delete obj;
+}
+
 bool GameObj::check_in_screen(int val = 0)
 {
 	SDL_FRect r = get_FRect();

@@ -4,7 +4,9 @@
 #include "game_btn.h"
 #include "game_bar.h"
 #include "game_lable.h"
-#include "character.h"
+#include "player_xcz.h"
+#include "enemy_xcz.h"
+//#include "timer.h"
 
 class XczGameScene :
     public Scene
@@ -15,6 +17,11 @@ public:
 
     void on_enter() override;
     void on_exit() override;
+    void on_update(float delta) override;
+    // 生成敌人
+    void add_enemy();
+    // 杀死敌人
+    void kill_enemy();
 
 private:
     GameImg* bg = nullptr;
@@ -25,13 +32,26 @@ private:
     // 分数文本
     GameLable* score_lable = nullptr;
     // 主角
-    Character* player = nullptr;
-    // 子弹列表
+    Player_xcz* player = nullptr;
     // 怪物列表
-    // 动画列表
+    std::vector<Enemy_xcz*> enemy_list;
     // 分数
     int score = 0;
     // 血量
-    int hp = 10;
+    int max_hp = 10;
+    // 扣掉的子弹数
+    int deduction_bul = 0;
+    // 是否怪物生成降速阶段
+    bool is_enemy_produce_slow = false;
+    // 自动回复子弹计时器
+    Timer timer_bul_recover;
+    // 子弹数量过低，怪物生成降速计时器
+    Timer timer_enemy_produce_slow;
+    // 怪物生成计时器
+    Timer timer_enemy_produce;
+    // 怪物池用来存放已经死亡的怪物
+    std::queue<Enemy_xcz*> enemy_queue;
+
+
 };
 

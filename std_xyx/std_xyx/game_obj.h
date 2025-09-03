@@ -138,5 +138,7 @@ public:
     std::list<GameObj*> get_children();
     /*添加子节点*/
     void add_children(GameObj* obj);
+    /*删除子节点*/
+    void delete_children(GameObj* obj);
     
 };

@@ -35,11 +35,7 @@ public:
 private:
     std::vector<BulletXcz*> bullet_list;
     // 子弹数量
-    int bul_num = 3;
-    // 子弹最低数量
-    int bul_num_min = 1;
-    // 子弹最高数量
-    int bul_num_max = 8;
+    int bul_num = 0;
     // 子弹飞行半径
     int bul_radius = 60;
     // 子弹角度
