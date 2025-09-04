@@ -135,9 +135,11 @@ public:
     /*获取父节点*/
     GameObj* get_parent();
     /*获取子节点数组*/
-    std::list<GameObj*> get_children();
+    std::list<GameObj*>& get_children();
     /*添加子节点*/
     void add_children(GameObj* obj);
+    /*移除子节点*/
+    void remove_children(GameObj* obj);
     /*删除子节点*/
     void delete_children(GameObj* obj);
     

@@ -146,10 +146,7 @@ const AnchorMode GameObj::get_anchor_referent_mode() const
 
 void GameObj::set_anchor_referent_obj(GameObj* obj)
 {
-	if (obj)
-	{
-		anchor_referent_obj = obj;
-	}
+	anchor_referent_obj = obj;
 }
 
 const GameObj* GameObj::get_anchor_referent_obj()
@@ -220,14 +217,11 @@ Vector2 GameObj::get_anchor_position(const AnchorMode aligned, const AnchorMode 
 
 void GameObj::set_parent(GameObj* p)
 {
-	if (p)
+	if (parent == anchor_referent_obj || !anchor_referent_obj)
 	{
-		if (parent == anchor_referent_obj || !anchor_referent_obj)
-		{
-			anchor_referent_obj = p;
-		}
-		parent = p;
+		anchor_referent_obj = p;
 	}
+	parent = p;
 }
 
 GameObj* GameObj::get_parent()
@@ -235,7 +229,7 @@ GameObj* GameObj::get_parent()
 	return parent;
 }
 
-std::list<GameObj*> GameObj::get_children()
+std::list<GameObj*>& GameObj::get_children()
 {
 	return children;
 }
@@ -249,6 +243,13 @@ void GameObj::add_children(GameObj* obj)
 	}
 	obj->set_parent(this);
 	children.push_back(obj);
+}
+
+void GameObj::remove_children(GameObj* obj)
+{
+	obj->set_parent(nullptr);
+	obj->set_anchor_referent_obj(nullptr);
+	children.remove(obj);
 }
 
 void GameObj::delete_children(GameObj* obj)

@@ -45,9 +45,9 @@ XczGameScene::XczGameScene()
     timer_bul_recover.set_wait_time(30);
     timer_bul_recover.set_one_shot(false);
     timer_bul_recover.set_on_timeout([&]() {
-        if (deduction_bul < 0)
+        if (deduction_bul > 0)
         {
-            deduction_bul++;
+            deduction_bul--;
         }
         });
 
@@ -95,7 +95,7 @@ void XczGameScene::on_update(float delta)
 {
     if (_DE_BUG_)
     {
-        std::cout << "XczGameScene::on_exit" << std::endl;
+        //std::cout << "XczGameScene::on_update" << std::endl;
     }
     Scene::on_update(delta);
     // 角色移动速度，每得15分提高8%，最多提升到200%
@@ -135,10 +135,47 @@ void XczGameScene::on_update(float delta)
         }
     }
     timer_enemy_produce.set_wait_time(t);
+    timer_enemy_produce.on_update(delta);
 
-    player->get_hp();
+    std::list<GameObj*> enemy_list = entity->get_children();
+    Vector2 p = player->get_anchor_position(AnchorMode::CENTER);
+    auto it = enemy_list.begin();
+    while (it != enemy_list.end()) {
+        GameObj* obj = *it;
+        if (!obj)
+        {
+            it = enemy_list.erase(it);
+            continue;
+        }
+        if (obj->get_ID() == "player")
+        {
+            ++it;
+            continue;
+        }
 
+        Enemy_xcz* enemy = (Enemy_xcz*)obj;
+
+        if (enemy->get_hp() == 0)
+        {
+            if (enemy)
+            {
+                enemy_queue.push(enemy);
+            }
+            it = enemy_list.erase(it);
+        }
+        else
+        {
+            enemy->set_player_pos(p);
+            ++it;
+        }
+    }
     // 最后将怪物和玩家在对象树中按照y轴升序排序。
+    // 如果有空节点，则排在后面
+    entity->get_children().sort([](const GameObj* a, const GameObj* b) {
+        if (!a) return false;
+        if (!b) return true; 
+        return a->get_position().y < b->get_position().y;
+        });
 
     // 更新分数
     score_lable->set_lable_text("SCORE:" + std::to_string(score));
@@ -148,12 +185,20 @@ void XczGameScene::on_update(float delta)
 
 void XczGameScene::add_enemy()
 {
-    // 如果怪物池有，就直接enter后放入对象树和怪物表
-    //没有就new一个放入对象树和怪物表
-    //需要解决的问题：对象树和怪物表怪物池类型不通怎么办
-}
-
-void XczGameScene::kill_enemy()
-{
-    // 将死掉的怪物从对象树和怪物表中拿出存放入怪物池
+    Enemy_xcz* enemy = nullptr;
+    // 如果怪物池有，就直接取出
+    if (!enemy_queue.empty())
+    {
+        enemy = enemy_queue.front();
+        enemy_queue.pop();
+    }
+    else
+    {
+        //没有就new一个
+        enemy = new Enemy_xcz();
+    }
+    // enter后放入对象树和怪物表
+    //enemy_list.push_back(enemy);
+    enemy->on_enter();
+    entity->add_children(enemy);
 }

@@ -45,19 +45,6 @@ void CharacterXcz::on_hurt()
 
 void CharacterXcz::on_move(float delta)
 {
-    float x1 = move_status[2] ? -1 : 0;
-    float x2 = move_status[3] ? 1 : 0;
-    float y1 = move_status[0] ? -1 : 0;
-    float y2 = move_status[1] ? 1 : 0;
-    Vector2 t = { x1 + x2, y1 + y2 };
-    t = t.normalize();
-    velocity = t* speed* delta;
-    lock_in_screen();
-    if (velocity.x != 0)
-    {
-        set_face(velocity.x < 0);
-    }
-    position += velocity;
 }
 
 void CharacterXcz::set_interval()

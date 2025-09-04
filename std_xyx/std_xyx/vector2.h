@@ -70,7 +70,7 @@ public:
 		return sqrt(x * x + y * y);
 	}
 	/// <summary>
-	/// 获取单位向量
+	/// 向量归一计算
 	/// </summary>
 	/// <returns></returns>
 	Vector2 normalize()
@@ -83,6 +83,15 @@ public:
 		}
 
 		return Vector2(x / len, y / len);
+	}
+	/// <summary>
+	/// 分量归一计算
+	/// </summary>
+	/// <returns></returns>
+	Vector2 normalize_portion()
+	{
+		return Vector2((x > 0.0f) ? 1.0f : (x < 0.0f ? -1.0f : 0.0f),
+			(y > 0.0f) ? 1.0f : (y < 0.0f ? -1.0f : 0.0f));
 	}
 	/// <summary>
 	/// 是否和目标坐标重合

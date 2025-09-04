@@ -5,7 +5,6 @@ Player_xcz::Player_xcz()
 {
 	ani_pool["left"] = Ani_Res("paimon_left_", 6);
 	ani_pool["right"] = Ani_Res("paimon_right_", 6);
-	add_bullet(0);
 }
 
 Player_xcz::~Player_xcz()
@@ -122,10 +121,35 @@ void Player_xcz::on_render()
 }
 void Player_xcz::on_hurt()
 {
+	if (hp > 0)
+	{
+		hp--;
+	}
+}
+
+void Player_xcz::on_move(float delta)
+{
+	float x1 = move_status[2] ? -1 : 0;
+	float x2 = move_status[3] ? 1 : 0;
+	float y1 = move_status[0] ? -1 : 0;
+	float y2 = move_status[1] ? 1 : 0;
+	Vector2 t = { x1 + x2, y1 + y2 };
+	t = t.normalize();
+	velocity = t * speed * delta;
+	lock_in_screen();
+	if (velocity.x != 0)
+	{
+		set_face(velocity.x < 0);
+	}
+	position += velocity;
 }
 void Player_xcz::add_bullet(const int num)
 {
 	bul_num += num;
+	if (bul_num <= bullet_list.size())
+	{
+		bullet_list[bul_num - 1]->set_display(true);
+	}
 	while (bul_num > bullet_list.size())
 	{
 		BulletXcz* p = new BulletXcz();
@@ -141,6 +165,11 @@ void Player_xcz::reduce_bullet(const int num)
 	if (bul_num < 1)
 	{
 		bul_num = 1;
+	}
+
+	for (int i = bul_num; i < bullet_list.size(); ++i)
+	{
+		bullet_list[i]->set_display(false);
 	}
 }
 

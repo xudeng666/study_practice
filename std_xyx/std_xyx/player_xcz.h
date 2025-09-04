@@ -16,6 +16,7 @@ public:
     virtual void on_update(float delta) override;
     virtual void on_render() override;
     virtual void on_hurt() override;
+    virtual void on_move(float delta) override;
     virtual void set_face(bool is_left) override;
     /// <summary>
     /// Ìí¼Ó×Óµ¯

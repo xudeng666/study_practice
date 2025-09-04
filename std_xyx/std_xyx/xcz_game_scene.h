@@ -20,8 +20,6 @@ public:
     void on_update(float delta) override;
     // 生成敌人
     void add_enemy();
-    // 杀死敌人
-    void kill_enemy();
 
 private:
     GameImg* bg = nullptr;
@@ -33,8 +31,6 @@ private:
     GameLable* score_lable = nullptr;
     // 主角
     Player_xcz* player = nullptr;
-    // 怪物列表
-    std::vector<Enemy_xcz*> enemy_list;
     // 分数
     int score = 0;
     // 血量
@@ -51,7 +47,5 @@ private:
     Timer timer_enemy_produce;
     // 怪物池用来存放已经死亡的怪物
     std::queue<Enemy_xcz*> enemy_queue;
-
-
 };
 

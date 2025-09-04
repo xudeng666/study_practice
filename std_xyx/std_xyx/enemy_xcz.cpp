@@ -1,4 +1,5 @@
 #include "enemy_xcz.h"
+#include "game_wnd.h"
 
 
 Enemy_xcz::Enemy_xcz()
@@ -16,15 +17,32 @@ void Enemy_xcz::on_enter()
 {
 	if (_DE_BUG_)
 	{
-		std::cout << ID << "  on_enter" << std::endl;
+		//std::cout << ID << "  Enemy_xcz on_enter" << std::endl;
 	}
+	CharacterXcz::on_enter();
 
 	set_step_length(48);
 	set_speed(120);
 
 	click_enabled = false;
-	// 需要在enter添加初始坐标在屏幕外随机
-	position = { 0,0 };
+	int w = GameWnd::instance()->get_width();
+	int h = GameWnd::instance()->get_height();
+	// 初始坐标在屏幕外随机
+	switch (getIntRand(0, 3))
+	{
+	case 0:
+		position = { -w / 2.0f - 50,getRealRand(-50,h + 50) };
+		break;
+	case 1:
+		position = { w / 2.0f + 50,getRealRand(-50,h + 50) };
+		break;
+	case 2:
+		position = { getRealRand(-50,w + 50),-h / 2.0f - 50 };
+		break;
+	case 3:
+		position = { getRealRand(-50,w + 50),h / 2.0f + 50 };
+		break;
+	}
 	size = { 96,96 };
 	hp = 1;
 	anchor_mode = AnchorMode::BOTTOMCENTER;
@@ -70,4 +88,44 @@ void Enemy_xcz::on_render()
 }
 void Enemy_xcz::on_hurt()
 {
+	if (hp>0)
+	{
+		hp--;
+	}
+}
+void Enemy_xcz::set_player_pos(Vector2 pos)
+{
+	pos_player = pos;
+}
+
+void Enemy_xcz::on_move(float delta)
+{
+	Vector2 vel = pos_player - get_anchor_position(AnchorMode::CENTER);
+	Vector2 t = vel.normalize_portion();
+
+	if (vel.x != 0.0f && vel.y != 0.0f)
+	{
+		switch (getIntRand(0,3))
+		{
+		case 0:t.x = 0.0f;break;
+		case 1:t.y = 0.0f;break;
+		case 2:t = vel;break; 
+		case 3:break;
+		}
+	}
+	velocity = t.normalize() * speed * delta;
+
+	if (std::fabs(velocity.x) > std::fabs(vel.x))
+	{
+		velocity.x = vel.x;
+	}
+	if (std::fabs(velocity.y) > std::fabs(vel.y))
+	{
+		velocity.y = vel.y;
+	}
+	if (velocity.x != 0.0f)
+	{
+		set_face(velocity.x < 0.0f);
+	}
+	position += velocity;
 }

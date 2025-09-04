@@ -11,9 +11,12 @@ public:
     virtual void on_update(float delta) override;
     virtual void on_render() override;
     virtual void on_hurt() override;
+    virtual void on_move(float delta);
     virtual void set_face(bool is_left) override;
 
-    // 添加个设置目标（玩家）坐标的函数
-    // 添加根据目标，寻路的函数
+    // 设置目标（玩家）坐标的函数
+    void set_player_pos(Vector2 pos);
+protected:
+    Vector2 pos_player;
 };
 
