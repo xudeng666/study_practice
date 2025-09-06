@@ -22,6 +22,8 @@ void GameImg::on_enter()
 
 void GameImg::on_update(float delta)
 {
+	set_texture();
+	set_size();
 	GameObj::on_update(delta);
 }
 
@@ -107,6 +109,10 @@ void GameImg::set_texture()
 
 SDL_Texture* GameImg::get_texture()
 {
+	if (!texture)
+	{
+		set_texture();
+	}
 	return texture;
 }
 

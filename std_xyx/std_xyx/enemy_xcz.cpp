@@ -1,11 +1,57 @@
 #include "enemy_xcz.h"
 #include "game_wnd.h"
+#include "res_mgr.h"
 
 
 Enemy_xcz::Enemy_xcz()
 {
 	ani_pool["left"] = Ani_Res("boar_left_", 6);
 	ani_pool["right"] = Ani_Res("boar_right_", 6);
+
+	click_enabled = false;
+	set_step_length(48);
+	set_speed(120);
+	size = { 96,96 };
+	anchor_mode = AnchorMode::BOTTOMCENTER;
+	anchor_referent_mode = AnchorMode::CENTER;
+
+	current_ani->set_position({ 0,0 });
+	current_ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
+	current_ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
+	current_ani->set_anchor_referent_obj(this);
+	current_ani->set_ID("ani");
+	current_ani->set_res_int_val(0);
+	current_ani->set_res_name(ani_pool["left"]);
+	current_ani->set_loop(true);
+	set_interval();
+
+	img_shade->set_position({ 0,-20 });
+	img_shade->set_anchor_mode(AnchorMode::CENTER);
+	img_shade->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
+	img_shade->set_anchor_referent_obj(current_ani);
+	img_shade->set_res_name("shadow_enemy");
+	img_shade->set_ID("shade");
+
+	hit_box->set_position({ 0,0 });
+	hit_box->set_size({ 80,80 });
+	hit_box->set_anchor_mode(AnchorMode::CENTER);
+	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
+	hit_box->set_layer_dst(CollisionLayer::PLAYER_1);
+	hit_box->set_layer_src(CollisionLayer::ENEMY);
+	hit_box->set_ID("hit_box");
+	hit_box->set_anchor_referent_obj(this);
+	//add_children(hit_box);
+
+	hurt_box->set_position({ 0,0 });
+	hurt_box->set_size({ 80,80 });
+	hurt_box->set_anchor_mode(AnchorMode::CENTER);
+	hurt_box->set_anchor_referent_mode(AnchorMode::CENTER);
+	hurt_box->set_layer_dst(CollisionLayer::BULLET);
+	hurt_box->set_layer_src(CollisionLayer::ENEMY);
+	hurt_box->set_ID("hurt_box");
+	hurt_box->set_call_back([&]() {on_hurt();});
+	hurt_box->set_anchor_referent_obj(this);
+	//add_children(hurt_box);
 }
 
 Enemy_xcz::~Enemy_xcz()
@@ -21,10 +67,6 @@ void Enemy_xcz::on_enter()
 	}
 	CharacterXcz::on_enter();
 
-	set_step_length(48);
-	set_speed(120);
-
-	click_enabled = false;
 	int w = GameWnd::instance()->get_width();
 	int h = GameWnd::instance()->get_height();
 	// 初始坐标在屏幕外随机
@@ -43,28 +85,23 @@ void Enemy_xcz::on_enter()
 		position = { getRealRand(-50,w + 50),h / 2.0f + 50 };
 		break;
 	}
-	size = { 96,96 };
+
 	hp = 1;
-	anchor_mode = AnchorMode::BOTTOMCENTER;
-	anchor_referent_mode = AnchorMode::CENTER;
 
-	current_ani->set_position({ 0,0 });
-	current_ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
-	current_ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
-	current_ani->set_anchor_referent_obj(this);
-	current_ani->set_ID("ani");
-	current_ani->set_res_int_val(0);
-	current_ani->set_res_name(ani_pool["left"]);
-	current_ani->set_loop(true);
-	set_interval();
+	set_display(true);
 
-	img_shade->set_position({ 0,0 });
-	img_shade->set_anchor_mode(AnchorMode::CENTER);
-	img_shade->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
-	img_shade->set_anchor_referent_obj(current_ani);
-	img_shade->set_res_name("shadow_enemy");
-	img_shade->set_ID("shade");
+	hit_box->set_collision_enabled(true);
+	hurt_box->set_collision_enabled(true);
 }
+
+void Enemy_xcz::on_exit()
+{
+	hit_box->set_collision_enabled(false);
+	hurt_box->set_collision_enabled(false);
+	set_display(false);
+	CharacterXcz::on_exit();
+}
+
 
 void Enemy_xcz::on_input(const SDL_Event& event)
 {
@@ -92,6 +129,9 @@ void Enemy_xcz::on_hurt()
 	{
 		hp--;
 	}
+	on_exit();
+	Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hit"), 0);
+	CharacterXcz::on_hurt();
 }
 void Enemy_xcz::set_player_pos(Vector2 pos)
 {

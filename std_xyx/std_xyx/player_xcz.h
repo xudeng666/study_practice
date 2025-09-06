@@ -12,6 +12,7 @@ public:
     virtual ~Player_xcz() override;
 
     virtual void on_enter() override;
+    virtual void on_exit() override;
     virtual void on_input(const SDL_Event& event) override;
     virtual void on_update(float delta) override;
     virtual void on_render() override;
@@ -38,7 +39,7 @@ private:
     // 子弹数量
     int bul_num = 0;
     // 子弹飞行半径
-    int bul_radius = 60;
+    int bul_radius = 80;
     // 子弹角度
     float bul_degrees = 0;
     // 子弹角速度(度/秒)

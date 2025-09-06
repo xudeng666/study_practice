@@ -22,7 +22,6 @@ public:
 
 private:
 	GameCollisionBox() = default;
-	//GameCollisionBox(const Vector2 pos);
 	~GameCollisionBox() = default;
 
 private:

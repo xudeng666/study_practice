@@ -37,9 +37,9 @@ public:
 	/*设置动画资源*/
 	void set_res_name(const Ani_Res& res);
 	/*设置当前帧纹理*/
-	void set_Texture();
+	void set_texture();
 	/*获取当前帧纹理*/
-	SDL_Texture* get_Texture();
+	//SDL_Texture* get_texture();
 	/*动画是否播放完毕*/
 	bool check_finished();
 	/*设置回调函数*/

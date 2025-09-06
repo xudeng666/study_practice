@@ -18,6 +18,7 @@ public:
     void on_enter() override;
     void on_exit() override;
     void on_update(float delta) override;
+    void on_render() override;
     // Éú³ÉµĞÈË
     void add_enemy();
 

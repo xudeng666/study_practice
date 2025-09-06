@@ -26,15 +26,13 @@ GameAni::~GameAni()
 void GameAni::on_enter()
 {
 	reset();
-	set_Texture();
-	set_size();
+	//set_texture();
+	//set_size();
 }
 
 void GameAni::on_update(float delta)
 {
 	timer.on_update(delta);
-	set_Texture();
-	set_size();
 	GameImg::on_update(delta);
 }
 
@@ -84,20 +82,24 @@ void GameAni::set_res_name(const Ani_Res& res)
 }
 
 /*设置当前帧纹理*/
-void GameAni::set_Texture()
+void GameAni::set_texture()
 {
 	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(idx_frame + res_int_val)));
+	if (!texture)
+	{
+		std::cout << ID << " texture null" << std::endl;
+	}
 }
 
 /*获取当前帧纹理*/
-SDL_Texture* GameAni::get_Texture()
-{
-	if (!texture)
-	{
-		set_Texture();
-	}
-	return texture;
-}
+//SDL_Texture* GameAni::get_texture()
+//{
+//	if (!texture)
+//	{
+//		set_texture();
+//	}
+//	return texture;
+//}
 
 /*动画是否播放完毕*/
 bool GameAni::check_finished()

@@ -40,6 +40,7 @@ protected:
     int damage = 1;                        // 子弹伤害
     bool valid = true;                      // 子弹是否有效
     bool can_remove = false;                // 子弹是否可以被移除
-    GameCollisionBox* hit_box = nullptr;    // 碰撞箱(攻击)
+    GameCollisionBox* hit_box = nullptr;    // 攻击碰撞箱
+    GameCollisionBox* hurt_box = nullptr;   // 受击碰撞箱
 };
 

@@ -1,23 +1,11 @@
 #include "player_xcz.h"
+#include "res_mgr.h"
 
 
 Player_xcz::Player_xcz()
 {
 	ani_pool["left"] = Ani_Res("paimon_left_", 6);
 	ani_pool["right"] = Ani_Res("paimon_right_", 6);
-}
-
-Player_xcz::~Player_xcz()
-{
-	Character::~Character();
-}
-
-void Player_xcz::on_enter()
-{
-	if (_DE_BUG_)
-	{
-		std::cout << ID <<"  on_enter" << std::endl;
-	}
 
 	set_step_length(48);
 	set_speed(150);
@@ -25,7 +13,6 @@ void Player_xcz::on_enter()
 	click_enabled = false;
 	position = { 0,0 };
 	size = { 40,60 };
-	hp = 10;
 	anchor_mode = AnchorMode::BOTTOMCENTER;
 	anchor_referent_mode = AnchorMode::CENTER;
 
@@ -46,13 +33,45 @@ void Player_xcz::on_enter()
 	img_shade->set_res_name("shadow_player");
 	img_shade->set_ID("shade");
 
-	for (int i = 0; i < bullet_list.size(); i++)
-	{
-		SDL_Point p = bullet_list[i]->get_size();
-		bullet_list[i]->set_center({ (float)p.x, (float)p.y });
-	}
+	hurt_box->set_position({ 0,0 });
+	hurt_box->set_size({ 10,10 });
+	hurt_box->set_anchor_mode(AnchorMode::CENTER);
+	hurt_box->set_anchor_referent_mode(AnchorMode::CENTER);
+	hurt_box->set_layer_dst(CollisionLayer::ENEMY);
+	hurt_box->set_layer_src(CollisionLayer::PLAYER_1);
+	hurt_box->set_ID("hurt_box");
+	hurt_box->set_call_back([&]() {on_hurt();});
+	hurt_box->set_anchor_referent_obj(this);
+	//add_children(hurt_box);
 }
 
+Player_xcz::~Player_xcz()
+{
+	Character::~Character();
+}
+
+void Player_xcz::on_enter()
+{
+	if (_DE_BUG_)
+	{
+		std::cout << ID <<"  on_enter" << std::endl;
+	}
+	CharacterXcz::on_enter();
+	hp = 10;
+	bul_num = 1;
+
+	add_bullet(0);
+
+	hit_box->set_collision_enabled(false);
+	hurt_box->set_collision_enabled(true);
+}
+
+void Player_xcz::on_exit()
+{
+	CharacterXcz::on_exit();
+	hit_box->set_collision_enabled(false);
+	hurt_box->set_collision_enabled(false);
+}
 void Player_xcz::on_input(const SDL_Event& event)
 {
 	switch (event.type)
@@ -125,6 +144,8 @@ void Player_xcz::on_hurt()
 	{
 		hp--;
 	}
+	Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
+	CharacterXcz::on_hurt();
 }
 
 void Player_xcz::on_move(float delta)
@@ -150,13 +171,17 @@ void Player_xcz::add_bullet(const int num)
 	{
 		bullet_list[bul_num - 1]->set_display(true);
 	}
+	int n = bullet_list.size();
 	while (bul_num > bullet_list.size())
 	{
 		BulletXcz* p = new BulletXcz();
-		p->set_ID("bul_" + bul_num);
+		std::string id = "bul_" + std::to_string(n);
+		p->set_ID(id);
 		p->set_anchor_referent_obj(current_ani);
+		p->on_enter();
 		add_children(p);
 		bullet_list.push_back(p);
+		n++;
 	}
 }
 void Player_xcz::reduce_bullet(const int num)
@@ -184,6 +209,7 @@ void Player_xcz::move_bullet(float delta)
 	{
 		int dre = bul_degrees + 360 / bul_num * i;
 		dre %= 360;
+		//std::cout << "bullet dre:   " << dre << std::endl;
 		bullet_list[i]->set_position({ (float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius) });
 		bullet_list[i]->set_rotation(90-dre);
 	}

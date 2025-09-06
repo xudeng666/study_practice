@@ -30,8 +30,8 @@ void GameBtn::on_render()
 void GameBtn::on_cursor_down()
 {
 	status = ButtonState::PRESSED;
-	set_texture();
-	set_size();
+	//set_texture();
+	//set_size();
 }
 
 void GameBtn::on_cursor_up()
@@ -39,8 +39,8 @@ void GameBtn::on_cursor_up()
 	if (status != ButtonState::PRESSED)
 		return;
 	status = ButtonState::NORMAL;
-	set_texture();
-	set_size();
+	//set_texture();
+	//set_size();
 	if (on_click)
 	{
 		on_click();
@@ -61,8 +61,8 @@ void GameBtn::on_cursor_hover(bool is_hover)
 	if (t != status)
 	{
 		status = t;
-		set_texture();
-		set_size();
+		//set_texture();
+		//set_size();
 	}
 }
 

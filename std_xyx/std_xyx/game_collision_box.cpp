@@ -4,12 +4,20 @@
 
 void GameCollisionBox::on_update(float delta)
 {
+	if (!collision_enabled)
+	{
+		return;
+	}
+	GameObj::on_update(delta);
 }
 
 void GameCollisionBox::on_render()
 {
-	SDL_Rect rect = get_Rect();
-	GameWnd::instance()->render_line_rect(&rect);
+	if (!collision_enabled)
+	{
+		return;
+	}
+	GameObj::on_render();
 }
 
 void GameCollisionBox::set_collision_enabled(bool flag)

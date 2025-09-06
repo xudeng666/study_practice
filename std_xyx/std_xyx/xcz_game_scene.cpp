@@ -1,5 +1,6 @@
 #include "xcz_game_scene.h"
 #include "player_xcz.h"
+#include "collision_mgr.h"
 
 XczGameScene::XczGameScene()
 {
@@ -155,12 +156,11 @@ void XczGameScene::on_update(float delta)
 
         Enemy_xcz* enemy = (Enemy_xcz*)obj;
 
-        if (enemy->get_hp() == 0)
+        if (enemy && enemy->get_hp() == 0)
         {
-            if (enemy)
-            {
-                enemy_queue.push(enemy);
-            }
+            enemy->on_exit();
+            score++;
+            enemy_queue.push(enemy);
             it = enemy_list.erase(it);
         }
         else
@@ -169,6 +169,7 @@ void XczGameScene::on_update(float delta)
             ++it;
         }
     }
+    CollisionMgr::instance()->processCollide();
     // 最后将怪物和玩家在对象树中按照y轴升序排序。
     // 如果有空节点，则排在后面
     entity->get_children().sort([](const GameObj* a, const GameObj* b) {
@@ -181,6 +182,12 @@ void XczGameScene::on_update(float delta)
     score_lable->set_lable_text("SCORE:" + std::to_string(score));
     // 更新血量
     hp_bar->set_percent_num(player->get_hp() / max_hp);
+}
+
+void XczGameScene::on_render()
+{
+    Scene::on_render();
+    CollisionMgr::instance()->onDebugRender();
 }
 
 void XczGameScene::add_enemy()
