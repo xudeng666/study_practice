@@ -34,6 +34,7 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+	std::cout << ID << "  ~Scene()" << std::endl;
 	post_order_traversal(root, [&](GameObj* obj) {
 		delete obj;
 		});
@@ -78,6 +79,10 @@ void Scene::on_render()
 
 void Scene::on_exit()
 {
+	if (_DE_BUG_)
+	{
+		std::cout << "Scene::on_exit" << std::endl;
+	}
 	pre_order_traversal(root, [&](GameObj* obj) {
 		obj->on_exit();
 		});

@@ -16,7 +16,6 @@ public:
     virtual void on_input(const SDL_Event& event) override;
     virtual void on_update(float delta) override;
     virtual void on_render() override;
-    virtual void on_hurt() override;
     virtual void on_move(float delta) override;
     virtual void set_face(bool is_left) override;
     /// <summary>
@@ -31,6 +30,8 @@ public:
     void reduce_bullet(const int num);
     /*获取子弹数量*/
     int get_bullet_num();
+    /*设置子弹数量*/
+    void set_bullet_num(const int num);
     /*子弹旋转移动*/
     void move_bullet(float delta);
 
@@ -39,10 +40,10 @@ private:
     // 子弹数量
     int bul_num = 0;
     // 子弹飞行半径
-    int bul_radius = 80;
+    int bul_radius = 120;
     // 子弹角度
     float bul_degrees = 0;
     // 子弹角速度(度/秒)
-    float angle_speed = 180;
+    float angle_speed = 90;
 };
 

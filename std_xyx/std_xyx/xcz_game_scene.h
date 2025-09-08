@@ -32,6 +32,8 @@ private:
     GameLable* score_lable = nullptr;
     // 主角
     Player_xcz* player = nullptr;
+    // 敌人总数
+    int enemy_num = 0;
     // 分数
     int score = 0;
     // 血量

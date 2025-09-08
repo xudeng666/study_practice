@@ -37,9 +37,9 @@ public:
     /*获取尺寸*/
     const SDL_Point& get_size() const;
     /*设置显示状态*/
-    void set_display(bool display);
+    virtual void set_display(bool display);
     /*获取显示状态*/
-    const bool get_display() const;
+    virtual const bool get_display() const;
     /*设置锚点*/
     void set_anchor_mode(const AnchorMode mode);
     /*获取锚点*/

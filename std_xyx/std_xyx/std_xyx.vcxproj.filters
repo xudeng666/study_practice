@@ -123,6 +123,9 @@
     <ClCompile Include="enemy_xcz.cpp">
       <Filter>源文件\game_xcz</Filter>
     </ClCompile>
+    <ClCompile Include="combatant.cpp">
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="enemy_xcz.h">
       <Filter>头文件\game_xcz</Filter>
+    </ClInclude>
+    <ClInclude Include="combatant.h">
+      <Filter>头文件\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

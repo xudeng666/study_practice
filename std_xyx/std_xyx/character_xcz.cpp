@@ -6,6 +6,7 @@ CharacterXcz::CharacterXcz()
     img_shade = new GameImg();
     add_children(img_shade);
     add_children(current_ani);
+    std::fill(move_status, move_status + 4, false);
 }
 
 CharacterXcz::~CharacterXcz()
@@ -16,12 +17,14 @@ CharacterXcz::~CharacterXcz()
 void CharacterXcz::on_enter()
 {
     // 初始化 
+    std::fill(move_status, move_status + 4, false);
     Character::on_enter();
 }
 
 void CharacterXcz::on_exit()
 {
     // 反初始化
+    std::fill(move_status, move_status + 4, false);
     Character::on_exit();
 }
 
@@ -44,6 +47,11 @@ void CharacterXcz::on_render()
 void CharacterXcz::on_hurt()
 {
     Character::on_hurt();
+}
+
+void CharacterXcz::on_hit()
+{
+    Character::on_hit();
 }
 
 void CharacterXcz::on_move(float delta)

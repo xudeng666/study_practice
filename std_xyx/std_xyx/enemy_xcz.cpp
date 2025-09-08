@@ -1,6 +1,5 @@
 #include "enemy_xcz.h"
 #include "game_wnd.h"
-#include "res_mgr.h"
 
 
 Enemy_xcz::Enemy_xcz()
@@ -37,8 +36,9 @@ Enemy_xcz::Enemy_xcz()
 	hit_box->set_anchor_mode(AnchorMode::CENTER);
 	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
 	hit_box->set_layer_dst(CollisionLayer::PLAYER_1);
-	hit_box->set_layer_src(CollisionLayer::ENEMY);
+	hit_box->set_layer_src(CollisionLayer::NONE);
 	hit_box->set_ID("hit_box");
+	hit_box->set_call_back([&]() {on_hit();});
 	hit_box->set_anchor_referent_obj(this);
 	//add_children(hit_box);
 
@@ -46,10 +46,10 @@ Enemy_xcz::Enemy_xcz()
 	hurt_box->set_size({ 80,80 });
 	hurt_box->set_anchor_mode(AnchorMode::CENTER);
 	hurt_box->set_anchor_referent_mode(AnchorMode::CENTER);
-	hurt_box->set_layer_dst(CollisionLayer::BULLET);
+	hurt_box->set_layer_dst(CollisionLayer::NONE);
 	hurt_box->set_layer_src(CollisionLayer::ENEMY);
 	hurt_box->set_ID("hurt_box");
-	hurt_box->set_call_back([&]() {on_hurt();});
+	hurt_box->set_call_back([&]() {decrease_hp(1);});
 	hurt_box->set_anchor_referent_obj(this);
 	//add_children(hurt_box);
 }
@@ -123,16 +123,7 @@ void Enemy_xcz::set_face(bool is_left)
 void Enemy_xcz::on_render()
 {
 }
-void Enemy_xcz::on_hurt()
-{
-	if (hp>0)
-	{
-		hp--;
-	}
-	on_exit();
-	Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hit"), 0);
-	CharacterXcz::on_hurt();
-}
+
 void Enemy_xcz::set_player_pos(Vector2 pos)
 {
 	pos_player = pos;

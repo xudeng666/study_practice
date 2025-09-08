@@ -1,9 +1,9 @@
 #pragma once
 #include "game_img.h"
-#include "game_collision_box.h"
+#include "combatant.h"
 
 /*子弹基类*/
-class Bullet :public GameImg
+class Bullet :public GameImg, public Combatant
 {
 public:
     Bullet();
@@ -40,7 +40,5 @@ protected:
     int damage = 1;                        // 子弹伤害
     bool valid = true;                      // 子弹是否有效
     bool can_remove = false;                // 子弹是否可以被移除
-    GameCollisionBox* hit_box = nullptr;    // 攻击碰撞箱
-    GameCollisionBox* hurt_box = nullptr;   // 受击碰撞箱
 };
 

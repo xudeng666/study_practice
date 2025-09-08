@@ -11,7 +11,6 @@ public:
     virtual void on_input(const SDL_Event& event) override;
     virtual void on_update(float delta) override;
     virtual void on_render() override;
-    virtual void on_hurt() override;
     virtual void on_move(float delta);
     virtual void set_face(bool is_left) override;
 

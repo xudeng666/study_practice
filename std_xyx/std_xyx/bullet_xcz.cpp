@@ -14,8 +14,9 @@ BulletXcz::BulletXcz()
 	hit_box->set_anchor_mode(AnchorMode::CENTER);
 	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
 	hit_box->set_layer_dst(CollisionLayer::ENEMY);
-	hit_box->set_layer_src(CollisionLayer::BULLET);
+	hit_box->set_layer_src(CollisionLayer::NONE);
 	hit_box->set_ID("hit_box");
+	hit_box->set_call_back([&]() {on_hit();});
 	hit_box->set_anchor_referent_obj(this);
 	//add_children(hit_box);
 }

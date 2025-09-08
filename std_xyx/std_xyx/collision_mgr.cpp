@@ -42,9 +42,16 @@ void CollisionMgr::processCollide()
 				continue;
 			}
 
-			if (is_collision(box_src, box_dst) && box_dst->call_back)
+			if (is_collision(box_src, box_dst))
 			{
-				box_dst->call_back();
+				if (box_dst->call_back)
+				{
+					box_dst->call_back();
+				}
+				if (box_src->call_back)
+				{
+					box_src->call_back();
+				}
 			}
 		}
 	}

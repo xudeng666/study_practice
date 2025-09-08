@@ -1,16 +1,12 @@
 #include "bullet.h"
-#include "collision_mgr.h"
+//#include "collision_mgr.h"
 
 
 Bullet::Bullet()
 {
-	hit_box = CollisionMgr::instance()->creatCollisionBox();
-	hurt_box = CollisionMgr::instance()->creatCollisionBox();
 }
 Bullet::~Bullet()
 {
-	CollisionMgr::instance()->destroyCollisionBox(hit_box);
-	CollisionMgr::instance()->destroyCollisionBox(hurt_box);
 }
 
 void Bullet::on_enter()

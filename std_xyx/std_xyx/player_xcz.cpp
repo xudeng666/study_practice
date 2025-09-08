@@ -1,5 +1,4 @@
 #include "player_xcz.h"
-#include "res_mgr.h"
 
 
 Player_xcz::Player_xcz()
@@ -11,7 +10,6 @@ Player_xcz::Player_xcz()
 	set_speed(150);
 
 	click_enabled = false;
-	position = { 0,0 };
 	size = { 40,60 };
 	anchor_mode = AnchorMode::BOTTOMCENTER;
 	anchor_referent_mode = AnchorMode::CENTER;
@@ -33,14 +31,24 @@ Player_xcz::Player_xcz()
 	img_shade->set_res_name("shadow_player");
 	img_shade->set_ID("shade");
 
+	hit_box->set_position({ 0,0 });
+	hit_box->set_size({ 10,10 });
+	hit_box->set_anchor_mode(AnchorMode::CENTER);
+	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
+	hit_box->set_layer_dst(CollisionLayer::ENEMY);
+	hit_box->set_layer_src(CollisionLayer::NONE);
+	hit_box->set_ID("hit_box");
+	//hit_box->set_call_back([&]() {on_hit();});
+	hit_box->set_anchor_referent_obj(this);
+
 	hurt_box->set_position({ 0,0 });
 	hurt_box->set_size({ 10,10 });
 	hurt_box->set_anchor_mode(AnchorMode::CENTER);
 	hurt_box->set_anchor_referent_mode(AnchorMode::CENTER);
-	hurt_box->set_layer_dst(CollisionLayer::ENEMY);
+	hurt_box->set_layer_dst(CollisionLayer::NONE);
 	hurt_box->set_layer_src(CollisionLayer::PLAYER_1);
 	hurt_box->set_ID("hurt_box");
-	hurt_box->set_call_back([&]() {on_hurt();});
+	hurt_box->set_call_back([&]() {decrease_hp(1);});
 	hurt_box->set_anchor_referent_obj(this);
 	//add_children(hurt_box);
 }
@@ -57,12 +65,8 @@ void Player_xcz::on_enter()
 		std::cout << ID <<"  on_enter" << std::endl;
 	}
 	CharacterXcz::on_enter();
-	hp = 10;
-	bul_num = 1;
 
-	add_bullet(0);
-
-	hit_box->set_collision_enabled(false);
+	hit_box->set_collision_enabled(true);
 	hurt_box->set_collision_enabled(true);
 }
 
@@ -71,7 +75,9 @@ void Player_xcz::on_exit()
 	CharacterXcz::on_exit();
 	hit_box->set_collision_enabled(false);
 	hurt_box->set_collision_enabled(false);
+	reduce_bullet(bul_num);
 }
+
 void Player_xcz::on_input(const SDL_Event& event)
 {
 	switch (event.type)
@@ -138,15 +144,6 @@ void Player_xcz::set_face(bool is_left)
 void Player_xcz::on_render()
 {
 }
-void Player_xcz::on_hurt()
-{
-	if (hp > 0)
-	{
-		hp--;
-	}
-	Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
-	CharacterXcz::on_hurt();
-}
 
 void Player_xcz::on_move(float delta)
 {
@@ -164,37 +161,41 @@ void Player_xcz::on_move(float delta)
 	}
 	position += velocity;
 }
+
 void Player_xcz::add_bullet(const int num)
 {
-	bul_num += num;
-	if (bul_num <= bullet_list.size())
+	for (size_t i = 0; i < num; i++)
 	{
-		bullet_list[bul_num - 1]->set_display(true);
-	}
-	int n = bullet_list.size();
-	while (bul_num > bullet_list.size())
-	{
-		BulletXcz* p = new BulletXcz();
-		std::string id = "bul_" + std::to_string(n);
-		p->set_ID(id);
-		p->set_anchor_referent_obj(current_ani);
-		p->on_enter();
-		add_children(p);
-		bullet_list.push_back(p);
-		n++;
+		bul_num++;
+		if (bul_num > bullet_list.size())
+		{
+			BulletXcz* p = new BulletXcz();
+			std::string id = "bul_" + std::to_string(bul_num-1);
+			p->set_ID(id);
+			p->set_anchor_referent_obj(current_ani);
+			p->on_enter();
+			p->set_on_hit_fun([&]() {
+				on_hit();
+				});
+			add_children(p);
+			bullet_list.push_back(p);
+		}
+		else
+		{
+			bullet_list[bul_num - 1]->on_enter();
+		}
 	}
 }
 void Player_xcz::reduce_bullet(const int num)
 {
-	bul_num -= num;
-	if (bul_num < 1)
+	for (size_t i = 0; i < num; i++)
 	{
-		bul_num = 1;
-	}
-
-	for (int i = bul_num; i < bullet_list.size(); ++i)
-	{
-		bullet_list[i]->set_display(false);
+		bul_num--;
+		if (bul_num < 0) return;
+		if (bullet_list[bul_num])
+		{
+			bullet_list[bul_num]->on_exit();
+		}
 	}
 }
 
@@ -202,8 +203,15 @@ int Player_xcz::get_bullet_num()
 {
 	return bul_num;
 }
+
+void Player_xcz::set_bullet_num(const int num)
+{
+	bul_num = num;
+}
+
 void Player_xcz::move_bullet(float delta)
 {
+	if (bullet_list.size() < bul_num) return;
 	bul_degrees += delta * angle_speed;
 	for (int i = 0; i < bul_num; ++i)
 	{
@@ -211,6 +219,6 @@ void Player_xcz::move_bullet(float delta)
 		dre %= 360;
 		//std::cout << "bullet dre:   " << dre << std::endl;
 		bullet_list[i]->set_position({ (float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius) });
-		bullet_list[i]->set_rotation(90-dre);
+		bullet_list[i]->set_rotation(90 - dre);
 	}
 }

@@ -21,6 +21,10 @@ public:
     /// </summary>
     virtual void on_hurt() override;
     /// <summary>
+    /// ÊÜµ½¹¥»÷
+    /// </summary>
+    virtual void on_hit() override;
+    /// <summary>
     /// ÒÆ¶¯
     /// </summary>
     virtual void on_move(float delta);
