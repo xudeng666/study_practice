@@ -7,7 +7,7 @@ class GameBtn :public GameImg
 {
 public:
 	GameBtn() = default;
-	~GameBtn() = default;
+	virtual ~GameBtn() = default;
 	GameBtn(const Vector2 pos, const std::string name, std::function<void()> click = nullptr);
 
 	void on_enter();

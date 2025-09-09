@@ -5,9 +5,15 @@ BulletXcz::BulletXcz()
 {
 	set_anchor_mode(AnchorMode::CENTER);
 	set_anchor_referent_mode(AnchorMode::CENTER);
-	set_res_name("sword");
-	set_texture_map_type(TextureMapType::AUTO);
 	set_damage(1);
+
+	auto img_ptr = std::make_unique<GameImg>(Vector2(0, 0));
+	img = img_ptr.get();
+	img->set_res_name("sword");
+	img->set_texture_map_type(TextureMapType::AUTO);
+	img->set_anchor_mode(AnchorMode::CENTER);
+	img->set_anchor_referent_mode(AnchorMode::CENTER);
+	add_children(std::move(img_ptr));
 
 	hit_box->set_position({ 0,0 });
 	hit_box->set_size({ 6,6 });
@@ -18,7 +24,6 @@ BulletXcz::BulletXcz()
 	hit_box->set_ID("hit_box");
 	hit_box->set_call_back([&]() {on_hit();});
 	hit_box->set_anchor_referent_obj(this);
-	//add_children(hit_box);
 }
 
 BulletXcz::~BulletXcz()
@@ -28,7 +33,10 @@ BulletXcz::~BulletXcz()
 void BulletXcz::on_enter()
 {
 	Bullet::on_enter();
-	set_center({ (float)size.x / 2, (float)size.y / 2 });
+	img->set_texture();
+	img->set_size();
+	Vector2 p = img->get_anchor_position(AnchorMode::CENTER) - img->get_anchor_position(AnchorMode::TOPLEFT);
+	img->set_center({p.x, p.y});
 
 	set_display(true);
 	hit_box->set_collision_enabled(true);

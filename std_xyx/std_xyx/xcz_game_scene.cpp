@@ -6,12 +6,14 @@
 
 XczGameScene::XczGameScene()
 {
-    bg = new GameImg({ 0,0 }, "background");
+    auto bg_ptr = std::make_unique<GameImg>(Vector2(0, 0), "background");
+    bg = bg_ptr.get();
     bg->set_ID("bg");
     bg->set_anchor_mode(AnchorMode::CENTER);
     bg->set_anchor_referent_mode(AnchorMode::CENTER);
 
-    hp_bar = new GameBar({ -10,10 });
+    auto hp_bar_ptr = std::make_unique<GameBar>(Vector2(-10, 10));
+    hp_bar = hp_bar_ptr.get();
     hp_bar->set_ID("hp_bar");
     hp_bar->set_anchor_mode(AnchorMode::TOPRIGHT);
     hp_bar->set_anchor_referent_mode(AnchorMode::TOPRIGHT);
@@ -25,7 +27,8 @@ XczGameScene::XczGameScene()
         });
     hp_bar->set_max_value({ 320,32 });
 
-    score_lable = new GameLable({0,10});
+    auto lable_ptr = std::make_unique<GameLable>(Vector2(0, 10));
+    score_lable = lable_ptr.get();
     score_lable->set_ID("score_lable");
     score_lable->set_anchor_mode(AnchorMode::TOPCENTER);
     score_lable->set_anchor_referent_mode(AnchorMode::TOPCENTER);
@@ -36,7 +39,8 @@ XczGameScene::XczGameScene()
     score_lable->set_pos_shade({-3,2});
     score_lable->set_size({ 200,32 });
 
-    btn_exit = new GameBtn({ 0,0 }, "ui_goback_");
+    auto exit_ptr = std::make_unique<GameBtn>(Vector2(0, 0), "ui_goback_");
+    btn_exit = exit_ptr.get();
     btn_exit->set_ID("btn_exit");
     btn_exit->set_anchor_mode(AnchorMode::TOPLEFT);
     btn_exit->set_anchor_referent_mode(AnchorMode::TOPLEFT);
@@ -46,20 +50,22 @@ XczGameScene::XczGameScene()
         }
     );
 
-    player = new Player_xcz();
+    auto player_ptr = std::make_unique<Player_xcz>();
+    player = player_ptr.get();
     player->set_ID("player");
-    player->set_on_hurt_fun([&]() {
+    player->set_on_hurt_fun([&]() { // 被击中则扣掉的子弹数+1
         deduction_bul++;
         });
-    player->set_on_hit_fun([&]() {
+    player->set_on_hit_fun([&]() {  // 击中怪物加1分，播放音效
+        score++;
         Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hit"), 0);
         });
 
-    background->add_children(bg);
-    entity->add_children(player);
-    ui->add_children(hp_bar);
-    ui->add_children(score_lable);
-    ui->add_children(btn_exit);
+    background->add_children(std::move(bg_ptr));
+    entity->add_children(std::move(player_ptr));
+    ui->add_children(std::move(hp_bar_ptr));
+    ui->add_children(std::move(lable_ptr));
+    ui->add_children(std::move(exit_ptr));
 
 	set_ID("XczGameScene");
 
@@ -82,7 +88,6 @@ XczGameScene::XczGameScene()
     timer_enemy_produce.set_on_timeout([&]() {
         add_enemy();
         });
-    
 }
 
 XczGameScene::~XczGameScene()
@@ -113,28 +118,23 @@ void XczGameScene::on_exit()
     if (_DE_BUG_)
     {
         std::cout << "XczGameScene::on_exit" << std::endl;
-    }/*
-    auto it = entity->get_children().begin();
-    while (it != entity->get_children().end()) {
-        GameObj* obj = *it;
-        if (!obj && obj->get_ID() != "player")
-        {
-            std::cout << "entity  id:" << obj->get_ID() << std::endl;
-            post_order_traversal(obj, [&](GameObj* obj) {
-                delete obj;
-                });
-            it = entity->get_children().erase(it);
-        }
-    }*/
-    // 清理怪物
-    std::cout << "queue  size:" << enemy_queue.size() << std::endl;
-    while (!enemy_queue.empty())
-    {
-        Enemy_xcz* enemy = enemy_queue.front();
-        std::cout << "queue  id:" << enemy->get_ID() << std::endl;
-        delete enemy;
-        enemy_queue.pop();
     }
+    std::cout << "entity  num:" << entity->get_children().size() << std::endl;
+
+    // 清理渲染中的怪物
+    auto& children = entity->get_children();
+    for (auto it = children.begin(); it != children.end(); ) {
+        const auto& child_ptr = *it;
+        if (!child_ptr || child_ptr->get_ID().substr(0, 6) != "enemy_") {
+            ++it;
+            continue;
+        }
+        it = children.erase(it);
+    }
+    // 清理怪物池中的怪物
+    std::queue<std::unique_ptr<GameObj>> empty_queue;
+    std::swap(enemy_queue, empty_queue);
+
     Scene::on_exit();
 }
 
@@ -144,6 +144,8 @@ void XczGameScene::on_update(float delta)
     {
         //std::cout << "XczGameScene::on_update" << std::endl;
     }
+    if (!player->get_alive()) return;
+
     Scene::on_update(delta);
     // 角色移动速度，每得20分提高8%，最多提升到200%
     int val = score / 20;
@@ -189,59 +191,66 @@ void XczGameScene::on_update(float delta)
     timer_enemy_produce.set_wait_time(t);
     timer_enemy_produce.on_update(delta);
 
-    //std::list<GameObj*> enemy_list = entity->get_children();  // 这样写实际上是获取到了渲染列表的复制体。
+    // 获取玩家当前位置
     Vector2 p = player->get_anchor_position(AnchorMode::CENTER);
-    auto it = entity->get_children().begin();
-    while (it != entity->get_children().end()) {
-        GameObj* obj = *it;
-        if (!obj)
-        {
-            it = entity->get_children().erase(it);
-            continue;
-        }
-        //std::cout << "---渲染列表ID：  " << obj->get_ID() << std::endl;
-        if (obj->get_ID() == "player")
+
+    // 遍历怪物
+    auto& children = entity->get_children();
+    for (auto it = children.begin(); it != children.end(); ) {
+        auto& child_ptr = *it;
+        if (!child_ptr || child_ptr->get_ID().substr(0, 6) != "enemy_")
         {
             ++it;
             continue;
         }
 
-        Enemy_xcz* enemy = (Enemy_xcz*)obj;
-
-        if (enemy && enemy->get_hp() == 0)
+        Enemy_xcz* enemy = dynamic_cast<Enemy_xcz*>(child_ptr.get());
+        if (!enemy)
         {
-            std::cout << "怪物被命中ID：  " << enemy->get_ID() << std::endl;
-            enemy->on_exit();
-            score++;
-            enemy_queue.push(enemy);
-            it = entity->get_children().erase(it);
+            ++it;
+            continue;
         }
-        else
+
+        if (enemy->get_alive()) // 怪物存活则更新玩家坐标
         {
             enemy->set_player_pos(p);
             ++it;
         }
+        else // 怪物死亡则放入怪物池
+        {
+            enemy->on_exit();
+            uqp_obj removedObj = std::move(child_ptr);  // 转移所有权到 removedObj
+            it = children.erase(it);
+
+            // 若成功移除，断开父子关系
+            if (removedObj) {
+                removedObj->set_parent(nullptr);
+                removedObj->set_anchor_referent_obj(nullptr);
+            }
+            enemy_queue.push(std::move(removedObj));
+        }
     }
-    //std::cout << "------------------------------------------"<< entity->get_children().size() << std::endl;
+    // 碰撞检测
     CollisionMgr::instance()->processCollide();
     // 最后将怪物和玩家在对象树中按照y轴升序排序。
     // 如果有空节点，则排在后面
-    entity->get_children().sort([](const GameObj* a, const GameObj* b) {
-        if (!a) return false;
-        if (!b) return true; 
-        return a->get_position().y < b->get_position().y;
+    entity->get_children().sort([](const uqp_obj& child_a, const uqp_obj& child_b) {
+        if (!child_a) return false;
+        if (!child_b) return true;
+        return child_a->get_position().y < child_b->get_position().y;
         });
 
     // 更新分数
     score_lable->set_lable_text("SCORE:" + std::to_string(score));
     // 更新血量
     int hp = player->get_hp();
-    if (hp == 0)
+    hp_bar->set_percent_num(1.0f * hp / max_hp);
+
+    if (!player->get_alive())
     {
         // 退出游戏到菜单界面
         GameMgr::instance()->exchange_scene(SceneType::MENUE);
     }
-    hp_bar->set_percent_num(1.0f * hp / max_hp);
 }
 
 void XczGameScene::on_render()
@@ -252,25 +261,28 @@ void XczGameScene::on_render()
 
 void XczGameScene::add_enemy()
 {
-    Enemy_xcz* enemy = nullptr;
+    uqp_obj enemy;
     // 如果怪物池有，就直接取出
     if (!enemy_queue.empty())
     {
-        enemy = enemy_queue.front();
+        enemy = std::move(enemy_queue.front());
         enemy_queue.pop();
     }
     else
     {
         //没有就new一个
-        enemy = new Enemy_xcz();
+        auto enemy_n = std::make_unique<Enemy_xcz>();
+        Enemy_xcz* en = enemy_n.get();
+
         std::string id = "enemy_" + std::to_string(enemy_num);
-        enemy->set_ID(id);
-        enemy->set_hp(1);
-        enemy->set_on_hit_fun([&]() {
+        en->set_ID(id);
+        en->set_hp(1);
+        en->set_on_hit_fun([&]() {
             Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
             });
         enemy_num++;
+        enemy = std::move(enemy_n);
     }
     enemy->on_enter();
-    entity->add_children(enemy);
+    entity->add_children(std::move(enemy));
 }

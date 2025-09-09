@@ -42,12 +42,6 @@ void GameImg::on_render()
 		int len_h = size.y / s.y;
 		int len_w = size.x / s.x;
 
-		/*if (_DE_BUG_)
-		{
-			std::cout << "len_w:	" << len_w << std::endl
-				<< "len_h:	" << len_h << std::endl;
-		}*/
-
 		for (int i = 0; i <= len_h; i++)
 		{
 			dst.y = i * s.y;
@@ -64,13 +58,6 @@ void GameImg::on_render()
 				dst.w = src.w;
 				dst.h = src.h;
 
-				//if (_DE_BUG_)
-				//{
-				//	std::cout << "dst.x:	" << dst.x << std::endl
-				//		<< "dst.y:	" << dst.y << std::endl
-				//		<< "dst.w:	" << dst.w << std::endl
-				//		<< "dst.h:	" << dst.h << std::endl<< std::endl;
-				//}
 				GameWnd::instance()->render_texture(texture, &src, &dst, angle, &center);
 			}
 		}

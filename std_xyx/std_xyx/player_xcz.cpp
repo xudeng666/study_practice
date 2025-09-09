@@ -50,11 +50,11 @@ Player_xcz::Player_xcz()
 	hurt_box->set_ID("hurt_box");
 	hurt_box->set_call_back([&]() {decrease_hp(1);});
 	hurt_box->set_anchor_referent_obj(this);
-	//add_children(hurt_box);
 }
 
 Player_xcz::~Player_xcz()
 {
+	bullet_list.clear();
 	Character::~Character();
 }
 
@@ -132,8 +132,11 @@ void Player_xcz::on_update(float delta)
 	{
 		//std::cout << ID << "  on_update" << std::endl;
 	}
-	on_move(delta);
-	move_bullet(delta);
+	if (alive)
+	{
+		on_move(delta);
+		move_bullet(delta);
+	}
 }
 
 void Player_xcz::set_face(bool is_left)
@@ -169,7 +172,8 @@ void Player_xcz::add_bullet(const int num)
 		bul_num++;
 		if (bul_num > bullet_list.size())
 		{
-			BulletXcz* p = new BulletXcz();
+			auto bul_ptr = std::make_unique<BulletXcz>();
+			BulletXcz* p = bul_ptr.get();
 			std::string id = "bul_" + std::to_string(bul_num-1);
 			p->set_ID(id);
 			p->set_anchor_referent_obj(current_ani);
@@ -177,7 +181,7 @@ void Player_xcz::add_bullet(const int num)
 			p->set_on_hit_fun([&]() {
 				on_hit();
 				});
-			add_children(p);
+			add_children(std::move(bul_ptr));
 			bullet_list.push_back(p);
 		}
 		else

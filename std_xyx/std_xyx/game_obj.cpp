@@ -2,6 +2,18 @@
 #include "game_wnd.h"
 
 
+GameObj::GameObj()
+{
+}
+
+GameObj::GameObj(const Vector2 pos) : position(pos)
+{
+}
+
+GameObj::~GameObj()
+{
+}
+
 void GameObj::on_enter()
 {
 }
@@ -112,6 +124,13 @@ void GameObj::set_center(const SDL_FPoint& pos)
 void GameObj::set_rotation(double val)
 {
 	angle = val;
+	for (auto it = children.begin(); it != children.end(); ++it)
+	{
+		if (it->get())
+		{
+			it->get()->set_rotation(val);
+		}
+	}
 }
 
 void GameObj::set_click_enabled(bool enable)
@@ -229,33 +248,63 @@ GameObj* GameObj::get_parent()
 	return parent;
 }
 
-std::list<GameObj*>& GameObj::get_children()
+std::list<uqp_obj>& GameObj::get_children()
 {
 	return children;
 }
 
-void GameObj::add_children(GameObj* obj)
+void GameObj::add_children(uqp_obj obj, bool is_front)
 {
-	GameObj* p = obj->parent;
-	if (p)
-	{
-		p->children.remove(obj);
+	// 步骤1：若子节点已有原父节点，先从原父节点移除
+	if (obj->parent != nullptr) {
+		auto& old_children = obj->parent->children;
+		for (auto it = old_children.begin(); it != old_children.end(); ++it) {
+			if (it->get() == obj.get()) { // 找到对应子节点的 unique_ptr
+				old_children.erase(it); // 从原父节点列表移除（转移所有权）
+				break;
+			}
+		}
 	}
+
+	// 步骤2：设置当前节点为新父节点
 	obj->set_parent(this);
-	children.push_back(obj);
+
+	// 步骤3：将子节点的 unique_ptr 移动到当前节点的 children 列表
+	is_front ? children.push_front(std::move(obj)) : children.push_back(std::move(obj));
 }
 
-void GameObj::remove_children(GameObj* obj)
-{
-	obj->set_parent(nullptr);
-	obj->set_anchor_referent_obj(nullptr);
-	children.remove(obj);
+uqp_obj GameObj::remove_children(GameObj* obj) {
+	uqp_obj removedObj; // 用于接收被移除的子节点 
+
+	for (auto it = children.begin(); it != children.end(); ++it) {
+		if (it->get() == obj) { // 找到对应子节点的 unique_ptr
+			removedObj = std::move(*it); // 转移所有权到 removedObj
+			children.erase(it);          // 从列表中移除
+			break;
+		}
+	}
+
+	// 若成功移除，断开父子关系
+	if (removedObj) {
+		removedObj->set_parent(nullptr);
+		removedObj->set_anchor_referent_obj(nullptr);
+	}
+
+	return removedObj; // 调用方获得子节点的所有权
 }
 
 void GameObj::delete_children(GameObj* obj)
 {
-	children.remove(obj);
-	delete obj;
+	for (auto it = children.begin(); it != children.end(); ++it) {
+		if (it->get() == obj) { // 找到对应子节点的 unique_ptr
+			// 断开父子关系
+			(*it)->set_parent(nullptr);
+			(*it)->set_anchor_referent_obj(nullptr);
+
+			children.erase(it); // 移除后，unique_ptr 析构 → 自动 delete obj
+			break;
+		}
+	}
 }
 
 bool GameObj::check_in_screen(int val = 0)

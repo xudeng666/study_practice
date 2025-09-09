@@ -26,8 +26,6 @@ GameAni::~GameAni()
 void GameAni::on_enter()
 {
 	reset();
-	//set_texture();
-	//set_size();
 }
 
 void GameAni::on_update(float delta)
@@ -90,16 +88,6 @@ void GameAni::set_texture()
 		std::cout << ID << " texture null" << std::endl;
 	}
 }
-
-/*获取当前帧纹理*/
-//SDL_Texture* GameAni::get_texture()
-//{
-//	if (!texture)
-//	{
-//		set_texture();
-//	}
-//	return texture;
-//}
 
 /*动画是否播放完毕*/
 bool GameAni::check_finished()

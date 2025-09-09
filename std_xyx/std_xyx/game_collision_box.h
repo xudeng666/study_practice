@@ -22,7 +22,7 @@ public:
 
 private:
 	GameCollisionBox() = default;
-	~GameCollisionBox() = default;
+	virtual ~GameCollisionBox() = default;
 
 private:
 	// ÊÇ·ñÆôÓÃÅö×²¼ì²â

@@ -11,7 +11,10 @@ Game::~Game()
 {
 	// 释放场景列表
 	for (auto& [name, scene] : scene_pool) {
-		delete scene;
+		if (scene)
+		{
+			delete scene;
+		}
 	}
 	scene_pool.clear();
 }

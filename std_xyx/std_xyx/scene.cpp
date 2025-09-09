@@ -3,56 +3,60 @@
 
 Scene::Scene()
 {
-	root = new GameObj({ 0,0 });
+	auto root_prt = std::make_unique<GameObj>(Vector2(0, 0));
+	root = root_prt.get();
 	root->set_ID("root");
 	root->set_size({ _WIN_W_,_WIN_H_ });
 	root->set_anchor_mode(AnchorMode::TOPLEFT);
 	root->set_anchor_referent_mode(AnchorMode::TOPLEFT);
 
-	background = new GameObj({ 0,0 });
+	auto background_prt = std::make_unique<GameObj>(Vector2(0, 0));
+	background = background_prt.get();
 	background->set_ID("background");
 	background->set_size({ _WIN_W_,_WIN_H_ });
 	background->set_anchor_mode(AnchorMode::CENTER);
 	background->set_anchor_referent_mode(AnchorMode::CENTER);
 
-	entity = new GameObj({ 0,0 });
+	auto entity_prt = std::make_unique<GameObj>(Vector2(0, 0));
+	entity = entity_prt.get();
 	entity->set_ID("entity");
 	entity->set_size({ _WIN_W_,_WIN_H_ });
 	entity->set_anchor_mode(AnchorMode::CENTER);
 	entity->set_anchor_referent_mode(AnchorMode::CENTER);
 
-	ui = new GameObj({ 0,0 });
+	auto ui_prt = std::make_unique<GameObj>(Vector2(0, 0));
+	ui = ui_prt.get();
 	ui->set_ID("ui");
 	ui->set_size({ _WIN_W_,_WIN_H_ });
 	ui->set_anchor_mode(AnchorMode::CENTER);
 	ui->set_anchor_referent_mode(AnchorMode::CENTER);
 
-	root->add_children(background);
-	root->add_children(entity);
-	root->add_children(ui);
+	root->add_children(std::move(background_prt));
+	root->add_children(std::move(entity_prt));
+	root->add_children(std::move(ui_prt));
 }
 
 Scene::~Scene()
 {
 	std::cout << ID << "  ~Scene()" << std::endl;
-	post_order_traversal(root, [&](GameObj* obj) {
-		delete obj;
-		});
+	delete root;
 }
 
 void Scene::on_enter()
 {
+
+	std::cout << ID << "    Scene::on_enter()" << std::endl;
 	pre_order_traversal(root, [&](GameObj* obj) {
 		obj->on_enter();
 		});
 	if (_DE_BUG_)
 	{
 		// ResMgr::instance()->res_traversal();
-		pre_order_traversal(root, [&](GameObj* obj) {
+		/*pre_order_traversal(root, [&](GameObj* obj) {
 			SDL_FRect r = obj->get_FRect();
 			std::cout << "obj   " << obj->get_ID() << std::endl <<
 				"         x: " << r.x << "  y: " << r.y << "  w: " << r.w << "  h: " << r.h << std::endl;
-			});
+			});*/
 	}
 }
 
@@ -117,16 +121,19 @@ void Scene::pre_order_traversal(GameObj* current_node, const std::function<void(
 {
 	if (!current_node) return;
 
-	if (!current_node->get_display()) return;
+	//if (!current_node->get_display()) return;
 
 	if (callback)
 	{
 		callback(current_node);
 	}
 
-	for (GameObj* child : current_node->get_children())
+	for (const auto& ptr : current_node->get_children())
 	{
-		pre_order_traversal(child, callback);
+		if (ptr)
+		{
+			pre_order_traversal(ptr.get(), callback);
+		}
 	}
 }
 
@@ -134,11 +141,14 @@ void Scene::post_order_traversal(GameObj* current_node, const std::function<void
 {
 	if (!current_node) return;
 
-	if (!current_node->get_display()) return;
+	//if (!current_node->get_display()) return;
 
-	for (GameObj* child : current_node->get_children())
+	for (const auto& ptr : current_node->get_children())
 	{
-		post_order_traversal(child, callback);
+		if (ptr)
+		{
+			post_order_traversal(ptr.get(), callback);
+		}
 	}
 
 	if (callback)
@@ -151,7 +161,7 @@ void Scene::level_order_traversal(GameObj* current_node, const std::function<voi
 {
 	if (!current_node) return;
 
-	if (!current_node->get_display()) return;
+	//if (!current_node->get_display()) return;
 
 	std::queue<GameObj*> q;
 
@@ -168,9 +178,10 @@ void Scene::level_order_traversal(GameObj* current_node, const std::function<voi
 			{
 				callback(p);
 			}
-			for (GameObj* child : current_node->get_children())
-			{
-				q.push(child);
+			for (auto& child_ptr : current_node->get_children()) {
+				if (child_ptr) { // 确保智能指针非空
+					q.push(child_ptr.get()); // 子节点裸指针入队
+				}
 			}
 		}
 	}

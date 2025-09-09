@@ -49,6 +49,6 @@ private:
     // 怪物生成计时器
     Timer timer_enemy_produce;
     // 怪物池用来存放已经死亡的怪物
-    std::queue<Enemy_xcz*> enemy_queue;
+    std::queue<uqp_obj> enemy_queue;
 };
 

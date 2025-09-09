@@ -1,5 +1,6 @@
 #pragma once
 #include "bullet.h"
+#include "game_img.h"
 
 class BulletXcz :public Bullet
 {
@@ -13,5 +14,6 @@ public:
     virtual void on_update(float delta) override;
     virtual void on_render() override;
 protected:
+    GameImg* img = nullptr;
 };
 

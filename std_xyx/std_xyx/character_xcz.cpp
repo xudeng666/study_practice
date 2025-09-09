@@ -3,21 +3,22 @@
 
 CharacterXcz::CharacterXcz()
 {
-    img_shade = new GameImg();
-    add_children(img_shade);
-    add_children(current_ani);
+    auto img_shade_ptr = std::make_unique<GameImg>();
+    img_shade = img_shade_ptr.get();
+    add_children(std::move(img_shade_ptr), true);
     std::fill(move_status, move_status + 4, false);
 }
 
 CharacterXcz::~CharacterXcz()
 {
-    Character::~Character();
+    //Character::~Character();
 }
 
 void CharacterXcz::on_enter()
 {
     // ³õÊ¼»¯ 
     std::fill(move_status, move_status + 4, false);
+    alive = true;
     Character::on_enter();
 }
 

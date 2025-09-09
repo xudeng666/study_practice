@@ -40,12 +40,6 @@
     <Filter Include="源文件\manager">
       <UniqueIdentifier>{38f1f3f0-3bb1-4209-b84f-e8ea54167dcf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\player">
-      <UniqueIdentifier>{d5fb0049-a7b5-473d-9677-39e6648b1782}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\player">
-      <UniqueIdentifier>{281c2d5d-1c34-4a49-8c70-eb5cba626575}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -3,11 +3,11 @@
 #include "combatant.h"
 
 /*×Óµ¯»ùÀà*/
-class Bullet :public GameImg, public Combatant
+class Bullet :public GameObj, public Combatant
 {
 public:
     Bullet();
-    ~Bullet();
+    virtual ~Bullet();
 
     virtual void on_enter() override;
     virtual void on_exit() override;

@@ -8,7 +8,7 @@ class GameLable :public GameObj
 {
 public:
 	GameLable();
-	~GameLable();
+	virtual ~GameLable();
 	GameLable(const Vector2 pos);
 
 	void on_enter() override;

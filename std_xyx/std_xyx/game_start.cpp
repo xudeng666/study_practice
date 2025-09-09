@@ -26,7 +26,3 @@ GameStart::GameStart()
 GameStart::~GameStart()
 {
 }
-
-//void GameStart::exchange_scene(SceneType type)
-//{
-//}

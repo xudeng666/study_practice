@@ -8,7 +8,7 @@ class Game
 {
 public:
 	Game();
-	~Game();
+	virtual ~Game();
 
 	/*进入游戏初始化*/
 	virtual void on_enter();

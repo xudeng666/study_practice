@@ -17,7 +17,7 @@ class GameAni : public GameImg
 {
 public:
 	GameAni();
-	~GameAni();
+	virtual ~GameAni();
 
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;

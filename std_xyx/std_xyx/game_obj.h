@@ -8,13 +8,15 @@
 #include "game_type.h"
 #include "vector2.h"
 
+#define uqp_obj std::unique_ptr<GameObj>
+
 /*游戏对象基类*/
 class GameObj
 {
 public:
-    GameObj() {}
-    GameObj(const Vector2 pos) : position(pos) {}
-    ~GameObj() {}
+    GameObj();
+    GameObj(const Vector2 pos);
+    virtual ~GameObj();
 
     virtual void on_enter();
     virtual void on_exit();
@@ -127,7 +129,7 @@ protected:
     // 锚定对象
     GameObj* anchor_referent_obj = nullptr;
     // 子节点
-    std::list<GameObj*> children;
+    std::list<uqp_obj> children;
 
 public:
     /*设置父节点*/
@@ -135,12 +137,15 @@ public:
     /*获取父节点*/
     GameObj* get_parent();
     /*获取子节点数组*/
-    std::list<GameObj*>& get_children();
-    /*添加子节点*/
-    void add_children(GameObj* obj);
+    std::list<uqp_obj>& get_children();
     /*移除子节点*/
-    void remove_children(GameObj* obj);
+    uqp_obj remove_children(GameObj* obj);
     /*删除子节点*/
     void delete_children(GameObj* obj);
-    
+    /// <summary>
+    /// 添加子节点（默认表尾添加）
+    /// </summary>
+    /// <param name="obj">节点智能指针</param>
+    /// <param name="is_front">true/false 是否表头添加 默认false</param>
+    void add_children(uqp_obj obj, bool is_front = false);
 };

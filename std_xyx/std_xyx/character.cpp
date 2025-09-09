@@ -4,9 +4,11 @@
 
 Character::Character()
 {
-    current_ani = new GameAni();
+
+    auto _prt = std::make_unique<GameAni>();
+    current_ani = _prt.get();
     current_ani->set_ID("ani");
-    add_children(current_ani);
+    add_children(std::move(_prt));
 }
 
 Character::~Character()
@@ -64,6 +66,10 @@ const Vector2& Character::get_velocity() const
 void Character::decrease_hp(int val)
 {
     hp -= val;
+    if (hp <= 0)
+    {
+        alive = false;
+    }
     on_hurt();
 }
 
@@ -96,4 +102,14 @@ void Character::lock_in_screen()
     {
         velocity.y = 0;
     }
+}
+
+bool Character::get_alive() const
+{
+    return alive;
+}
+
+bool Character::get_valid() const
+{
+    return valid;
 }

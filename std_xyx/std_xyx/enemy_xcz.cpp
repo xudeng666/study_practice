@@ -40,7 +40,6 @@ Enemy_xcz::Enemy_xcz()
 	hit_box->set_ID("hit_box");
 	hit_box->set_call_back([&]() {on_hit();});
 	hit_box->set_anchor_referent_obj(this);
-	//add_children(hit_box);
 
 	hurt_box->set_position({ 0,0 });
 	hurt_box->set_size({ 80,80 });
@@ -51,7 +50,6 @@ Enemy_xcz::Enemy_xcz()
 	hurt_box->set_ID("hurt_box");
 	hurt_box->set_call_back([&]() {decrease_hp(1);});
 	hurt_box->set_anchor_referent_obj(this);
-	//add_children(hurt_box);
 }
 
 Enemy_xcz::~Enemy_xcz()
@@ -112,7 +110,10 @@ void Enemy_xcz::on_update(float delta)
 	{
 		//std::cout << ID << "  on_update" << std::endl;
 	}
-	on_move(delta);
+	if (alive)
+	{
+		on_move(delta);
+	}
 }
 
 void Enemy_xcz::set_face(bool is_left)
