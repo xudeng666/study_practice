@@ -144,26 +144,26 @@ void ResMgr::res_traversal()
 void ResMgr::releaseAll()
 {
 	// 释放背景音乐
-	for (auto& [name, music] : music_pool) {
-		Mix_FreeMusic(music);
+	for (auto& pair : music_pool) {
+		Mix_FreeMusic(pair.second);
 	}
 	music_pool.clear();
 
 	// 释放音效
-	for (auto& [name, audio] : audio_pool) {
-		Mix_FreeChunk(audio);
+	for (auto& pair : audio_pool) {
+		Mix_FreeChunk(pair.second);
 	}
 	audio_pool.clear();
 
 	// 释放纹理
-	for (auto& [name, tex] : texture_pool) {
-		SDL_DestroyTexture(tex);
+	for (auto& pair : texture_pool) {
+		SDL_DestroyTexture(pair.second);
 	}
 	texture_pool.clear();
 
 	// 释放字体
-	for (auto& [name, ttf]:ttf_pool){
-		TTF_CloseFont(ttf);
+	for (auto& pair : ttf_pool){
+		TTF_CloseFont(pair.second);
 	}
 	ttf_pool.clear();
 }

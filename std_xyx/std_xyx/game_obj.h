@@ -30,6 +30,8 @@ public:
     void set_ID(const std::string id);
     /*获取ID*/
     std::string get_ID();
+    /*id包含判定*/
+    bool id_contains(const std::string& str);
     /*设置坐标*/
     void set_position(const Vector2& pos);
     /*获取坐标*/
@@ -100,7 +102,7 @@ public:
     /// </summary>
     /// <param name="val">-1 0 1 横向，整体，纵向</param>
     /// <returns>true/false 在/不在</returns>
-    bool check_in_screen(int val);
+    bool check_in_screen(int val = 0);
 
 protected:
     std::string ID;
@@ -137,7 +139,7 @@ public:
     /*获取父节点*/
     GameObj* get_parent();
     /*获取子节点数组*/
-    std::list<uqp_obj>& get_children();
+    //std::list<uqp_obj>& get_children();
     /*移除子节点*/
     uqp_obj remove_children(GameObj* obj);
     /*删除子节点*/
@@ -148,4 +150,23 @@ public:
     /// <param name="obj">节点智能指针</param>
     /// <param name="is_front">true/false 是否表头添加 默认false</param>
     void add_children(uqp_obj obj, bool is_front = false);
+    /// <summary>
+    /// 遍历所有子对象
+    /// </summary>
+    /// <param name="func">外部传入的函数，参数为子对象的裸指针</param>
+    void for_each_child(const std::function<void(GameObj*)>& func);
+    /// <summary>
+    /// 子节点排序
+    /// </summary>
+    /// <param name="func">排序顺序函数</param>
+    void sort_children(const std::function<bool (const uqp_obj&, const uqp_obj&)>& func);
+    /// <summary>
+    /// 删除符合条件的子节点
+    /// </summary>
+    /// <param name="func"></param>
+    void remove_children_if(const std::function<bool(const uqp_obj&)>& func);
+    /// <summary>
+    /// 清理子节点
+    /// </summary>
+    void clear_children();
 };

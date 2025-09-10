@@ -16,7 +16,7 @@ enum class GameType
 };
 
 /*锚点模式*/
-enum class AnchorMode
+enum class AnchorMode	// 注意，这九个值强关联，不可修改
 {
 	TOPLEFT = 0,	// 左上
 	TOPCENTER,		// 上中

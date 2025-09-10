@@ -3,8 +3,9 @@
 
 Scene::Scene()
 {
-	auto root_prt = std::make_unique<GameObj>(Vector2(0, 0));
-	root = root_prt.get();
+	//auto root_prt = std::make_unique<GameObj>(Vector2(0, 0));
+	//root = root_prt.get();
+	root = new GameObj(Vector2(0, 0));
 	root->set_ID("root");
 	root->set_size({ _WIN_W_,_WIN_H_ });
 	root->set_anchor_mode(AnchorMode::TOPLEFT);
@@ -121,35 +122,27 @@ void Scene::pre_order_traversal(GameObj* current_node, const std::function<void(
 {
 	if (!current_node) return;
 
-	//if (!current_node->get_display()) return;
+	if (!current_node->get_display()) return;
 
 	if (callback)
 	{
 		callback(current_node);
 	}
 
-	for (const auto& ptr : current_node->get_children())
-	{
-		if (ptr)
-		{
-			pre_order_traversal(ptr.get(), callback);
-		}
-	}
+	current_node->for_each_child([&](GameObj* node) {
+		post_order_traversal(node, callback);
+		});
 }
 
 void Scene::post_order_traversal(GameObj* current_node, const std::function<void(GameObj*)>& callback)
 {
 	if (!current_node) return;
 
-	//if (!current_node->get_display()) return;
+	if (!current_node->get_display()) return;
 
-	for (const auto& ptr : current_node->get_children())
-	{
-		if (ptr)
-		{
-			post_order_traversal(ptr.get(), callback);
-		}
-	}
+	current_node->for_each_child([&](GameObj* node) {
+		post_order_traversal(node, callback);
+		});
 
 	if (callback)
 	{
@@ -161,7 +154,7 @@ void Scene::level_order_traversal(GameObj* current_node, const std::function<voi
 {
 	if (!current_node) return;
 
-	//if (!current_node->get_display()) return;
+	if (!current_node->get_display()) return;
 
 	std::queue<GameObj*> q;
 
@@ -178,11 +171,12 @@ void Scene::level_order_traversal(GameObj* current_node, const std::function<voi
 			{
 				callback(p);
 			}
-			for (auto& child_ptr : current_node->get_children()) {
-				if (child_ptr) { // 确保智能指针非空
-					q.push(child_ptr.get()); // 子节点裸指针入队
+			p->for_each_child([&](GameObj* node) {
+				if (node->get_display())
+				{
+					q.push(node);
 				}
-			}
+				});
 		}
 	}
 }

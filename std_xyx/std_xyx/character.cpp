@@ -4,7 +4,6 @@
 
 Character::Character()
 {
-
     auto _prt = std::make_unique<GameAni>();
     current_ani = _prt.get();
     current_ani->set_ID("ani");
@@ -13,6 +12,7 @@ Character::Character()
 
 Character::~Character()
 {
+    ani_pool.clear();
 }
 
 void Character::on_enter()
@@ -66,10 +66,7 @@ const Vector2& Character::get_velocity() const
 void Character::decrease_hp(int val)
 {
     hp -= val;
-    if (hp <= 0)
-    {
-        alive = false;
-    }
+    alive = hp > 0;
     on_hurt();
 }
 

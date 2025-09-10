@@ -12,6 +12,7 @@ GameObj::GameObj(const Vector2 pos) : position(pos)
 
 GameObj::~GameObj()
 {
+	clear_children();
 }
 
 void GameObj::on_enter()
@@ -41,7 +42,7 @@ void GameObj::on_input(const SDL_Event& event)
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_LEFT)
 		{
-			SDL_Point p = { event.motion.x,event.motion.y };
+			SDL_Point p = { event.button.x,event.button.y };
 			SDL_Rect t = get_Rect();
 			if (SDL_PointInRect(&p, &t))
 			{
@@ -52,7 +53,7 @@ void GameObj::on_input(const SDL_Event& event)
 	case SDL_MOUSEBUTTONUP:
 		if (event.button.button == SDL_BUTTON_LEFT)
 		{
-			SDL_Point p = { event.motion.x,event.motion.y };
+			SDL_Point p = { event.button.x,event.button.y };
 			SDL_Rect t = get_Rect();
 			if (SDL_PointInRect(&p, &t))
 			{
@@ -72,7 +73,12 @@ void GameObj::on_render()
 	if (_DE_BUG_)
 	{
 		SDL_Rect r = get_Rect();
-		GameWnd::instance()->render_line_rect(&r);
+		GameWnd* wnd = GameWnd::instance();
+		if (wnd == nullptr) {
+			std::cout << "GameWnd  未初始化！" << std::endl;
+			return;
+		}
+		wnd->render_line_rect(&r);
 	}
 }
 
@@ -84,6 +90,11 @@ void GameObj::set_ID(const std::string id)
 std::string GameObj::get_ID()
 {
 	return ID;
+}
+
+bool GameObj::id_contains(const std::string& str)
+{
+	return ID.find(str) != std::string::npos;
 }
 
 void GameObj::set_position(const Vector2& pos)
@@ -248,10 +259,10 @@ GameObj* GameObj::get_parent()
 	return parent;
 }
 
-std::list<uqp_obj>& GameObj::get_children()
-{
-	return children;
-}
+//std::list<uqp_obj>& GameObj::get_children()
+//{
+//	return children;
+//}
 
 void GameObj::add_children(uqp_obj obj, bool is_front)
 {
@@ -307,11 +318,18 @@ void GameObj::delete_children(GameObj* obj)
 	}
 }
 
-bool GameObj::check_in_screen(int val = 0)
+bool GameObj::check_in_screen(int val)
 {
+
+	GameWnd* wnd = GameWnd::instance();
+	if (wnd == nullptr) {
+		std::cout << "GameWnd  未初始化！" << std::endl;
+		return false;
+	}
+
 	SDL_FRect r = get_FRect();
-	int w = GameWnd::instance()->get_width();
-	int h = GameWnd::instance()->get_height();
+	int w = wnd->get_width();
+	int h = wnd->get_height();
 
 	bool b_w = !(r.x + r.w<0 || r.x>w);
 	bool b_h = !(r.y + r.h<0 || r.y>h);
@@ -328,4 +346,58 @@ bool GameObj::check_in_screen(int val = 0)
 	{
 		return b_w && b_h;
 	}
+}
+
+void GameObj::for_each_child(const std::function<void(GameObj*)>& func)
+{
+	if (!func) return;
+
+	for (const auto& child_ptr : children) {
+		if (child_ptr) {
+			func(child_ptr.get());
+		}
+	}
+}
+
+void GameObj::sort_children(const std::function<bool(const uqp_obj&, const uqp_obj&)>& func)
+{
+	if (!func) return;
+
+	children.sort([&func](const uqp_obj& a, const uqp_obj& b) {
+		// 如果有空节点，则排在后面
+		if (!a) return false;
+		if (!b) return true;
+		// 解引用智能指针，调用外部传入的比较逻辑
+		return func(a, b);
+		});
+}
+
+void GameObj::remove_children_if(const std::function<bool(const uqp_obj&)>& func)
+{
+	if (!func) return;
+
+	children.remove_if([&func](const uqp_obj& child) {
+		if (!child)
+		{
+			return true;
+		}
+		if (func(child)) {
+			child->set_parent(nullptr);
+			child->set_anchor_referent_obj(nullptr);
+			return true;
+		}
+		return false;
+		});
+}
+
+void GameObj::clear_children()
+{
+	children.remove_if([](const uqp_obj& child) {
+		if (child)
+		{
+			child->set_parent(nullptr);
+			child->set_anchor_referent_obj(nullptr);
+		}
+		return true;
+		});
 }

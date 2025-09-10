@@ -10,11 +10,9 @@ Game::Game()
 Game::~Game()
 {
 	// 释放场景列表
-	for (auto& [name, scene] : scene_pool) {
-		if (scene)
-		{
-			delete scene;
-		}
+	for (auto& pair : scene_pool) {
+		delete pair.second;
+		pair.second = nullptr;
 	}
 	scene_pool.clear();
 }

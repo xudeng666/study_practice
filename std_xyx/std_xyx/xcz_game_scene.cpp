@@ -119,21 +119,16 @@ void XczGameScene::on_exit()
     {
         std::cout << "XczGameScene::on_exit" << std::endl;
     }
-    std::cout << "entity  num:" << entity->get_children().size() << std::endl;
 
-    // 清理渲染中的怪物
-    auto& children = entity->get_children();
-    for (auto it = children.begin(); it != children.end(); ) {
-        const auto& child_ptr = *it;
-        if (!child_ptr || child_ptr->get_ID().substr(0, 6) != "enemy_") {
-            ++it;
-            continue;
-        }
-        it = children.erase(it);
-    }
+    std::cout << "enemy_queue  num:" << enemy_queue.size() << std::endl;
     // 清理怪物池中的怪物
     std::queue<std::unique_ptr<GameObj>> empty_queue;
     std::swap(enemy_queue, empty_queue);
+    std::cout << "enemy_queue1  num:" << enemy_queue.size() << std::endl;
+
+    entity->remove_children_if([](const uqp_obj& child) {
+        return child->id_contains("enemy");
+        });
 
     Scene::on_exit();
 }
@@ -195,49 +190,21 @@ void XczGameScene::on_update(float delta)
     Vector2 p = player->get_anchor_position(AnchorMode::CENTER);
 
     // 遍历怪物
-    auto& children = entity->get_children();
-    for (auto it = children.begin(); it != children.end(); ) {
-        auto& child_ptr = *it;
-        if (!child_ptr || child_ptr->get_ID().substr(0, 6) != "enemy_")
+    entity->for_each_child([&](GameObj* obj) {
+        if (obj->id_contains("enemy"))
         {
-            ++it;
-            continue;
-        }
-
-        Enemy_xcz* enemy = dynamic_cast<Enemy_xcz*>(child_ptr.get());
-        if (!enemy)
-        {
-            ++it;
-            continue;
-        }
-
-        if (enemy->get_alive()) // 怪物存活则更新玩家坐标
-        {
-            enemy->set_player_pos(p);
-            ++it;
-        }
-        else // 怪物死亡则放入怪物池
-        {
-            enemy->on_exit();
-            uqp_obj removedObj = std::move(child_ptr);  // 转移所有权到 removedObj
-            it = children.erase(it);
-
-            // 若成功移除，断开父子关系
-            if (removedObj) {
-                removedObj->set_parent(nullptr);
-                removedObj->set_anchor_referent_obj(nullptr);
+            Enemy_xcz* enemy = dynamic_cast<Enemy_xcz*>(obj);
+            if (enemy && enemy->get_alive())
+            {
+                enemy->set_player_pos(p);
             }
-            enemy_queue.push(std::move(removedObj));
         }
-    }
+        });
     // 碰撞检测
     CollisionMgr::instance()->processCollide();
     // 最后将怪物和玩家在对象树中按照y轴升序排序。
-    // 如果有空节点，则排在后面
-    entity->get_children().sort([](const uqp_obj& child_a, const uqp_obj& child_b) {
-        if (!child_a) return false;
-        if (!child_b) return true;
-        return child_a->get_position().y < child_b->get_position().y;
+    entity->sort_children([](const uqp_obj& a, const uqp_obj& b) {
+        return a->get_position().y < b->get_position().y;
         });
 
     // 更新分数
@@ -267,6 +234,7 @@ void XczGameScene::add_enemy()
     {
         enemy = std::move(enemy_queue.front());
         enemy_queue.pop();
+        enemy->on_enter();
     }
     else
     {
@@ -280,9 +248,15 @@ void XczGameScene::add_enemy()
         en->set_on_hit_fun([&]() {
             Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
             });
+        en->set_on_hurt_fun([&, this_en = en]() {
+            if (!this_en->get_alive())
+            {
+                enemy_queue.push(std::move(entity->remove_children(this_en)));
+            }
+            });
+        en->on_enter();
         enemy_num++;
         enemy = std::move(enemy_n);
     }
-    enemy->on_enter();
     entity->add_children(std::move(enemy));
 }
