@@ -45,11 +45,13 @@ void Character::on_render()
 
 void Character::on_hurt()
 {
+    //std::cout << ID << "     on_hurt" << std::endl;
     Combatant::on_hurt();
 }
 
 void Character::on_hit()
 {
+    //std::cout << ID << "     on_hit" << std::endl;
     Combatant::on_hit();
 }
 

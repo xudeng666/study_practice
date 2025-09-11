@@ -401,3 +401,8 @@ void GameObj::clear_children()
 		return true;
 		});
 }
+
+int GameObj::get_children_size()
+{
+	return children.size();
+}

@@ -55,6 +55,7 @@ XczGameScene::XczGameScene()
     player->set_ID("player");
     player->set_on_hurt_fun([&]() { // 被击中则扣掉的子弹数+1
         deduction_bul++;
+        Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
         });
     player->set_on_hit_fun([&]() {  // 击中怪物加1分，播放音效
         score++;
@@ -188,18 +189,31 @@ void XczGameScene::on_update(float delta)
 
     // 获取玩家当前位置
     Vector2 p = player->get_anchor_position(AnchorMode::CENTER);
-
+    std::vector<GameObj*> t_list;
     // 遍历怪物
     entity->for_each_child([&](GameObj* obj) {
         if (obj->id_contains("enemy"))
         {
             Enemy_xcz* enemy = dynamic_cast<Enemy_xcz*>(obj);
-            if (enemy && enemy->get_alive())
+            if (enemy)
             {
-                enemy->set_player_pos(p);
+                if (enemy->get_alive())
+                {
+                    enemy->set_player_pos(p);
+                }
+                else
+                {
+                    t_list.push_back(enemy);
+                }
             }
         }
         });
+
+    for (GameObj* obj : t_list)
+    {
+        std::cout << "move_id:  " << obj->get_ID() << std::endl;
+        enemy_queue.push(std::move(entity->remove_children(obj)));
+    }
     // 碰撞检测
     CollisionMgr::instance()->processCollide();
     // 最后将怪物和玩家在对象树中按照y轴升序排序。
@@ -245,15 +259,6 @@ void XczGameScene::add_enemy()
         std::string id = "enemy_" + std::to_string(enemy_num);
         en->set_ID(id);
         en->set_hp(1);
-        en->set_on_hit_fun([&]() {
-            Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
-            });
-        en->set_on_hurt_fun([&, this_en = en]() {
-            if (!this_en->get_alive())
-            {
-                enemy_queue.push(std::move(entity->remove_children(this_en)));
-            }
-            });
         en->on_enter();
         enemy_num++;
         enemy = std::move(enemy_n);

@@ -169,4 +169,9 @@ public:
     /// 清理子节点
     /// </summary>
     void clear_children();
+    /// <summary>
+    /// 获取子节点数量
+    /// </summary>
+    /// <returns>int</returns>
+    int get_children_size();
 };

@@ -37,7 +37,7 @@ Enemy_xcz::Enemy_xcz()
 	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
 	hit_box->set_layer_dst(CollisionLayer::PLAYER_1);
 	hit_box->set_layer_src(CollisionLayer::NONE);
-	hit_box->set_ID("hit_box");
+	hit_box->set_ID("enemy_hit_box");
 	hit_box->set_call_back([&]() {on_hit();});
 	hit_box->set_anchor_referent_obj(this);
 
@@ -47,7 +47,7 @@ Enemy_xcz::Enemy_xcz()
 	hurt_box->set_anchor_referent_mode(AnchorMode::CENTER);
 	hurt_box->set_layer_dst(CollisionLayer::NONE);
 	hurt_box->set_layer_src(CollisionLayer::ENEMY);
-	hurt_box->set_ID("hurt_box");
+	hurt_box->set_ID("enemy_hurt_box");
 	hurt_box->set_call_back([&]() {decrease_hp(1);});
 	hurt_box->set_anchor_referent_obj(this);
 }

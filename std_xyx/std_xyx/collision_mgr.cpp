@@ -44,13 +44,13 @@ void CollisionMgr::processCollide()
 
 			if (is_collision(box_src, box_dst))
 			{
-				if (box_dst->call_back)
-				{
-					box_dst->call_back();
-				}
 				if (box_src->call_back)
 				{
 					box_src->call_back();
+				}
+				if (box_dst->call_back)
+				{
+					box_dst->call_back();
 				}
 			}
 		}
