@@ -174,8 +174,7 @@ void Player_xcz::add_bullet(const int num)
 		{
 			auto bul_ptr = std::make_unique<BulletXcz>();
 			BulletXcz* p = bul_ptr.get();
-			std::string id = "bul_" + std::to_string(bul_num-1);
-			p->set_ID(id);
+			p->set_ID("bul_", bul_num - 1);
 			p->set_anchor_referent_obj(current_ani);
 			p->on_enter();
 			p->set_on_hit_fun([&]() {

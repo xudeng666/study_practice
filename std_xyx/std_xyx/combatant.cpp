@@ -10,8 +10,11 @@ Combatant::Combatant()
 
 Combatant::~Combatant()
 {
+    std::cout << "Destroying ~Combatant at: " << this << std::endl;
     CollisionMgr::instance()->destroyCollisionBox(hit_box);
     CollisionMgr::instance()->destroyCollisionBox(hurt_box);
+    hit_box = nullptr;
+    hurt_box = nullptr;
 }
 
 void Combatant::on_hurt()

@@ -11,7 +11,8 @@ CharacterXcz::CharacterXcz()
 
 CharacterXcz::~CharacterXcz()
 {
-    //Character::~Character();
+    Character::~Character();
+    img_shade = nullptr;
 }
 
 void CharacterXcz::on_enter()

@@ -8,7 +8,9 @@
 #include "game_type.h"
 #include "vector2.h"
 
-#define uqp_obj std::unique_ptr<GameObj>
+class GameObj;
+
+typedef std::unique_ptr<GameObj> uqp_obj;
 
 /*游戏对象基类*/
 class GameObj
@@ -27,9 +29,12 @@ public:
     virtual void on_cursor_up() {}
     virtual void on_cursor_hover(bool is_hover) {}
     /*设置ID*/
-    void set_ID(const std::string id);
+    void set_ID(const std::string str);
+    void set_ID(const std::string str, const int num);
     /*获取ID*/
     std::string get_ID();
+    /*获取路径ID*/
+    std::string get_path_ID();
     /*id包含判定*/
     bool id_contains(const std::string& str);
     /*设置坐标*/

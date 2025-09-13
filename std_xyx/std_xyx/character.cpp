@@ -12,7 +12,10 @@ Character::Character()
 
 Character::~Character()
 {
+    GameObj::~GameObj();
+    Combatant::~Combatant();
     ani_pool.clear();
+    current_ani = nullptr;
 }
 
 void Character::on_enter()

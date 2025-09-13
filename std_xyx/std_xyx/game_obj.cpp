@@ -4,15 +4,20 @@
 
 GameObj::GameObj()
 {
+	std::cout << "Destroying GameObj at: " << this << std::endl;
 }
 
 GameObj::GameObj(const Vector2 pos) : position(pos)
 {
+	std::cout << "Destroying GameObj at: " << this << std::endl;
 }
 
 GameObj::~GameObj()
 {
-	clear_children();
+	//clear_children();
+	std::cout << "Destroying ~GameObj id  "<< get_path_ID() <<" at: " << this << std::endl;
+	parent = nullptr;
+	anchor_referent_obj = nullptr;
 }
 
 void GameObj::on_enter()
@@ -82,14 +87,25 @@ void GameObj::on_render()
 	}
 }
 
-void GameObj::set_ID(const std::string id)
+void GameObj::set_ID(const std::string str)
 {
-	ID = id;
+	ID = str;
+}
+
+void GameObj::set_ID(const std::string str, const int num)
+{
+	ID = str + std::to_string(num);
 }
 
 std::string GameObj::get_ID()
 {
 	return ID;
+}
+
+std::string GameObj::get_path_ID()
+{
+	std::string str = parent == nullptr ? "" : parent->get_path_ID();
+	return str + "/" + ID;
 }
 
 bool GameObj::id_contains(const std::string& str)

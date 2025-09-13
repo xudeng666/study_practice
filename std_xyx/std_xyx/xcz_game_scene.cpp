@@ -211,7 +211,7 @@ void XczGameScene::on_update(float delta)
 
     for (GameObj* obj : t_list)
     {
-        std::cout << "move_id:  " << obj->get_ID() << std::endl;
+        std::cout << "delete:  " << obj->get_ID() << std::endl;
         enemy_queue.push(std::move(entity->remove_children(obj)));
     }
     // 碰撞检测
@@ -254,12 +254,10 @@ void XczGameScene::add_enemy()
     {
         //没有就new一个
         auto enemy_n = std::make_unique<Enemy_xcz>();
-        Enemy_xcz* en = enemy_n.get();
 
-        std::string id = "enemy_" + std::to_string(enemy_num);
-        en->set_ID(id);
-        en->set_hp(1);
-        en->on_enter();
+        enemy_n->set_ID("enemy_", enemy_num);
+        enemy_n->set_hp(1);
+        enemy_n->on_enter();
         enemy_num++;
         enemy = std::move(enemy_n);
     }

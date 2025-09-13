@@ -25,6 +25,7 @@ void CollisionMgr::destroyCollisionBox(GameCollisionBox* box)
 	box_list.erase(std::remove(box_list.begin(),
 		box_list.end(), box), box_list.end());
 	delete box;
+	std::cout << "Destroying box at: " << box << std::endl;
 }
 
 void CollisionMgr::processCollide()
