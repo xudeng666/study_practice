@@ -6,7 +6,7 @@ class GameBar :public GameObj
 {
 public:
 	GameBar() = default;
-	virtual ~GameBar() = default;
+	virtual ~GameBar();
 	GameBar(const Vector2 pos);
 
 	void on_enter() override;

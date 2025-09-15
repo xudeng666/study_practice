@@ -13,6 +13,12 @@ GameImg::GameImg(const Vector2 pos, const std::string name) :GameObj(pos)
 	size = { 100,100 };
 }
 
+GameImg::GameImg() {}
+GameImg::~GameImg() 
+{
+	texture = nullptr;
+}
+
 void GameImg::on_enter()
 {
 	GameObj::on_enter();

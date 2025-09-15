@@ -20,6 +20,13 @@ GameBar::GameBar(const Vector2 pos):GameObj(pos)
 	add_children(std::move(img_pro_prt));
 }
 
+GameBar::~GameBar()
+{
+	GameObj::~GameObj();
+	img_bg = nullptr;
+	img_pro = nullptr;
+}
+
 void GameBar::on_enter()
 {
 	GameObj::on_enter();

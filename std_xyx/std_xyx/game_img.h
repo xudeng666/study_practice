@@ -5,8 +5,8 @@
 class GameImg : public GameObj
 {
 public:
-	GameImg() {}
-	virtual ~GameImg() {}
+	GameImg();
+	virtual ~GameImg();
 	GameImg(const Vector2 pos);
 	GameImg(const Vector2 pos, const std::string name);
 

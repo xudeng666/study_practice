@@ -13,6 +13,7 @@ GameLable::GameLable()
 
 GameLable::~GameLable()
 {
+	font = nullptr;
 }
 
 void GameLable::on_enter()

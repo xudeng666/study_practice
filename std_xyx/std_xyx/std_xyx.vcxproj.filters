@@ -120,6 +120,9 @@
     <ClCompile Include="combatant.cpp">
       <Filter>源文件\manager</Filter>
     </ClCompile>
+    <ClCompile Include="tree_mgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -213,6 +216,9 @@
       <Filter>头文件\game_xcz</Filter>
     </ClInclude>
     <ClInclude Include="combatant.h">
+      <Filter>头文件\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="tree_mgr.h">
       <Filter>头文件\manager</Filter>
     </ClInclude>
   </ItemGroup>

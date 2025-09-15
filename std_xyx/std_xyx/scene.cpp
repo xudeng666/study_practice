@@ -41,6 +41,10 @@ Scene::~Scene()
 {
 	std::cout << ID << "  ~Scene()" << std::endl;
 	delete root;
+	background = nullptr;
+	ui = nullptr;
+	entity = nullptr;
+	root = nullptr;
 }
 
 void Scene::on_enter()

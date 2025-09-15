@@ -54,8 +54,8 @@ Player_xcz::Player_xcz()
 
 Player_xcz::~Player_xcz()
 {
-	bullet_list.clear();
 	Character::~Character();
+	bullet_list.clear();
 }
 
 void Player_xcz::on_enter()
