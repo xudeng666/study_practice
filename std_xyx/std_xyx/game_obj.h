@@ -1,33 +1,50 @@
 #pragma once
 
-#include <forward_list>
+//#include <forward_list>
 #include <functional>
-
-#include <SDL.h>
 
 #include "game_type.h"
 #include "vector2.h"
+#include "obj.h"
 
-class GameObj;
+template <typename T>
+class Base {
+public:
+    // 每个派生类会有一个唯一的TypeID
+    static const size_t TypeID;
+    virtual size_t get_type_id() const = 0;
+};
 
-typedef std::unique_ptr<GameObj> uqp_obj;
+template <typename T> const size_t Base<T>::TypeID = typeid<size_t>.hash_code();
+
+//class GameObj;
+//
+//typedef std::unique_ptr<GameObj> uqp_obj;
 
 /*游戏对象基类*/
-class GameObj
+class GameObj: public Obj
 {
 public:
     GameObj();
-    GameObj(const Vector2 pos);
+    //GameObj(const Vector2 pos);
     virtual ~GameObj();
 
-    virtual void on_enter();
-    virtual void on_exit();
-    virtual void on_input(const SDL_Event& event);
-    virtual void on_update(float delta);
-    virtual void on_render();
+    DEFINE_TYPE_NAME(GameObj);
+
+    virtual void on_enter() override;
+    virtual void on_exit() override;
+    virtual void on_input(const SDL_Event& event) override;
+    virtual void on_update(float delta) override;
+    virtual void on_render() override;
+
+    template <typename T> bool is_type()const
+    {
+        return typeid(*this) == typeid(T);
+    }
+    /*
     virtual void on_cursor_down() {}
     virtual void on_cursor_up() {}
-    virtual void on_cursor_hover(bool is_hover) {}
+    virtual void on_cursor_hover(bool is_hover) {}*/
     /*设置ID*/
     void set_ID(const std::string str);
     void set_ID(const std::string str, const int num);
@@ -130,53 +147,55 @@ protected:
     /*锚定对象锚点*/
     AnchorMode anchor_referent_mode = AnchorMode::TOPLEFT;
 
-protected:
-    // 父节点
-    GameObj* parent = nullptr;
-    // 锚定对象
-    GameObj* anchor_referent_obj = nullptr;
-    // 子节点
-    std::list<uqp_obj> children;
-
-public:
-    /*设置父节点*/
-    void set_parent(GameObj* p);
-    /*获取父节点*/
-    GameObj* get_parent();
-    /*获取子节点数组*/
-    //std::list<uqp_obj>& get_children();
-    /*移除子节点*/
-    uqp_obj remove_children(GameObj* obj);
-    /*删除子节点*/
-    void delete_children(GameObj* obj);
-    /// <summary>
-    /// 添加子节点（默认表尾添加）
-    /// </summary>
-    /// <param name="obj">节点智能指针</param>
-    /// <param name="is_front">true/false 是否表头添加 默认false</param>
-    void add_children(uqp_obj obj, bool is_front = false);
-    /// <summary>
-    /// 遍历所有子对象
-    /// </summary>
-    /// <param name="func">外部传入的函数，参数为子对象的裸指针</param>
-    void for_each_child(const std::function<void(GameObj*)>& func);
-    /// <summary>
-    /// 子节点排序
-    /// </summary>
-    /// <param name="func">排序顺序函数</param>
-    void sort_children(const std::function<bool (const uqp_obj&, const uqp_obj&)>& func);
-    /// <summary>
-    /// 删除符合条件的子节点
-    /// </summary>
-    /// <param name="func"></param>
-    void remove_children_if(const std::function<bool(const uqp_obj&)>& func);
-    /// <summary>
-    /// 清理子节点
-    /// </summary>
-    void clear_children();
-    /// <summary>
-    /// 获取子节点数量
-    /// </summary>
-    /// <returns>int</returns>
-    int get_children_size();
+//protected:
+//    // 父节点
+//    GameObj* parent = nullptr;
+//    // 锚定对象
+//    GameObj* anchor_referent_obj = nullptr;
+//    // 子节点
+//    std::list<uqp_obj> children;
+//
+//public:
+//    /*设置父节点*/
+//    void set_parent(GameObj* p);
+//    /*获取父节点*/
+//    GameObj* get_parent();
+//    /*获取子节点数组*/
+//    //std::list<uqp_obj>& get_children();
+//    /*移除子节点*/
+//    uqp_obj remove_children(GameObj* obj);
+//    /*删除子节点*/
+//    void delete_children(GameObj* obj);
+//    /// <summary>
+//    /// 添加子节点（默认表尾添加）
+//    /// </summary>
+//    /// <param name="obj">节点智能指针</param>
+//    /// <param name="is_front">true/false 是否表头添加 默认false</param>
+//    void add_children(uqp_obj obj, bool is_front = false);
+//    /// <summary>
+//    /// 遍历所有子对象
+//    /// </summary>
+//    /// <param name="func">外部传入的函数，参数为子对象的裸指针</param>
+//    void for_each_child(const std::function<void(GameObj*)>& func);
+//    /// <summary>
+//    /// 子节点排序
+//    /// </summary>
+//    /// <param name="func">排序顺序函数</param>
+//    void sort_children(const std::function<bool (const uqp_obj&, const uqp_obj&)>& func);
+//    /// <summary>
+//    /// 删除符合条件的子节点
+//    /// </summary>
+//    /// <param name="func"></param>
+//    void remove_children_if(const std::function<bool(const uqp_obj&)>& func);
+//    /// <summary>
+//    /// 清理子节点
+//    /// </summary>
+//    void clear_children();
+//    /// <summary>
+//    /// 获取子节点数量
+//    /// </summary>
+//    /// <returns>int</returns>
+//    int get_children_size();
 };
+
+INIT_TYPE_NAME(GameObj);

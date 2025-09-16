@@ -157,6 +157,7 @@
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="start_menue_scene.cpp" />
     <ClCompile Include="tree_mgr.cpp" />
+    <ClCompile Include="tree_node.cpp" />
     <ClCompile Include="xcz_game_scene.cpp" />
     <ClCompile Include="xcz_menue_scene.cpp" />
   </ItemGroup>
@@ -182,6 +183,7 @@
     <ClInclude Include="game_type.h" />
     <ClInclude Include="game_wnd.h" />
     <ClInclude Include="game_xcz.h" />
+    <ClInclude Include="obj.h" />
     <ClInclude Include="player_xcz.h" />
     <ClInclude Include="res_mgr.h" />
     <ClInclude Include="scene.h" />
@@ -189,6 +191,7 @@
     <ClInclude Include="start_menue_scene.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="tree_mgr.h" />
+    <ClInclude Include="tree_node.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector2.h" />
     <ClInclude Include="xcz_game_scene.h" />

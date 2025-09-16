@@ -7,17 +7,18 @@ GameObj::GameObj()
 	std::cout << "Destroying GameObj at: " << this << std::endl;
 }
 
-GameObj::GameObj(const Vector2 pos) : position(pos)
-{
-	std::cout << "Destroying GameObj at: " << this << std::endl;
-}
+//GameObj::GameObj(const Vector2 pos) : position(pos)
+//{
+//	std::cout << "Destroying GameObj at: " << this << std::endl;
+//}
 
 GameObj::~GameObj()
 {
 	//clear_children();
 	std::cout << "Destroying ~GameObj id  "<< get_path_ID() <<" at: " << this << std::endl;
-	parent = nullptr;
-	anchor_referent_obj = nullptr;
+
+	//parent = nullptr;
+	//anchor_referent_obj = nullptr;
 }
 
 void GameObj::on_enter()
@@ -30,6 +31,7 @@ void GameObj::on_exit()
 
 void GameObj::on_input(const SDL_Event& event)
 {
+	/*
 	if (!click_enabled)
 	{
 		return;
@@ -66,7 +68,7 @@ void GameObj::on_input(const SDL_Event& event)
 			}
 		}
 		break;
-	}
+	}*/
 }
 
 void GameObj::on_update(float delta)
@@ -190,15 +192,15 @@ const AnchorMode GameObj::get_anchor_referent_mode() const
 	return anchor_referent_mode;
 }
 
-void GameObj::set_anchor_referent_obj(GameObj* obj)
-{
-	anchor_referent_obj = obj;
-}
-
-const GameObj* GameObj::get_anchor_referent_obj()
-{
-	return anchor_referent_obj;
-}
+//void GameObj::set_anchor_referent_obj(GameObj* obj)
+//{
+//	anchor_referent_obj = obj;
+//}
+//
+//const GameObj* GameObj::get_anchor_referent_obj()
+//{
+//	return anchor_referent_obj;
+//}
 
 SDL_FRect GameObj::get_FRect()
 {
@@ -261,19 +263,19 @@ Vector2 GameObj::get_anchor_position(const AnchorMode aligned, const AnchorMode 
 	return t;
 }
 
-void GameObj::set_parent(GameObj* p)
-{
-	if (parent == anchor_referent_obj || !anchor_referent_obj)
-	{
-		anchor_referent_obj = p;
-	}
-	parent = p;
-}
-
-GameObj* GameObj::get_parent()
-{
-	return parent;
-}
+//void GameObj::set_parent(GameObj* p)
+//{
+//	if (parent == anchor_referent_obj || !anchor_referent_obj)
+//	{
+//		anchor_referent_obj = p;
+//	}
+//	parent = p;
+//}
+//
+//GameObj* GameObj::get_parent()
+//{
+//	return parent;
+//}
 
 //std::list<uqp_obj>& GameObj::get_children()
 //{
