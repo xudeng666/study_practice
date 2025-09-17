@@ -2,9 +2,14 @@
 #include "game_wnd.h"
 
 
-GameObj::GameObj()
+GameObj::GameObj(const std::string id)
 {
-	std::cout << "Destroying GameObj at: " << this << std::endl;
+	set_ID(id);
+}
+
+GameObj::GameObj(const std::string id, const int num)
+{
+	set_ID(id, num);
 }
 
 //GameObj::GameObj(const Vector2 pos) : position(pos)

@@ -48,8 +48,8 @@ public:
     /// <summary>
     /// 遍历所有子对象
     /// </summary>
-    /// <param name="func">外部传入的函数，参数为子对象的裸指针</param>
-    void for_each_child(const std::function<void(GameObj*)>& func);
+    /// <param name="func">外部传入的函数，参数为子对象的指针</param>
+    void for_each_child(const std::function<void(TreeNode_SP)>& func);
     /// <summary>
     /// 子节点排序
     /// </summary>

@@ -25,8 +25,9 @@ template <typename T> const size_t Base<T>::TypeID = typeid<size_t>.hash_code();
 class GameObj: public Obj
 {
 public:
-    GameObj();
-    //GameObj(const Vector2 pos);
+    GameObj() = default;
+    GameObj(const std::string id);
+    GameObj(const std::string id, const int num);
     virtual ~GameObj();
 
     DEFINE_TYPE_NAME(GameObj);
@@ -46,12 +47,12 @@ public:
     virtual void on_cursor_up() {}
     virtual void on_cursor_hover(bool is_hover) {}*/
     /*设置ID*/
-    void set_ID(const std::string str);
-    void set_ID(const std::string str, const int num);
+    virtual void set_ID(const std::string str) override;
+    virtual void set_ID(const std::string str, const int num) override;
     /*获取ID*/
-    std::string get_ID();
+    virtual std::string get_ID() override;
     /*获取路径ID*/
-    std::string get_path_ID();
+    virtual std::string get_path_ID();
     /*id包含判定*/
     bool id_contains(const std::string& str);
     /*设置坐标*/
@@ -127,7 +128,6 @@ public:
     bool check_in_screen(int val = 0);
 
 protected:
-    std::string ID;
     // 旋转角度
     double angle = 0.0;
     /*点击区域开关状态*/

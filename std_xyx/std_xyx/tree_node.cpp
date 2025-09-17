@@ -100,13 +100,13 @@ void TreeNode::add_children(TreeNode_SP node, bool is_front)
 	is_front ? children.push_front(std::move(node)) : children.push_back(std::move(node));
 }
 
-void TreeNode::for_each_child(const std::function<void(GameObj*)>& func)
+void TreeNode::for_each_child(const std::function<void(TreeNode_SP)>& func)
 {
 	if (!func) return;
 
 	for (const auto& child_ptr : children) {
 		if (child_ptr) {
-			func(child_ptr->get_obj());
+			func(child_ptr);
 		}
 	}
 }
