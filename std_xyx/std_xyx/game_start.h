@@ -5,7 +5,9 @@
 class GameStart :public Game
 {
 public:
-	GameStart();
+	GameStart() = default;
+	GameStart(const std::string id);
+	GameStart(const std::string id, const int num);
 	~GameStart();
 
 	void on_enter() override;

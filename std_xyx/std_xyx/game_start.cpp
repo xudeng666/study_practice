@@ -4,7 +4,7 @@
 
 void GameStart::on_scene_init()
 {
-	scene_pool[SceneType::MENUE] = new StartMenueScene();
+	scene_pool[SceneType::MENUE] = std::make_shared<StartMenueScene>("StartMenueScene");
 }
 
 void GameStart::on_enter()
@@ -18,7 +18,12 @@ void GameStart::on_exit()
 	Game::on_exit();
 }
 
-GameStart::GameStart() 
+GameStart::GameStart(const std::string id) :Game(id)
+{
+	on_scene_init();
+}
+
+GameStart::GameStart(const std::string id, const int num) :Game(id, num)
 {
 	on_scene_init();
 }

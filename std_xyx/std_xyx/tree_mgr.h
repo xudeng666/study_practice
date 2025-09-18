@@ -23,6 +23,8 @@ public:
 	TreeNode_SP get_game_node();
 	// 获取UI节点
 	TreeNode_SP get_ui_node();
+	// 新建层级节点
+	TreeNode_SP create_layer_node(const std::string& id);
 
 	/// <summary>
 	/// 前序遍历（深度优先）

@@ -6,8 +6,8 @@
 
 void GameXcz::on_scene_init()
 {
-	scene_pool[SceneType::MENUE] = new XczMenueScene();
-	scene_pool[SceneType::GAME] = new XczGameScene();
+	scene_pool[SceneType::MENUE] = std::make_shared<XczMenueScene>("XczMenueScene");
+	scene_pool[SceneType::GAME] = std::make_shared<XczGameScene>("XczGameScene");
 }
 
 void GameXcz::on_enter()
@@ -22,7 +22,12 @@ void GameXcz::on_exit()
 	Game::on_exit();
 }
 
-GameXcz::GameXcz()
+GameXcz::GameXcz(const std::string id) :Game(id)
+{
+	on_scene_init();
+}
+
+GameXcz::GameXcz(const std::string id, const int num) :Game(id, num)
 {
 	on_scene_init();
 }

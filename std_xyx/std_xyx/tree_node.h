@@ -1,11 +1,11 @@
 #pragma once
 
-#include "game_obj.h"
-
 #include <memory>
 #include <list>
+#include <string>
+#include <functional>
 
-
+class GameObj;
 class TreeNode;
 
 typedef std::shared_ptr<TreeNode> TreeNode_SP;      // 节点指针（强）
@@ -15,8 +15,7 @@ typedef std::weak_ptr<TreeNode> TreeNode_WP;        // 节点指针（弱）
 class TreeNode:public std::enable_shared_from_this<TreeNode>
 {
 public:
-	//构造
-    TreeNode(GameObj_UP d);
+    static TreeNode_SP create(GameObj_UP d);
 	//析构
 	~TreeNode() = default;
     // 禁用拷贝
@@ -101,6 +100,10 @@ private:
     /// <param name="id">string id</param>
     /// <returns>ChildIt</returns>
     ChildIt find_child_iterator(const std::string& id);
+
+private:
+    //构造
+    TreeNode(GameObj_UP d);
 
 private:
 	GameObj_UP obj;

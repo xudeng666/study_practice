@@ -2,8 +2,6 @@
 #include "game_start.h"
 #include "game_xcz.h"
 
-//#include <iostream>
-
 GameMgr* GameMgr::manager = nullptr;
 
 GameMgr* GameMgr::instance()
@@ -17,12 +15,13 @@ GameMgr* GameMgr::instance()
 
 void GameMgr::init()
 {
-	game_pool[GameType::START] = new GameStart();
-	game_pool[GameType::XCZ] = new GameXcz();
-	/*game_pool[GameType::KDWS] = new GameStart();
-	game_pool[GameType::DLD] = new GameStart();
-	game_pool[GameType::ZMDJ] = new GameStart();
-	game_pool[GameType::PHF] = new GameStart();*/
+	
+	game_pool[GameType::START] = std::make_shared<GameStart>("GameStart");
+	game_pool[GameType::XCZ] = std::make_shared<GameXcz>("GameXcz");
+	/*game_pool[GameType::KDWS] = std::make_shared<GameKdws>("GameKdws");
+	game_pool[GameType::DLD] = std::make_shared<GameDld>("GameDld");
+	game_pool[GameType::ZMDJ] = std::make_shared<GameZmdj>("GameZmdj");
+	game_pool[GameType::PHF] = std::make_shared<GamePhf>("GamePhf");*/
 
 	current_type = GameType::START;
 
@@ -31,14 +30,10 @@ void GameMgr::init()
 
 void GameMgr::deinit()
 {
-	// 释放游戏列表
-	for (auto& [name, game] : game_pool) {
-		delete game;
-	}
 	game_pool.clear();
 }
 
-Game* GameMgr::get_current_game()
+std::shared_ptr<Game> GameMgr::get_current_game()
 {
 	return game_pool[current_type];
 }

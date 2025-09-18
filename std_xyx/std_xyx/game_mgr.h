@@ -1,7 +1,6 @@
 #pragma once
 
 #include "game.h"
-#include "game_type.h"
 
 /*游戏管理器*/
 class GameMgr
@@ -13,13 +12,14 @@ public:
 	/*退出游戏*/
 	void deinit();
 	/*获取当前游戏*/
-	Game* get_current_game();
+	std::shared_ptr<Game> get_current_game();
 	/*获取当前游戏类型*/
 	GameType get_current_type();
 	/*游戏切换*/
 	void exchange_game(GameType type);
 	/*场景切换*/
 	void exchange_scene(SceneType type);
+
 	/*游戏初始化*/
 	void on_enter();
 	/*处理数据*/
@@ -44,6 +44,6 @@ private:
 
 	GameType current_type = GameType::START;
 
-	std::unordered_map<GameType, Game*> game_pool;
+	std::unordered_map<GameType, std::shared_ptr<Game>> game_pool;
 };
 

@@ -1,7 +1,9 @@
 #include "tree_mgr.h"
+#include "game_obj.h"
 
 #include <queue>
 #include <assert.h>
+
 
 TreeMgr* TreeMgr::manager = nullptr;
 
@@ -16,31 +18,15 @@ TreeMgr* TreeMgr::instance()
 
 TreeMgr::TreeMgr()
 {
-	GameObj_UP root = std::make_unique<GameObj>("root");
-	root->set_position(Vector2(0, 0));
-	root->set_size({ _WIN_W_,_WIN_H_ });
-	root->set_anchor_mode(AnchorMode::TOPLEFT);
-	root->set_anchor_referent_mode(AnchorMode::TOPLEFT);
-	GameObj_UP bg = std::make_unique<GameObj>("bg");
-	bg->set_position(Vector2(0, 0));
-	bg->set_size({ _WIN_W_,_WIN_H_ });
-	bg->set_anchor_mode(AnchorMode::CENTER);
-	bg->set_anchor_referent_mode(AnchorMode::CENTER);
-	GameObj_UP game = std::make_unique<GameObj>("game");
-	game->set_position(Vector2(0, 0));
-	game->set_size({ _WIN_W_,_WIN_H_ });
-	game->set_anchor_mode(AnchorMode::CENTER);
-	game->set_anchor_referent_mode(AnchorMode::CENTER);
-	GameObj_UP ui = std::make_unique<GameObj>("ui");
-	ui->set_position(Vector2(0, 0));
-	ui->set_size({ _WIN_W_,_WIN_H_ });
-	ui->set_anchor_mode(AnchorMode::CENTER);
-	ui->set_anchor_referent_mode(AnchorMode::CENTER);
+	root_node = TreeNode::create(std::make_unique<GameObj>("root"));
+	root_node->get_obj()->set_position(Vector2(0, 0));
+	root_node->get_obj()->set_size({ _WIN_W_,_WIN_H_ });
+	root_node->get_obj()->set_anchor_mode(AnchorMode::TOPLEFT);
+	root_node->get_obj()->set_anchor_referent_mode(AnchorMode::TOPLEFT);
 
-	root_node = std::make_shared<TreeNode>(root);
-	TreeNode_SP bg_n = std::make_shared<TreeNode>(bg);
-	TreeNode_SP game_n = std::make_shared<TreeNode>(game);
-	TreeNode_SP ui_n = std::make_shared<TreeNode>(ui);
+	TreeNode_SP bg_n = create_layer_node("bg");
+	TreeNode_SP game_n = create_layer_node("game");
+	TreeNode_SP ui_n = create_layer_node("ui");
 
 	bg_node = bg_n;
 	game_node = game_n;
@@ -90,6 +76,16 @@ TreeNode_SP TreeMgr::get_game_node()
 TreeNode_SP TreeMgr::get_ui_node()
 {
 	return ui_node.lock();
+}
+
+TreeNode_SP TreeMgr::create_layer_node(const std::string& id)
+{
+	auto node = TreeNode::create(std::make_unique<GameObj>(id));
+	node->get_obj()->set_position(Vector2(0, 0));
+	node->get_obj()->set_size({ _WIN_W_, _WIN_H_ });
+	node->get_obj()->set_anchor_mode(AnchorMode::CENTER);
+	node->get_obj()->set_anchor_referent_mode(AnchorMode::CENTER);
+	return node;
 }
 
 void TreeMgr::pre_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback)

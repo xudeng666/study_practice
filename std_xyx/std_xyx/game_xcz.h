@@ -5,7 +5,9 @@
 class GameXcz :public Game
 {
 public:
-	GameXcz();
+	GameXcz() = default;
+	GameXcz(const std::string id);
+	GameXcz(const std::string id, const int num);
 	~GameXcz();
 
 	void on_enter() override;

@@ -1,7 +1,14 @@
 #include "tree_node.h"
+#include "game_obj.h"
 
 #include <assert.h>
 
+
+TreeNode_SP TreeNode::create(GameObj_UP d) {
+	TreeNode_SP node = std::make_shared<TreeNode>(std::move(d));	// 调用私有构造函数
+	node->get_obj()->set_self_node(node);							// 此时shared_from_this()有效
+	return node;
+}
 
 TreeNode::TreeNode(GameObj_UP d) : obj(std::move(d))
 {
@@ -16,6 +23,10 @@ GameObj* TreeNode::get_obj()
 void TreeNode::set_parent(TreeNode_SP p)
 {
 	parent = p;
+	if (!get_obj()->get_anchor_referent())
+	{
+		get_obj()->set_anchor_referent_node(p);
+	}
 }
 
 TreeNode_SP TreeNode::get_parent()
