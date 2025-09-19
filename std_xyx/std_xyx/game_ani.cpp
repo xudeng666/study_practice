@@ -1,9 +1,6 @@
 #include "game_ani.h"
 #include "res_mgr.h"
 
-GameAni::~GameAni()
-{
-}
 
 void GameAni::on_init()
 {

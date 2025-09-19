@@ -4,17 +4,15 @@
 
 Combatant::Combatant()
 {
-    hit_box = CollisionMgr::instance()->creatCollisionBox();
-    hurt_box = CollisionMgr::instance()->creatCollisionBox();
+    hit_box = CollisionMgr::instance()->creatCollisionBox("hit_box");
+    hurt_box = CollisionMgr::instance()->creatCollisionBox("hurt_box");
 }
 
 Combatant::~Combatant()
 {
     std::cout << "Destroying ~Combatant at: " << this << std::endl;
-    CollisionMgr::instance()->destroyCollisionBox(hit_box);
-    CollisionMgr::instance()->destroyCollisionBox(hurt_box);
-    hit_box = nullptr;
-    hurt_box = nullptr;
+    CollisionMgr::instance()->destroyCollisionBox(hit_box.lock());
+    CollisionMgr::instance()->destroyCollisionBox(hurt_box.lock());
 }
 
 void Combatant::on_hurt()
@@ -49,12 +47,12 @@ void Combatant::set_on_hit_fun(std::function<void()> call_back)
     }
 }
 
-GameCollisionBox* Combatant::get_hit_box()
+TreeNode_SP Combatant::get_hit_box()
 {
-    return hit_box;
+    return hit_box.lock();
 }
 
-GameCollisionBox* Combatant::get_hurt_box()
+TreeNode_SP Combatant::get_hurt_box()
 {
-    return hurt_box;
+    return hurt_box.lock();
 }

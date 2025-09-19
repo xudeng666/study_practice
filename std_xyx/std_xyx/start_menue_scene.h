@@ -7,19 +7,18 @@ class StartMenueScene :
     public Scene
 {
 public:
-    StartMenueScene();
-    ~StartMenueScene();
+    StartMenueScene() = default;
+    ~StartMenueScene() = default;
 
-    void on_enter() override;
-    void on_exit() override;
+    virtual void on_init() override;
 
 private:
-    GameImg* bg = nullptr;
-    GameBtn* btn_xcz = nullptr;
-    GameBtn* btn_kdws = nullptr;
-    GameBtn* btn_dld = nullptr;
-    GameBtn* btn_zmdj = nullptr;
-    GameBtn* btn_phf = nullptr;
-    GameBtn* btn_exit = nullptr;
+    TreeNode_WP bg;
+    TreeNode_WP btn_xcz;
+    TreeNode_WP btn_kdws;
+    TreeNode_WP btn_dld;
+    TreeNode_WP btn_zmdj;
+    TreeNode_WP btn_phf;
+    TreeNode_WP btn_exit;
 };
 

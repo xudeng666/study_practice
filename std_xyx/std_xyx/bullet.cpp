@@ -1,34 +1,6 @@
 #include "bullet.h"
-//#include "collision_mgr.h"
 
 
-Bullet::Bullet()
-{
-}
-Bullet::~Bullet()
-{
-}
-
-void Bullet::on_enter()
-{
-	GameObj::on_enter();
-}
-void Bullet::on_exit()
-{
-	GameObj::on_exit();
-}
-void Bullet::on_input(const SDL_Event& event)
-{
-	GameObj::on_input(event);
-}
-void Bullet::on_update(float delta)
-{
-	GameObj::on_update(delta);
-}
-void Bullet::on_render()
-{
-	GameObj::on_render();
-}
 void Bullet::set_velocity(const Vector2& vel)
 {
 	velocity = vel;

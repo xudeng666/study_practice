@@ -17,7 +17,7 @@ class GameAni : public GameImg
 {
 public:
 	GameAni() = default;
-	virtual ~GameAni();
+	virtual ~GameAni() = default;
 
 	DEFINE_TYPE_NAME(GameAni);
 

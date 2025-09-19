@@ -4,11 +4,17 @@
 Scene::Scene(const std::string id)
 {
 	set_ID(id);
+	on_init();
 }
 
 Scene::Scene(const std::string id, const int num)
 {
 	set_ID(id, num);
+	on_init();
+}
+
+void Scene::on_init()
+{
 }
 
 void Scene::on_enter()

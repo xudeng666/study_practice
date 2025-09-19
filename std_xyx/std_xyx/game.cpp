@@ -7,16 +7,22 @@
 Game::Game(const std::string id)
 {
 	set_ID(id);
+	on_init();
 }
 
 Game::Game(const std::string id, const int num)
 {
 	set_ID(id, num);
+	on_init();
 }
 
 Game::~Game()
 {
 	scene_pool.clear();
+}
+
+void Game::on_init()
+{
 }
 
 void Game::on_enter()

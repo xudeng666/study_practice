@@ -7,9 +7,10 @@
 class Character:public GameObj, public Combatant
 {
 public:
-    Character();
+    Character() = default;
     virtual ~Character();
 
+    virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
     virtual void on_input(const SDL_Event& event) override;
@@ -71,6 +72,6 @@ protected:
     bool check_out_of_screen = true;                        // 是否启用超出屏幕范围判定
     int hp = 10;                                            // 角色生命值
     Vector2 velocity;                                       // 角色速度
-    GameAni* current_ani = nullptr;                         // 当前角色动画
+    TreeNode_WP current_ani;                                // 当前角色动画
     std::unordered_map < std::string, Ani_Res > ani_pool;   // 角色动画池
 };

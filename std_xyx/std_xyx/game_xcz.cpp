@@ -4,7 +4,7 @@
 #include "res_mgr.h"
 #include "game_wnd.h"
 
-void GameXcz::on_scene_init()
+void GameXcz::on_init()
 {
 	scene_pool[SceneType::MENUE] = std::make_shared<XczMenueScene>("XczMenueScene");
 	scene_pool[SceneType::GAME] = std::make_shared<XczGameScene>("XczGameScene");
@@ -17,19 +17,3 @@ void GameXcz::on_enter()
 	Game::on_enter();
 	Mix_PlayMusic(ResMgr::instance()->find_music("music_bgm"), -1);
 }
-void GameXcz::on_exit()
-{
-	Game::on_exit();
-}
-
-GameXcz::GameXcz(const std::string id) :Game(id)
-{
-	on_scene_init();
-}
-
-GameXcz::GameXcz(const std::string id, const int num) :Game(id, num)
-{
-	on_scene_init();
-}
-
-GameXcz::~GameXcz() {}

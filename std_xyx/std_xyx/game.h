@@ -15,6 +15,7 @@ public:
 	Game(const std::string id, const int num);
 	virtual ~Game() override;
 
+	virtual void on_init() override;
 	/*进入游戏初始化*/
 	virtual void on_enter() override;
 	/*处理数据*/
@@ -25,8 +26,6 @@ public:
 	virtual void on_render() override;
 	/*退出游戏*/
 	virtual void on_exit() override;
-	/*场景初始化*/
-	virtual void on_scene_init() = 0;
 	/*设置ID*/
 	virtual void set_ID(const std::string str) override;
 	virtual void set_ID(const std::string str, const int num) override;

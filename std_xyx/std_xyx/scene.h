@@ -11,6 +11,7 @@ public:
 	Scene(const std::string id, const int num);
 	virtual ~Scene() = default;
 
+	virtual void on_init() override;
 	virtual void on_enter() override;
 	virtual void on_exit() override;
 	virtual void on_input(const SDL_Event& event) override;

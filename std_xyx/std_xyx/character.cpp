@@ -2,20 +2,16 @@
 #include "game_wnd.h"
 
 
-Character::Character()
-{
-    auto _prt = std::make_unique<GameAni>();
-    current_ani = _prt.get();
-    current_ani->set_ID("ani");
-    add_children(std::move(_prt));
-}
-
 Character::~Character()
 {
-    GameObj::~GameObj();
-    Combatant::~Combatant();
     ani_pool.clear();
-    current_ani = nullptr;
+}
+
+void Character::on_init()
+{
+    auto node = TreeNode::create(std::make_unique<GameAni>("current_ani"));
+    current_ani = node;
+    self_node.lock()->add_children(std::move(node));
 }
 
 void Character::on_enter()
@@ -87,7 +83,8 @@ int Character::get_hp() const
 
 void Character::set_animation(const Ani_Res& res)
 {
-    current_ani->set_res_name(res);
+    GameAni* ani = dynamic_cast<GameAni*>(current_ani.lock()->get_obj());
+    ani->set_res_name(res);
 }
 
 void Character::lock_in_screen()

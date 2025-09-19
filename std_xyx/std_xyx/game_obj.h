@@ -17,7 +17,7 @@ public:
 
     DEFINE_TYPE_NAME(GameObj);
 
-    virtual void on_init();
+    virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
     virtual void on_input(const SDL_Event& event) override;

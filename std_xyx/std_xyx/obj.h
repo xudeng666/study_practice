@@ -16,6 +16,7 @@ public:
 	Obj() = default;
     virtual ~Obj() = default;
 
+    virtual void on_init() = 0;
     virtual void on_enter() = 0;
     virtual void on_exit() = 0;
     virtual void on_input(const SDL_Event& event) = 0;

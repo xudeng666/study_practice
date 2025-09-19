@@ -6,14 +6,8 @@
 class Bullet :public GameObj, public Combatant
 {
 public:
-    Bullet();
-    virtual ~Bullet();
-
-    virtual void on_enter() override;
-    virtual void on_exit() override;
-    virtual void on_input(const SDL_Event& event) override;
-    virtual void on_update(float delta) override;
-    virtual void on_render() override;
+    Bullet() = default;
+    virtual ~Bullet() = default;
 
     void set_velocity(const Vector2& vel);
     const Vector2& get_velocity() const;
