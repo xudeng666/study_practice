@@ -1,7 +1,11 @@
 #include "game_ani.h"
 #include "res_mgr.h"
 
-GameAni::GameAni()
+GameAni::~GameAni()
+{
+}
+
+void GameAni::on_init()
 {
 	timer.set_one_shot(false);
 	timer.set_on_timeout([&]()
@@ -17,10 +21,6 @@ GameAni::GameAni()
 			}
 		}
 	);
-}
-
-GameAni::~GameAni()
-{
 }
 
 void GameAni::on_enter()

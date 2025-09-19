@@ -3,14 +3,6 @@
 #include "game_wnd.h"
 #include "SDL_util.h"
 
-GameLable::GameLable(const Vector2 pos):GameObj(pos)
-{
-}
-
-GameLable::GameLable()
-{
-}
-
 GameLable::~GameLable()
 {
 	font = nullptr;
@@ -52,16 +44,6 @@ void GameLable::on_render()
 	SDL_FreeSurface(suf_lable);
 
 	GameObj::on_render();
-}
-
-void GameLable::set_size()
-{
-	// 暂定尺寸自动适应
-}
-
-void GameLable::set_size(const SDL_Point& size)
-{
-	this->size = size;
 }
 
 void GameLable::set_lable_text(const std::string str)

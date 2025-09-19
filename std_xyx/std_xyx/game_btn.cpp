@@ -2,12 +2,9 @@
 #include "res_mgr.h"
 
 
-GameBtn::GameBtn(const Vector2 pos, const std::string name, std::function<void()> click)
+void GameBtn::on_init()
 {
-	position = pos;
-	res_name = name;
 	click_enabled = true;
-	on_click = click;
 	status = ButtonState::NORMAL;
 }
 
@@ -15,6 +12,47 @@ void GameBtn::on_enter()
 {
 	status = ButtonState::NORMAL;
 	GameImg::on_enter();
+}
+
+void GameBtn::on_input(const SDL_Event& event)
+{
+	if (!click_enabled)
+	{
+		return;
+	}
+
+	switch (event.type)
+	{
+	case SDL_MOUSEMOTION:
+	{
+		SDL_Point p = { event.motion.x,event.motion.y };
+		SDL_Rect t = get_Rect();
+		on_cursor_hover(SDL_PointInRect(&p, &t));
+	}
+	break;
+	case SDL_MOUSEBUTTONDOWN:
+		if (event.button.button == SDL_BUTTON_LEFT)
+		{
+			SDL_Point p = { event.button.x,event.button.y };
+			SDL_Rect t = get_Rect();
+			if (SDL_PointInRect(&p, &t))
+			{
+				on_cursor_down();
+			}
+		}
+		break;
+	case SDL_MOUSEBUTTONUP:
+		if (event.button.button == SDL_BUTTON_LEFT)
+		{
+			SDL_Point p = { event.button.x,event.button.y };
+			SDL_Rect t = get_Rect();
+			if (SDL_PointInRect(&p, &t))
+			{
+				on_cursor_up();
+			}
+		}
+		break;
+	}
 }
 
 void GameBtn::on_update(float delta)

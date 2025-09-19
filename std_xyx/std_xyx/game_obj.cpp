@@ -7,16 +7,22 @@
 GameObj::GameObj(const std::string id)
 {
 	set_ID(id);
+	on_init();
 }
 
 GameObj::GameObj(const std::string id, const int num)
 {
 	set_ID(id, num);
+	on_init();
 }
 
 GameObj::~GameObj()
 {
 	std::cout << "Destroying ~GameObj id  "<< get_path_ID() <<" at: " << this << std::endl;
+}
+
+void GameObj::on_init()
+{
 }
 
 void GameObj::on_enter()

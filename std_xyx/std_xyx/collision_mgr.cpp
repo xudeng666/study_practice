@@ -1,5 +1,6 @@
 #include "collision_mgr.h"
-#include "game_wnd.h"
+
+#include <memory>
 
 
 CollisionMgr* CollisionMgr::manager = nullptr;
@@ -13,63 +14,70 @@ CollisionMgr* CollisionMgr::instance()
 	return manager;
 }
 
-GameCollisionBox* CollisionMgr::creatCollisionBox()
+TreeNode_SP CollisionMgr::creatCollisionBox(std::string id)
 {
-	GameCollisionBox* box = new GameCollisionBox();
-	box_list.push_back(box);
-	return box;
+	auto node = TreeNode::create(std::make_unique<GameCollisionBox>(id));
+	box_list.push_back(node);
+	return node;
 }
 
-void CollisionMgr::destroyCollisionBox(GameCollisionBox* box)
+TreeNode_SP CollisionMgr::creatCollisionBox(std::string id, int num)
+{
+	auto node = TreeNode::create(std::make_unique<GameCollisionBox>(id, num));
+	box_list.push_back(node);
+	return node;
+}
+
+void CollisionMgr::destroyCollisionBox(TreeNode_SP box)
 {
 	box_list.erase(std::remove(box_list.begin(),
 		box_list.end(), box), box_list.end());
-	delete box;
-	std::cout << "Destroying box at: " << box << std::endl;
 }
 
 void CollisionMgr::processCollide()
 {
-	for (GameCollisionBox* box_src : box_list)//¹¥»÷Ñ­»·
+	for (TreeNode_SP box_src : box_list)//¹¥»÷Ñ­»·
 	{
-		if (!box_src->collision_enabled || box_src->layer_dst == CollisionLayer::NONE)
+		GameCollisionBox* obj_src = dynamic_cast<GameCollisionBox*>(box_src->get_obj());
+		if (!obj_src->collision_enabled || obj_src->layer_dst == CollisionLayer::NONE)
 		{
 			continue;
 		}
-		for (GameCollisionBox* box_dst : box_list)//ÊÜ»÷Ñ­»·
+		for (TreeNode_SP box_dst : box_list)//ÊÜ»÷Ñ­»·
 		{
-			if (!box_dst->collision_enabled || box_dst == box_src || box_dst->layer_src != box_src->layer_dst)
+			GameCollisionBox* obj_dst = dynamic_cast<GameCollisionBox*>(box_dst->get_obj());
+			if (!obj_dst->collision_enabled || box_dst == box_src || obj_dst->layer_src != obj_src->layer_dst)
 			{
 				continue;
 			}
 
 			if (is_collision(box_src, box_dst))
 			{
-				if (box_src->call_back)
+				if (obj_src->call_back)
 				{
-					box_src->call_back();
+					obj_src->call_back();
 				}
-				if (box_dst->call_back)
+				if (obj_dst->call_back)
 				{
-					box_dst->call_back();
+					obj_dst->call_back();
 				}
 			}
 		}
 	}
 }
 
-bool CollisionMgr::is_collision(GameCollisionBox* box_t, GameCollisionBox* box_p)
+bool CollisionMgr::is_collision(TreeNode_SP box_t, TreeNode_SP box_p)
 {
-	SDL_FRect rect_t = box_t->get_FRect();
-	SDL_FRect rect_p = box_p->get_FRect();
+	SDL_FRect rect_t = box_t->get_obj()->get_FRect();
+	SDL_FRect rect_p = box_p->get_obj()->get_FRect();
 	return SDL_HasIntersectionF(&rect_t, &rect_p);
 }
 
 void CollisionMgr::onDebugRender()
 {
-	for (GameCollisionBox* box : box_list)
+	for (TreeNode_SP box : box_list)
 	{
-		box->on_render();
+		box->get_obj()->on_render();
 	}
 }
 

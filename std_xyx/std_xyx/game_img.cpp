@@ -2,18 +2,6 @@
 #include "game_wnd.h"
 #include "res_mgr.h"
 
-GameImg::GameImg(const Vector2 pos) :GameObj(pos)
-{
-	size = { 100,100 };
-}
-
-GameImg::GameImg(const Vector2 pos, const std::string name) :GameObj(pos)
-{
-	res_name = name;
-	size = { 100,100 };
-}
-
-GameImg::GameImg() {}
 GameImg::~GameImg() 
 {
 	texture = nullptr;
@@ -23,13 +11,11 @@ void GameImg::on_enter()
 {
 	GameObj::on_enter();
 	set_texture();
-	set_size();
+	init_size();
 }
 
 void GameImg::on_update(float delta)
 {
-	set_texture();
-	set_size();
 	GameObj::on_update(delta);
 }
 
@@ -78,17 +64,16 @@ void GameImg::on_render()
 	GameObj::on_render();
 }
 
-void GameImg::set_size()
+void GameImg::init_size()
 {
 	if (map_type == TextureMapType::AUTO && texture)
 	{
 		SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
 	}
-}
-
-void GameImg::set_size(const SDL_Point& size)
-{
-	GameObj::set_size(size);
+	else
+	{
+		size.x = 100, size.y = 100;
+	}
 }
 
 void GameImg::set_texture()
@@ -122,4 +107,6 @@ TextureMapType GameImg::get_texture_map_type()
 void GameImg::set_res_name(const std::string name)
 {
 	res_name = name;
+	set_texture();
+	init_size();
 }

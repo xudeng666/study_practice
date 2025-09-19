@@ -5,18 +5,16 @@
 class GameImg : public GameObj
 {
 public:
-	GameImg();
+	GameImg() = default;
 	virtual ~GameImg();
-	GameImg(const Vector2 pos);
-	GameImg(const Vector2 pos, const std::string name);
+
+	DEFINE_TYPE_NAME(GameImg);
 
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;
 	virtual void on_render() override;
 	/*设置尺寸*/
-	virtual void set_size();
-	/*设置尺寸*/
-	virtual void set_size(const SDL_Point& size) override;
+	virtual void init_size();
 	/*设置纹理*/
 	virtual void set_texture();
 	/*获取纹理*/
@@ -36,3 +34,4 @@ protected:
 	TextureMapType map_type = TextureMapType::AUTO;
 };
 
+INIT_TYPE_NAME(GameImg);

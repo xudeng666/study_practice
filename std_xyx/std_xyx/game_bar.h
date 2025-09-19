@@ -6,14 +6,17 @@ class GameBar :public GameObj
 {
 public:
 	GameBar() = default;
-	virtual ~GameBar();
-	GameBar(const Vector2 pos);
+	virtual ~GameBar() = default;
 
-	void on_enter() override;
-	void on_update(float delta) override;
-	void on_render() override;
-	GameImg* get_img_bg();
-	GameImg* get_img_pro();
+	virtual void on_init() override;
+	virtual void on_enter() override;
+	virtual void on_update(float delta) override;
+	virtual void on_render() override;
+
+	DEFINE_TYPE_NAME(GameBar);
+
+	TreeNode_SP get_img_bg();
+	TreeNode_SP get_img_pro();
 	/// <summary>
 	/// 设置进度条百分比
 	/// </summary>
@@ -32,9 +35,9 @@ public:
 
 protected:
 	// 背景
-	GameImg* img_bg = nullptr;
+	TreeNode_WP img_bg;
 	// 进度条
-	GameImg* img_pro = nullptr;
+	TreeNode_WP img_pro;
 	// 当前值
 	float percent_num = 0.0f;
 	// 最大值
@@ -43,3 +46,4 @@ protected:
 	bool is_horizontal = true;
 };
 
+INIT_TYPE_NAME(GameBar);

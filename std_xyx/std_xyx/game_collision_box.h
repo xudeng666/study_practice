@@ -11,6 +11,9 @@ class GameCollisionBox :
 public:
 	void on_update(float delta) override;
 	void on_render() override;
+
+	DEFINE_TYPE_NAME(GameCollisionBox);
+
 	/*设置是否启用碰撞检测*/
 	void set_collision_enabled(bool flag);
 	/*设置自身碰撞层*/
@@ -35,3 +38,4 @@ private:
 	CollisionLayer layer_dst = CollisionLayer::NONE;
 };
 
+INIT_TYPE_NAME(GameCollisionBox);

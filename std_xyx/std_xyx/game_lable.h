@@ -7,17 +7,14 @@
 class GameLable :public GameObj
 {
 public:
-	GameLable();
+	GameLable() = default;
 	virtual ~GameLable();
-	GameLable(const Vector2 pos);
+
+	DEFINE_TYPE_NAME(GameLable);
 
 	void on_enter() override;
 	void on_update(float delta) override;
 	void on_render() override;
-	/*设置尺寸*/
-	virtual void set_size();
-	/*设置尺寸*/
-	virtual void set_size(const SDL_Point& size) override;
 	/*设置文本内容*/
 	void set_lable_text(const std::string str);
 	/*设置正文颜色*/
@@ -57,3 +54,5 @@ protected:
 	// 文本锚点
 	AnchorMode lable_anchor_mode = AnchorMode::TOPLEFT;
 };
+
+INIT_TYPE_NAME(GameLable);

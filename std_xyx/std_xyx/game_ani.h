@@ -16,9 +16,12 @@ struct Ani_Res
 class GameAni : public GameImg
 {
 public:
-	GameAni();
+	GameAni() = default;
 	virtual ~GameAni();
 
+	DEFINE_TYPE_NAME(GameAni);
+
+	virtual void on_init() override;
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;
 	virtual void on_render() override;
@@ -60,3 +63,4 @@ private:
 	int res_num = 0;
 };
 
+INIT_TYPE_NAME(GameAni);
