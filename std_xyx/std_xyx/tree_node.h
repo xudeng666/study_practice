@@ -25,7 +25,17 @@ public:
     TreeNode(TreeNode&&) = default;
     TreeNode& operator=(TreeNode&&) = default;
 	//获取数据
-    GameObj* get_obj();
+    GameObj* get_obj() const;
+    //获取数据
+    template <typename T>
+    T* get_obj_as() const
+    {
+        if (obj && obj->is_type<T>())
+        {
+            return  static_cast<T*>(obj.get());
+        }
+        return nullptr;
+    }
     /*设置父节点*/
     void set_parent(TreeNode_SP p);
     /*获取父节点*/

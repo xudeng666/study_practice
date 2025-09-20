@@ -15,7 +15,7 @@ TreeNode::TreeNode(GameObj_UP d) : obj(std::move(d))
 	assert(obj != nullptr && "GameObj cannot be null");
 }
 
-GameObj* TreeNode::get_obj()
+GameObj* TreeNode::get_obj() const
 {
 	return obj.get();
 }

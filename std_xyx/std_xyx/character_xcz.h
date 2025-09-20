@@ -8,9 +8,12 @@ class CharacterXcz :
     public Character
 {
 public:
-    CharacterXcz();
-    virtual ~CharacterXcz();
+    CharacterXcz() = default;
+    virtual ~CharacterXcz() = default;
 
+    DEFINE_TYPE_NAME(CharacterXcz);
+
+    virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
     virtual void on_input(const SDL_Event& event) override;
@@ -56,7 +59,7 @@ public:
 
 protected:
     // 脚底阴影
-    GameImg* img_shade = nullptr;
+    TreeNode_WP img_shade;
     // 移动按钮状态（上下左右-0123）
     bool move_status[4];
     // 步长
@@ -65,3 +68,4 @@ protected:
     float speed = 50;
 };
 
+INIT_TYPE_NAME(CharacterXcz);

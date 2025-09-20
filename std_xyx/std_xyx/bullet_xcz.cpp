@@ -1,52 +1,54 @@
 #include "bullet_xcz.h"
 
-
-BulletXcz::BulletXcz()
+void BulletXcz::on_init()
 {
 	set_anchor_mode(AnchorMode::CENTER);
 	set_anchor_referent_mode(AnchorMode::CENTER);
 	set_damage(1);
 
-	auto img_ptr = std::make_unique<GameImg>(Vector2(0, 0));
-	img = img_ptr.get();
-	img->set_res_name("sword");
-	img->set_texture_map_type(TextureMapType::AUTO);
-	img->set_anchor_mode(AnchorMode::CENTER);
-	img->set_anchor_referent_mode(AnchorMode::CENTER);
-	add_children(std::move(img_ptr));
+	auto img_ptr = std::make_unique<GameImg>("img");
+	img_ptr->set_position(Vector2(0, 0));
+	img_ptr->set_res_name("sword");
+	img_ptr->set_texture_map_type(TextureMapType::AUTO);
+	img_ptr->set_anchor_mode(AnchorMode::CENTER);
+	img_ptr->set_anchor_referent_mode(AnchorMode::CENTER);
+	auto img_p = TreeNode::create(std::move(img_ptr));
+	img = img_p;
+	auto self = self_node.lock();
+	self->add_children(std::move(img_p));
 
-	hit_box->set_position({ 0,0 });
-	hit_box->set_size({ 6,6 });
-	hit_box->set_anchor_mode(AnchorMode::CENTER);
-	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
-	hit_box->set_layer_dst(CollisionLayer::ENEMY);
-	hit_box->set_layer_src(CollisionLayer::NONE);
-	hit_box->set_ID("bul_hit_box");
-	hit_box->set_call_back([&]() {on_hit();});
-	hit_box->set_anchor_referent_obj(this);
-}
-
-BulletXcz::~BulletXcz()
-{
+	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
+	hit_obj->set_position(Vector2(0, 0));
+	hit_obj->set_size({ 6,6 });
+	hit_obj->set_anchor_mode(AnchorMode::CENTER);
+	hit_obj->set_anchor_referent_mode(AnchorMode::CENTER);
+	hit_obj->set_layer_dst(CollisionLayer::ENEMY);
+	hit_obj->set_layer_src(CollisionLayer::NONE);
+	hit_obj->set_ID("bul_hit_box");
+	hit_obj->set_call_back([&]() {on_hit();});
+	hit_obj->set_anchor_referent_node(self);
+	auto* hurt_obj = get_hurt_box()->get_obj_as<GameCollisionBox>();
+	hurt_obj->set_collision_enabled(false);
 }
 
 void BulletXcz::on_enter()
 {
 	Bullet::on_enter();
-	img->set_texture();
-	img->set_size();
-	Vector2 p = img->get_anchor_position(AnchorMode::CENTER) - img->get_anchor_position(AnchorMode::TOPLEFT);
-	img->set_center({p.x, p.y});
+	auto img_obj = img.lock()->get_obj_as<GameImg>();
+	img_obj->set_texture();
+	img_obj->init_size();
+	Vector2 p = img_obj->get_anchor_position(AnchorMode::CENTER) - img_obj->get_anchor_position(AnchorMode::TOPLEFT);
+	img_obj->set_center({p.x, p.y});
 
 	set_display(true);
-	hit_box->set_collision_enabled(true);
-	hurt_box->set_collision_enabled(false);
+	auto* hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
+	hit_obj->set_collision_enabled(true);
 }
 void BulletXcz::on_exit()
 {
 	set_display(false);
-	hit_box->set_collision_enabled(false);
-	hurt_box->set_collision_enabled(false);
+	auto* hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
+	hit_obj->set_collision_enabled(false);
 	Bullet::on_exit();
 }
 void BulletXcz::on_input(const SDL_Event& event)

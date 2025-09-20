@@ -1,18 +1,10 @@
 #include "character_xcz.h"
 
-
-CharacterXcz::CharacterXcz()
+void CharacterXcz::on_init()
 {
-    auto img_shade_ptr = std::make_unique<GameImg>();
-    img_shade = img_shade_ptr.get();
-    add_children(std::move(img_shade_ptr), true);
-    std::fill(move_status, move_status + 4, false);
-}
-
-CharacterXcz::~CharacterXcz()
-{
-    Character::~Character();
-    img_shade = nullptr;
+    TreeNode_SP img_shade_ptr = TreeNode::create(std::make_unique<GameImg>("img_shade"));
+    img_shade = img_shade_ptr;
+    self_node.lock()->add_children(std::move(img_shade_ptr), true);
 }
 
 void CharacterXcz::on_enter()
@@ -62,8 +54,9 @@ void CharacterXcz::on_move(float delta)
 
 void CharacterXcz::set_interval()
 {
-    float val = step_length / current_ani->get_res_num() / speed;
-    current_ani->set_interval(val);
+    auto ani = current_ani.lock()->get_obj_as<GameAni>();
+    float val = step_length / ani->get_res_num() / speed;
+    ani->set_interval(val);
 }
 
 void CharacterXcz::set_move_status(int sub, bool flg)

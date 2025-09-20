@@ -1,8 +1,7 @@
 #include "enemy_xcz.h"
 #include "game_wnd.h"
 
-
-Enemy_xcz::Enemy_xcz()
+void Enemy_xcz::on_init()
 {
 	ani_pool["left"] = Ani_Res("boar_left_", 6);
 	ani_pool["right"] = Ani_Res("boar_right_", 6);
@@ -50,11 +49,7 @@ Enemy_xcz::Enemy_xcz()
 	hurt_box->set_ID("enemy_hurt_box");
 	hurt_box->set_call_back([&]() {decrease_hp(1);});
 	hurt_box->set_anchor_referent_obj(this);
-}
 
-Enemy_xcz::~Enemy_xcz()
-{
-	Character::~Character();
 }
 
 void Enemy_xcz::on_enter()

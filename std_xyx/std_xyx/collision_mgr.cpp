@@ -38,28 +38,32 @@ void CollisionMgr::processCollide()
 {
 	for (TreeNode_SP box_src : box_list)//攻击循环
 	{
-		GameCollisionBox* obj_src = dynamic_cast<GameCollisionBox*>(box_src->get_obj());
-		if (!obj_src->collision_enabled || obj_src->layer_dst == CollisionLayer::NONE)
+		if (auto obj_src = box_src->get_obj_as<GameCollisionBox>())
 		{
-			continue;
-		}
-		for (TreeNode_SP box_dst : box_list)//受击循环
-		{
-			GameCollisionBox* obj_dst = dynamic_cast<GameCollisionBox*>(box_dst->get_obj());
-			if (!obj_dst->collision_enabled || box_dst == box_src || obj_dst->layer_src != obj_src->layer_dst)
+			if (!obj_src->collision_enabled || obj_src->layer_dst == CollisionLayer::NONE)
 			{
 				continue;
 			}
-
-			if (is_collision(box_src, box_dst))
+			for (TreeNode_SP box_dst : box_list)//受击循环
 			{
-				if (obj_src->call_back)
+				if (auto obj_dst = box_dst->get_obj_as<GameCollisionBox>())
 				{
-					obj_src->call_back();
-				}
-				if (obj_dst->call_back)
-				{
-					obj_dst->call_back();
+					if (!obj_dst->collision_enabled || box_dst == box_src || obj_dst->layer_src != obj_src->layer_dst)
+					{
+						continue;
+					}
+
+					if (is_collision(box_src, box_dst))
+					{
+						if (obj_src->call_back)
+						{
+							obj_src->call_back();
+						}
+						if (obj_dst->call_back)
+						{
+							obj_dst->call_back();
+						}
+					}
 				}
 			}
 		}

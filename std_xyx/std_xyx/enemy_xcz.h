@@ -3,9 +3,12 @@
 class Enemy_xcz :public CharacterXcz
 {
 public:
-    Enemy_xcz();
-    virtual ~Enemy_xcz() override;
+    Enemy_xcz() = default;
+    virtual ~Enemy_xcz() = default;
 
+    DEFINE_TYPE_NAME(Enemy_xcz);
+
+    virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
     virtual void on_input(const SDL_Event& event) override;
@@ -20,3 +23,4 @@ protected:
     Vector2 pos_player;
 };
 
+INIT_TYPE_NAME(Enemy_xcz);
