@@ -7,18 +7,24 @@
 Game::Game(const std::string id)
 {
 	set_ID(id);
-	on_init();
 }
 
 Game::Game(const std::string id, const int num)
 {
 	set_ID(id, num);
-	on_init();
 }
 
 Game::~Game()
 {
 	scene_pool.clear();
+}
+
+template <typename T, typename... Args>
+std::shared_ptr<T> Game::create_scene(Args&&... args)
+{
+	std::shared_ptr<T> scene = std::make_shared<T>(std::forward<Args>(args)...);
+	scene->on_init();
+	return scene;
 }
 
 void Game::on_init()

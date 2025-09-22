@@ -1,8 +1,8 @@
-#include "start_menue_scene.h"
+#include "start_menu_scene.h"
 #include "game_mgr.h"
 #include "tree_mgr.h"
 
-void StartMenueScene::on_init()
+void StartMenuScene::on_init()
 {
     auto btn_xcz_ptr = std::make_unique<GameBtn>("btn_xcz");
     btn_xcz_ptr->set_position(Vector2(-440, -80));

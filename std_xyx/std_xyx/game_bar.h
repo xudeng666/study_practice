@@ -12,6 +12,7 @@ public:
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;
 	virtual void on_render() override;
+	virtual void set_size(const SDL_Point& size) override;
 
 	DEFINE_TYPE_NAME(GameBar);
 
@@ -26,7 +27,7 @@ public:
 	/// 设置进度条最大值
 	/// </summary>
 	/// <param name="value">SDL_Point</param>
-	void set_max_value(SDL_Point value);
+	void set_max_value(const SDL_Point& value);
 	/// <summary>
 	/// 设置进度条方向
 	/// </summary>

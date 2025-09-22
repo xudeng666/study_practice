@@ -1,39 +1,42 @@
 #pragma once
 
 #include "scene.h"
-#include "game_btn.h"
-#include "game_bar.h"
-#include "game_lable.h"
-#include "player_xcz.h"
-#include "enemy_xcz.h"
-//#include "timer.h"
+#include "tree_node.h"
+
+#include "timer.h"
+
+#include <queue>
 
 class XczGameScene :
     public Scene
 {
 public:
-    XczGameScene();
-    ~XczGameScene();
+    XczGameScene() = default;
+    virtual ~XczGameScene() = default;
 
-    void on_enter() override;
-    void on_exit() override;
-    void on_update(float delta) override;
-    void on_render() override;
+    virtual void on_init() override;
+    virtual void on_enter() override;
+    virtual void on_exit() override;
+    virtual void on_update(float delta) override;
+    virtual void on_render() override;
     // 生成敌人
     void add_enemy();
 
 private:
-    GameImg* bg = nullptr;
+    // 背景图
+    TreeNode_WP bg;
     // 退出按钮
-    GameBtn* btn_exit = nullptr;
+    TreeNode_WP btn_exit;
     // 血条
-    GameBar* hp_bar = nullptr;
+    TreeNode_WP hp_bar;
     // 分数文本
-    GameLable* score_lable = nullptr;
+    TreeNode_WP score_lable;
     // 主角
-    Player_xcz* player = nullptr;
+    TreeNode_WP player;
     // 敌人总数
     int enemy_num = 0;
+    // 本帧要添加的敌人总数
+    int enemy_add = 0;
     // 分数
     int score = 0;
     // 血量
@@ -48,7 +51,7 @@ private:
     Timer timer_enemy_produce_slow;
     // 怪物生成计时器
     Timer timer_enemy_produce;
-    // 怪物池用来存放已经死亡的怪物
-    std::queue<uqp_obj> enemy_queue;
+    // 怪物池-（存放死亡怪物）
+    std::queue<TreeNode_SP> enemy_queue;
 };
 

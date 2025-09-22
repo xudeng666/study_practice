@@ -15,13 +15,12 @@ GameMgr* GameMgr::instance()
 
 void GameMgr::init()
 {
-	
-	game_pool[GameType::START] = std::make_shared<GameStart>("GameStart");
-	game_pool[GameType::XCZ] = std::make_shared<GameXcz>("GameXcz");
-	/*game_pool[GameType::KDWS] = std::make_shared<GameKdws>("GameKdws");
-	game_pool[GameType::DLD] = std::make_shared<GameDld>("GameDld");
-	game_pool[GameType::ZMDJ] = std::make_shared<GameZmdj>("GameZmdj");
-	game_pool[GameType::PHF] = std::make_shared<GamePhf>("GamePhf");*/
+	game_pool[GameType::START] = create_game<GameStart>("GameStart");
+	game_pool[GameType::XCZ] = create_game<GameXcz>("GameXcz");
+	/*game_pool[GameType::KDWS] = create_game<GameKdws>("GameKdws");
+	game_pool[GameType::DLD] = create_game<GameDld>("GameDld");
+	game_pool[GameType::ZMDJ] = create_game<GameZmdj>("GameZmdj");
+	game_pool[GameType::PHF] = create_game<GamePhf>("GamePhf");*/
 
 	current_type = GameType::START;
 

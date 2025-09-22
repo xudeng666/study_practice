@@ -4,7 +4,7 @@
 
 void GameBtn::on_init()
 {
-	click_enabled = true;
+	//click_enabled = true;
 	status = ButtonState::NORMAL;
 }
 

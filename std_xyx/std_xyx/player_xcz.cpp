@@ -1,7 +1,12 @@
 #include "player_xcz.h"
 
 
-Player_xcz::Player_xcz()
+Player_xcz::~Player_xcz()
+{
+	bullet_list.clear();
+}
+
+void Player_xcz::on_init()
 {
 	ani_pool["left"] = Ani_Res("paimon_left_", 6);
 	ani_pool["right"] = Ani_Res("paimon_right_", 6);
@@ -14,48 +19,45 @@ Player_xcz::Player_xcz()
 	anchor_mode = AnchorMode::BOTTOMCENTER;
 	anchor_referent_mode = AnchorMode::CENTER;
 
-	current_ani->set_position({ 0,0 });
-	current_ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
-	current_ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
-	current_ani->set_anchor_referent_obj(this);
-	current_ani->set_ID("ani");
-	current_ani->set_res_int_val(0);
-	current_ani->set_res_name(ani_pool["left"]);
-	current_ani->set_loop(true);
+	auto ani = current_ani.lock()->get_obj_as<GameAni>();
+	ani->set_position({ 0,0 });
+	ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
+	ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
+	ani->set_anchor_referent_node(self_node);
+	ani->set_ID("ani");
+	ani->set_res_int_val(0);
+	ani->set_res_name(ani_pool["left"]);
+	ani->set_loop(true);
 	set_interval();
 
-	img_shade->set_position({ 0,0 });
-	img_shade->set_anchor_mode(AnchorMode::CENTER);
-	img_shade->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
-	img_shade->set_anchor_referent_obj(current_ani);
-	img_shade->set_res_name("shadow_player");
-	img_shade->set_ID("shade");
+	auto shade = img_shade.lock()->get_obj_as<GameImg>();
+	shade->set_position({ 0,0 });
+	shade->set_anchor_mode(AnchorMode::CENTER);
+	shade->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
+	shade->set_anchor_referent_node(current_ani);
+	shade->set_res_name("shadow_player");
+	shade->set_ID("shade");
 
-	hit_box->set_position({ 0,0 });
-	hit_box->set_size({ 10,10 });
-	hit_box->set_anchor_mode(AnchorMode::CENTER);
-	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
-	hit_box->set_layer_dst(CollisionLayer::ENEMY);
-	hit_box->set_layer_src(CollisionLayer::NONE);
-	hit_box->set_ID("player_hit_box");
-	//hit_box->set_call_back([&]() {on_hit();});
-	hit_box->set_anchor_referent_obj(this);
+	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
+	hit_obj->set_position({ 0,0 });
+	hit_obj->set_size({ 10,10 });
+	hit_obj->set_anchor_mode(AnchorMode::CENTER);
+	hit_obj->set_anchor_referent_mode(AnchorMode::CENTER);
+	hit_obj->set_layer_dst(CollisionLayer::ENEMY);
+	hit_obj->set_layer_src(CollisionLayer::NONE);
+	hit_obj->set_ID("player_hit_box");
+	hit_obj->set_anchor_referent_node(self_node);
 
-	hurt_box->set_position({ 0,0 });
-	hurt_box->set_size({ 10,10 });
-	hurt_box->set_anchor_mode(AnchorMode::CENTER);
-	hurt_box->set_anchor_referent_mode(AnchorMode::CENTER);
-	hurt_box->set_layer_dst(CollisionLayer::NONE);
-	hurt_box->set_layer_src(CollisionLayer::PLAYER_1);
-	hurt_box->set_ID("player_hurt_box");
-	hurt_box->set_call_back([&]() {decrease_hp(1);});
-	hurt_box->set_anchor_referent_obj(this);
-}
-
-Player_xcz::~Player_xcz()
-{
-	Character::~Character();
-	bullet_list.clear();
+	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
+	hurt_obj->set_position({ 0,0 });
+	hurt_obj->set_size({ 10,10 });
+	hurt_obj->set_anchor_mode(AnchorMode::CENTER);
+	hurt_obj->set_anchor_referent_mode(AnchorMode::CENTER);
+	hurt_obj->set_layer_dst(CollisionLayer::NONE);
+	hurt_obj->set_layer_src(CollisionLayer::PLAYER_1);
+	hurt_obj->set_ID("player_hurt_box");
+	hurt_obj->set_call_back([&]() {decrease_hp(1);});
+	hurt_obj->set_anchor_referent_node(self_node);
 }
 
 void Player_xcz::on_enter()
@@ -66,15 +68,19 @@ void Player_xcz::on_enter()
 	}
 	CharacterXcz::on_enter();
 
-	hit_box->set_collision_enabled(true);
-	hurt_box->set_collision_enabled(true);
+	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
+	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
+	hit_obj->set_collision_enabled(true);
+	hurt_obj->set_collision_enabled(true);
 }
 
 void Player_xcz::on_exit()
 {
 	CharacterXcz::on_exit();
-	hit_box->set_collision_enabled(false);
-	hurt_box->set_collision_enabled(false);
+	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
+	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
+	hit_obj->set_collision_enabled(false);
+	hurt_obj->set_collision_enabled(false);
 	reduce_bullet(bul_num);
 }
 
@@ -172,20 +178,20 @@ void Player_xcz::add_bullet(const int num)
 		bul_num++;
 		if (bul_num > bullet_list.size())
 		{
-			auto bul_ptr = std::make_unique<BulletXcz>();
-			BulletXcz* p = bul_ptr.get();
-			p->set_ID("bul_", bul_num - 1);
-			p->set_anchor_referent_obj(current_ani);
+			TreeNode_SP bul_ptr = TreeNode::create(std::make_unique<BulletXcz>("bul_", bul_num - 1));
+			auto p = bul_ptr->get_obj_as<BulletXcz>();
+			p->set_anchor_referent_node(current_ani);
 			p->on_enter();
 			p->set_on_hit_fun([&]() {
 				on_hit();
 				});
-			add_children(std::move(bul_ptr));
-			bullet_list.push_back(p);
+			self_node.lock()->add_children(std::move(bul_ptr));
+			bullet_list.push_back(bul_ptr);
 		}
 		else
 		{
-			bullet_list[bul_num - 1]->on_enter();
+			auto p = bullet_list[bul_num - 1].lock()->get_obj();
+			p->on_enter();
 		}
 	}
 }
@@ -195,9 +201,10 @@ void Player_xcz::reduce_bullet(const int num)
 	{
 		bul_num--;
 		if (bul_num < 0) return;
-		if (bullet_list[bul_num])
+		auto p = bullet_list[bul_num].lock();
+		if (p)
 		{
-			bullet_list[bul_num]->on_exit();
+			p->get_obj()->on_exit();
 		}
 	}
 }
@@ -221,7 +228,11 @@ void Player_xcz::move_bullet(float delta)
 		int dre = bul_degrees + 360 / bul_num * i;
 		dre %= 360;
 		//std::cout << "bullet dre:   " << dre << std::endl;
-		bullet_list[i]->set_position({ (float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius) });
-		bullet_list[i]->set_rotation(90 - dre);
+		auto p = bullet_list[i].lock();
+		if (p)
+		{
+			p->get_obj()->set_position({(float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius)});
+			p->get_obj()->set_rotation(90 - dre);
+		}
 	}
 }

@@ -37,6 +37,13 @@ void GameBar::on_render()
 	GameObj::on_render();
 }
 
+void GameBar::set_size(const SDL_Point& size)
+{
+	img_bg.lock()->get_obj()->set_size(size);
+	img_pro.lock()->get_obj()->set_size(size);
+	this->size = size;
+}
+
 TreeNode_SP GameBar::get_img_bg()
 {
 	return img_bg.lock();
@@ -67,7 +74,7 @@ void GameBar::set_percent_num(float num)
 	pro->get_obj()->set_size(s);
 }
 
-void GameBar::set_max_value(SDL_Point value)
+void GameBar::set_max_value(const SDL_Point& value)
 {
 	max_value = value;
 }

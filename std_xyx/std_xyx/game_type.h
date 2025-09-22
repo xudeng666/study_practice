@@ -44,7 +44,7 @@ enum class SizeType
 /*场景类型*/
 enum class SceneType
 {
-	MENUE = 0,	// 菜单场景
+	MENU = 0,	// 菜单场景
 	SELECTOR,	// 选择场景
 	GAME,		// 游戏场景
 };

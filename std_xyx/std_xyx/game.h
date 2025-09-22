@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <unordered_map>
+#include <utility> 
 
 /*游戏基类*/
 class Game: public Obj
@@ -14,6 +15,11 @@ public:
 	Game(const std::string id);
 	Game(const std::string id, const int num);
 	virtual ~Game() override;
+
+	template <typename T, typename... Args>
+	static std::shared_ptr<T> create_scene(Args&&... args);
+
+	DEFINE_TYPE_NAME(Game);
 
 	virtual void on_init() override;
 	/*进入游戏初始化*/
@@ -39,8 +45,9 @@ public:
 
 protected:
 	/*当前场景类型*/
-	SceneType current_scene_type = SceneType::MENUE;
+	SceneType current_scene_type = SceneType::MENU;
 
 	std::unordered_map<SceneType, std::shared_ptr<Scene>> scene_pool;
 };
 
+INIT_TYPE_NAME(Game);

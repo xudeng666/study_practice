@@ -3,12 +3,12 @@
 #include "scene.h"
 #include "game_btn.h"
 
-class StartMenueScene :
+class StartMenuScene :
     public Scene
 {
 public:
-    StartMenueScene() = default;
-    ~StartMenueScene() = default;
+    StartMenuScene() = default;
+    ~StartMenuScene() = default;
 
     virtual void on_init() override;
 

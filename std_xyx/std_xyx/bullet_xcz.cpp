@@ -14,8 +14,7 @@ void BulletXcz::on_init()
 	img_ptr->set_anchor_referent_mode(AnchorMode::CENTER);
 	auto img_p = TreeNode::create(std::move(img_ptr));
 	img = img_p;
-	auto self = self_node.lock();
-	self->add_children(std::move(img_p));
+	self_node.lock()->add_children(std::move(img_p));
 
 	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_position(Vector2(0, 0));
@@ -26,7 +25,7 @@ void BulletXcz::on_init()
 	hit_obj->set_layer_src(CollisionLayer::NONE);
 	hit_obj->set_ID("bul_hit_box");
 	hit_obj->set_call_back([&]() {on_hit();});
-	hit_obj->set_anchor_referent_node(self);
+	hit_obj->set_anchor_referent_node(self_node);
 	auto* hurt_obj = get_hurt_box()->get_obj_as<GameCollisionBox>();
 	hurt_obj->set_collision_enabled(false);
 }

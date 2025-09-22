@@ -57,7 +57,7 @@
     <ClCompile Include="game_btn.cpp">
       <Filter>源文件\obj</Filter>
     </ClCompile>
-    <ClCompile Include="xcz_menue_scene.cpp">
+    <ClCompile Include="xcz_menu_scene.cpp">
       <Filter>源文件\game_xcz</Filter>
     </ClCompile>
     <ClCompile Include="xcz_game_scene.cpp">
@@ -66,7 +66,7 @@
     <ClCompile Include="game_start.cpp">
       <Filter>源文件\game_start</Filter>
     </ClCompile>
-    <ClCompile Include="start_menue_scene.cpp">
+    <ClCompile Include="start_menu_scene.cpp">
       <Filter>源文件\game_start</Filter>
     </ClCompile>
     <ClCompile Include="collision_mgr.cpp">
@@ -155,7 +155,7 @@
     <ClInclude Include="game_btn.h">
       <Filter>头文件\obj</Filter>
     </ClInclude>
-    <ClInclude Include="xcz_menue_scene.h">
+    <ClInclude Include="xcz_menu_scene.h">
       <Filter>头文件\game_xcz</Filter>
     </ClInclude>
     <ClInclude Include="xcz_game_scene.h">
@@ -164,7 +164,7 @@
     <ClInclude Include="game_start.h">
       <Filter>头文件\game_start</Filter>
     </ClInclude>
-    <ClInclude Include="start_menue_scene.h">
+    <ClInclude Include="start_menu_scene.h">
       <Filter>头文件\game_start</Filter>
     </ClInclude>
     <ClInclude Include="game_collision_box.h">

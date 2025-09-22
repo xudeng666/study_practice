@@ -6,6 +6,7 @@
 
 TreeNode_SP TreeNode::create(GameObj_UP d) {
 	TreeNode_SP node = std::make_shared<TreeNode>(std::move(d));	// 调用私有构造函数
+	node->get_obj()->on_init();
 	node->get_obj()->set_self_node(node);							// 此时shared_from_this()有效
 	return node;
 }

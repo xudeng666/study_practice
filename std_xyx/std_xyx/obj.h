@@ -13,7 +13,7 @@
 class Obj
 {
 public:
-	Obj() = default;
+    Obj() = default;
     virtual ~Obj() = default;
 
     virtual void on_init() = 0;
@@ -27,7 +27,7 @@ public:
 
     template <typename T> bool is_type()const
     {
-        return get_type_name == T::type::name;
+        return get_type_name() == T::type::name;
     }
 
     /*…Ë÷√ID*/

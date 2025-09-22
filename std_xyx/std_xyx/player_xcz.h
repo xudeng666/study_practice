@@ -8,9 +8,12 @@
 class Player_xcz :public CharacterXcz
 {
 public:
-    Player_xcz();
+    Player_xcz() = default;
     virtual ~Player_xcz() override;
 
+    DEFINE_TYPE_NAME(Player_xcz);
+
+    virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
     virtual void on_input(const SDL_Event& event) override;
@@ -36,7 +39,7 @@ public:
     void move_bullet(float delta);
 
 private:
-    std::vector<BulletXcz*> bullet_list;
+    std::vector<TreeNode_WP> bullet_list;
     // 子弹数量
     int bul_num = 0;
     // 子弹飞行半径
@@ -47,3 +50,4 @@ private:
     float angle_speed = 90;
 };
 
+INIT_TYPE_NAME(Player_xcz);

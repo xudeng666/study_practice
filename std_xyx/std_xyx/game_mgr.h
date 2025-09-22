@@ -7,6 +7,10 @@ class GameMgr
 {
 public:
 	static GameMgr* instance();
+	
+	template <typename T, typename... Args>
+	std::shared_ptr<T> create_game(Args&&... args);
+
 	/*初始化*/
 	void init();
 	/*退出游戏*/
@@ -47,3 +51,10 @@ private:
 	std::unordered_map<GameType, std::shared_ptr<Game>> game_pool;
 };
 
+template <typename T, typename... Args>
+std::shared_ptr<T> GameMgr::create_game(Args&&... args)
+{
+	std::shared_ptr<T> game = std::make_shared<T>(std::forward<Args>(args)...);
+	game->on_init();
+	return game;
+}

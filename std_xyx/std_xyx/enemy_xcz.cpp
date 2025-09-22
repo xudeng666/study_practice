@@ -13,43 +13,46 @@ void Enemy_xcz::on_init()
 	anchor_mode = AnchorMode::BOTTOMCENTER;
 	anchor_referent_mode = AnchorMode::CENTER;
 
-	current_ani->set_position({ 0,0 });
-	current_ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
-	current_ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
-	current_ani->set_anchor_referent_obj(this);
-	current_ani->set_ID("ani");
-	current_ani->set_res_int_val(0);
-	current_ani->set_res_name(ani_pool["left"]);
-	current_ani->set_loop(true);
+	auto ani = current_ani.lock()->get_obj_as<GameAni>();
+	ani->set_position({ 0,0 });
+	ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
+	ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
+	ani->set_anchor_referent_node(self_node);
+	ani->set_ID("ani");
+	ani->set_res_int_val(0);
+	ani->set_res_name(ani_pool["left"]);
+	ani->set_loop(true);
 	set_interval();
 
-	img_shade->set_position({ 0,-20 });
-	img_shade->set_anchor_mode(AnchorMode::CENTER);
-	img_shade->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
-	img_shade->set_anchor_referent_obj(current_ani);
-	img_shade->set_res_name("shadow_enemy");
-	img_shade->set_ID("shade");
+	auto shade = img_shade.lock()->get_obj_as<GameImg>();
+	shade->set_position({ 0,-20 });
+	shade->set_anchor_mode(AnchorMode::CENTER);
+	shade->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
+	shade->set_anchor_referent_node(current_ani);
+	shade->set_res_name("shadow_enemy");
+	shade->set_ID("shade");
 
-	hit_box->set_position({ 0,0 });
-	hit_box->set_size({ 80,80 });
-	hit_box->set_anchor_mode(AnchorMode::CENTER);
-	hit_box->set_anchor_referent_mode(AnchorMode::CENTER);
-	hit_box->set_layer_dst(CollisionLayer::PLAYER_1);
-	hit_box->set_layer_src(CollisionLayer::NONE);
-	hit_box->set_ID("enemy_hit_box");
-	hit_box->set_call_back([&]() {on_hit();});
-	hit_box->set_anchor_referent_obj(this);
+	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
+	hit_obj->set_position({ 0,0 });
+	hit_obj->set_size({ 80,80 });
+	hit_obj->set_anchor_mode(AnchorMode::CENTER);
+	hit_obj->set_anchor_referent_mode(AnchorMode::CENTER);
+	hit_obj->set_layer_dst(CollisionLayer::PLAYER_1);
+	hit_obj->set_layer_src(CollisionLayer::NONE);
+	hit_obj->set_ID("enemy_hit_box");
+	hit_obj->set_call_back([&]() {on_hit();});
+	hit_obj->set_anchor_referent_node(self_node);
 
-	hurt_box->set_position({ 0,0 });
-	hurt_box->set_size({ 80,80 });
-	hurt_box->set_anchor_mode(AnchorMode::CENTER);
-	hurt_box->set_anchor_referent_mode(AnchorMode::CENTER);
-	hurt_box->set_layer_dst(CollisionLayer::NONE);
-	hurt_box->set_layer_src(CollisionLayer::ENEMY);
-	hurt_box->set_ID("enemy_hurt_box");
-	hurt_box->set_call_back([&]() {decrease_hp(1);});
-	hurt_box->set_anchor_referent_obj(this);
-
+	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
+	hurt_obj->set_position({ 0,0 });
+	hurt_obj->set_size({ 80,80 });
+	hurt_obj->set_anchor_mode(AnchorMode::CENTER);
+	hurt_obj->set_anchor_referent_mode(AnchorMode::CENTER);
+	hurt_obj->set_layer_dst(CollisionLayer::NONE);
+	hurt_obj->set_layer_src(CollisionLayer::ENEMY);
+	hurt_obj->set_ID("enemy_hurt_box");
+	hurt_obj->set_call_back([&]() {decrease_hp(1);});
+	hurt_obj->set_anchor_referent_node(self_node);
 }
 
 void Enemy_xcz::on_enter()
@@ -83,14 +86,18 @@ void Enemy_xcz::on_enter()
 
 	set_display(true);
 
-	hit_box->set_collision_enabled(true);
-	hurt_box->set_collision_enabled(true);
+	auto hit_obj  = hit_box.lock()->get_obj_as<GameCollisionBox>();
+	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
+	hit_obj ->set_collision_enabled(true);
+	hurt_obj->set_collision_enabled(true);
 }
 
 void Enemy_xcz::on_exit()
 {
-	hit_box->set_collision_enabled(false);
-	hurt_box->set_collision_enabled(false);
+	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
+	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
+	hit_obj ->set_collision_enabled(false);
+	hurt_obj->set_collision_enabled(false);
 	set_display(false);
 	CharacterXcz::on_exit();
 }
