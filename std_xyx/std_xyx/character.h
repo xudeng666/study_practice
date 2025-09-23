@@ -10,6 +10,9 @@ public:
     Character() = default;
     virtual ~Character();
 
+    Character(const std::string& id) : GameObj(id) {}
+    Character(const std::string& id, int num) : GameObj(id, num) {}
+
     virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;

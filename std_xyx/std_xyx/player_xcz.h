@@ -11,6 +11,9 @@ public:
     Player_xcz() = default;
     virtual ~Player_xcz() override;
 
+    Player_xcz(const std::string& id) : CharacterXcz(id) {}
+    Player_xcz(const std::string& id, int num) : CharacterXcz(id, num) {}
+
     DEFINE_TYPE_NAME(Player_xcz);
 
     virtual void on_init() override;

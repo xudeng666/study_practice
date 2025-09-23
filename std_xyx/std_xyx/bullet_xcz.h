@@ -8,6 +8,9 @@ public:
     BulletXcz() = default;
     ~BulletXcz() = default;
 
+    BulletXcz(const std::string& id) : Bullet(id) {}
+    BulletXcz(const std::string& id, int num) : Bullet(id, num) {}
+
     DEFINE_TYPE_NAME(BulletXcz);
 
     virtual void on_init() override;

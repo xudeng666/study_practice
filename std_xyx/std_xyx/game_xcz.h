@@ -8,7 +8,9 @@ public:
 	GameXcz() = default;
 	~GameXcz() = default;
 
+	GameXcz(const std::string& id) : Game(id) {}
+	GameXcz(const std::string& id, int num) : Game(id, num) {}
+
 	void on_init() override;
 	void on_enter() override;
 };
-

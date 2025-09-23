@@ -31,8 +31,8 @@ public:
     }
 
     /*…Ë÷√ID*/
-    virtual void set_ID(const std::string str) = 0;
-    virtual void set_ID(const std::string str, const int num) = 0;
+    virtual void set_ID(const std::string& str) = 0;
+    virtual void set_ID(const std::string& str, const int num) = 0;
     /*ªÒ»°ID*/
     virtual std::string get_ID() = 0;
 protected:

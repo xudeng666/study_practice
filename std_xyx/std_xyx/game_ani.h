@@ -19,6 +19,9 @@ public:
 	GameAni() = default;
 	virtual ~GameAni() = default;
 
+	GameAni(const std::string& id) : GameImg(id) {}
+	GameAni(const std::string& id, int num) : GameImg(id, num) {}
+
 	DEFINE_TYPE_NAME(GameAni);
 
 	virtual void on_init() override;

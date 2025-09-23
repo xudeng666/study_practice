@@ -9,6 +9,9 @@ public:
     Bullet() = default;
     virtual ~Bullet() = default;
 
+    Bullet(const std::string& id) : GameObj(id) {}
+    Bullet(const std::string& id, int num) : GameObj(id, num) {}
+
     void set_velocity(const Vector2& vel);
     const Vector2& get_velocity() const;
     /*获取移动速度*/

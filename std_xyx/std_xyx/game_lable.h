@@ -10,6 +10,9 @@ public:
 	GameLable() = default;
 	virtual ~GameLable();
 
+	GameLable(const std::string& id) : GameObj(id) {}
+	GameLable(const std::string& id, int num) : GameObj(id, num) {}
+
 	DEFINE_TYPE_NAME(GameLable);
 
 	void on_enter() override;

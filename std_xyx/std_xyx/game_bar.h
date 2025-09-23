@@ -8,6 +8,9 @@ public:
 	GameBar() = default;
 	virtual ~GameBar() = default;
 
+	GameBar(const std::string& id) : GameObj(id) {}
+	GameBar(const std::string& id, int num) : GameObj(id, num) {}
+
 	virtual void on_init() override;
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;

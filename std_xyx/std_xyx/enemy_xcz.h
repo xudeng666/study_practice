@@ -6,6 +6,9 @@ public:
     Enemy_xcz() = default;
     virtual ~Enemy_xcz() = default;
 
+    Enemy_xcz(const std::string& id) : CharacterXcz(id) {}
+    Enemy_xcz(const std::string& id, int num) : CharacterXcz(id, num) {}
+
     DEFINE_TYPE_NAME(Enemy_xcz);
 
     virtual void on_init() override;

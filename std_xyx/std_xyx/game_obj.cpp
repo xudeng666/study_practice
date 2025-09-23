@@ -44,12 +44,12 @@ void GameObj::on_render()
 {
 }
 
-void GameObj::set_ID(const std::string str)
+void GameObj::set_ID(const std::string& str)
 {
 	ID = str;
 }
 
-void GameObj::set_ID(const std::string str, const int num)
+void GameObj::set_ID(const std::string& str, const int num)
 {
 	ID = str + std::to_string(num);
 }

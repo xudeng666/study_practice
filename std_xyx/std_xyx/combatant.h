@@ -1,10 +1,9 @@
 #pragma once
 
-//#include "game_obj.h"
 #include "game_collision_box.h"
 
 /*战斗对象基类*/
-class Combatant// :public GameObj
+class Combatant
 {
 public:
     Combatant();
@@ -30,7 +29,6 @@ public:
     /// </summary>
     /// <returns></returns>
     TreeNode_SP get_hurt_box();
-
 
 protected:
     TreeNode_WP hit_box;                    // 攻击碰撞箱

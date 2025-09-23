@@ -4,12 +4,12 @@
 #include "res_mgr.h"
 
 
-Game::Game(const std::string id)
+Game::Game(const std::string& id)
 {
 	set_ID(id);
 }
 
-Game::Game(const std::string id, const int num)
+Game::Game(const std::string& id, const int num)
 {
 	set_ID(id, num);
 }
@@ -74,12 +74,12 @@ void Game::exchange_scene(SceneType type)
 	get_current_scene()->on_enter();
 }
 
-void Game::set_ID(const std::string str)
+void Game::set_ID(const std::string& str)
 {
 	ID = str;
 }
 
-void Game::set_ID(const std::string str, const int num)
+void Game::set_ID(const std::string& str, const int num)
 {
 	ID = str + std::to_string(num);
 }

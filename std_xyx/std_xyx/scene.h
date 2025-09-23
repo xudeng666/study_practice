@@ -17,8 +17,8 @@ public:
 	virtual void on_input(const SDL_Event& event) override;
 	virtual void on_update(float delta) override;
 	virtual void on_render() override;
-	virtual void set_ID(const std::string str) override;
-	virtual void set_ID(const std::string str, const int num) override;
+	virtual void set_ID(const std::string& str) override;
+	virtual void set_ID(const std::string& str, const int num) override;
 	virtual std::string get_ID() override;
 };
 

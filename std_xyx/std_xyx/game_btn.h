@@ -9,6 +9,9 @@ public:
 	GameBtn() = default;
 	virtual ~GameBtn() = default;
 
+	GameBtn(const std::string& id) : GameImg(id) {}
+	GameBtn(const std::string& id, int num) : GameImg(id, num) {}
+
 	DEFINE_TYPE_NAME(GameBtn);
 
 	virtual void on_init() override;

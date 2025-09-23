@@ -8,6 +8,9 @@ public:
 	GameImg() = default;
 	virtual ~GameImg();
 
+	GameImg(const std::string& id) : GameObj(id) {}
+	GameImg(const std::string& id, int num) : GameObj(id, num) {}
+
 	DEFINE_TYPE_NAME(GameImg);
 
 	virtual void on_enter() override;

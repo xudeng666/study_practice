@@ -11,6 +11,9 @@ public:
     CharacterXcz() = default;
     virtual ~CharacterXcz() = default;
 
+    CharacterXcz(const std::string& id) : Character(id) {}
+    CharacterXcz(const std::string& id, int num) : Character(id, num) {}
+
     DEFINE_TYPE_NAME(CharacterXcz);
 
     virtual void on_init() override;

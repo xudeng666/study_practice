@@ -38,12 +38,12 @@ void Scene::on_exit()
 {
 }
 
-void Scene::set_ID(const std::string str)
+void Scene::set_ID(const std::string& str)
 {
 	ID = str;
 }
 
-void Scene::set_ID(const std::string str, const int num)
+void Scene::set_ID(const std::string& str, const int num)
 {
 	ID = str + std::to_string(num);
 }

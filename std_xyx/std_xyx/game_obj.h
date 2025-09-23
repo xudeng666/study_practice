@@ -25,8 +25,8 @@ public:
     virtual void on_render() override;
 
     /*设置ID*/
-    virtual void set_ID(const std::string str) override;
-    virtual void set_ID(const std::string str, const int num) override;
+    virtual void set_ID(const std::string& str) override;
+    virtual void set_ID(const std::string& str, const int num) override;
     /*获取ID*/
     virtual std::string get_ID() override;
     /*获取路径ID*/

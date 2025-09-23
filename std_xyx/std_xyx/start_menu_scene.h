@@ -10,6 +10,9 @@ public:
     StartMenuScene() = default;
     ~StartMenuScene() = default;
 
+    StartMenuScene(const std::string& id) : Scene(id) {}
+    StartMenuScene(const std::string& id, int num) : Scene(id, num) {}
+
     virtual void on_init() override;
 
 private:

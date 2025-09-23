@@ -9,6 +9,9 @@ class GameCollisionBox :
 {
 	friend class CollisionMgr;
 public:
+	GameCollisionBox(const std::string& id) : GameObj(id) {}
+	GameCollisionBox(const std::string& id, int num) : GameObj(id, num) {}
+
 	void on_update(float delta) override;
 	void on_render() override;
 

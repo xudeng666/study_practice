@@ -12,8 +12,8 @@ class Game: public Obj
 {
 public:
 	Game() = default;
-	Game(const std::string id);
-	Game(const std::string id, const int num);
+	Game(const std::string& id);
+	Game(const std::string& id, const int num);
 	virtual ~Game() override;
 
 	template <typename T, typename... Args>
@@ -33,8 +33,8 @@ public:
 	/*退出游戏*/
 	virtual void on_exit() override;
 	/*设置ID*/
-	virtual void set_ID(const std::string str) override;
-	virtual void set_ID(const std::string str, const int num) override;
+	virtual void set_ID(const std::string& str) override;
+	virtual void set_ID(const std::string& str, const int num) override;
 	/*获取ID*/
 	virtual std::string get_ID() override;
 
