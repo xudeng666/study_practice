@@ -3,31 +3,18 @@
 
 #include <assert.h>
 
-
-TreeNode_SP TreeNode::create(GameObj_UP d) {
-	TreeNode_SP node = std::make_shared<TreeNode>(std::move(d));	// 调用私有构造函数
-	node->get_obj()->on_init();
-	node->get_obj()->set_self_node(node);							// 此时shared_from_this()有效
+template <typename T, typename... Args>
+std::shared_ptr<T> TreeNode::create_obj(Args&&... args)
+{
+	std::shared_ptr<T> node = std::make_shared<T>(std::forward<Args>(args)...);
+	node->on_init();
+	node->set_self_node(node);
 	return node;
-}
-
-TreeNode::TreeNode(GameObj_UP d) : obj(std::move(d))
-{
-	assert(obj != nullptr && "GameObj cannot be null");
-}
-
-GameObj* TreeNode::get_obj() const
-{
-	return obj.get();
 }
 
 void TreeNode::set_parent(TreeNode_SP p)
 {
 	parent = p;
-	if (!get_obj()->get_anchor_referent())
-	{
-		get_obj()->set_anchor_referent_node(p);
-	}
 }
 
 TreeNode_SP TreeNode::get_parent()
@@ -35,14 +22,14 @@ TreeNode_SP TreeNode::get_parent()
 	return parent.lock();
 }
 
-TreeNode_SP TreeNode::remove_children(GameObj* obj)
+void TreeNode::set_self_node(TreeNode_SP self)
 {
-	auto it = find_child_iterator(obj);
-	if (it == children.end()) return nullptr;
-	TreeNode_SP removedObj = std::move(*it);
-	children.erase(it);
-	removedObj->parent.reset();
-	return removedObj;
+	self_node = self;
+}
+
+TreeNode_SP TreeNode::get_self_node()
+{
+	return self_node.lock();
 }
 
 TreeNode_SP TreeNode::remove_children(TreeNode_SP node)
@@ -55,24 +42,14 @@ TreeNode_SP TreeNode::remove_children(TreeNode_SP node)
 	return removedObj;
 }
 
-TreeNode_SP TreeNode::remove_children(std::string id)
+TreeNode_SP TreeNode::remove_children(const std::function<bool(const TreeNode_SP&)>& func)
 {
-	auto it = find_child_iterator(id);
+	auto it = find_child_iterator(func);
 	if (it == children.end()) return nullptr;
 	TreeNode_SP removedObj = std::move(*it);
 	children.erase(it);
 	removedObj->parent.reset();
 	return removedObj;
-}
-
-void TreeNode::delete_children(GameObj* obj)
-{
-	auto it = find_child_iterator(obj);
-	if (it != children.end())
-	{
-		(*it)->parent.reset();
-		children.erase(it);
-	}
 }
 
 void TreeNode::delete_children(TreeNode_SP node)
@@ -84,9 +61,10 @@ void TreeNode::delete_children(TreeNode_SP node)
 		children.erase(it);
 	}
 }
-void TreeNode::delete_children(std::string id)
+
+void TreeNode::delete_children(const std::function<bool(const TreeNode_SP&)>& func)
 {
-	auto it = find_child_iterator(id);
+	auto it = find_child_iterator(func);
 	if (it != children.end())
 	{
 		(*it)->parent.reset();
@@ -106,7 +84,7 @@ void TreeNode::add_children(TreeNode_SP node, bool is_front)
 	}
 
 	// 步骤2：设置当前节点为新父节点
-	node->set_parent(shared_from_this());
+	node->set_parent(self_node.lock());
 
 	// 步骤3：将子节点的 unique_ptr 移动到当前节点的 children 列表
 	is_front ? children.push_front(std::move(node)) : children.push_back(std::move(node));
@@ -159,41 +137,22 @@ int TreeNode::get_children_size()
 	return children.size();
 }
 
-TreeNode_SP TreeNode::find_child(GameObj* obj)
+TreeNode_SP TreeNode::find_child(const std::function<bool(const TreeNode_SP&)>& func)
 {
-	auto it = find_child_iterator(obj);
-	if (it != children.end() && *it) {
-		return *it;
-	}
-	return nullptr;
+	ChildIt it = find_child_iterator(func);
+
+	return (it != children.end()) ? *it : nullptr;
 }
 
-TreeNode_SP TreeNode:: find_child(const std::string& id)
-{
-	auto it = find_child_iterator(id);
-	if (it != children.end() && *it) {
-		return *it;
-	}
-	return nullptr;
-}
-
-TreeNode::ChildIt TreeNode:: find_child_iterator(GameObj* obj)
-{
-	return std::find_if(children.begin(), children.end(),
-		[obj](const TreeNode_SP& child) {
-			return child->get_obj() == obj;
-		});
-}
-
-TreeNode::ChildIt TreeNode:: find_child_iterator(TreeNode_SP node)
+TreeNode::ChildIt TreeNode::find_child_iterator(TreeNode_SP node)
 {
 	return std::find(children.begin(), children.end(), node);
 }
 
-TreeNode::ChildIt TreeNode:: find_child_iterator(const std::string& id)
+TreeNode::ChildIt TreeNode::find_child_iterator(const std::function<bool(const TreeNode_SP&)>& func)
 {
 	return std::find_if(children.begin(), children.end(),
-		[id](const TreeNode_SP& child) {
-			return child->get_obj()->get_ID() == id;
+		[&func](const TreeNode_SP& child) {
+			return func(child);
 		});
 }

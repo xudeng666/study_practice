@@ -7,7 +7,7 @@
 
 
 /*游戏对象基类*/
-class GameObj: public Obj
+class GameObj: public Obj,public TreeNode
 {
 public:
     GameObj() = default;
@@ -36,10 +36,6 @@ public:
     {
         return typeid(*this) == typeid(T);
     }
-    /*设置自身节点*/
-    void set_self_node(TreeNode_WP self);
-    /*获取父节点对象指针*/
-    GameObj* get_parent();
     /*id包含判定*/
     bool id_contains(const std::string& str);
     /*设置坐标*/
@@ -65,7 +61,7 @@ public:
     /*设置锚定对象*/
     void set_anchor_referent_node(TreeNode_WP node);
     /*获取锚定对象*/
-    GameObj* get_anchor_referent();
+    TreeNode_SP get_anchor_referent();
     /*设置旋转中心*/
     void set_center(const SDL_FPoint& pos);
     /*设置角度*/
@@ -137,8 +133,6 @@ protected:
     AnchorMode anchor_referent_mode = AnchorMode::TOPLEFT;
     /*锚定对象节点*/
     TreeNode_WP anchor_referent_node;
-    /*自身节点*/
-    TreeNode_WP self_node;
 };
 
 INIT_TYPE_NAME(GameObj);

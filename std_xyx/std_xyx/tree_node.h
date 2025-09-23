@@ -6,33 +6,33 @@
 #include <functional>
 
 class GameObj;
-class TreeNode;
 
-typedef std::shared_ptr<TreeNode> TreeNode_SP;      // 节点指针（强）
-typedef std::unique_ptr<GameObj> GameObj_UP;        // 对象指针（专）
-typedef std::weak_ptr<TreeNode> TreeNode_WP;        // 节点指针（弱）
+typedef std::shared_ptr<GameObj> TreeNode_SP;      // 节点指针（强）
+typedef std::weak_ptr<GameObj> TreeNode_WP;        // 节点指针（弱）
 
 class TreeNode:public std::enable_shared_from_this<TreeNode>
 {
 public:
-    static TreeNode_SP create(GameObj_UP d);
+
+    template <typename T, typename... Args>
+    static std::shared_ptr<T> create_obj(Args&&... args);
+
+    TreeNode() = default;
 	//析构
-	~TreeNode() = default;
+	virtual ~TreeNode() = default;
     // 禁用拷贝
     TreeNode(const TreeNode&) = delete;
     TreeNode& operator=(const TreeNode&) = delete;
     // 允许移动
     TreeNode(TreeNode&&) = default;
     TreeNode& operator=(TreeNode&&) = default;
-	//获取数据
-    GameObj* get_obj() const;
     //获取数据
-    template <typename T>
+   template <typename T>
     T* get_obj_as() const
     {
-        if (obj && obj->is_type<T>())
+        if (this->is_type<T>())
         {
-            return  static_cast<T*>(obj.get());
+            return  static_cast<T*>(this);
         }
         return nullptr;
     }
@@ -40,14 +40,18 @@ public:
     void set_parent(TreeNode_SP p);
     /*获取父节点*/
     TreeNode_SP get_parent();
+    /*设置自身节点*/
+    void set_self_node(TreeNode_SP self);
+    /*获取自身点*/
+    TreeNode_SP get_self_node();
     /*移除(不删除)子节点*/
-    TreeNode_SP remove_children(GameObj* obj);
     TreeNode_SP remove_children(TreeNode_SP node);
-    TreeNode_SP remove_children(std::string id);
+    /*移除(不删除)条件子节点*/
+    TreeNode_SP remove_children(const std::function<bool(const TreeNode_SP&)>& func);
     /*删除子节点*/
-    void delete_children(GameObj* obj);
     void delete_children(TreeNode_SP node);
-    void delete_children(std::string id);
+    /*删除条件子节点*/
+    void delete_children(const std::function<bool(const TreeNode_SP&)>& func);
     /// <summary>
     /// 添加子节点（默认表尾添加）
     /// </summary>
@@ -57,7 +61,7 @@ public:
     /// <summary>
     /// 遍历所有子对象
     /// </summary>
-    /// <param name="func">外部传入的函数，参数为子对象的指针</param>
+    /// <param name="func">执行函数</param>
     void for_each_child(const std::function<void(TreeNode_SP)>& func);
     /// <summary>
     /// 子节点排序
@@ -79,44 +83,28 @@ public:
     /// <returns>int</returns>
     int get_children_size();
     /// <summary>
-    /// 查找子节点（直接）
+    /// 查找直属子节点
     /// </summary>
-    /// <param name="obj">GameObj*</param>
+    /// <param name="func">条件函数 bool</param>
     /// <returns>TreeNode_SP</returns>
-    TreeNode_SP find_child(GameObj* obj);
-    /// <summary>
-    /// 查找子节点（直接）
-    /// </summary>
-    /// <param name="id">string id</param>
-    /// <returns>TreeNode_SP</returns>
-    TreeNode_SP find_child(const std::string& id);
-private:
+    TreeNode_SP find_child(const std::function<bool(const TreeNode_SP&)>& func);
+protected:
     using ChildIt = std::list<TreeNode_SP>::iterator;
     /// <summary>
-    /// 查找子节点it（直接）
-    /// </summary>
-    /// <param name="obj">GameObj*</param>
-    /// <returns>ChildIt</returns>
-    ChildIt find_child_iterator(GameObj* obj);
-    /// <summary>
-    /// 查找子节点it（直接）
+    /// 查找直属子节点it
     /// </summary>
     /// <param name="node">TreeNode_SP</param>
     /// <returns>ChildIt</returns>
     ChildIt find_child_iterator(TreeNode_SP node);
     /// <summary>
-    /// 查找子节点it（直接）
+    /// 查找直属子节点it
     /// </summary>
-    /// <param name="id">string id</param>
+    /// <param name="func">条件函数 bool</param>
     /// <returns>ChildIt</returns>
-    ChildIt find_child_iterator(const std::string& id);
+    ChildIt find_child_iterator(const std::function<bool(const TreeNode_SP&)>& func);
 
-private:
-    //构造
-    TreeNode(GameObj_UP d);
-
-private:
-	GameObj_UP obj;
+protected:
     TreeNode_WP parent;
+    TreeNode_WP self_node;
 	std::list<TreeNode_SP> children;
 };

@@ -1,5 +1,4 @@
 #include "tree_mgr.h"
-#include "game_obj.h"
 
 #include <queue>
 #include <assert.h>
@@ -18,11 +17,11 @@ TreeMgr* TreeMgr::instance()
 
 TreeMgr::TreeMgr()
 {
-	root_node = TreeNode::create(std::make_unique<GameObj>("root"));
-	root_node->get_obj()->set_position(Vector2(0, 0));
-	root_node->get_obj()->set_size({ _WIN_W_,_WIN_H_ });
-	root_node->get_obj()->set_anchor_mode(AnchorMode::TOPLEFT);
-	root_node->get_obj()->set_anchor_referent_mode(AnchorMode::TOPLEFT);
+	root_node = TreeNode::create_obj<GameObj>("root");
+	root_node->set_position(Vector2(0, 0));
+	root_node->set_size({ _WIN_W_,_WIN_H_ });
+	root_node->set_anchor_mode(AnchorMode::TOPLEFT);
+	root_node->set_anchor_referent_mode(AnchorMode::TOPLEFT);
 
 	TreeNode_SP bg_n = create_layer_node("bg");
 	TreeNode_SP game_n = create_layer_node("game");
@@ -50,7 +49,7 @@ TreeNode_SP TreeMgr::find_obj(std::string id, TreeNode_SP start_node)
 		start_node = root_node;
 	}
 	pre_order_traversal(start_node, [&](TreeNode_SP node) {
-		if (node->get_obj()->get_ID() == id)
+		if (node->get_ID() == id)
 		{
 			result = node;
 		}
@@ -80,11 +79,11 @@ TreeNode_SP TreeMgr::get_ui_node()
 
 TreeNode_SP TreeMgr::create_layer_node(const std::string& id)
 {
-	auto node = TreeNode::create(std::make_unique<GameObj>(id));
-	node->get_obj()->set_position(Vector2(0, 0));
-	node->get_obj()->set_size({ _WIN_W_, _WIN_H_ });
-	node->get_obj()->set_anchor_mode(AnchorMode::CENTER);
-	node->get_obj()->set_anchor_referent_mode(AnchorMode::CENTER);
+	auto node = TreeNode::create_obj<GameObj>(id);
+	node->set_position(Vector2(0, 0));
+	node->set_size({ _WIN_W_, _WIN_H_ });
+	node->set_anchor_mode(AnchorMode::CENTER);
+	node->set_anchor_referent_mode(AnchorMode::CENTER);
 	return node;
 }
 
@@ -92,7 +91,7 @@ void TreeMgr::pre_order_traversal(TreeNode_SP current_node, const std::function<
 {
 	if (!current_node) return;
 
-	if (!current_node->get_obj()->get_display()) return;
+	if (!current_node->get_display()) return;
 
 	if (callback)
 	{
@@ -108,7 +107,7 @@ void TreeMgr::post_order_traversal(TreeNode_SP current_node, const std::function
 {
 	if (!current_node) return;
 
-	if (!current_node->get_obj()->get_display()) return;
+	if (!current_node->get_display()) return;
 
 	current_node->for_each_child([&](TreeNode_SP node) {
 		post_order_traversal(node, callback);
@@ -124,7 +123,7 @@ void TreeMgr::level_order_traversal(TreeNode_SP current_node, const std::functio
 {
 	if (!current_node) return;
 
-	if (!current_node->get_obj()->get_display()) return;
+	if (!current_node->get_display()) return;
 
 	std::queue<TreeNode_SP> q;
 
@@ -142,7 +141,7 @@ void TreeMgr::level_order_traversal(TreeNode_SP current_node, const std::functio
 				callback(p);
 			}
 			p->for_each_child([&](TreeNode_SP node) {
-				if (node->get_obj()->get_display())
+				if (node->get_display())
 				{
 					q.push(node);
 				}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tree_node.h"
+#include "game_obj.h"
 
 class TreeMgr
 {

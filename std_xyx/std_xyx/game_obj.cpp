@@ -61,28 +61,7 @@ std::string GameObj::get_ID()
 
 std::string GameObj::get_path_ID()
 {
-	GameObj* parent = get_parent();
-	return parent ? parent->get_path_ID() + "/" + ID : ID;
-}
-
-void GameObj::set_self_node(TreeNode_WP self)
-{
-	assert((self.lock() && self.lock()->get_obj() == this) && "自身节点不能为空或指向别的数据！");
-	self_node = self;
-}
-
-GameObj* GameObj::get_parent()
-{
-	auto node = self_node.lock();
-	if (node)
-	{
-		auto parent = node->get_parent();
-		if (parent)
-		{
-			return parent->get_obj();
-		}
-	}
-	return  nullptr;
+	return parent.expired() ? parent.lock()->get_path_ID() + "/" + ID : ID;
 }
 
 bool GameObj::id_contains(const std::string& str)
@@ -173,14 +152,9 @@ void GameObj::set_anchor_referent_node(TreeNode_WP node)
 	anchor_referent_node = node;
 }
 
-GameObj* GameObj::get_anchor_referent()
+TreeNode_SP GameObj::get_anchor_referent()
 {
-	auto node = anchor_referent_node.lock();
-	if (node)
-	{
-		return node->get_obj();
-	}
-	return  nullptr;
+	return  anchor_referent_node.lock();
 }
 
 SDL_FRect GameObj::get_FRect()
@@ -198,9 +172,10 @@ SDL_Rect GameObj::get_Rect()
 Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 {
 	Vector2 t = { 0.0f,0.0f };
-	if (anchor_referent_node.lock()) // 获取锚定节点的对齐锚点全局坐标
+	GameObj* ref = get_anchor_referent();
+	if (ref) // 获取锚定节点的对齐锚点全局坐标
 	{
-		t = anchor_referent_node.lock()->get_obj()->get_anchor_position(anchor_referent_mode);
+		t = ref->get_anchor_position(anchor_referent_mode);
 	}
 
 	Vector2 p = position;
@@ -217,9 +192,9 @@ Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 Vector2 GameObj::get_anchor_position(TreeNode_WP node, const AnchorMode mode)
 {
 	Vector2 t = { 0.0f,0.0f };
-	if (node.lock()) // 获取锚定对象的对齐锚点全局坐标
+	if (node.expired()) // 获取锚定对象的对齐锚点全局坐标
 	{
-		t = node.lock()->get_obj()->get_anchor_position(anchor_referent_mode);
+		t = node.lock()->get_anchor_position(anchor_referent_mode);
 	}
 
 	Vector2 p = position;
