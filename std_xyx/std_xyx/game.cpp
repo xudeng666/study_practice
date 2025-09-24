@@ -61,15 +61,33 @@ void Game::exchange_scene(SceneType type)
 {
 	if (type == current_scene_type) return;
 	// 退出当前场景
-	auto old_scene = get_current_scene();
-	assert(old_scene && "当前场景不能为空");
-	old_scene->on_exit();
+	destroy_current_scene();
 
 	current_scene_type = type;
-
+	// 创建新场景
+	create_target_scene(); 
+	// 激活新场景
 	auto new_scene = get_current_scene();
-	assert(new_scene && "当前场景不能为空");
-	new_scene->on_enter();
+	if (new_scene) {
+		new_scene->on_enter();
+	}
+	else {
+		assert(false && "创建目标场景失败，scene_pool 中无对应场景");
+	}
+}
+
+void Game::destroy_current_scene()
+{
+	auto scene = get_current_scene();
+	if (!scene) {
+		return; // 无当前场景，无需销毁
+	}
+	scene->on_exit();
+	scene_pool.erase(current_scene_type);
+}
+
+void Game::create_target_scene()
+{
 }
 
 void Game::set_ID(const std::string& str)

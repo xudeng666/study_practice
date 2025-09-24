@@ -13,4 +13,5 @@ public:
 
 	void on_init() override;
 	void on_enter() override;
+	virtual void create_target_scene() override;
 };

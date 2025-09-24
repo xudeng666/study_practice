@@ -43,11 +43,14 @@ public:
 	virtual void set_ID(const std::string& str, const int num) override;
 	/*获取ID*/
 	virtual std::string get_ID() override;
-
 	/*获取当前场景*/
 	std::shared_ptr<Scene> get_current_scene();
 	/*场景切换*/
 	void exchange_scene(SceneType type);
+	/*清理当前场景*/
+	virtual void destroy_current_scene();
+	/*新建当前场景*/
+	virtual void create_target_scene();
 
 protected:
 	/*当前场景类型*/
