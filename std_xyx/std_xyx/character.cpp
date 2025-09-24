@@ -9,9 +9,9 @@ Character::~Character()
 
 void Character::on_init()
 {
-    auto node = TreeNode::create(std::make_unique<GameAni>("current_ani"));
+    auto node = TreeNode::create_obj<GameAni>("current_ani");
     current_ani = node;
-    self_node.lock()->add_children(std::move(node));
+    add_children(std::move(node));
 }
 
 void Character::on_enter()
@@ -83,7 +83,7 @@ int Character::get_hp() const
 
 void Character::set_animation(const Ani_Res& res)
 {
-    GameAni* ani = dynamic_cast<GameAni*>(current_ani.lock()->get_obj());
+    auto ani = current_ani.lock()->get_obj_as<GameAni>();
     ani->set_res_name(res);
 }
 

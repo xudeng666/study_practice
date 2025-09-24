@@ -121,10 +121,10 @@
       <Filter>源文件\manager</Filter>
     </ClCompile>
     <ClCompile Include="tree_mgr.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\manager</Filter>
     </ClCompile>
     <ClCompile Include="tree_node.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

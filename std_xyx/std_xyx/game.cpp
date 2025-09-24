@@ -3,6 +3,8 @@
 #include "game.h"
 #include "res_mgr.h"
 
+#include <assert.h>
+
 
 Game::Game(const std::string& id)
 {
@@ -17,14 +19,6 @@ Game::Game(const std::string& id, const int num)
 Game::~Game()
 {
 	scene_pool.clear();
-}
-
-template <typename T, typename... Args>
-std::shared_ptr<T> Game::create_scene(Args&&... args)
-{
-	std::shared_ptr<T> scene = std::make_shared<T>(std::forward<Args>(args)...);
-	scene->on_init();
-	return scene;
 }
 
 void Game::on_init()
@@ -67,11 +61,15 @@ void Game::exchange_scene(SceneType type)
 {
 	if (type == current_scene_type) return;
 	// 退出当前场景
-	get_current_scene()->on_exit();
+	auto old_scene = get_current_scene();
+	assert(old_scene && "当前场景不能为空");
+	old_scene->on_exit();
 
 	current_scene_type = type;
 
-	get_current_scene()->on_enter();
+	auto new_scene = get_current_scene();
+	assert(new_scene && "当前场景不能为空");
+	new_scene->on_enter();
 }
 
 void Game::set_ID(const std::string& str)

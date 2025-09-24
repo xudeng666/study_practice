@@ -31,11 +31,6 @@ public:
     virtual std::string get_ID() override;
     /*获取路径ID*/
     virtual std::string get_path_ID();
-
-    template <typename T> bool is_type()const
-    {
-        return typeid(*this) == typeid(T);
-    }
     /*id包含判定*/
     bool id_contains(const std::string& str);
     /*设置坐标*/

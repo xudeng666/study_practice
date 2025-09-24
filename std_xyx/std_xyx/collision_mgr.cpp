@@ -16,14 +16,14 @@ CollisionMgr* CollisionMgr::instance()
 
 TreeNode_SP CollisionMgr::creatCollisionBox(std::string id)
 {
-	auto node = TreeNode::create(std::make_unique<GameCollisionBox>(id));
+	auto node = TreeNode::create_obj<GameCollisionBox>(id);
 	box_list.push_back(node);
 	return node;
 }
 
 TreeNode_SP CollisionMgr::creatCollisionBox(std::string id, int num)
 {
-	auto node = TreeNode::create(std::make_unique<GameCollisionBox>(id, num));
+	auto node = TreeNode::create_obj<GameCollisionBox>(id, num);
 	box_list.push_back(node);
 	return node;
 }
@@ -72,8 +72,8 @@ void CollisionMgr::processCollide()
 
 bool CollisionMgr::is_collision(TreeNode_SP box_t, TreeNode_SP box_p)
 {
-	SDL_FRect rect_t = box_t->get_obj()->get_FRect();
-	SDL_FRect rect_p = box_p->get_obj()->get_FRect();
+	SDL_FRect rect_t = box_t->get_FRect();
+	SDL_FRect rect_p = box_p->get_FRect();
 	return SDL_HasIntersectionF(&rect_t, &rect_p);
 }
 
@@ -81,7 +81,7 @@ void CollisionMgr::onDebugRender()
 {
 	for (TreeNode_SP box : box_list)
 	{
-		box->get_obj()->on_render();
+		box->on_render();
 	}
 }
 

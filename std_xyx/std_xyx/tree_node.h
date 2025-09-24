@@ -13,10 +13,40 @@ typedef std::weak_ptr<GameObj> TreeNode_WP;        // 节点指针（弱）
 class TreeNode:public std::enable_shared_from_this<TreeNode>
 {
 public:
-
     template <typename T, typename... Args>
-    static std::shared_ptr<T> create_obj(Args&&... args);
+    static std::shared_ptr<T> create_obj(Args&&... args)
+    {
+        std::shared_ptr<T> node = std::make_shared<T>(std::forward<Args>(args)...);
+        node->on_init();
+        node->set_self_node(node);
+        return node;
+    }
+    //判断类型
+    template <typename T> bool is_type()const
+    {
+        return typeid(*this) == typeid(T);
+    }
 
+    //获取数据
+    template <typename T> T* get_obj_as()
+    {
+        if (this->is_type<T>())
+        {
+            return  static_cast<T*>(this);
+        }
+        return nullptr;
+    }
+    //获取数据
+    template <typename T> const T* get_obj_as() const
+    {
+        if (this->is_type<T>())
+        {
+            return  static_cast<T*>(this);
+        }
+        return nullptr;
+    }
+
+public:
     TreeNode() = default;
 	//析构
 	virtual ~TreeNode() = default;
@@ -26,16 +56,7 @@ public:
     // 允许移动
     TreeNode(TreeNode&&) = default;
     TreeNode& operator=(TreeNode&&) = default;
-    //获取数据
-   template <typename T>
-    T* get_obj_as() const
-    {
-        if (this->is_type<T>())
-        {
-            return  static_cast<T*>(this);
-        }
-        return nullptr;
-    }
+
     /*设置父节点*/
     void set_parent(TreeNode_SP p);
     /*获取父节点*/

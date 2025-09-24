@@ -15,8 +15,8 @@ GameMgr* GameMgr::instance()
 
 void GameMgr::init()
 {
-	game_pool[GameType::START] = create_game<GameStart>("GameStart");
-	game_pool[GameType::XCZ] = create_game<GameXcz>("GameXcz");
+	create_game<GameStart>(GameType::START, "GameStart");
+	create_game<GameXcz>(GameType::XCZ, "GameXcz");
 	/*game_pool[GameType::KDWS] = create_game<GameKdws>("GameKdws");
 	game_pool[GameType::DLD] = create_game<GameDld>("GameDld");
 	game_pool[GameType::ZMDJ] = create_game<GameZmdj>("GameZmdj");
@@ -30,6 +30,8 @@ void GameMgr::init()
 void GameMgr::deinit()
 {
 	game_pool.clear();
+	delete manager;
+	manager = nullptr;
 }
 
 std::shared_ptr<Game> GameMgr::get_current_game()

@@ -13,21 +13,19 @@
 
 void XczGameScene::on_init()
 {
-    auto bg_ptr = TreeNode::create(std::make_unique<GameImg>("bg"));
-    bg = bg_ptr;
-    auto bg_obj = bg_ptr->get_obj_as<GameImg>();
+    auto bg_obj = TreeNode::create_obj<GameImg>("bg");
+    bg = bg_obj;
     bg_obj->set_position(Vector2(0, 0));
     bg_obj->set_res_name("background");
     bg_obj->set_anchor_mode(AnchorMode::CENTER);
     bg_obj->set_anchor_referent_mode(AnchorMode::CENTER);
 
-    auto hp_bar_ptr = TreeNode::create(std::make_unique<GameBar>("hp_bar"));
-    hp_bar = hp_bar_ptr;
-    auto bar_obj = hp_bar_ptr->get_obj_as<GameBar>();
+    auto bar_obj = TreeNode::create_obj<GameBar>("hp_bar");
+    hp_bar = bar_obj;
     bar_obj->set_position(Vector2(-10, 10));
     bar_obj->set_anchor_mode(AnchorMode::TOPRIGHT);
     bar_obj->set_anchor_referent_mode(AnchorMode::TOPRIGHT);
-    bar_obj->get_img_bg()->get_obj()->set_display(false);
+    bar_obj->get_img_bg()->set_display(false);
     bar_obj->set_size({ 320,32 });
     bar_obj->set_max_value({ 320,32 });
     auto bar_pro = bar_obj->get_img_pro()->get_obj_as<GameImg>();
@@ -36,9 +34,8 @@ void XczGameScene::on_init()
     bar_pro->set_res_name("ui_heart");
     bar_pro->set_texture_map_type(TextureMapType::TILE);
 
-    auto lable_ptr = TreeNode::create(std::make_unique<GameLable>("score_lable"));
-    score_lable = lable_ptr;
-    auto lab_obj = lable_ptr->get_obj_as<GameLable>();
+    auto lab_obj = TreeNode::create_obj<GameLable>("score_lable");
+    score_lable = lab_obj;
     lab_obj->set_position(Vector2(0, 10));
     lab_obj->set_anchor_mode(AnchorMode::TOPCENTER);
     lab_obj->set_anchor_referent_mode(AnchorMode::TOPCENTER);
@@ -49,9 +46,8 @@ void XczGameScene::on_init()
     lab_obj->set_pos_shade({ -3,2 });
     lab_obj->set_size({ 200,32 });
 
-    auto exit_ptr = TreeNode::create(std::make_unique<GameBtn>("btn_exit"));
-    btn_exit = exit_ptr;
-    auto exit_obj = exit_ptr->get_obj_as<GameBtn>();
+    auto exit_obj = TreeNode::create_obj<GameBtn>("btn_exit");
+    btn_exit = exit_obj;
     exit_obj->set_position(Vector2(0, 0));
     exit_obj->set_res_name("ui_goback_");
     exit_obj->set_anchor_mode(AnchorMode::TOPLEFT);
@@ -62,9 +58,8 @@ void XczGameScene::on_init()
         }
     );
 
-    auto player_ptr = TreeNode::create(std::make_unique<Player_xcz>("player"));
-    player = player_ptr;
-    auto player_obj = player_ptr->get_obj_as<Player_xcz>();
+    auto player_obj = TreeNode::create_obj<Player_xcz>("player");
+    player = player_obj;
 
     player_obj->set_on_hurt_fun([&]() { // 被击中则扣掉的子弹数+1
         deduction_bul++;
@@ -75,12 +70,12 @@ void XczGameScene::on_init()
         Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hit"), 0);
         });
 
-    TreeMgr::instance()->get_bg_node()->add_children(std::move(bg_ptr));
-    TreeMgr::instance()->get_game_node()->add_children(std::move(player_ptr));
+    TreeMgr::instance()->get_bg_node()->add_children(std::move(bg_obj));
+    TreeMgr::instance()->get_game_node()->add_children(std::move(player_obj));
     auto ui = TreeMgr::instance()->get_ui_node();
-    ui->add_children(std::move(hp_bar_ptr));
-    ui->add_children(std::move(lable_ptr));
-    ui->add_children(std::move(exit_ptr));
+    ui->add_children(std::move(bar_obj));
+    ui->add_children(std::move(lab_obj));
+    ui->add_children(std::move(exit_obj));
 
     set_ID("XczGameScene");
 
@@ -140,7 +135,7 @@ void XczGameScene::on_exit()
     std::cout << "enemy_queue1  num:" << enemy_queue.size() << std::endl;
 
     TreeMgr::instance()->get_game_node()->remove_children_if([](const TreeNode_SP& child) {
-        return child->get_obj()->id_contains("enemy");
+        return child->id_contains("enemy");
         });
 
     Scene::on_exit();
@@ -231,8 +226,7 @@ void XczGameScene::on_update(float delta)
     CollisionMgr::instance()->processCollide();
     // 最后将怪物和玩家在对象树中按照y轴升序排序。
     entity->sort_children([](const TreeNode_SP& a, const TreeNode_SP& b) {
-        //return a->get_position().y < b->get_position().y;
-        return a->get_obj()->get_position().y < b->get_obj()->get_position().y;
+        return a->get_position().y < b->get_position().y;
         });
 
     // 更新分数
@@ -267,18 +261,17 @@ void XczGameScene::add_enemy()
         {
             auto enemy = std::move(enemy_queue.front());
             enemy_queue.pop();
-            enemy->get_obj()->on_enter();
+            enemy->on_enter();
             entity->add_children(std::move(enemy));
         }
         else
         {
             //没有就new一个
-            auto enemy_n = std::make_unique<Enemy_xcz>("enemy_", enemy_num);
+            auto enemy_n = TreeNode::create_obj<Enemy_xcz>("enemy_", enemy_num);
             enemy_n->set_hp(1);
             enemy_n->on_enter();
             enemy_num++;
-            auto enemy = TreeNode::create(std::move(enemy_n));
-            entity->add_children(std::move(enemy));
+            entity->add_children(std::move(enemy_n));
         }
         enemy_add--;
     }

@@ -4,7 +4,7 @@
 
 void GameStart::on_init()
 {
-	scene_pool[SceneType::MENU] = Game::create_scene<StartMenuScene>("StartMenuScene");
+	Game::create_scene<StartMenuScene>(SceneType::MENU, "StartMenuScene");
 }
 
 void GameStart::on_enter()

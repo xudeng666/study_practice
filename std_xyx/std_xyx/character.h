@@ -13,6 +13,8 @@ public:
     Character(const std::string& id) : GameObj(id) {}
     Character(const std::string& id, int num) : GameObj(id, num) {}
 
+    DEFINE_TYPE_NAME(Character);
+
     virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
@@ -78,3 +80,5 @@ protected:
     TreeNode_WP current_ani;                                // 当前角色动画
     std::unordered_map < std::string, Ani_Res > ani_pool;   // 角色动画池
 };
+
+INIT_TYPE_NAME(Character);

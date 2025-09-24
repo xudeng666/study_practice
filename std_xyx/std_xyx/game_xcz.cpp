@@ -6,8 +6,8 @@
 
 void GameXcz::on_init()
 {
-	scene_pool[SceneType::MENU] = std::make_shared<XczMenuScene>("XczMenuScene");
-	scene_pool[SceneType::GAME] = std::make_shared<XczGameScene>("XczGameScene");
+	Game::create_scene<XczMenuScene>(SceneType::MENU, "XczMenuScene");
+	Game::create_scene<XczGameScene>(SceneType::GAME, "XczGameScene");
 }
 
 void GameXcz::on_enter()

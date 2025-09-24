@@ -5,9 +5,8 @@
 
 void XczMenuScene::on_init()
 {
-    auto btn_start_ptr = TreeNode::create(std::make_unique<GameBtn>("btn_start"));
-    btn_start = btn_start_ptr;
-    auto btn_s = btn_start_ptr->get_obj_as<GameBtn>();
+    auto btn_s = TreeNode::create_obj<GameBtn>("btn_start");
+    btn_start = btn_s;
     btn_s->set_position(Vector2(0, 90));
     btn_s->set_res_name("ui_start_");
     btn_s->set_anchor_mode(AnchorMode::CENTER);
@@ -18,9 +17,8 @@ void XczMenuScene::on_init()
         }
     );
 
-    auto btn_end_ptr = TreeNode::create(std::make_unique<GameBtn>("btn_end"));
-    btn_end = btn_end_ptr;
-    auto btn_e = btn_end_ptr->get_obj_as<GameBtn>();
+    auto btn_e = TreeNode::create_obj<GameBtn>("btn_end");
+    btn_end = btn_e;
     btn_e->set_position(Vector2(0, 220));
     btn_e->set_res_name("ui_quit_");
     btn_e->set_anchor_mode(AnchorMode::CENTER);
@@ -30,18 +28,17 @@ void XczMenuScene::on_init()
         }
     );
 
-    auto bg_ptr = TreeNode::create(std::make_unique<GameImg>("bg"));
-    bg = bg_ptr;
-    auto bg_obj = bg_ptr->get_obj_as<GameImg>();
+    auto bg_obj = TreeNode::create_obj<GameImg>("bg");
+    bg = bg_obj;
     bg_obj->set_position(Vector2(0, 0));
     bg_obj->set_res_name("menu");
     bg_obj->set_anchor_mode(AnchorMode::CENTER);
     bg_obj->set_anchor_referent_mode(AnchorMode::CENTER);
 
-    TreeMgr::instance()->get_bg_node()->add_children(std::move(bg_ptr));
+    TreeMgr::instance()->get_bg_node()->add_children(std::move(bg_obj));
     TreeNode_SP ui = TreeMgr::instance()->get_ui_node();
-    ui->add_children(std::move(btn_start_ptr));
-    ui->add_children(std::move(btn_end_ptr));
+    ui->add_children(std::move(btn_s));
+    ui->add_children(std::move(btn_e));
 
     set_ID("XczMenuScene");
 }

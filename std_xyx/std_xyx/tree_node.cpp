@@ -3,15 +3,6 @@
 
 #include <assert.h>
 
-template <typename T, typename... Args>
-std::shared_ptr<T> TreeNode::create_obj(Args&&... args)
-{
-	std::shared_ptr<T> node = std::make_shared<T>(std::forward<Args>(args)...);
-	node->on_init();
-	node->set_self_node(node);
-	return node;
-}
-
 void TreeNode::set_parent(TreeNode_SP p)
 {
 	parent = p;

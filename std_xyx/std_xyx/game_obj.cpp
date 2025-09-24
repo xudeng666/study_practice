@@ -61,7 +61,7 @@ std::string GameObj::get_ID()
 
 std::string GameObj::get_path_ID()
 {
-	return parent.expired() ? parent.lock()->get_path_ID() + "/" + ID : ID;
+	return !parent.expired() ? parent.lock()->get_path_ID() + "/" + ID : ID;
 }
 
 bool GameObj::id_contains(const std::string& str)
@@ -111,7 +111,7 @@ void GameObj::set_rotation(double val)
 
 double GameObj::get_rotation()
 {
-	GameObj* p = get_anchor_referent();
+	auto p = get_anchor_referent();
 	double val = p ? p->get_rotation() : 0;
 	return val + angle;
 }
@@ -172,7 +172,7 @@ SDL_Rect GameObj::get_Rect()
 Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 {
 	Vector2 t = { 0.0f,0.0f };
-	GameObj* ref = get_anchor_referent();
+	auto ref = get_anchor_referent();
 	if (ref) // 获取锚定节点的对齐锚点全局坐标
 	{
 		t = ref->get_anchor_position(anchor_referent_mode);
@@ -192,7 +192,7 @@ Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 Vector2 GameObj::get_anchor_position(TreeNode_WP node, const AnchorMode mode)
 {
 	Vector2 t = { 0.0f,0.0f };
-	if (node.expired()) // 获取锚定对象的对齐锚点全局坐标
+	if (!node.expired()) // 获取锚定对象的对齐锚点全局坐标
 	{
 		t = node.lock()->get_anchor_position(anchor_referent_mode);
 	}

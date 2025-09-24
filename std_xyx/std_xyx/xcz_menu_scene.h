@@ -12,6 +12,8 @@ public:
     XczMenuScene(const std::string& id) : Scene(id) {}
     XczMenuScene(const std::string& id, int num) : Scene(id, num) {}
 
+    DEFINE_TYPE_NAME(XczMenuScene);
+
     virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
@@ -22,3 +24,4 @@ private:
     TreeNode_WP btn_end;
 };
 
+INIT_TYPE_NAME(XczMenuScene);

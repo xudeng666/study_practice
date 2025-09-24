@@ -11,6 +11,8 @@ public:
 	Scene(const std::string id, const int num);
 	virtual ~Scene() = default;
 
+	DEFINE_TYPE_NAME(Scene);
+
 	virtual void on_init() override;
 	virtual void on_enter() override;
 	virtual void on_exit() override;
@@ -22,3 +24,4 @@ public:
 	virtual std::string get_ID() override;
 };
 
+INIT_TYPE_NAME(Scene);

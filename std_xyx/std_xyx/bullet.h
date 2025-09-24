@@ -12,6 +12,8 @@ public:
     Bullet(const std::string& id) : GameObj(id) {}
     Bullet(const std::string& id, int num) : GameObj(id, num) {}
 
+    DEFINE_TYPE_NAME(Bullet);
+
     void set_velocity(const Vector2& vel);
     const Vector2& get_velocity() const;
     /*获取移动速度*/
@@ -39,3 +41,4 @@ protected:
     bool can_remove = false;                // 子弹是否可以被移除
 };
 
+INIT_TYPE_NAME(Bullet);

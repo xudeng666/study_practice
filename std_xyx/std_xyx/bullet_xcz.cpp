@@ -6,15 +6,14 @@ void BulletXcz::on_init()
 	set_anchor_referent_mode(AnchorMode::CENTER);
 	set_damage(1);
 
-	auto img_ptr = std::make_unique<GameImg>("img");
+	auto img_ptr = TreeNode::create_obj<GameImg>("img");
 	img_ptr->set_position(Vector2(0, 0));
 	img_ptr->set_res_name("sword");
 	img_ptr->set_texture_map_type(TextureMapType::AUTO);
 	img_ptr->set_anchor_mode(AnchorMode::CENTER);
 	img_ptr->set_anchor_referent_mode(AnchorMode::CENTER);
-	auto img_p = TreeNode::create(std::move(img_ptr));
-	img = img_p;
-	self_node.lock()->add_children(std::move(img_p));
+	img = img_ptr;
+	add_children(std::move(img_ptr));
 
 	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_position(Vector2(0, 0));
@@ -40,13 +39,13 @@ void BulletXcz::on_enter()
 	img_obj->set_center({p.x, p.y});
 
 	set_display(true);
-	auto* hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
+	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_collision_enabled(true);
 }
 void BulletXcz::on_exit()
 {
 	set_display(false);
-	auto* hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
+	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_collision_enabled(false);
 	Bullet::on_exit();
 }

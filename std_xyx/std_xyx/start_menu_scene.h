@@ -13,6 +13,8 @@ public:
     StartMenuScene(const std::string& id) : Scene(id) {}
     StartMenuScene(const std::string& id, int num) : Scene(id, num) {}
 
+    DEFINE_TYPE_NAME(StartMenuScene);
+
     virtual void on_init() override;
 
 private:
@@ -25,3 +27,4 @@ private:
     TreeNode_WP btn_exit;
 };
 
+INIT_TYPE_NAME(StartMenuScene);

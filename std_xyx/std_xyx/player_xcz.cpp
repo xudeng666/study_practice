@@ -178,19 +178,18 @@ void Player_xcz::add_bullet(const int num)
 		bul_num++;
 		if (bul_num > bullet_list.size())
 		{
-			TreeNode_SP bul_ptr = TreeNode::create(std::make_unique<BulletXcz>("bul_", bul_num - 1));
-			auto p = bul_ptr->get_obj_as<BulletXcz>();
+			auto p = TreeNode::create_obj<BulletXcz>("bul_", bul_num - 1);
 			p->set_anchor_referent_node(current_ani);
 			p->on_enter();
 			p->set_on_hit_fun([&]() {
 				on_hit();
 				});
-			self_node.lock()->add_children(std::move(bul_ptr));
-			bullet_list.push_back(bul_ptr);
+			add_children(std::move(p));
+			bullet_list.push_back(p);
 		}
 		else
 		{
-			auto p = bullet_list[bul_num - 1].lock()->get_obj();
+			auto p = bullet_list[bul_num - 1].lock();
 			p->on_enter();
 		}
 	}
@@ -204,7 +203,7 @@ void Player_xcz::reduce_bullet(const int num)
 		auto p = bullet_list[bul_num].lock();
 		if (p)
 		{
-			p->get_obj()->on_exit();
+			p->on_exit();
 		}
 	}
 }
@@ -231,8 +230,8 @@ void Player_xcz::move_bullet(float delta)
 		auto p = bullet_list[i].lock();
 		if (p)
 		{
-			p->get_obj()->set_position({(float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius)});
-			p->get_obj()->set_rotation(90 - dre);
+			p->set_position({(float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius)});
+			p->set_rotation(90 - dre);
 		}
 	}
 }

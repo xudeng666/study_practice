@@ -17,6 +17,8 @@ public:
     XczGameScene(const std::string& id) : Scene(id) {}
     XczGameScene(const std::string& id, int num) : Scene(id, num) {}
 
+    DEFINE_TYPE_NAME(XczGameScene);
+
     virtual void on_init() override;
     virtual void on_enter() override;
     virtual void on_exit() override;
@@ -58,3 +60,4 @@ private:
     std::queue<TreeNode_SP> enemy_queue;
 };
 
+INIT_TYPE_NAME(XczGameScene);

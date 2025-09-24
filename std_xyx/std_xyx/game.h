@@ -17,7 +17,13 @@ public:
 	virtual ~Game() override;
 
 	template <typename T, typename... Args>
-	static std::shared_ptr<T> create_scene(Args&&... args);
+	static std::shared_ptr<T> create_scene(SceneType type, Args&&... args)
+	{
+		std::shared_ptr<T> scene = std::make_shared<T>(std::forward<Args>(args)...);
+		scene->on_init();
+		scene_pool[type] = scene;
+		return scene;
+	}
 
 	DEFINE_TYPE_NAME(Game);
 

@@ -4,22 +4,21 @@
 
 void GameBar::on_init()
 {
-	auto bg = TreeNode::create(std::make_unique<GameImg>("img_bg"));
-	bg->get_obj()->set_position(Vector2(0, 0));
-	bg->get_obj()->set_anchor_mode(AnchorMode::LEFTCENTER);
-	bg->get_obj()->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
+	auto bg = TreeNode::create_obj<GameImg>("img_bg");
+	bg->set_position(Vector2(0, 0));
+	bg->set_anchor_mode(AnchorMode::LEFTCENTER);
+	bg->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
 
-	auto pro = TreeNode::create(std::make_unique<GameImg>("img_pro"));
-	pro->get_obj()->set_position(Vector2(0, 0));
-	pro->get_obj()->set_anchor_mode(AnchorMode::LEFTCENTER);
-	pro->get_obj()->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
+	auto pro = TreeNode::create_obj<GameImg>("img_pro");
+	pro->set_position(Vector2(0, 0));
+	pro->set_anchor_mode(AnchorMode::LEFTCENTER);
+	pro->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
 
 	img_bg = bg;
 	img_pro = pro;
 
-	auto self = self_node.lock();
-	self->add_children(std::move(bg));
-	self->add_children(std::move(pro));
+	add_children(std::move(bg));
+	add_children(std::move(pro));
 }
 
 void GameBar::on_enter()
@@ -39,8 +38,8 @@ void GameBar::on_render()
 
 void GameBar::set_size(const SDL_Point& size)
 {
-	img_bg.lock()->get_obj()->set_size(size);
-	img_pro.lock()->get_obj()->set_size(size);
+	img_bg.lock()->set_size(size);
+	img_pro.lock()->set_size(size);
 	this->size = size;
 }
 
@@ -62,7 +61,7 @@ void GameBar::set_percent_num(float num)
 
 	assert(pro && "此处不能为假！");
 
-	SDL_Point s = pro->get_obj()->get_size();
+	SDL_Point s = pro->get_size();
 	if (is_horizontal)
 	{
 		s.x = int(percent_num * max_value.x);
@@ -71,7 +70,7 @@ void GameBar::set_percent_num(float num)
 	{
 		s.y = int(percent_num * max_value.y);
 	}
-	pro->get_obj()->set_size(s);
+	pro->set_size(s);
 }
 
 void GameBar::set_max_value(const SDL_Point& value)

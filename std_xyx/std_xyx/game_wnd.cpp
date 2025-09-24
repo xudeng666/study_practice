@@ -72,4 +72,7 @@ GameWnd::~GameWnd()
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     delete camera;
+    camera = nullptr;
+    delete game_wnd;
+    game_wnd = nullptr;
 }
