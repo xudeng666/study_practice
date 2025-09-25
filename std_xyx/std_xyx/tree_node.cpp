@@ -23,10 +23,24 @@ TreeNode_SP TreeNode::get_self_node()
 	return self_node.lock();
 }
 
+void TreeNode::set_node_type(NodeType type)
+{
+	node_type = type;
+}
+
+NodeType TreeNode::get_node_type()
+{
+	return node_type;
+}
+
 TreeNode_SP TreeNode::remove_children(TreeNode_SP node)
 {
 	auto it = find_child_iterator(node);
-	if (it == children.end()) return nullptr;
+	if (it == children.end())
+	{
+		assert(false && "尝试删除不存在的子节点");
+		return nullptr;
+	}
 	TreeNode_SP removedObj = std::move(*it);
 	children.erase(it);
 	removedObj->parent.reset();
@@ -36,7 +50,11 @@ TreeNode_SP TreeNode::remove_children(TreeNode_SP node)
 TreeNode_SP TreeNode::remove_children(const std::function<bool(const TreeNode_SP&)>& func)
 {
 	auto it = find_child_iterator(func);
-	if (it == children.end()) return nullptr;
+	if (it == children.end())
+	{
+		assert(false && "尝试删除不存在的子节点");
+		return nullptr;
+	}
 	TreeNode_SP removedObj = std::move(*it);
 	children.erase(it);
 	removedObj->parent.reset();
@@ -49,6 +67,7 @@ void TreeNode::delete_children(TreeNode_SP node)
 	if (it != children.end())
 	{
 		(*it)->parent.reset();
+		(*it)->children.clear();
 		children.erase(it);
 	}
 }
@@ -59,6 +78,7 @@ void TreeNode::delete_children(const std::function<bool(const TreeNode_SP&)>& fu
 	if (it != children.end())
 	{
 		(*it)->parent.reset();
+		(*it)->children.clear();
 		children.erase(it);
 	}
 }
@@ -146,4 +166,14 @@ TreeNode::ChildIt TreeNode::find_child_iterator(const std::function<bool(const T
 		[&func](const TreeNode_SP& child) {
 			return func(child);
 		});
+}
+
+void TreeNode::self_delete()
+{
+	// children.clear();
+
+	auto p = parent.lock();
+	if (p) {
+		p->delete_children(self_node.lock());
+	}
 }

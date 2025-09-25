@@ -48,7 +48,7 @@ void Game::on_render()
 
 void Game::on_exit()
 {
-	get_current_scene()->on_exit();
+	destroy_current_scene();
 	ResMgr::instance()->releaseAll();
 }
 
@@ -88,6 +88,7 @@ void Game::destroy_current_scene()
 
 void Game::create_target_scene()
 {
+	// 由子类重写，基类不做约束
 }
 
 void Game::set_ID(const std::string& str)

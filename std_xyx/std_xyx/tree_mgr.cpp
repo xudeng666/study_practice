@@ -17,11 +17,7 @@ TreeMgr* TreeMgr::instance()
 
 TreeMgr::TreeMgr()
 {
-	root_node = TreeNode::create_obj<GameObj>("root");
-	root_node->set_position(Vector2(0, 0));
-	root_node->set_size({ _WIN_W_,_WIN_H_ });
-	root_node->set_anchor_mode(AnchorMode::TOPLEFT);
-	root_node->set_anchor_referent_mode(AnchorMode::TOPLEFT);
+	root_node = create_root_node("root");
 
 	TreeNode_SP bg_n = create_layer_node("bg");
 	TreeNode_SP game_n = create_layer_node("game");
@@ -31,9 +27,9 @@ TreeMgr::TreeMgr()
 	game_node = game_n;
 	ui_node = ui_n;
 
-	root_node->add_children(bg_n);
-	root_node->add_children(game_n);
-	root_node->add_children(ui_n);
+	root_node->add_children(std::move(bg_n));
+	root_node->add_children(std::move(game_n));
+	root_node->add_children(std::move(ui_n));
 }
 
 TreeMgr::~TreeMgr()
@@ -76,22 +72,51 @@ TreeNode_SP TreeMgr::get_ui_node()
 {
 	return ui_node.lock();
 }
-
+/*创建层级节点*/
 TreeNode_SP TreeMgr::create_layer_node(const std::string& id)
 {
-	auto node = TreeNode::create_obj<GameObj>(id);
+	auto node = TreeNode::create_obj<GameObj>(NodeType::LAYER, id);
 	node->set_position(Vector2(0, 0));
 	node->set_size({ _WIN_W_, _WIN_H_ });
 	node->set_anchor_mode(AnchorMode::CENTER);
 	node->set_anchor_referent_mode(AnchorMode::CENTER);
 	return node;
 }
+/*创建根节点*/
+TreeNode_SP TreeMgr::create_root_node(const std::string& id)
+{
+	auto node = TreeNode::create_obj<GameObj>(NodeType::ROOT, id);
+	node->set_position(Vector2(0, 0));
+	node->set_size({ _WIN_W_, _WIN_H_ });
+	node->set_anchor_mode(AnchorMode::TOPLEFT);
+	node->set_anchor_referent_mode(AnchorMode::TOPLEFT);
+	return node;
+}
+// 释放所有节点
+void TreeMgr::release_all()
+{
+	root_node.reset();
+}
+// 释放所有游戏类节点
+void TreeMgr::release_all_game()
+{
+	if (!root_node) return;
 
-void TreeMgr::pre_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback)
+	TreeNode_SP root_t = TreeNode::create_obj<GameObj>("temp");
+	level_order_traversal(root_node, [&](TreeNode_SP node) {
+		if (node->get_node_type() == NodeType::GAMENODE)
+		{
+			//root_t->add_children(node);
+			node->self_delete();
+		}
+		}, false);
+}
+
+void TreeMgr::pre_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display = true)
 {
 	if (!current_node) return;
 
-	if (!current_node->get_display()) return;
+	if (check_display && !current_node->get_display()) return;
 
 	if (callback)
 	{
@@ -99,18 +124,18 @@ void TreeMgr::pre_order_traversal(TreeNode_SP current_node, const std::function<
 	}
 
 	current_node->for_each_child([&](TreeNode_SP node) {
-		pre_order_traversal(node, callback);
+		pre_order_traversal(node, callback, check_display);
 		});
 }
 
-void TreeMgr::post_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback)
+void TreeMgr::post_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display = true)
 {
 	if (!current_node) return;
 
-	if (!current_node->get_display()) return;
+	if (check_display && !current_node->get_display()) return;
 
 	current_node->for_each_child([&](TreeNode_SP node) {
-		post_order_traversal(node, callback);
+		post_order_traversal(node, callback, check_display);
 		});
 
 	if (callback)
@@ -119,11 +144,11 @@ void TreeMgr::post_order_traversal(TreeNode_SP current_node, const std::function
 	}
 }
 
-void TreeMgr::level_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback)
+void TreeMgr::level_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display = true)
 {
 	if (!current_node) return;
 
-	if (!current_node->get_display()) return;
+	if (check_display && !current_node->get_display()) return;
 
 	std::queue<TreeNode_SP> q;
 
@@ -141,7 +166,7 @@ void TreeMgr::level_order_traversal(TreeNode_SP current_node, const std::functio
 				callback(p);
 			}
 			p->for_each_child([&](TreeNode_SP node) {
-				if (node->get_display())
+				if (!check_display || node->get_display())
 				{
 					q.push(node);
 				}

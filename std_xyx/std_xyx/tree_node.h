@@ -13,14 +13,28 @@ typedef std::weak_ptr<GameObj> TreeNode_WP;        // 节点指针（弱）
 class TreeNode:public std::enable_shared_from_this<TreeNode>
 {
 public:
+    /*创建节点(默认创建游戏对象节点)*/
     template <typename T, typename... Args>
     static std::shared_ptr<T> create_obj(Args&&... args)
     {
         std::shared_ptr<T> node = std::make_shared<T>(std::forward<Args>(args)...);
+        node->set_node_type(NodeType::GAMENODE);
         node->on_init();
         node->set_self_node(node);
         return node;
     }
+
+    /*创建指定类型节点*/
+    template <typename T, typename... Args>
+    static std::shared_ptr<T> create_obj(NodeType type, Args&&... args)
+    {
+        std::shared_ptr<T> node = std::make_shared<T>(std::forward<Args>(args)...);
+        node->set_node_type(type);
+        node->on_init();
+        node->set_self_node(node);
+        return node;
+    }
+
     //判断类型
     template <typename T> bool is_type()const
     {
@@ -65,6 +79,10 @@ public:
     void set_self_node(TreeNode_SP self);
     /*获取自身点*/
     TreeNode_SP get_self_node();
+    /*设置节点类型*/
+    void set_node_type(NodeType type);
+    /*设置节点类型*/
+    NodeType get_node_type();
     /*移除(不删除)子节点*/
     TreeNode_SP remove_children(TreeNode_SP node);
     /*移除(不删除)条件子节点*/
@@ -109,6 +127,10 @@ public:
     /// <param name="func">条件函数 bool</param>
     /// <returns>TreeNode_SP</returns>
     TreeNode_SP find_child(const std::function<bool(const TreeNode_SP&)>& func);
+    /// <summary>
+    /// 删除本节点
+    /// </summary>
+    void self_delete();
 protected:
     using ChildIt = std::list<TreeNode_SP>::iterator;
     /// <summary>
@@ -128,4 +150,5 @@ protected:
     TreeNode_WP parent;
     TreeNode_WP self_node;
 	std::list<TreeNode_SP> children;
+    NodeType node_type;
 };

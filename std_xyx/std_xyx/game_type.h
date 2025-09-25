@@ -82,3 +82,11 @@ enum class CollisionLayer
 	PLAYER_2,	// 玩家2
 	ENEMY,		// 敌人（怪）
 };
+
+/*对象节点类型*/
+enum class NodeType
+{
+	ROOT,       // 根节点
+	LAYER,		// 层级节点（背景/游戏/UI）
+	GAMENODE    // 游戏对象节点
+};

@@ -128,15 +128,13 @@ void XczGameScene::on_exit()
         std::cout << "XczGameScene::on_exit" << std::endl;
     }
 
-    std::cout << "enemy_queue  num:" << enemy_queue.size() << std::endl;
     // 清理怪物池中的怪物
-    std::queue<TreeNode_SP> empty_queue;
-    std::swap(enemy_queue, empty_queue);
-    std::cout << "enemy_queue1  num:" << enemy_queue.size() << std::endl;
+    std::cout << "enemy_queue  num:" << enemy_queue.size() << std::endl;
+    std::queue<TreeNode_SP> temp;
+    enemy_queue.swap(temp);
 
-    TreeMgr::instance()->get_game_node()->remove_children_if([](const TreeNode_SP& child) {
-        return child->id_contains("enemy");
-        });
+    // 清空渲染树
+
 
     Scene::on_exit();
 }

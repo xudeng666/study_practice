@@ -26,6 +26,11 @@ void GameMgr::init()
 
 void GameMgr::deinit()
 {
+	auto last_game = get_current_game();
+	if (last_game) {
+		last_game->on_exit();
+		game_pool.erase(current_type);
+	}
 	game_pool.clear();
 	delete manager;
 	manager = nullptr;
