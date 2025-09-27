@@ -2,6 +2,8 @@
 
 #include <assert.h>
 
+INIT_TYPE_NAME(GameBar);
+
 void GameBar::on_init()
 {
 	auto bg = TreeNode::create_obj<GameImg>("img_bg");

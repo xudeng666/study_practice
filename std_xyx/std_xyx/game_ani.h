@@ -65,5 +65,3 @@ private:
 	// 资源数量
 	int res_num = 0;
 };
-
-INIT_TYPE_NAME(GameAni);

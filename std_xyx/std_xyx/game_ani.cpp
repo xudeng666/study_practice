@@ -1,6 +1,7 @@
 #include "game_ani.h"
 #include "res_mgr.h"
 
+INIT_TYPE_NAME(GameAni);
 
 void GameAni::on_init()
 {

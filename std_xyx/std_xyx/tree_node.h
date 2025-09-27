@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game_type.h"
+
 #include <memory>
 #include <list>
 #include <string>
@@ -127,6 +129,12 @@ public:
     /// <param name="func">条件函数 bool</param>
     /// <returns>TreeNode_SP</returns>
     TreeNode_SP find_child(const std::function<bool(const TreeNode_SP&)>& func);
+    /// <summary>
+    /// 取出子列表成员
+    /// </summary>
+    /// <param name="is_front">默认从表头取出</param>
+    /// <returns>TreeNode_SP</returns>
+    TreeNode_SP take_out_of_children(bool is_front = true);
     /// <summary>
     /// 删除本节点
     /// </summary>

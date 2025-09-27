@@ -29,5 +29,3 @@ private:
 	ButtonState status = ButtonState::NORMAL;
 	std::function<void()> on_click = nullptr;
 };
-
-INIT_TYPE_NAME(GameBtn);

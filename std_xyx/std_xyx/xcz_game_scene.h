@@ -5,8 +5,6 @@
 
 #include "timer.h"
 
-#include <queue>
-
 class XczGameScene :
     public Scene
 {
@@ -38,6 +36,8 @@ private:
     TreeNode_WP score_lable;
     // 主角
     TreeNode_WP player;
+    // 怪物池节点-（存放死亡怪物）
+    TreeNode_SP enemy_pool;
     // 敌人总数
     int enemy_num = 0;
     // 本帧要添加的敌人总数
@@ -56,8 +56,4 @@ private:
     Timer timer_enemy_produce_slow;
     // 怪物生成计时器
     Timer timer_enemy_produce;
-    // 怪物池-（存放死亡怪物）
-    std::queue<TreeNode_SP> enemy_queue;
 };
-
-INIT_TYPE_NAME(XczGameScene);

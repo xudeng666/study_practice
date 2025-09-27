@@ -25,5 +25,3 @@ public:
 protected:
     Vector2 pos_player;
 };
-
-INIT_TYPE_NAME(Enemy_xcz);

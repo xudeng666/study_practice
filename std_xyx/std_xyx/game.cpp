@@ -5,6 +5,7 @@
 
 #include <assert.h>
 
+INIT_TYPE_NAME(Game);
 
 Game::Game(const std::string& id)
 {
@@ -21,13 +22,10 @@ Game::~Game()
 	scene_pool.clear();
 }
 
-void Game::on_init()
-{
-}
-
 void Game::on_enter()
 {
 	ResMgr::instance()->load();
+	create_target_scene();
 	get_current_scene()->on_enter();
 }
 

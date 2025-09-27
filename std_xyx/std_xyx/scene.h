@@ -13,7 +13,7 @@ public:
 
 	DEFINE_TYPE_NAME(Scene);
 
-	virtual void on_init() override;
+	virtual void on_init() = 0;
 	virtual void on_enter() override;
 	virtual void on_exit() override;
 	virtual void on_input(const SDL_Event& event) override;
@@ -23,5 +23,3 @@ public:
 	virtual void set_ID(const std::string& str, const int num) override;
 	virtual std::string get_ID() override;
 };
-
-INIT_TYPE_NAME(Scene);

@@ -1,6 +1,8 @@
 #include "player_xcz.h"
 
 
+INIT_TYPE_NAME(Player_xcz);
+
 Player_xcz::~Player_xcz()
 {
 	bullet_list.clear();

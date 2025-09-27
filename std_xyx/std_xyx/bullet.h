@@ -40,5 +40,3 @@ protected:
     bool valid = true;                      // 子弹是否有效
     bool can_remove = false;                // 子弹是否可以被移除
 };
-
-INIT_TYPE_NAME(Bullet);

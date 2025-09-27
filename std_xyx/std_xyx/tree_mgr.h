@@ -36,27 +36,27 @@ public:
 	/// 前序遍历（深度优先）
 	/// 先父后子
 	/// </summary>
-	/// <param name="current_node">遍历起始节点</param>
 	/// <param name="callback">回调函数</param>
+	/// <param name="current_node">遍历起始节点 默认根节点</param>
 	/// <param name="check_display">是否计入隐藏 true/false 是/否</param>
-	void pre_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display);
+	void pre_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node = nullptr, bool check_display = true);
 	/// <summary>
 	/// 后序遍历（深度优先）
 	/// 先子后父
 	/// </summary>
-	/// <param name="current_node">遍历起始节点</param>
 	/// <param name="callback">回调函数</param>
+	/// <param name="current_node">遍历起始节点 默认根节点</param>
 	/// <param name="check_display">是否计入隐藏 true/false 是/否</param>
-	void post_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display);
+	void post_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node = nullptr, bool check_display = true);
 
 	/// <summary>
 	/// 层序遍历（广度优先）
 	/// 按层次顺序
 	/// </summary>
-	/// <param name="current_node">遍历起始节点</param>
 	/// <param name="callback">回调函数</param>
+	/// <param name="current_node">遍历起始节点 默认根节点</param>
 	/// <param name="check_display">是否计入隐藏 true/false 是/否</param>
-	void level_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display);
+	void level_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node = nullptr, bool check_display = true);
 private:
 	TreeMgr();
 	~TreeMgr();

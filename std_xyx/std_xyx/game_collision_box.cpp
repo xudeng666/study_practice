@@ -2,6 +2,8 @@
 //#include "game_wnd.h"
 
 
+INIT_TYPE_NAME(GameCollisionBox);
+
 void GameCollisionBox::on_update(float delta)
 {
 	if (!collision_enabled)

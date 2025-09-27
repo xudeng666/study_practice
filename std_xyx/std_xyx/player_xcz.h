@@ -52,5 +52,3 @@ private:
     // 子弹角速度(度/秒)
     float angle_speed = 90;
 };
-
-INIT_TYPE_NAME(Player_xcz);

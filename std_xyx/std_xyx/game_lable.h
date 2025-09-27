@@ -57,5 +57,3 @@ protected:
 	// ÎÄ±¾Ãªµã
 	AnchorMode lable_anchor_mode = AnchorMode::TOPLEFT;
 };
-
-INIT_TYPE_NAME(GameLable);

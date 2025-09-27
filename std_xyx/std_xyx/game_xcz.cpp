@@ -14,7 +14,6 @@ void GameXcz::on_enter()
 {
 	GameWnd::instance()->set_title(u8"提瓦特幸存者");
 	current_scene_type = SceneType::MENU;
-	create_target_scene();
 	Game::on_enter();
 	Mix_PlayMusic(ResMgr::instance()->find_music("music_bgm"), -1);
 }
@@ -24,10 +23,10 @@ void GameXcz::create_target_scene()
 	switch (current_scene_type)
 	{
 	case SceneType::MENU:
-		Game::create_scene<XczMenuScene>(current_scene_type, "XczMenuScene");
+		create_scene<XczMenuScene>(SceneType::MENU, "XczMenuScene");
 		break;
 	case SceneType::GAME:
-		Game::create_scene<XczGameScene>(current_scene_type, "XczGameScene");
+		create_scene<XczGameScene>(SceneType::GAME, "XczGameScene");
 		break;
 	default:
 		assert(false && "未知的 SceneType，无法创建场景");

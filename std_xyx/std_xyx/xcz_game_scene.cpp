@@ -10,6 +10,9 @@
 #include "game_lable.h"
 #include "enemy_xcz.h"
 
+#include <assert.h>
+
+INIT_TYPE_NAME(XczGameScene);
 
 void XczGameScene::on_init()
 {
@@ -129,9 +132,8 @@ void XczGameScene::on_exit()
     }
 
     // 清理怪物池中的怪物
-    std::cout << "enemy_queue  num:" << enemy_queue.size() << std::endl;
-    std::queue<TreeNode_SP> temp;
-    enemy_queue.swap(temp);
+    //std::cout << "enemy_pool  num:" << enemy_pool.size() << std::endl;
+    enemy_pool.reset();
 
     // 清空渲染树
 
@@ -218,7 +220,7 @@ void XczGameScene::on_update(float delta)
     for (TreeNode_WP& node : t_list)
     {
         //std::cout << "delete:  " << obj->get_ID() << std::endl;
-        enemy_queue.push(std::move(entity->remove_children(node.lock())));
+        enemy_pool->add_children(entity->remove_children(node.lock()));
     }
     // 碰撞检测
     CollisionMgr::instance()->processCollide();
@@ -255,10 +257,13 @@ void XczGameScene::add_enemy()
     while (enemy_add > 0)
     {
         // 如果怪物池有，就直接取出
-        if (!enemy_queue.empty())
+        if (enemy_pool->get_children_size() > 0)
         {
-            auto enemy = std::move(enemy_queue.front());
-            enemy_queue.pop();
+            auto enemy = enemy_pool->take_out_of_children();
+            if (!enemy)
+            {
+                assert(false && "未知原因怪物池获取错误");
+            }
             enemy->on_enter();
             entity->add_children(std::move(enemy));
         }
@@ -266,7 +271,6 @@ void XczGameScene::add_enemy()
         {
             //没有就new一个
             auto enemy_n = TreeNode::create_obj<Enemy_xcz>("enemy_", enemy_num);
-            enemy_n->set_hp(1);
             enemy_n->on_enter();
             enemy_num++;
             entity->add_children(std::move(enemy_n));

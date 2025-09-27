@@ -129,5 +129,3 @@ protected:
     /*锚定对象节点*/
     TreeNode_WP anchor_referent_node;
 };
-
-INIT_TYPE_NAME(GameObj);

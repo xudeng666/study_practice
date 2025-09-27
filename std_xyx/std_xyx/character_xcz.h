@@ -70,5 +70,3 @@ protected:
     // ÒÆ¶¯ËÙ¶È(ÏñËØ/Ãë)
     float speed = 50;
 };
-
-INIT_TYPE_NAME(CharacterXcz);

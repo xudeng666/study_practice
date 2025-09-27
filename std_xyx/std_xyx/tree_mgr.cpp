@@ -40,16 +40,12 @@ TreeMgr::~TreeMgr()
 TreeNode_SP TreeMgr::find_obj(std::string id, TreeNode_SP start_node)
 {
 	TreeNode_SP result = nullptr;
-	if (!start_node)
-	{
-		start_node = root_node;
-	}
-	pre_order_traversal(start_node, [&](TreeNode_SP node) {
+	pre_order_traversal([&](TreeNode_SP node) {
 		if (node->get_ID() == id)
 		{
 			result = node;
 		}
-		});
+		}, start_node);
 	return result;
 }
 
@@ -103,18 +99,21 @@ void TreeMgr::release_all_game()
 	if (!root_node) return;
 
 	TreeNode_SP root_t = TreeNode::create_obj<GameObj>("temp");
-	level_order_traversal(root_node, [&](TreeNode_SP node) {
+	level_order_traversal([&](TreeNode_SP node) {
 		if (node->get_node_type() == NodeType::GAMENODE)
 		{
-			//root_t->add_children(node);
-			node->self_delete();
+			root_t->add_children(node);
+			//node->self_delete();
 		}
-		}, false);
+		}, root_node, false);
 }
 
-void TreeMgr::pre_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display = true)
+void TreeMgr::pre_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node, bool check_display)
 {
-	if (!current_node) return;
+	if (!current_node)
+	{
+		current_node = root_node;
+	}
 
 	if (check_display && !current_node->get_display()) return;
 
@@ -124,18 +123,21 @@ void TreeMgr::pre_order_traversal(TreeNode_SP current_node, const std::function<
 	}
 
 	current_node->for_each_child([&](TreeNode_SP node) {
-		pre_order_traversal(node, callback, check_display);
+		pre_order_traversal(callback, node, check_display);
 		});
 }
 
-void TreeMgr::post_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display = true)
+void TreeMgr::post_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node, bool check_display)
 {
-	if (!current_node) return;
+	if (!current_node)
+	{
+		current_node = root_node;
+	}
 
 	if (check_display && !current_node->get_display()) return;
 
 	current_node->for_each_child([&](TreeNode_SP node) {
-		post_order_traversal(node, callback, check_display);
+		post_order_traversal(callback, node, check_display);
 		});
 
 	if (callback)
@@ -144,9 +146,12 @@ void TreeMgr::post_order_traversal(TreeNode_SP current_node, const std::function
 	}
 }
 
-void TreeMgr::level_order_traversal(TreeNode_SP current_node, const std::function<void(TreeNode_SP)>& callback, bool check_display = true)
+void TreeMgr::level_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node, bool check_display)
 {
-	if (!current_node) return;
+	if (!current_node)
+	{
+		current_node = root_node;
+	}
 
 	if (check_display && !current_node->get_display()) return;
 

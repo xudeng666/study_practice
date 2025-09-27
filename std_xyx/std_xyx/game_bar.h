@@ -49,5 +49,3 @@ protected:
 	// 进度条方向
 	bool is_horizontal = true;
 };
-
-INIT_TYPE_NAME(GameBar);

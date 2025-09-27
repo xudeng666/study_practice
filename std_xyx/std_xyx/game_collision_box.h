@@ -11,6 +11,7 @@ class GameCollisionBox :
 public:
 	GameCollisionBox(const std::string& id) : GameObj(id) {}
 	GameCollisionBox(const std::string& id, int num) : GameObj(id, num) {}
+	virtual ~GameCollisionBox() = default;
 
 	void on_update(float delta) override;
 	void on_render() override;
@@ -28,7 +29,6 @@ public:
 
 private:
 	GameCollisionBox() = default;
-	virtual ~GameCollisionBox() = default;
 
 private:
 	// ÊÇ·ñÆôÓÃÅö×²¼ì²â
@@ -40,5 +40,3 @@ private:
 	// Ä¿±êÅö×²²ã
 	CollisionLayer layer_dst = CollisionLayer::NONE;
 };
-
-INIT_TYPE_NAME(GameCollisionBox);

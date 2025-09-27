@@ -23,5 +23,3 @@ private:
     TreeNode_WP btn_start;
     TreeNode_WP btn_end;
 };
-
-INIT_TYPE_NAME(XczMenuScene);

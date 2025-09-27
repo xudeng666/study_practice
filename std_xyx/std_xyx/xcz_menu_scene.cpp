@@ -3,6 +3,8 @@
 #include "tree_mgr.h"
 
 
+INIT_TYPE_NAME(XczMenuScene);
+
 void XczMenuScene::on_init()
 {
     auto btn_s = TreeNode::create_obj<GameBtn>("btn_start");

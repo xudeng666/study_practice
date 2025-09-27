@@ -2,6 +2,8 @@
 #include "res_mgr.h"
 
 
+INIT_TYPE_NAME(GameBtn);
+
 void GameBtn::on_init()
 {
 	status = ButtonState::NORMAL;

@@ -1,5 +1,7 @@
 #include "bullet_xcz.h"
 
+INIT_TYPE_NAME(BulletXcz);
+
 void BulletXcz::on_init()
 {
 	set_anchor_mode(AnchorMode::CENTER);

@@ -2,6 +2,8 @@
 #include "game_wnd.h"
 #include "res_mgr.h"
 
+INIT_TYPE_NAME(GameImg);
+
 GameImg::~GameImg() 
 {
 	texture = nullptr;

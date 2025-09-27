@@ -3,6 +3,8 @@
 #include "game_wnd.h"
 #include "SDL_util.h"
 
+INIT_TYPE_NAME(GameLable);
+
 GameLable::~GameLable()
 {
 	font = nullptr;

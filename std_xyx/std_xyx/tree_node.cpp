@@ -177,3 +177,21 @@ void TreeNode::self_delete()
 		p->delete_children(self_node.lock());
 	}
 }
+
+TreeNode_SP TreeNode::take_out_of_children(bool is_front)
+{
+	if (children.empty()) return nullptr;
+
+	TreeNode_SP node = nullptr;
+	if (is_front)
+	{
+		node = children.front();
+		children.pop_front();
+	}
+	else
+	{
+		node = children.back();
+		children.pop_back();
+	}
+	return node;
+}

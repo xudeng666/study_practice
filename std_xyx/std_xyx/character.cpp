@@ -1,6 +1,7 @@
 #include "character.h"
 #include "game_wnd.h"
 
+INIT_TYPE_NAME(Character);
 
 Character::~Character()
 {

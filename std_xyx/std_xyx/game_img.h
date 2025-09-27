@@ -36,5 +36,3 @@ protected:
 	// ͼƬӳ�䷽ʽ
 	TextureMapType map_type = TextureMapType::AUTO;
 };
-
-INIT_TYPE_NAME(GameImg);

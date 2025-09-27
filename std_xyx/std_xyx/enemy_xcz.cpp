@@ -1,6 +1,8 @@
 #include "enemy_xcz.h"
 #include "game_wnd.h"
 
+INIT_TYPE_NAME(Enemy_xcz);
+
 void Enemy_xcz::on_init()
 {
 	ani_pool["left"] = Ani_Res("boar_left_", 6);

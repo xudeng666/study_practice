@@ -22,5 +22,3 @@ public:
 protected:
     TreeNode_WP img;
 };
-
-INIT_TYPE_NAME(BulletXcz);

@@ -1,5 +1,6 @@
 #include "bullet.h"
 
+INIT_TYPE_NAME(Bullet);
 
 void Bullet::set_velocity(const Vector2& vel)
 {

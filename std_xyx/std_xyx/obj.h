@@ -27,7 +27,7 @@ public:
 
     template <typename T> bool is_type()const
     {
-        return get_type_name() == T::type::name;
+        return get_type_name() == T::type_name;
     }
 
     /*…Ë÷√ID*/

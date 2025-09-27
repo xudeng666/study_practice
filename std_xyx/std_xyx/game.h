@@ -17,7 +17,7 @@ public:
 	virtual ~Game() override;
 
 	template <typename T, typename... Args>
-	static std::shared_ptr<T> create_scene(SceneType type, Args&&... args)
+	std::shared_ptr<T> create_scene(SceneType type, Args&&... args)
 	{
 		std::shared_ptr<T> scene = std::make_shared<T>(std::forward<Args>(args)...);
 		scene->on_init();
@@ -27,7 +27,7 @@ public:
 
 	DEFINE_TYPE_NAME(Game);
 
-	virtual void on_init() override;
+	virtual void on_init() = 0;
 	/*进入游戏初始化*/
 	virtual void on_enter() override;
 	/*处理数据*/
@@ -58,5 +58,3 @@ protected:
 
 	std::unordered_map<SceneType, std::shared_ptr<Scene>> scene_pool;
 };
-
-INIT_TYPE_NAME(Game);

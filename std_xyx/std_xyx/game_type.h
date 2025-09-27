@@ -2,11 +2,12 @@
 
 #include <string>
 #include <iostream>
+#include <functional>
+#include <type_traits>
 
 // 游戏类型
 enum class GameType
 {
-	//NONE = -1,	// 空
 	START = 0,	// 游戏开始
 	XCZ,		// 提瓦特幸存者
 	KDWS,		// 空洞武士
@@ -90,3 +91,21 @@ enum class NodeType
 	LAYER,		// 层级节点（背景/游戏/UI）
 	GAMENODE    // 游戏对象节点
 };
+
+// GameType 特化 std::hash
+namespace std {
+	template<> struct hash<GameType> {
+		size_t operator()(const GameType& type) const noexcept {
+			return hash<int>()(static_cast<underlying_type_t<GameType>>(type));
+		}
+	};
+}
+
+// SceneType 特化 std::hash
+namespace std {
+	template<> struct hash<SceneType> {
+		size_t operator()(const SceneType& type) const noexcept {
+			return hash<int>()(static_cast<underlying_type_t<SceneType>>(type));
+		}
+	};
+}

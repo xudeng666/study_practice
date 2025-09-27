@@ -1,5 +1,7 @@
 #include "character_xcz.h"
 
+INIT_TYPE_NAME(CharacterXcz);
+
 void CharacterXcz::on_init()
 {
     TreeNode_SP img_shade_ptr = TreeNode::create_obj<GameImg>("img_shade");

@@ -26,5 +26,3 @@ private:
     TreeNode_WP btn_phf;
     TreeNode_WP btn_exit;
 };
-
-INIT_TYPE_NAME(StartMenuScene);

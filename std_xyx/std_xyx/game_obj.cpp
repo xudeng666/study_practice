@@ -3,6 +3,7 @@
 
 #include <assert.h>
 
+INIT_TYPE_NAME(GameObj);
 
 GameObj::GameObj(const std::string id)
 {
