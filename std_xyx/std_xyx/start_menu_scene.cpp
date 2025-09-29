@@ -72,7 +72,7 @@ void StartMenuScene::on_init()
         }
     );
 
-    auto bg_ptr = TreeNode::create_obj<GameBtn>("bg");
+    auto bg_ptr = TreeNode::create_obj<GameImg>("bg");
     bg_ptr->set_position(Vector2(0, 0));
     bg_ptr->set_res_name("bg");
     bg_ptr->set_anchor_mode(AnchorMode::CENTER);

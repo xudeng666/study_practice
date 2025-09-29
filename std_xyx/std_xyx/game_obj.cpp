@@ -155,6 +155,14 @@ void GameObj::set_anchor_referent_node(TreeNode_WP node)
 
 TreeNode_SP GameObj::get_anchor_referent()
 {
+	if (anchor_referent_node.expired())
+	{
+		if (parent.expired())
+		{
+			return nullptr;
+		}
+		anchor_referent_node = parent;
+	}
 	return  anchor_referent_node.lock();
 }
 

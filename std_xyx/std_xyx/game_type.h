@@ -8,7 +8,8 @@
 // 游戏类型
 enum class GameType
 {
-	START = 0,	// 游戏开始
+	NONE = 0,	// 空
+	START,		// 游戏开始
 	XCZ,		// 提瓦特幸存者
 	KDWS,		// 空洞武士
 	DLD,		// 大乱斗

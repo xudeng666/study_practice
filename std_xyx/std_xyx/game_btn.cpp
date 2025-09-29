@@ -58,6 +58,7 @@ void GameBtn::on_input(const SDL_Event& event)
 
 void GameBtn::on_update(float delta)
 {
+	set_texture();
 	GameImg::on_update(delta);
 }
 
@@ -75,7 +76,7 @@ void GameBtn::on_cursor_up()
 {
 	if (status != ButtonState::PRESSED)
 		return;
-	status = ButtonState::NORMAL;
+	status = ButtonState::HOVER;
 	if (on_click)
 	{
 		on_click();

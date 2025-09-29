@@ -17,15 +17,14 @@ GameMgr* GameMgr::instance()
 
 void GameMgr::init()
 {
-	create_game<GameStart>(GameType::START, "GameStart");
-
-	current_type = GameType::START;
-
-	on_enter();
+	//create_game<GameStart>(GameType::START, "GameStart");
+	std::cout << "GameMgr::init()" << std::endl;
+	exchange_game(GameType::START);
 }
 
 void GameMgr::deinit()
 {
+	std::cout << "GameMgr::deinit()" << std::endl;
 	auto last_game = get_current_game();
 	if (last_game) {
 		last_game->on_exit();
@@ -49,6 +48,8 @@ GameType GameMgr::get_current_type()
 /*游戏切换*/
 void GameMgr::exchange_game(GameType type)
 {
+	std::cout << "GameMgr::exchange_game(type)"<< std::endl;
+
 	if (type == current_type) return;
 	// 只允许从开始游戏和子游戏互相切换
 	if (type != GameType::START && current_type != GameType::START)

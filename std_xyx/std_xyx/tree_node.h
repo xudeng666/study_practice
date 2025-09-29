@@ -23,6 +23,7 @@ public:
         node->set_node_type(NodeType::GAMENODE);
         node->on_init();
         node->set_self_node(node);
+        std::cout << "create_obj: " << "GAMENODE: "  /*<< args[0]*/ << std::endl;
         return node;
     }
 
@@ -34,6 +35,7 @@ public:
         node->set_node_type(type);
         node->on_init();
         node->set_self_node(node);
+        std::cout << "create_obj: " << "NO_GAMENODE:  " /*<< args[0]*/ << std::endl;
         return node;
     }
 

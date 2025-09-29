@@ -4,6 +4,8 @@
 
 #include <assert.h>
 
+INIT_TYPE_NAME(GameStart);
+
 void GameStart::on_init()
 {
 }

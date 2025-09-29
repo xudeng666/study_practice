@@ -83,7 +83,7 @@ void GameImg::set_texture()
 	texture = ResMgr::instance()->find_texture(res_name);
 	if (!texture)
 	{
-		std::cout << ID << " texture null" << std::endl;
+		std::cout << ID << " texture null"<< "   res_name:"<< res_name << std::endl;
 	}
 }
 

@@ -22,6 +22,7 @@ public:
 		std::shared_ptr<T> scene = std::make_shared<T>(std::forward<Args>(args)...);
 		scene->on_init();
 		scene_pool[type] = scene;
+		std::cout << "create_scene:" << scene_pool[type]->get_type_name() << std::endl;
 		return scene;
 	}
 

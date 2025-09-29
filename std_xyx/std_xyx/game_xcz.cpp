@@ -6,6 +6,8 @@
 
 #include <assert.h>
 
+INIT_TYPE_NAME(GameXcz);
+
 void GameXcz::on_init()
 {
 }

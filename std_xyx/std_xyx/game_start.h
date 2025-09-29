@@ -11,6 +11,8 @@ public:
 	GameStart(const std::string& id) : Game(id) {}
 	GameStart(const std::string& id, int num) : Game(id, num) {}
 
+	DEFINE_TYPE_NAME(GameStart);
+
 	void on_init() override;
 	void on_enter() override;
 	virtual void create_target_scene() override;

@@ -14,6 +14,7 @@ public:
 		std::shared_ptr<T> game = std::make_shared<T>(std::forward<Args>(args)...);
 		game->on_init();
 		game_pool[type] = game;
+		std::cout << "create_game:" << game_pool[type]->get_type_name() << std::endl;
 		return game;
 	}
 
@@ -52,7 +53,7 @@ private:
 
 	bool is_run = true;
 
-	GameType current_type = GameType::START;
+	GameType current_type;
 
 	std::unordered_map<GameType, std::shared_ptr<Game>> game_pool;
 };

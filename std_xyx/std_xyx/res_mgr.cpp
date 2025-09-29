@@ -17,6 +17,8 @@ ResMgr* ResMgr::instance()
 
 void ResMgr::load()
 {
+	std::cout << " ResMgr::load()" << std::endl;
+
 	using namespace std::filesystem;
 
 	const std::string resRoot = "resources/" + get_str_of_type(GameMgr::instance()->get_current_type());
