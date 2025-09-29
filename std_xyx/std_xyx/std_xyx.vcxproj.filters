@@ -126,6 +126,9 @@
     <ClCompile Include="tree_node.cpp">
       <Filter>源文件\manager</Filter>
     </ClCompile>
+    <ClCompile Include="event_mgr.cpp">
+      <Filter>源文件\manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -228,6 +231,9 @@
       <Filter>头文件\manager</Filter>
     </ClInclude>
     <ClInclude Include="obj.h">
+      <Filter>头文件\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="event_mgr.h">
       <Filter>头文件\manager</Filter>
     </ClInclude>
   </ItemGroup>

@@ -106,6 +106,7 @@ void TreeMgr::release_all_game()
 			//node->self_delete();
 		}
 		}, root_node, false);
+	root_t.reset();
 }
 
 void TreeMgr::pre_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node, bool check_display)
