@@ -1,5 +1,6 @@
 #include "game_obj.h"
 #include "game_wnd.h"
+#include "event_mgr.h"
 
 #include <assert.h>
 
@@ -252,4 +253,11 @@ bool GameObj::check_in_screen(int val)
 	{
 		return b_w && b_h;
 	}
+}
+
+
+bool GameObj::contains_point(const SDL_Point* point)
+{
+	SDL_Rect r = get_Rect();
+	return  SDL_PointInRect(point, &r);
 }

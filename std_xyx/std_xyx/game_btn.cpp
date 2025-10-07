@@ -1,5 +1,6 @@
 #include "game_btn.h"
 #include "res_mgr.h"
+#include "event_mgr.h"
 
 
 INIT_TYPE_NAME(GameBtn);
@@ -7,6 +8,7 @@ INIT_TYPE_NAME(GameBtn);
 void GameBtn::on_init()
 {
 	status = ButtonState::NORMAL;
+	// 注册监听事件点击、抬起和鼠标移动
 }
 
 void GameBtn::on_enter()

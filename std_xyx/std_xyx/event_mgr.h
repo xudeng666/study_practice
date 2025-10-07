@@ -8,7 +8,7 @@
 #include <any>
 #include <iostream>
 
-#include "obj.h"
+#include"game_obj.h"
 
 using EventParams = std::unordered_map<std::string, std::any>; // 哈希表参数类型
 using EventCallback = std::function<void(const EventParams& params)>;
@@ -23,7 +23,7 @@ struct Event
 	bool is_res_reg = true;				// 是否可以重复注册
 	bool can_execute = false;			// 是否可以执行
 	bool can_remove = false;			// 是否可删除
-}; 
+};
 
 class EventMgr
 {
@@ -141,6 +141,57 @@ public:
 			for (const auto& [key, val] : data) {
 				e.data[key] = val;
 			}
+		}
+	}
+	/// <summary>
+	///  发送事件（定向模式，仅目标对象接收）
+	/// </summary>
+	/// <param name="type">事件类型</param>
+	/// <param name="target">事件接受对象</param>
+	/// <param name="data">回调函数参数</param>
+	void send_event_to(const std::string& type, std::weak_ptr<Obj> target, EventParams data = {})
+	{
+		auto it = list_event.find(type);
+		if (it == list_event.end() || target.expired())
+		{
+			return;
+		}
+
+		std::shared_ptr<Obj> target_ptr = target.lock();
+		for (Event& e : it->second)
+		{
+			if (is_can_remove(e) || e.executor.lock() != target_ptr)
+			{
+				continue;
+			}
+			e.can_execute = true;
+			// 合并参数
+			for (const auto& [key, val] : data) {
+				e.data[key] = val;
+			}
+		}
+	}
+
+	/// <summary>
+	/// 分发SDL事件
+	/// </summary>
+	void dispatch_sdl_event(const SDL_Event& event)
+	{
+		switch (event.type)
+		{
+		case SDL_MOUSEMOTION:
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+			}
+			break;
+		case SDL_MOUSEBUTTONUP:
+			if (event.button.button == SDL_BUTTON_LEFT)
+			{
+			}
+			break;
+			// 可扩展其他事件类型（右键、滚轮等）
 		}
 	}
 	/// <summary>

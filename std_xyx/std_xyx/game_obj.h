@@ -107,6 +107,10 @@ public:
     /// <returns>true/false 在/不在</returns>
     bool check_in_screen(int val = 0);
 
+
+    // 判断点是否在控件范围内
+    bool contains_point(const SDL_Point* point);
+
 protected:
     // 旋转角度
     double angle = 0.0;
