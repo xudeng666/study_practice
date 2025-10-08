@@ -26,6 +26,10 @@ public:
 	std::string get_str_of_type(GameType type);
 	// 释放所有资源
 	void releaseAll();
+	/// <summary>
+	/// 销毁管理器
+	/// </summary>
+	void destroy();
 
 private:
 	ResMgr() = default;  // 私有构造

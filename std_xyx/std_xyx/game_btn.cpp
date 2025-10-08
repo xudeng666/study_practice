@@ -9,6 +9,30 @@ void GameBtn::on_init()
 {
 	status = ButtonState::NORMAL;
 	// 注册监听事件点击、抬起和鼠标移动
+	EventMgr::instance()->add_listen_event(EventType::MOUSE_MOVE, self_node, [&](const EventParams& data) {
+		if (!click_enabled) return;
+		SDL_Point p = std::any_cast<SDL_Point>(data.at("point"));
+		SDL_Rect t = get_Rect();
+		on_cursor_hover(SDL_PointInRect(&p, &t));
+		});
+	EventMgr::instance()->add_listen_event(EventType::MOUSE_DOWN_LEFT, self_node, [&](const EventParams& data) {
+		if (!click_enabled) return;
+		SDL_Point p = std::any_cast<SDL_Point>(data.at("point"));
+		SDL_Rect t = get_Rect();
+		if (SDL_PointInRect(&p, &t))
+		{
+			on_cursor_down();
+		}
+		});
+	EventMgr::instance()->add_listen_event(EventType::MOUSE_UP_LEFT, self_node, [&](const EventParams& data) {
+		if (!click_enabled) return;
+		SDL_Point p = std::any_cast<SDL_Point>(data.at("point"));
+		SDL_Rect t = get_Rect();
+		if (SDL_PointInRect(&p, &t))
+		{
+			on_cursor_up();
+		}
+		});
 }
 
 void GameBtn::on_enter()
@@ -19,7 +43,7 @@ void GameBtn::on_enter()
 
 void GameBtn::on_input(const SDL_Event& event)
 {
-	if (!click_enabled)
+	/*if (!click_enabled)
 	{
 		return;
 	}
@@ -55,7 +79,7 @@ void GameBtn::on_input(const SDL_Event& event)
 			}
 		}
 		break;
-	}
+	}*/
 }
 
 void GameBtn::on_update(float delta)
@@ -87,15 +111,12 @@ void GameBtn::on_cursor_up()
 
 void GameBtn::on_cursor_hover(bool is_hover)
 {
-	ButtonState t;
+	ButtonState t = ButtonState::NORMAL;
 	if (is_hover)
 	{
 		t = status == ButtonState::PRESSED ? ButtonState::PRESSED : ButtonState::HOVER;
 	}
-	else
-	{
-		t = ButtonState::NORMAL;
-	}
+
 	if (t != status)
 	{
 		status = t;

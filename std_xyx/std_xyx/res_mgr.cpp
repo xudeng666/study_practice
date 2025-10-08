@@ -170,6 +170,13 @@ void ResMgr::releaseAll()
 	ttf_pool.clear();
 }
 
+void ResMgr::destroy()
+{
+	releaseAll();
+	delete manager;
+	manager = nullptr;
+}
+
 Mix_Chunk* ResMgr::find_audio(const std::string& name)
 {
 	return audio_pool[name];

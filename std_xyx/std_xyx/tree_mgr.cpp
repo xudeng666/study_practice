@@ -34,6 +34,12 @@ TreeMgr::TreeMgr()
 
 TreeMgr::~TreeMgr()
 {
+}
+
+void TreeMgr::destroy()
+{
+	release_all();
+	delete manager;
 	manager = nullptr;
 }
 

@@ -19,6 +19,10 @@ public:
 	* @param box 碰撞箱指针
 	*/
 	void destroyCollisionBox(TreeNode_SP box);
+	/**
+	* @brief 销毁管理器
+	*/
+	void destroy();
 
 	/**
 	* @brief 碰撞遍历

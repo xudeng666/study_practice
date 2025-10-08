@@ -6,6 +6,10 @@ class TreeMgr
 {
 public:
 	static TreeMgr* instance();
+	/// <summary>
+	/// 销毁管理器
+	/// </summary>
+	void destroy();
 
 	/// <summary>
 	/// 查找对象

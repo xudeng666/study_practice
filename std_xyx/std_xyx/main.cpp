@@ -9,7 +9,11 @@
 
 #include "util.h"
 #include "game_mgr.h"
+#include "res_mgr.h"
+#include "collision_mgr.h"
+#include "tree_mgr.h"
 #include "game_wnd.h"
+#include "event_mgr.h"
 
 void init();							// 游戏程序初始化
 void deinit();							// 游戏程序反初始化(释放资源)
@@ -41,6 +45,10 @@ void init()
 
 void deinit()
 {
+	EventMgr::instance()->destroy();
+	CollisionMgr::instance()->destroy();
+	TreeMgr::instance()->destroy();
+	ResMgr::instance()->destroy();
 	GameMgr::instance()->deinit();
 
 	TTF_Quit();
@@ -76,8 +84,11 @@ void mainloop()
 			{
 			case SDL_QUIT:	GameMgr::instance()->set_is_run(false);	break;
 			}
-			GameMgr::instance()->on_input(event);
+			// GameMgr::instance()->on_input(event);
+			EventMgr::instance()->dispatch_sdl_event(event);
 		}
+
+		EventMgr::instance()->execute_event();
 
 		steady_clock::time_point frome_start = steady_clock::now();
 		duration<float> delta = duration<float>(frome_start - last_tick);

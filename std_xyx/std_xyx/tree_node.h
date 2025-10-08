@@ -21,8 +21,8 @@ public:
     {
         std::shared_ptr<T> node = std::make_shared<T>(std::forward<Args>(args)...);
         node->set_node_type(NodeType::GAMENODE);
-        node->on_init();
         node->set_self_node(node);
+        node->on_init();
         std::cout << "create_obj: " << "GAMENODE: "  /*<< args[0]*/ << std::endl;
         return node;
     }
@@ -33,8 +33,8 @@ public:
     {
         std::shared_ptr<T> node = std::make_shared<T>(std::forward<Args>(args)...);
         node->set_node_type(type);
-        node->on_init();
         node->set_self_node(node);
+        node->on_init();
         std::cout << "create_obj: " << "NO_GAMENODE:  " /*<< args[0]*/ << std::endl;
         return node;
     }

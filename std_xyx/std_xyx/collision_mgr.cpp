@@ -34,6 +34,13 @@ void CollisionMgr::destroyCollisionBox(TreeNode_SP box)
 		box_list.end(), box), box_list.end());
 }
 
+void CollisionMgr::destroy()
+{
+	box_list.clear();
+	delete manager;
+	manager = nullptr;
+}
+
 void CollisionMgr::processCollide()
 {
 	for (TreeNode_SP box_src : box_list)//¹¥»÷Ñ­»·

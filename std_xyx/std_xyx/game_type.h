@@ -102,8 +102,8 @@ namespace std {
 	};
 }
 
-// 通用事件（所有交互对象可能用到）
-namespace CommonEvents{
+// 通用事件类型（所有交互对象可能用到）
+namespace EventType{
     constexpr const char* MOUSE_CLICK_LEFT          =       "MOUSE_CLICK_LEFT";                 // 鼠标左键点击（完整动作）
     constexpr const char* MOUSE_CLICK_RIGHT         =       "MOUSE_CLICK_RIGHT";                // 鼠标右键点击（完整动作）
     constexpr const char* MOUSE_DOWN_LEFT           =       "MOUSE_DOWN_LEFT";                  // 鼠标左键按下
@@ -111,10 +111,7 @@ namespace CommonEvents{
     constexpr const char* MOUSE_UP_LEFT             =       "MOUSE_UP_LEFT";                    // 鼠标左键抬起
     constexpr const char* MOUSE_UP_RIGHT            =       "MOUSE_UP_RIGHT";                   // 鼠标右键抬起
 
-    constexpr const char* MOUSE_MOTION              =       "MOUSE_MOTION";                     // 鼠标移动（未按下）
-
-    constexpr const char* MOUSE_DRAG_LEFT           =       "MOUSE_DRAG_LEFT";                  // 鼠标右键拖拽
-    constexpr const char* MOUSE_DRAG_RIGHT          =       "MOUSE_DRAG_RIGHT";                 // 鼠标右键拖拽
+    constexpr const char* MOUSE_MOVE				=       "MOUSE_MOVE";						// 鼠标移动
 }
 
 // SceneType 特化 std::hash
