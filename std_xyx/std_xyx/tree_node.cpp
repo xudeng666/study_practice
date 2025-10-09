@@ -97,8 +97,14 @@ void TreeNode::add_children(TreeNode_SP node, bool is_front)
 	// 步骤2：设置当前节点为新父节点
 	node->set_parent(self_node.lock());
 
-	// 步骤3：将子节点的 unique_ptr 移动到当前节点的 children 列表
-	is_front ? children.push_front(std::move(node)) : children.push_back(std::move(node));
+	if (is_front)
+	{
+		children.insert(children.begin(), std::move(node));
+	}
+	else
+	{
+		children.push_back(std::move(node));
+	}
 }
 
 void TreeNode::for_each_child(const std::function<void(TreeNode_SP)>& func)
@@ -116,7 +122,7 @@ void TreeNode::sort_children(const std::function<bool(const TreeNode_SP&, const 
 {
 	if (!func) return;
 
-	children.sort([&func](const TreeNode_SP& a, const TreeNode_SP& b) {
+	std::sort(children.begin(), children.end(), [&func](const TreeNode_SP& a, const TreeNode_SP& b) {
 		// 如果有空节点，则排在后面
 		if (!a) return false;
 		if (!b) return true;
@@ -129,13 +135,14 @@ void TreeNode::remove_children_if(const std::function<bool(const TreeNode_SP&)>&
 {
 	if (!func) return;
 
-	children.remove_if([&func](const TreeNode_SP& child) {
-		if (!child)
-		{
-			return true;
-		}
-		return func(child);
-		});
+	children.erase(std::remove_if(children.begin(), children.end(), [&func](const TreeNode_SP& child) {
+			if (!child)
+			{
+				return true;
+			}
+			return func(child);
+			}),children.end()
+	);
 }
 
 void TreeNode::clear_children()
@@ -170,8 +177,6 @@ TreeNode::ChildIt TreeNode::find_child_iterator(const std::function<bool(const T
 
 void TreeNode::self_delete()
 {
-	// children.clear();
-
 	auto p = parent.lock();
 	if (p) {
 		p->delete_children(self_node.lock());
@@ -186,7 +191,7 @@ TreeNode_SP TreeNode::take_out_of_children(bool is_front)
 	if (is_front)
 	{
 		node = children.front();
-		children.pop_front();
+		children.erase(children.begin());
 	}
 	else
 	{

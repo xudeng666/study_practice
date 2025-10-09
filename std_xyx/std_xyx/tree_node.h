@@ -3,7 +3,7 @@
 #include "game_type.h"
 
 #include <memory>
-#include <list>
+#include <vector>
 #include <string>
 #include <functional>
 
@@ -134,15 +134,15 @@ public:
     /// <summary>
     /// 取出子列表成员
     /// </summary>
-    /// <param name="is_front">默认从表头取出</param>
+    /// <param name="is_front">默认从末尾取出</param>
     /// <returns>TreeNode_SP</returns>
-    TreeNode_SP take_out_of_children(bool is_front = true);
+    TreeNode_SP take_out_of_children(bool is_front = false);
     /// <summary>
     /// 删除本节点
     /// </summary>
     void self_delete();
 protected:
-    using ChildIt = std::list<TreeNode_SP>::iterator;
+    using ChildIt = std::vector<TreeNode_SP>::iterator;
     /// <summary>
     /// 查找直属子节点it
     /// </summary>
@@ -159,6 +159,6 @@ protected:
 protected:
     TreeNode_WP parent;
     TreeNode_WP self_node;
-	std::list<TreeNode_SP> children;
+	std::vector<TreeNode_SP> children;
     NodeType node_type;
 };
