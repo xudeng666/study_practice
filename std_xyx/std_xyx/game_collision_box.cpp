@@ -1,8 +1,18 @@
 #include "game_collision_box.h"
-//#include "game_wnd.h"
+#include "event_mgr.h"
 
 
 INIT_TYPE_NAME(GameCollisionBox);
+
+void GameCollisionBox::on_init()
+{
+	EventMgr::instance()->add_listen_event(EventType::COLLISION_BOX_HIT, self_node, [&](const EventParams& data) {
+		if (collision_enabled && call_back)
+		{
+			call_back();
+		}
+		});
+}
 
 void GameCollisionBox::on_update(float delta)
 {

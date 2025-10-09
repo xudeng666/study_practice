@@ -13,6 +13,7 @@ public:
 	GameCollisionBox(const std::string& id, int num) : GameObj(id, num) {}
 	virtual ~GameCollisionBox() = default;
 
+	void on_init() override;
 	void on_update(float delta) override;
 	void on_render() override;
 

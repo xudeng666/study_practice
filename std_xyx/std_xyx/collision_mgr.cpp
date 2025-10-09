@@ -1,4 +1,5 @@
 #include "collision_mgr.h"
+#include "event_mgr.h"
 
 #include <memory>
 
@@ -62,14 +63,8 @@ void CollisionMgr::processCollide()
 
 					if (is_collision(box_src, box_dst))
 					{
-						if (obj_src->call_back)
-						{
-							obj_src->call_back();
-						}
-						if (obj_dst->call_back)
-						{
-							obj_dst->call_back();
-						}
+						EventMgr::instance()->send_event_to(EventType::COLLISION_BOX_HIT, box_src);
+						EventMgr::instance()->send_event_to(EventType::COLLISION_BOX_HIT, box_dst);
 					}
 				}
 			}

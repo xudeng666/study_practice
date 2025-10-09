@@ -5,6 +5,7 @@ INIT_TYPE_NAME(Enemy_xcz);
 
 void Enemy_xcz::on_init()
 {
+	CharacterXcz::on_init();
 	ani_pool["left"] = Ani_Res("boar_left_", 6);
 	ani_pool["right"] = Ani_Res("boar_right_", 6);
 
@@ -114,6 +115,7 @@ void Enemy_xcz::on_update(float delta)
 	{
 		//std::cout << ID << "  on_update" << std::endl;
 	}
+	CharacterXcz::on_update(delta);
 	if (alive)
 	{
 		on_move(delta);
@@ -127,6 +129,7 @@ void Enemy_xcz::set_face(bool is_left)
 
 void Enemy_xcz::on_render()
 {
+	CharacterXcz::on_render();
 }
 
 void Enemy_xcz::set_player_pos(Vector2 pos)

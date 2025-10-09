@@ -10,6 +10,8 @@ Player_xcz::~Player_xcz()
 
 void Player_xcz::on_init()
 {
+	CharacterXcz::on_init();
+
 	ani_pool["left"] = Ani_Res("paimon_left_", 6);
 	ani_pool["right"] = Ani_Res("paimon_right_", 6);
 
@@ -136,6 +138,7 @@ void Player_xcz::on_input(const SDL_Event& event)
 }
 void Player_xcz::on_update(float delta)
 {
+	CharacterXcz::on_update(delta);
 	if (_DE_BUG_)
 	{
 		//std::cout << ID << "  on_update" << std::endl;
@@ -154,6 +157,7 @@ void Player_xcz::set_face(bool is_left)
 
 void Player_xcz::on_render()
 {
+	CharacterXcz::on_render();
 }
 
 void Player_xcz::on_move(float delta)

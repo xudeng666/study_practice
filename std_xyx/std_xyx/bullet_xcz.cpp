@@ -4,6 +4,7 @@ INIT_TYPE_NAME(BulletXcz);
 
 void BulletXcz::on_init()
 {
+	Bullet::on_init();
 	set_anchor_mode(AnchorMode::CENTER);
 	set_anchor_referent_mode(AnchorMode::CENTER);
 	set_damage(1);
