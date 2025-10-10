@@ -16,6 +16,9 @@ INIT_TYPE_NAME(XczGameScene);
 
 void XczGameScene::on_init()
 {
+    // 怪物池节点必须初始化
+    enemy_pool = TreeNode::create_obj<GameObj>("enemy_pool");
+
     auto bg_obj = TreeNode::create_obj<GameImg>("bg");
     bg = bg_obj;
     bg_obj->set_position(Vector2(0, 0));
@@ -132,11 +135,7 @@ void XczGameScene::on_exit()
     }
 
     // 清理怪物池中的怪物
-    //std::cout << "enemy_pool  num:" << enemy_pool.size() << std::endl;
     enemy_pool.reset();
-
-    // 清空渲染树
-
 
     Scene::on_exit();
 }

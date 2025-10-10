@@ -37,7 +37,7 @@ private:
     // 主角
     TreeNode_WP player;
     // 怪物池节点-（存放死亡怪物）
-    TreeNode_SP enemy_pool;
+    TreeNode_SP enemy_pool = nullptr;
     // 敌人总数
     int enemy_num = 0;
     // 本帧要添加的敌人总数
