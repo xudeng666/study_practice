@@ -63,8 +63,14 @@ void CollisionMgr::processCollide()
 
 					if (is_collision(box_src, box_dst))
 					{
-						EventMgr::instance()->send_event_to(EventType::COLLISION_BOX_HIT, box_src);
-						EventMgr::instance()->send_event_to(EventType::COLLISION_BOX_HIT, box_dst);
+						SDL_Event event_src;
+						event_src.type = EventMgr::instance()->get_event_type(EventType::COLLISION);
+						event_src.user.data1 = static_cast<void*>(obj_dst);
+						SDL_PushEvent(&event_src);
+						SDL_Event event_dst;
+						event_dst.type = EventMgr::instance()->get_event_type(EventType::COLLISION);
+						event_dst.user.data1 = static_cast<void*>(obj_dst);
+						SDL_PushEvent(&event_dst);
 					}
 				}
 			}

@@ -69,7 +69,7 @@ enum RenderLayer
 
 /*按钮状态*/
 enum class ButtonState {
-	PRESSED = 0,	// 按下
+	PRESSED = 0,	// 
 	NORMAL,			// 正常
 	HOVER,			// 悬停
 	DISABLED		// 禁用状态（灰化、不可交互）
@@ -93,6 +93,13 @@ enum class NodeType
 	GAMENODE    // 游戏对象节点
 };
 
+// 自定义事件类型
+enum class EventType {
+
+	COLLISION,	// 碰撞发生（单次触发）
+	COUNT		// 哨兵,用于记录总枚举总数，不可删除
+};
+
 // GameType 特化 std::hash
 namespace std {
 	template<> struct hash<GameType> {
@@ -100,26 +107,6 @@ namespace std {
 			return hash<int>()(static_cast<underlying_type_t<GameType>>(type));
 		}
 	};
-}
-
-// 通用事件类型（所有交互对象可能用到）
-namespace EventType{
-    constexpr const char* MOUSE_CLICK_LEFT          =       "MOUSE_CLICK_LEFT";                 // 鼠标左键点击（完整动作）
-    constexpr const char* MOUSE_CLICK_RIGHT         =       "MOUSE_CLICK_RIGHT";                // 鼠标右键点击（完整动作）
-    constexpr const char* MOUSE_DOWN_LEFT           =       "MOUSE_DOWN_LEFT";                  // 鼠标左键按下
-    constexpr const char* MOUSE_DOWN_RIGHT          =       "MOUSE_DOWN_RIGHT";                 // 鼠标右键按下
-    constexpr const char* MOUSE_UP_LEFT             =       "MOUSE_UP_LEFT";                    // 鼠标左键抬起
-    constexpr const char* MOUSE_UP_RIGHT            =       "MOUSE_UP_RIGHT";                   // 鼠标右键抬起
-
-    constexpr const char* MOUSE_MOVE				=       "MOUSE_MOVE";						// 鼠标移动
-	
-    constexpr const char* COLLISION_BOX_HIT			=		"COLLISION_BOX_HIT";				// 碰撞箱碰撞发生（单次触发）
-    constexpr const char* COLLISION_BOX_START		=		"COLLISION_BOX_START";				// 碰撞箱碰撞开始（首次接触时触发）
-    constexpr const char* COLLISION_BOX_END			=		"COLLISION_BOX_END";				// 碰撞箱碰撞结束（分离时触发）
-
-	constexpr const char* COLLISION_HIT				=		"COLLISION_HIT";					// 碰撞发生（单次触发）
-	constexpr const char* COLLISION_START			=		"COLLISION_START";					// 碰撞开始（首次接触时触发）
-	constexpr const char* COLLISION_END				=		"COLLISION_END";					// 碰撞结束（分离时触发）
 }
 
 // SceneType 特化 std::hash
