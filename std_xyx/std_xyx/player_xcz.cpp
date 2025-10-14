@@ -28,7 +28,6 @@ void Player_xcz::on_init()
 	ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
 	ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
 	ani->set_anchor_referent_node(self_node);
-	ani->set_ID("ani");
 	ani->set_res_int_val(0);
 	ani->set_res_name(ani_pool["left"]);
 	ani->set_loop(true);
@@ -72,6 +71,8 @@ void Player_xcz::on_enter()
 	}
 	CharacterXcz::on_enter();
 
+	bul_num = 0;
+	bul_degrees = 0;
 	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
 	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_collision_enabled(true);

@@ -1,5 +1,7 @@
 #include "event_mgr.h"
 
+#include "assert.h"
+
 EventMgr* EventMgr::manager = nullptr;
 
 EventMgr* EventMgr::instance()
@@ -27,30 +29,39 @@ bool EventMgr::init_custom_events()
 {
 	const int num = static_cast<int>(EventType::COUNT);
 
-	Uint32 id = SDL_RegisterEvents(num);
-	if (id == INVALID_EVENT_TYPE) {
-		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "自定义事件注册失败：%s", SDL_GetError());
+	EventTypeId id = SDL_RegisterEvents(num);
+	if (id == INVALID_EVENT_TYPE)
+	{
+		assert(false && "通用事件注册失败");
 		return false;
 	}
 	for (int i = 0; i < num; ++i)
 	{
 		EventType event_type = static_cast<EventType>(i);
-		Uint32 sdl_event_id = id + i;
+		EventTypeId sdl_event_id = id + i;
 		event_type_map[event_type] = sdl_event_id;
 	}
 	return true;
 }
 
-const Uint32 EventMgr::get_event_type(EventType type)
+const EventTypeId EventMgr::get_event_type(EventType type)
 {
 	auto it = event_type_map.find(type);
 	if (type == EventType::COUNT || it == event_type_map.end())
 	{
-		std::cout << "枚举值错误或者未找到对应事件" << std::endl;
-		return INVALID_EVENT_TYPE;
+		assert(false && "枚举值错误或者未找到对应事件");
 	}
 
 	return it->second;
+}
+
+EventTypeId EventMgr::add_temp_event() {
+	EventTypeId temp_id = SDL_RegisterEvents(1);
+	if (temp_id == INVALID_EVENT_TYPE) 
+	{
+		assert(false && "临时事件注册失败");
+	}
+	return temp_id;
 }
 //
 //bool EventMgr::add_listen_event(const char* type, std::weak_ptr<Obj> executor, EventCallback func, EventParams data, int num, bool is_res, bool is_top)

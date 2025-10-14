@@ -129,6 +129,9 @@
     <ClCompile Include="event_mgr.cpp">
       <Filter>源文件\manager</Filter>
     </ClCompile>
+    <ClCompile Include="bullet_box.cpp">
+      <Filter>源文件\game_xcz</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="event_mgr.h">
       <Filter>头文件\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet_box.h">
+      <Filter>头文件\game_xcz</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

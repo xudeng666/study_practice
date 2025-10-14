@@ -40,8 +40,9 @@ void GameBar::on_render()
 
 void GameBar::set_size(const SDL_Point& size)
 {
-	img_bg.lock()->set_size(size);
-	img_pro.lock()->set_size(size);
+	SDL_Point p = { size.x - 10, size.y - 10 };
+	img_bg.lock()->set_size(p);
+	img_pro.lock()->set_size(p);
 	this->size = size;
 }
 

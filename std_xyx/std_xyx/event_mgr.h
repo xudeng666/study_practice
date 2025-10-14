@@ -5,6 +5,9 @@
 
 #include"game_obj.h"
 
+// 事件ID
+using EventTypeId = Uint32;
+
 class EventMgr
 {
 public:
@@ -19,7 +22,10 @@ public:
 	/// </summary>
 	/// <param name="type">EventType 枚举类型</param>
 	/// <returns></returns>
-	const Uint32 get_event_type(EventType type);
+	const EventTypeId get_event_type(EventType type);
+
+	// 临时注册事件
+	EventTypeId add_temp_event();
 
 private:
 	EventMgr();
@@ -31,10 +37,9 @@ private:
 	bool init_custom_events();
 private:
 	static EventMgr* manager;
-	std::unordered_map<EventType, Uint32> event_type_map;
+	std::unordered_map<EventType, EventTypeId> event_type_map;
 
-public:
-	Uint32 INVALID_EVENT_TYPE = 0xFFFFFFFFU;	// 无效事件
+	const EventTypeId INVALID_EVENT_TYPE = 0xFFFFFFFFU;	// 无效事件
 };
 
 

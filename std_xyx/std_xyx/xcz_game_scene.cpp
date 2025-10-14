@@ -28,15 +28,15 @@ void XczGameScene::on_init()
 
     auto bar_obj = TreeNode::create_obj<GameBar>("hp_bar");
     hp_bar = bar_obj;
-    bar_obj->set_position(Vector2(-10, 10));
+    bar_obj->set_position(Vector2(-10, 0));
     bar_obj->set_anchor_mode(AnchorMode::TOPRIGHT);
     bar_obj->set_anchor_referent_mode(AnchorMode::TOPRIGHT);
     bar_obj->get_img_bg()->set_display(false);
-    bar_obj->set_size({ 320,32 });
+    bar_obj->set_size({ 330,42 });
     bar_obj->set_max_value({ 320,32 });
     auto bar_pro = bar_obj->get_img_pro()->get_obj_as<GameImg>();
-    bar_pro->set_anchor_mode(AnchorMode::LEFTCENTER);
-    bar_pro->set_anchor_referent_mode(AnchorMode::LEFTCENTER);
+    bar_pro->set_anchor_mode(AnchorMode::CENTER);
+    bar_pro->set_anchor_referent_mode(AnchorMode::CENTER);
     bar_pro->set_res_name("ui_heart");
     bar_pro->set_texture_map_type(TextureMapType::TILE);
 

@@ -72,10 +72,6 @@ void GameImg::init_size()
 	{
 		SDL_QueryTexture(texture, nullptr, nullptr, &size.x, &size.y);
 	}
-	else
-	{
-		size.x = 100, size.y = 100;
-	}
 }
 
 void GameImg::set_texture()

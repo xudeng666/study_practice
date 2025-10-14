@@ -123,7 +123,7 @@ protected:
     // 点击区域 暂时不单独列出
     // SDL_FRect click_rect;
 	/*尺寸*/
-    SDL_Point size = { 0, 0 };
+    SDL_Point size = { 100, 100 };
     // 中心点
     SDL_FPoint center = { 0.0f, 0.0f };
 	/*自身锚点*/

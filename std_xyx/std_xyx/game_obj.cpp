@@ -44,6 +44,11 @@ void GameObj::on_update(float delta)
 
 void GameObj::on_render()
 {
+	if (_DE_BUG_)
+	{
+		SDL_Rect r = get_Rect();
+		GameWnd::instance()->render_line_rect(&r);
+	}
 }
 
 void GameObj::set_ID(const std::string& str)

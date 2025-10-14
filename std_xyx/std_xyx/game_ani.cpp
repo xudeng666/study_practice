@@ -29,6 +29,7 @@ void GameAni::on_enter()
 void GameAni::on_update(float delta)
 {
 	timer.on_update(delta);
+	set_texture();
 	GameImg::on_update(delta);
 }
 

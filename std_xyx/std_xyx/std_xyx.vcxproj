@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="bullet_box.cpp" />
     <ClCompile Include="bullet_xcz.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="character_xcz.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="bullet_box.h" />
     <ClInclude Include="bullet_xcz.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />

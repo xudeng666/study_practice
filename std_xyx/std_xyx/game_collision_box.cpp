@@ -9,7 +9,7 @@ void GameCollisionBox::on_init()
 
 void GameCollisionBox::on_input(const SDL_Event& event)
 {
-	const Uint32 type = EventMgr::instance()->get_event_type(EventType::COLLISION);
+	const EventTypeId type = EventMgr::instance()->get_event_type(EventType::COLLISION);
 
 	if (type == event.type && event.user.data1 == this)
 	{
