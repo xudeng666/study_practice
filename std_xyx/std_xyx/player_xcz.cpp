@@ -1,12 +1,8 @@
 #include "player_xcz.h"
+#include "bullet_box.h"
 
 
 INIT_TYPE_NAME(Player_xcz);
-
-Player_xcz::~Player_xcz()
-{
-	bullet_list.clear();
-}
 
 void Player_xcz::on_init()
 {
@@ -70,9 +66,6 @@ void Player_xcz::on_enter()
 		std::cout << ID <<"  on_enter" << std::endl;
 	}
 	CharacterXcz::on_enter();
-
-	bul_num = 0;
-	bul_degrees = 0;
 	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
 	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_collision_enabled(true);
@@ -86,7 +79,6 @@ void Player_xcz::on_exit()
 	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_collision_enabled(false);
 	hurt_obj->set_collision_enabled(false);
-	reduce_bullet(bul_num);
 }
 
 void Player_xcz::on_input(const SDL_Event& event)
@@ -147,7 +139,7 @@ void Player_xcz::on_update(float delta)
 	if (alive)
 	{
 		on_move(delta);
-		move_bullet(delta);
+		//move_bullet(delta);
 	}
 }
 
@@ -176,69 +168,4 @@ void Player_xcz::on_move(float delta)
 		set_face(velocity.x < 0);
 	}
 	position += velocity;
-}
-
-void Player_xcz::add_bullet(const int num)
-{
-	for (size_t i = 0; i < num; i++)
-	{
-		bul_num++;
-		if (bul_num > bullet_list.size())
-		{
-			auto p = TreeNode::create_obj<BulletXcz>("bul_", bul_num - 1);
-			p->set_anchor_referent_node(current_ani);
-			p->on_enter();
-			p->set_on_hit_fun([&]() {
-				on_hit();
-				});
-			add_children(std::move(p));
-			bullet_list.push_back(p);
-		}
-		else
-		{
-			auto p = bullet_list[bul_num - 1].lock();
-			p->on_enter();
-		}
-	}
-}
-void Player_xcz::reduce_bullet(const int num)
-{
-	for (size_t i = 0; i < num; i++)
-	{
-		bul_num--;
-		if (bul_num < 0) return;
-		auto p = bullet_list[bul_num].lock();
-		if (p)
-		{
-			p->on_exit();
-		}
-	}
-}
-
-int Player_xcz::get_bullet_num()
-{
-	return bul_num;
-}
-
-void Player_xcz::set_bullet_num(const int num)
-{
-	bul_num = num;
-}
-
-void Player_xcz::move_bullet(float delta)
-{
-	if (bullet_list.size() < bul_num) return;
-	bul_degrees += delta * angle_speed;
-	for (int i = 0; i < bul_num; ++i)
-	{
-		int dre = bul_degrees + 360 / bul_num * i;
-		dre %= 360;
-		//std::cout << "bullet dre:   " << dre << std::endl;
-		auto p = bullet_list[i].lock();
-		if (p)
-		{
-			p->set_position({(float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius)});
-			p->set_rotation(90 - dre);
-		}
-	}
 }

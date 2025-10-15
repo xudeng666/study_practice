@@ -36,6 +36,8 @@ private:
     TreeNode_WP score_lable;
     // 主角
     TreeNode_WP player;
+    // 子弹箱
+    TreeNode_WP bullet_box;
     // 怪物池节点-（存放死亡怪物）
     TreeNode_SP enemy_pool = nullptr;
     // 敌人总数

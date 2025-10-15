@@ -1,9 +1,11 @@
 #include "xcz_game_scene.h"
 #include "player_xcz.h"
+#include "bullet_box.h"
 #include "collision_mgr.h"
 #include "game_mgr.h"
 #include "res_mgr.h"
 #include "tree_mgr.h"
+#include "event_mgr.h"
 
 #include "game_btn.h"
 #include "game_bar.h"
@@ -71,13 +73,25 @@ void XczGameScene::on_init()
         deduction_bul++;
         Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
         });
-    player_obj->set_on_hit_fun([&]() {  // 击中怪物加1分，播放音效
+    //player_obj->set_on_hit_fun([&]() {});
+
+    TreeNode_SP b_box = TreeNode::create_obj<BulletBox>("bullet_box");
+    bullet_box = b_box;
+    b_box->set_anchor_mode(AnchorMode::CENTER);
+    b_box->set_anchor_referent_mode(AnchorMode::CENTER);
+    b_box->set_anchor_referent_node(player);
+    auto bbox = b_box->get_obj_as<BulletBox>();
+    bbox->set_hit_fun([&]() {// 击中怪物加1分，播放音效
         score++;
         Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hit"), 0);
         });
 
     TreeMgr::instance()->get_bg_node()->add_children(std::move(bg_obj));
-    TreeMgr::instance()->get_game_node()->add_children(std::move(player_obj));
+
+    auto game = TreeMgr::instance()->get_game_node();
+    game->add_children(std::move(player_obj));
+    game->add_children(std::move(b_box));
+
     auto ui = TreeMgr::instance()->get_ui_node();
     ui->add_children(std::move(bar_obj));
     ui->add_children(std::move(lab_obj));
@@ -121,7 +135,6 @@ void XczGameScene::on_enter()
     auto p = player.lock()->get_obj_as<Player_xcz>();
     p->set_position({ 0,0 });
     p->set_hp(max_hp);
-    p->add_bullet(2);
     enemy_num = 0;
     enemy_add = 0;
     Scene::on_enter();
@@ -147,6 +160,7 @@ void XczGameScene::on_update(float delta)
         //std::cout << "XczGameScene::on_update" << std::endl;
     }
     auto player_obj = player.lock()->get_obj_as<Player_xcz>();
+    auto bul_box = bullet_box.lock()->get_obj_as<BulletBox>();
     if (!player_obj->get_alive()) return;
 
     Scene::on_update(delta);
@@ -160,13 +174,17 @@ void XczGameScene::on_update(float delta)
     bn = bn > 8 ? 8 : bn;
     bn -= deduction_bul;
     bn = bn < 1 ? 1 : bn;
-    if (bn > player_obj->get_bullet_num())
+    if (bn > bul_box->get_children_size())
     {
-        player_obj->add_bullet(1);
+        SDL_Event event;
+        event.type = EventMgr::instance()->get_event_type(EventType::ADD_BULLET);
+        SDL_PushEvent(&event);
     }
-    else if (bn < player_obj->get_bullet_num())
+    else if (bn < bul_box->get_children_size())
     {
-        player_obj->reduce_bullet(1);
+        SDL_Event event;
+        event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_BULLET);
+        SDL_PushEvent(&event);
     }
     // 子弹因为受伤减少时，每 30 秒自动恢复 1 颗子弹（不超过当前分数对应上限）
     if (deduction_bul > 0)
@@ -185,7 +203,7 @@ void XczGameScene::on_update(float delta)
     else
     {
         t *= 1.1;
-        if (2 >= player_obj->get_bullet_num())
+        if (2 >= bul_box->get_children_size())
         {
             is_enemy_produce_slow = true;
             timer_enemy_produce_slow.restart();

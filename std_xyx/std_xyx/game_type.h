@@ -96,8 +96,11 @@ enum class NodeType
 // 自定义事件类型
 enum class EventType {
 
-	COLLISION,	// 碰撞发生（单次触发）
-	COUNT		// 哨兵,用于记录总枚举总数，不可删除
+	COLLISION,			// 碰撞发生（单次触发）
+	ADD_BULLET,			// 添加子弹
+	REDUCE_BULLET,		// 减少子弹
+	LAUNCH_BULLET,		// 发射子弹
+	COUNT				// 哨兵位,用于记录总枚举总数，不可使用，不可删除
 };
 
 // GameType 特化 std::hash

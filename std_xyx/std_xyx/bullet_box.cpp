@@ -1,5 +1,8 @@
 #include "bullet_box.h"
 
+#include "event_mgr.h"
+
+INIT_TYPE_NAME(BulletBox);
 
 void BulletBox::on_enter()
 {
@@ -8,20 +11,25 @@ void BulletBox::on_enter()
 		std::cout << ID << "  on_enter" << std::endl;
 	}
 	GameObj::on_enter();
+	bul_num = 0;
+	bul_degrees = 0;
 }
 
 void BulletBox::on_exit()
 {
 	GameObj::on_exit();
+	clear_children();
 }
 
 void BulletBox::on_input(const SDL_Event& event)
 {
-	// 主要接受添加和减少子弹的事件。
-	switch (event.type)
+	if (event.type == EventMgr::instance()->get_event_type(EventType::ADD_BULLET))
 	{
-	default:
-		break;
+		add_bullet(1);
+	}
+	else if (event.type == EventMgr::instance()->get_event_type(EventType::REDUCE_BULLET))
+	{
+		reduce_bullet(1);
 	}
 }
 
@@ -33,6 +41,7 @@ void BulletBox::on_update(float delta)
 
 void BulletBox::add_bullet(const int num)
 {
+	std::cout << "BulletBox::add_bullet" << std::endl;
 	for (size_t i = 0; i < num; i++)
 	{
 		bul_num++;
@@ -42,7 +51,10 @@ void BulletBox::add_bullet(const int num)
 			p->set_anchor_referent_node(self_node);
 			p->on_enter();
 			p->set_on_hit_fun([&]() {
-				//on_hit();
+				if (on_hit_fun)
+				{
+					on_hit_fun();
+				}
 				});
 			add_children(std::move(p));
 			children.push_back(p);
@@ -56,6 +68,7 @@ void BulletBox::add_bullet(const int num)
 }
 void BulletBox::reduce_bullet(int num)
 {
+	std::cout << "BulletBox::reduce_bullet" << std::endl;
 	while (num > 0)
 	{
 		num--;
@@ -74,9 +87,10 @@ void BulletBox::set_bullet_num(const int num)
 
 void BulletBox::move_bullet(float delta)
 {
+	//std::cout << "BulletBox::move_bullet" << std::endl;
 	if (children.size() < bul_num) return;
 	bul_degrees += delta * angle_speed;
-	float angle = 360 / bul_num;
+	float angle = bul_num == 0 ? 0 : 360 / bul_num;
 	for (int i = 0; i < bul_num; ++i)
 	{
 		int dre = bul_degrees + angle * i;
@@ -88,5 +102,13 @@ void BulletBox::move_bullet(float delta)
 			p->set_position({ (float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius) });
 			p->set_rotation(90 - dre);
 		}
+	}
+}
+
+void BulletBox::set_hit_fun(std::function<void()> call_back)
+{
+	if (call_back)
+	{
+		on_hit_fun = call_back;
 	}
 }

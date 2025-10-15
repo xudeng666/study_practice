@@ -6,7 +6,10 @@ class BulletBox :
 {
 public:
     BulletBox() = default;
-    virtual ~BulletBox() override;
+    ~BulletBox() = default;
+
+    BulletBox(const std::string& id) : GameObj(id) {}
+    BulletBox(const std::string& id, int num) : GameObj(id, num) {}
 
     //virtual void on_init() override;
     virtual void on_enter() override;
@@ -14,6 +17,8 @@ public:
     virtual void on_input(const SDL_Event& event) override;
     virtual void on_update(float delta) override;
     //virtual void on_render() override;
+
+    DEFINE_TYPE_NAME(BulletBox);
 
     /// <summary>
     /// 添加子弹
@@ -31,6 +36,8 @@ public:
     void set_bullet_num(const int num);
     /*子弹旋转移动*/
     void move_bullet(float delta);
+    /*设置碰撞攻击函数*/
+    void set_hit_fun(std::function<void()> call_back);
 
 private:
     // 显示子弹数量
@@ -41,5 +48,7 @@ private:
     float bul_degrees = 0;
     // 子弹角速度(度/秒)
     float angle_speed = 90;
+    // 攻击回调函数
+    std::function<void()> on_hit_fun = nullptr;
 };
 
