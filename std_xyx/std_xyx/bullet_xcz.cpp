@@ -9,7 +9,7 @@ void BulletXcz::on_init()
 	set_anchor_referent_mode(AnchorMode::CENTER);
 	set_damage(1);
 
-	auto img_ptr = TreeNode::create_obj<GameImg>("img");
+	auto img_ptr = TreeNode::create_obj<GameImg>("bullet_img");
 	img_ptr->set_position(Vector2(0, 0));
 	img_ptr->set_res_name("sword");
 	img_ptr->set_texture_map_type(TextureMapType::AUTO);

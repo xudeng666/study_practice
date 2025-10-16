@@ -11,9 +11,11 @@ void GameCollisionBox::on_input(const SDL_Event& event)
 {
 	const EventTypeId type = EventMgr::instance()->get_event_type(EventType::COLLISION);
 
-	if (type == event.type && event.user.data1 == this)
+	std::cout << "碰撞接受A：  " << event.type << "   &   " << type << std::endl;
+	if (type == event.type)
 	{
-		if (call_back)
+		std::cout << "碰撞接受：  " << event.user.data1 << "   &   " << this << std::endl;
+		if (event.user.data1 == this && call_back)
 		{
 			call_back();
 		}

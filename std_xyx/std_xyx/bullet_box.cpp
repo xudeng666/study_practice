@@ -57,7 +57,6 @@ void BulletBox::add_bullet(const int num)
 				}
 				});
 			add_children(std::move(p));
-			children.push_back(p);
 		}
 		else
 		{
@@ -87,7 +86,6 @@ void BulletBox::set_bullet_num(const int num)
 
 void BulletBox::move_bullet(float delta)
 {
-	//std::cout << "BulletBox::move_bullet" << std::endl;
 	if (children.size() < bul_num) return;
 	bul_degrees += delta * angle_speed;
 	float angle = bul_num == 0 ? 0 : 360 / bul_num;
@@ -95,7 +93,6 @@ void BulletBox::move_bullet(float delta)
 	{
 		int dre = bul_degrees + angle * i;
 		dre %= 360;
-		//std::cout << "bullet dre:   " << dre << std::endl;
 		auto p = children[i];
 		if (p)
 		{

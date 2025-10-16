@@ -31,7 +31,7 @@ void Game::on_enter()
 
 void Game::on_update(float delta)
 {
-	get_current_scene()->on_update(delta);
+	get_current_scene()->do_update(delta);
 }
 
 void Game::on_input(const SDL_Event& event)

@@ -57,6 +57,11 @@ void deinit()
 	SDL_Quit();
 }
 
+void on_input(const SDL_Event& event)
+{
+	GameMgr::instance()->on_input(event);
+}
+
 void on_update(float delta)
 {
 	GameMgr::instance()->on_update(delta);
@@ -84,7 +89,7 @@ void mainloop()
 			{
 			case SDL_QUIT:	GameMgr::instance()->set_is_run(false);	break;
 			}
-			GameMgr::instance()->on_input(event);
+			on_input(event);
 		}
 
 		steady_clock::time_point frome_start = steady_clock::now();

@@ -13,6 +13,8 @@ public:
 
 	DEFINE_TYPE_NAME(Scene);
 
+	void do_update(float delta);
+
 	virtual void on_init() = 0;
 	virtual void on_enter() override;
 	virtual void on_exit() override;

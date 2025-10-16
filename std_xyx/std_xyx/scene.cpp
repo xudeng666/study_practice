@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "tree_mgr.h"
+#include "collision_mgr.h"
 
 #include <iostream>
 
@@ -26,7 +27,7 @@ void Scene::on_enter()
 		});
 }
 
-void Scene::on_update(float delta)
+void Scene::do_update(float delta)
 {
 	TreeMgr::instance()->pre_order_traversal([&](TreeNode_SP node) {
 		if (node)
@@ -34,6 +35,12 @@ void Scene::on_update(float delta)
 			node->on_update(delta);
 		}
 		});
+	on_update(delta);
+	CollisionMgr::instance()->clear_invalid();
+}
+
+void Scene::on_update(float delta)
+{
 }
 
 void Scene::on_input(const SDL_Event& event)
@@ -44,6 +51,7 @@ void Scene::on_input(const SDL_Event& event)
 			node->on_input(event);
 		}
 		});
+	CollisionMgr::instance()->on_input(event);
 }
 
 void Scene::on_render()
@@ -58,6 +66,7 @@ void Scene::on_render()
 
 void Scene::on_exit()
 {
+	CollisionMgr::instance()->clear_all_box();
 	TreeMgr::instance()->release_all_game();
 }
 

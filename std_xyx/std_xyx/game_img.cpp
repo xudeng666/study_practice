@@ -52,7 +52,7 @@ void GameImg::on_render()
 				dst.w = src.w;
 				dst.h = src.h;
 
-				GameWnd::instance()->render_texture(texture, &src, &dst, angle, &center);
+				GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center);
 			}
 		}
 	}
@@ -60,7 +60,7 @@ void GameImg::on_render()
 	{
 		src = { 0,0,size.x,size.y };
 		dst = { p.x,p.y,(float)size.x,(float)size.y };
-		GameWnd::instance()->render_texture(texture, &src, &dst, angle, &center);
+		GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center);
 	}
 
 	GameObj::on_render();
