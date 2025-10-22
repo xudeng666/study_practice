@@ -81,11 +81,15 @@ void CollisionMgr::processCollide()
 					{
 						SDL_Event event_src;
 						event_src.type = EventMgr::instance()->get_event_type(EventType::COLLISION);
-						event_src.user.data1 = static_cast<void*>(obj_src);
+						EventData* data_src = new EventData();
+						data_src->set("id", box_src->get_ID());
+						event_src.user.data1 = data_src;
 						SDL_PushEvent(&event_src);
 						SDL_Event event_dst;
 						event_dst.type = EventMgr::instance()->get_event_type(EventType::COLLISION);
-						event_dst.user.data1 = static_cast<void*>(obj_dst);
+						EventData* data_dst = new EventData();
+						data_dst->set("id", box_src->get_ID());
+						event_src.user.data1 = data_dst;
 						SDL_PushEvent(&event_dst);
 						std::cout << "Åö×²·¢Éú£º  " << event_src.type << "   &   " << event_dst.type << std::endl;
 					}

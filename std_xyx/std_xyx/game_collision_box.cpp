@@ -11,14 +11,20 @@ void GameCollisionBox::on_input(const SDL_Event& event)
 {
 	const EventTypeId type = EventMgr::instance()->get_event_type(EventType::COLLISION);
 
-	std::cout << "碰撞接受A：  " << event.type << "   &   " << type << std::endl;
 	if (type == event.type)
 	{
-		std::cout << "碰撞接受：  " << event.user.data1 << "   &   " << this << std::endl;
-		if (event.user.data1 == this && call_back)
+		EventData* data = static_cast<EventData*>(event.user.data1);
+		if (!data) return;
+		std::string id;
+		if (data->get("id", id))
 		{
-			call_back();
+			std::cout << "碰撞回调：  " << id << "   &   " << get_ID() << std::endl;
+			if (id == get_ID() && call_back)
+			{
+				call_back();
+			}
 		}
+		delete data;
 	}
 }
 

@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "tree_mgr.h"
 #include "collision_mgr.h"
+#include "event_mgr.h"
 
 #include <iostream>
 
@@ -64,10 +65,16 @@ void Scene::on_render()
 		});
 }
 
+void Scene::do_exit()
+{
+	on_exit();
+	CollisionMgr::instance()->clear_all_box();
+	EventMgr::instance()->flush_custom_events();
+	TreeMgr::instance()->release_all_game();
+}
+
 void Scene::on_exit()
 {
-	CollisionMgr::instance()->clear_all_box();
-	TreeMgr::instance()->release_all_game();
 }
 
 void Scene::set_ID(const std::string& str)

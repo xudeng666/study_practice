@@ -2,11 +2,16 @@
 
 #include <unordered_map>
 #include <iostream>
+#include <variant>
+//#include <string>
 
 #include"game_obj.h"
 
 // 事件ID
 using EventTypeId = Uint32;
+
+/*事件参数值类型*/
+using ParamValue = std::variant<int, EventTypeId, float, bool, std::string, void*>;
 
 class EventMgr
 {
@@ -23,6 +28,10 @@ public:
 	/// <param name="type">EventType 枚举类型</param>
 	/// <returns></returns>
 	const EventTypeId get_event_type(EventType type);
+	/// <summary>
+	///	清空自定义事件队列（针对动态参数）
+	/// </summary>
+	void flush_custom_events();
 
 	// 临时注册事件
 	EventTypeId add_temp_event();
@@ -40,6 +49,46 @@ private:
 	std::unordered_map<EventType, EventTypeId> event_type_map;
 
 	const EventTypeId INVALID_EVENT_TYPE = 0xFFFFFFFFU;	// 无效事件
+};
+
+/*事件参数类*/
+class EventData {
+public:
+	/// <summary>
+	/// 设置参数
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="key">键值</param>
+	/// <param name="value">数据</param>
+	template <typename T> void set(const std::string& key, T value)
+	{
+		data[key] = ParamValue(value);
+	}
+
+	/// <summary>
+	/// 获取参数
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="key">键值</param>
+	/// <param name="out_value">赋值对象</param>
+	/// <returns>成功返回trut, 失败返回false</returns>
+	template <typename T> bool get(const std::string& key, T& out_value) const
+	{
+		auto it = data.find(key);
+		if (it == data.end()) {
+			return false; // 键不存在
+		}
+		// 尝试将variant转换为目标类型T
+		const ParamValue& val = it->second;
+		if (const T* p = std::get_if<T>(&val)) {
+			out_value = *p;
+			return true;
+		}
+		return false; // 类型不匹配
+	}
+
+private:
+	std::unordered_map<std::string, ParamValue> data; // 键值对存储参数
 };
 
 

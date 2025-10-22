@@ -55,6 +55,33 @@ const EventTypeId EventMgr::get_event_type(EventType type)
 	return it->second;
 }
 
+void EventMgr::flush_custom_events()
+{
+	const EventTypeId min = get_event_type(EventType::COLLISION);
+
+	int last = static_cast<int>(EventType::COUNT) - 1;
+	EventType last_event = static_cast<EventType>(last);
+	const EventTypeId max = get_event_type(last_event);
+
+	SDL_Event events[1024];				// 临时数组存储事件（大小根据队列最大容量设置）
+	int event_count = SDL_PeepEvents(
+		events,							// 存储事件的数组
+		1024,							// 数组最大容量
+		SDL_PEEKEVENT,					// 模式：只读不删除
+		min,							// 最小类型
+		max								// 最大类型
+	);
+	for (int i = 0; i < event_count; ++i) {
+		SDL_Event& event = events[i];
+		// 取出参数对象指针（假设存在自定义参数）
+		EventData* datas = static_cast<EventData*>(event.user.data1);
+		if (datas) {
+			delete datas; // 释放动态内存（或用智能指针管理）
+		}
+	}
+	SDL_FlushEvents(min, max);
+}
+
 EventTypeId EventMgr::add_temp_event() {
 	EventTypeId temp_id = SDL_RegisterEvents(1);
 	if (temp_id == INVALID_EVENT_TYPE) 

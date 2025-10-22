@@ -149,8 +149,6 @@ void XczGameScene::on_exit()
 
     // 清理怪物池中的怪物
     enemy_pool.reset();
-
-    Scene::on_exit();
 }
 
 void XczGameScene::on_update(float delta)
@@ -163,7 +161,6 @@ void XczGameScene::on_update(float delta)
     auto bul_box = bullet_box.lock()->get_obj_as<BulletBox>();
     if (!player_obj->get_alive()) return;
 
-    Scene::on_update(delta);
     // 角色移动速度，每得20分提高8%，最多提升到200%
     int val = score / 20;
     val = val > 9 ? 9 : val;

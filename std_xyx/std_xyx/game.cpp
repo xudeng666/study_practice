@@ -80,7 +80,7 @@ void Game::destroy_current_scene()
 	if (!scene) {
 		return; // 无当前场景，无需销毁
 	}
-	scene->on_exit();
+	scene->do_exit();
 	scene_pool.erase(current_scene_type);
 }
 

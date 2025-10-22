@@ -62,4 +62,3 @@ private:
 	/// <returns>true有效  false无效</returns>
 	bool is_collider_valid(TreeNode_SP box);
 };
-

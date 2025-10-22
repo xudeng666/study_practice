@@ -60,5 +60,4 @@ void XczMenuScene::on_exit()
     {
         std::cout << "XczMenuScene::on_exit" << std::endl;
     }
-    Scene::on_exit();
 }
