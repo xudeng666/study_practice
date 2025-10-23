@@ -82,16 +82,18 @@ void CollisionMgr::processCollide()
 						SDL_Event event_src;
 						event_src.type = EventMgr::instance()->get_event_type(EventType::COLLISION);
 						EventData* data_src = new EventData();
-						data_src->set("id", box_src->get_ID());
+						data_src->set("obj", obj_src);
 						event_src.user.data1 = data_src;
+						event_src.user.data2 = nullptr;
 						SDL_PushEvent(&event_src);
 						SDL_Event event_dst;
 						event_dst.type = EventMgr::instance()->get_event_type(EventType::COLLISION);
 						EventData* data_dst = new EventData();
-						data_dst->set("id", box_src->get_ID());
-						event_src.user.data1 = data_dst;
+						data_dst->set("obj", obj_dst);
+						event_dst.user.data1 = data_dst;
+						event_dst.user.data2 = nullptr;
 						SDL_PushEvent(&event_dst);
-						std::cout << "碰撞发生：  " << event_src.type << "   &   " << event_dst.type << std::endl;
+						std::cout << "碰撞发生" << std::endl;
 					}
 				}
 			}

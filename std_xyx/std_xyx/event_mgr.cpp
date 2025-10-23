@@ -76,10 +76,27 @@ void EventMgr::flush_custom_events()
 		// 取出参数对象指针（假设存在自定义参数）
 		EventData* datas = static_cast<EventData*>(event.user.data1);
 		if (datas) {
-			delete datas; // 释放动态内存（或用智能指针管理）
+			delete datas; // 释放动态内存
 		}
 	}
 	SDL_FlushEvents(min, max);
+}
+
+void EventMgr::flush_custom_event_param(const SDL_Event& event)
+{
+	const EventTypeId min = get_event_type(EventType::COLLISION);
+
+	int last = static_cast<int>(EventType::COUNT) - 1;
+	EventType last_event = static_cast<EventType>(last);
+	const EventTypeId max = get_event_type(last_event);
+
+	if (event.type >= min && event.type <= max)
+	{
+		EventData* data = static_cast<EventData*>(event.user.data1);
+		if (data) {
+			delete data; // 释放动态内存
+		}
+	}
 }
 
 EventTypeId EventMgr::add_temp_event() {

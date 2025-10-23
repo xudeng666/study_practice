@@ -15,16 +15,15 @@ void GameCollisionBox::on_input(const SDL_Event& event)
 	{
 		EventData* data = static_cast<EventData*>(event.user.data1);
 		if (!data) return;
-		std::string id;
-		if (data->get("id", id))
+		void* obj;
+		if (data->get("obj", obj))
 		{
-			std::cout << "碰撞回调：  " << id << "   &   " << get_ID() << std::endl;
-			if (id == get_ID() && call_back)
+			if (obj == this && call_back)
 			{
+				std::cout << "碰撞箱回调:   " << obj << "  id: " << get_path_ID() << std::endl;
 				call_back();
 			}
 		}
-		delete data;
 	}
 }
 

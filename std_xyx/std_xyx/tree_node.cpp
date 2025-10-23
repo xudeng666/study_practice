@@ -198,5 +198,6 @@ TreeNode_SP TreeNode::take_out_of_children(bool is_front)
 		node = children.back();
 		children.pop_back();
 	}
+	node->set_parent(nullptr);	// 取出后，应当将父节点设置为空
 	return node;
 }

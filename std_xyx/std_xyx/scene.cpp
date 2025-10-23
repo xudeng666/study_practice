@@ -53,6 +53,8 @@ void Scene::on_input(const SDL_Event& event)
 		}
 		});
 	CollisionMgr::instance()->on_input(event);
+
+	EventMgr::instance()->flush_custom_event_param(event);
 }
 
 void Scene::on_render()

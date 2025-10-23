@@ -71,7 +71,7 @@ void XczGameScene::on_init()
 
     player_obj->set_on_hurt_fun([&]() { // 被击中则扣掉的子弹数+1
         deduction_bul++;
-        Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
+        // Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
         });
     //player_obj->set_on_hit_fun([&]() {});
 
@@ -175,12 +175,16 @@ void XczGameScene::on_update(float delta)
     {
         SDL_Event event;
         event.type = EventMgr::instance()->get_event_type(EventType::ADD_BULLET);
+        event.user.data1 = nullptr;
+        event.user.data2 = nullptr;
         SDL_PushEvent(&event);
     }
     else if (bn < bul_box->get_children_size())
     {
         SDL_Event event;
         event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_BULLET);
+        event.user.data1 = nullptr;
+        event.user.data2 = nullptr;
         SDL_PushEvent(&event);
     }
     // 子弹因为受伤减少时，每 30 秒自动恢复 1 颗子弹（不超过当前分数对应上限）
@@ -287,6 +291,10 @@ void XczGameScene::add_enemy()
             auto enemy_n = TreeNode::create_obj<Enemy_xcz>("enemy_", enemy_num);
             enemy_n->on_enter();
             enemy_num++;
+            //enemy_n->set_on_hurt_fun([&]() { });
+            enemy_n->set_on_hit_fun([&]() { // 怪物击中角色 播放音效
+                Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
+                });
             entity->add_children(std::move(enemy_n));
         }
         enemy_add--;

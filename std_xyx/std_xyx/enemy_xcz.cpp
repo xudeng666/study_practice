@@ -54,7 +54,13 @@ void Enemy_xcz::on_init()
 	hurt_obj->set_layer_dst(CollisionLayer::NONE);
 	hurt_obj->set_layer_src(CollisionLayer::ENEMY);
 	hurt_obj->set_ID("enemy_hurt_box");
-	hurt_obj->set_call_back([&]() {decrease_hp(1);});
+	hurt_obj->set_call_back([&]() {
+		decrease_hp(1);
+		if (!get_alive())
+		{
+			on_exit();
+		}
+		});
 	hurt_obj->set_anchor_referent_node(self_node);
 }
 

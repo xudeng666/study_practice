@@ -32,6 +32,11 @@ public:
 	///	清空自定义事件队列（针对动态参数）
 	/// </summary>
 	void flush_custom_events();
+	/// <summary>
+	/// 清除自定义事件参数
+	/// </summary>
+	/// <param name="event">自定义事件</param>
+	void flush_custom_event_param(const SDL_Event& event);
 
 	// 临时注册事件
 	EventTypeId add_temp_event();
