@@ -1,5 +1,6 @@
 #include "player_xcz.h"
 #include "bullet_box.h"
+#include "event_mgr.h"
 
 
 INIT_TYPE_NAME(Player_xcz);
@@ -55,7 +56,17 @@ void Player_xcz::on_init()
 	hurt_obj->set_layer_dst(CollisionLayer::NONE);
 	hurt_obj->set_layer_src(CollisionLayer::PLAYER_1);
 	hurt_obj->set_ID("player_hurt_box");
-	hurt_obj->set_call_back([&]() {decrease_hp(1);});
+	hurt_obj->set_call_back([&]() {
+		decrease_hp(1);
+		if (!alive)
+		{
+			SDL_Event event;
+			event.type = EventMgr::instance()->get_event_type(EventType::PLAYER_DIE);
+			event.user.data1 = nullptr;
+			event.user.data2 = nullptr;
+			SDL_PushEvent(&event);
+		}
+		});
 	hurt_obj->set_anchor_referent_node(self_node);
 }
 

@@ -1,6 +1,7 @@
 #include "bullet_box.h"
-
 #include "event_mgr.h"
+
+#include <assert.h>
 
 INIT_TYPE_NAME(BulletBox);
 
@@ -41,7 +42,7 @@ void BulletBox::on_update(float delta)
 
 void BulletBox::add_bullet(const int num)
 {
-	std::cout << "BulletBox::add_bullet" << std::endl;
+	std::cout << "BulletBox::添加子弹" << std::endl;
 	for (size_t i = 0; i < num; i++)
 	{
 		bul_num++;
@@ -67,10 +68,13 @@ void BulletBox::add_bullet(const int num)
 }
 void BulletBox::reduce_bullet(int num)
 {
-	std::cout << "BulletBox::reduce_bullet" << std::endl;
+	std::cout << "BulletBox::减少子弹" << std::endl;
+	bul_num -= num;
 	while (num > 0)
 	{
 		num--;
+		auto p = children[bul_num + num];
+		p->on_exit();
 	}
 }
 
@@ -86,7 +90,11 @@ void BulletBox::set_bullet_num(const int num)
 
 void BulletBox::move_bullet(float delta)
 {
-	if (children.size() < bul_num) return;
+	if (children.size() < bul_num)
+	{
+		assert(false && "未知原因子弹数据错误");
+	}
+
 	bul_degrees += delta * angle_speed;
 	float angle = bul_num == 0 ? 0 : 360 / bul_num;
 	for (int i = 0; i < bul_num; ++i)

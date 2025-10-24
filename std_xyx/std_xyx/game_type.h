@@ -100,6 +100,7 @@ enum class EventType {
 	ADD_BULLET,			// 添加子弹
 	REDUCE_BULLET,		// 减少子弹
 	LAUNCH_BULLET,		// 发射子弹
+	PLAYER_DIE,			// 角色死亡
 	COUNT				// 哨兵位,用于记录总枚举总数，不可使用，不可删除
 };
 

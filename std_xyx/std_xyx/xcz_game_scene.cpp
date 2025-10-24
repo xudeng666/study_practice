@@ -34,11 +34,11 @@ void XczGameScene::on_init()
     bar_obj->set_anchor_mode(AnchorMode::TOPRIGHT);
     bar_obj->set_anchor_referent_mode(AnchorMode::TOPRIGHT);
     bar_obj->get_img_bg()->set_display(false);
-    bar_obj->set_size({ 330,42 });
+    bar_obj->set_size({ 320,42 });
     bar_obj->set_max_value({ 320,32 });
     auto bar_pro = bar_obj->get_img_pro()->get_obj_as<GameImg>();
-    bar_pro->set_anchor_mode(AnchorMode::CENTER);
-    bar_pro->set_anchor_referent_mode(AnchorMode::CENTER);
+    bar_pro->set_anchor_mode(AnchorMode::RIGHTCENTER);
+    bar_pro->set_anchor_referent_mode(AnchorMode::RIGHTCENTER);
     bar_pro->set_res_name("ui_heart");
     bar_pro->set_texture_map_type(TextureMapType::TILE);
 
@@ -70,8 +70,8 @@ void XczGameScene::on_init()
     player = player_obj;
 
     player_obj->set_on_hurt_fun([&]() { // 被击中则扣掉的子弹数+1
+        std::cout << "被击中" << std::endl;
         deduction_bul++;
-        // Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
         });
     //player_obj->set_on_hit_fun([&]() {});
 
@@ -151,6 +151,15 @@ void XczGameScene::on_exit()
     enemy_pool.reset();
 }
 
+void XczGameScene::on_input(const SDL_Event& event)
+{
+    if (event.type == EventMgr::instance()->get_event_type(EventType::PLAYER_DIE))
+    {
+        // 玩家死亡，则切换回菜单场景
+        GameMgr::instance()->exchange_scene(SceneType::MENU);
+    }
+}
+
 void XczGameScene::on_update(float delta)
 {
     if (_DE_BUG_)
@@ -166,12 +175,12 @@ void XczGameScene::on_update(float delta)
     val = val > 9 ? 9 : val;
     float n = pow(1.08f, val);
     player_obj->set_speed(150.0f * n);
-    // 子弹每得30分多一颗，最高8颗,最低一颗
+    // 子弹每得30分多一颗，最高8颗,最低1颗，初始2颗
     int bn = 2 + score / 30;
     bn = bn > 8 ? 8 : bn;
     bn -= deduction_bul;
     bn = bn < 1 ? 1 : bn;
-    if (bn > bul_box->get_children_size())
+    if (bn > bul_box->get_bullet_num())
     {
         SDL_Event event;
         event.type = EventMgr::instance()->get_event_type(EventType::ADD_BULLET);
@@ -179,7 +188,7 @@ void XczGameScene::on_update(float delta)
         event.user.data2 = nullptr;
         SDL_PushEvent(&event);
     }
-    else if (bn < bul_box->get_children_size())
+    else if (bn < bul_box->get_bullet_num())
     {
         SDL_Event event;
         event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_BULLET);
@@ -255,12 +264,6 @@ void XczGameScene::on_update(float delta)
 
     // 统一添加新怪物
     add_enemy();
-
-    if (!player_obj->get_alive())
-    {
-        // 退出游戏到菜单界面
-        GameMgr::instance()->exchange_scene(SceneType::MENU);
-    }
 }
 
 void XczGameScene::on_render()

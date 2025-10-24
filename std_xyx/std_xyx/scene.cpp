@@ -44,7 +44,7 @@ void Scene::on_update(float delta)
 {
 }
 
-void Scene::on_input(const SDL_Event& event)
+void Scene::do_input(const SDL_Event& event)
 {
 	TreeMgr::instance()->pre_order_traversal([&](TreeNode_SP node) {
 		if (node)
@@ -54,7 +54,14 @@ void Scene::on_input(const SDL_Event& event)
 		});
 	CollisionMgr::instance()->on_input(event);
 
+	on_input(event);
+
 	EventMgr::instance()->flush_custom_event_param(event);
+}
+
+void Scene::on_input(const SDL_Event& event)
+{
+
 }
 
 void Scene::on_render()
