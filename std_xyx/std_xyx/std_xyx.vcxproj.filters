@@ -40,6 +40,12 @@
     <Filter Include="源文件\manager">
       <UniqueIdentifier>{38f1f3f0-3bb1-4209-b84f-e8ea54167dcf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\game_zmdj">
+      <UniqueIdentifier>{94f6dc8d-4777-4bd3-a4df-72a91e88246d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\game_zmdj">
+      <UniqueIdentifier>{8b2b255f-709f-4aa6-bf39-08b8f3bf1241}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="bullet_box.cpp">
       <Filter>源文件\game_xcz</Filter>
+    </ClCompile>
+    <ClCompile Include="zmdj_game_scene.cpp">
+      <Filter>源文件\game_zmdj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="bullet_box.h">
       <Filter>头文件\game_xcz</Filter>
+    </ClInclude>
+    <ClInclude Include="zmdj_game_scene.h">
+      <Filter>头文件\game_zmdj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
