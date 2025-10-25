@@ -140,6 +140,7 @@
     <ClCompile Include="collision_mgr.cpp" />
     <ClCompile Include="combatant.cpp" />
     <ClCompile Include="enemy_xcz.cpp" />
+    <ClCompile Include="enemy_zmdj.cpp" />
     <ClCompile Include="event_mgr.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_bar.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="game_start.cpp" />
     <ClCompile Include="game_wnd.cpp" />
     <ClCompile Include="game_xcz.cpp" />
+    <ClCompile Include="game_zmdj.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player_xcz.cpp" />
     <ClCompile Include="res_mgr.cpp" />
@@ -174,6 +176,7 @@
     <ClInclude Include="collision_mgr.h" />
     <ClInclude Include="combatant.h" />
     <ClInclude Include="enemy_xcz.h" />
+    <ClInclude Include="enemy_zmdj.h" />
     <ClInclude Include="event_mgr.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game_ani.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="game_type.h" />
     <ClInclude Include="game_wnd.h" />
     <ClInclude Include="game_xcz.h" />
+    <ClInclude Include="game_zmdj.h" />
     <ClInclude Include="obj.h" />
     <ClInclude Include="player_xcz.h" />
     <ClInclude Include="res_mgr.h" />

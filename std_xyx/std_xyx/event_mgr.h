@@ -11,7 +11,7 @@
 using EventTypeId = Uint32;
 
 /*事件参数值类型*/
-using ParamValue = std::variant<int, EventTypeId, float, bool, std::string, void*>;
+using ParamValue = std::variant<int, EventTypeId, float, bool, std::string, void*, TreeNode_SP, TreeNode_WP>;
 
 class EventMgr
 {

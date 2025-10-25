@@ -3,15 +3,14 @@
 #include "game_mgr.h"
 #include "collision_mgr.h"
 #include "tree_mgr.h"
+#include "enemy_zmdj.h"
+#include "res_mgr.h"
 
 #include "game_btn.h"
 #include "game_bar.h"
 #include "game_lable.h"
 
 #include <assert.h>
-
-//#include "game_type.h"
-//#include "util.h"
 
 INIT_TYPE_NAME(ZmdjGameScene);
 
@@ -32,8 +31,8 @@ void ZmdjGameScene::on_init()
     auto e_box = TreeNode::create_obj<GameObj>("enemy_box");
     enemy_box = e_box;
     e_box->set_position(Vector2(0, 0));
-    bg_obj->set_anchor_mode(AnchorMode::CENTER);
-    bg_obj->set_anchor_referent_mode(AnchorMode::CENTER);
+    e_box->set_anchor_mode(AnchorMode::TOPLEFT);
+    e_box->set_anchor_referent_mode(AnchorMode::TOPLEFT);
     // 添加炮台
 
     // 添加UI 血条  分数  退出  
@@ -75,11 +74,28 @@ void ZmdjGameScene::on_init()
         }
     );
 
+
+    TreeMgr::instance()->get_bg_node()->add_children(std::move(bg_obj));
+
+    auto game = TreeMgr::instance()->get_game_node();
+    game->add_children(std::move(e_box));
+    //game->add_children(std::move(b_box));
+
+    auto ui = TreeMgr::instance()->get_ui_node();
+    ui->add_children(std::move(bar_obj));
+    ui->add_children(std::move(lab_obj));
+    ui->add_children(std::move(exit_obj));
+
     timer_generate.set_one_shot(false);
     timer_generate.set_wait_time(1.5f);
     timer_generate.set_on_timeout([&]()
         {
             // 发送生成敌人事件
+            SDL_Event event;
+            event.type = EventMgr::instance()->get_event_type(EventType::ADD_ENEMY);
+            event.user.data1 = nullptr;
+            event.user.data2 = nullptr;
+            SDL_PushEvent(&event);
         });
 
     timer_increase_num_per_gen.set_one_shot(false);
@@ -119,6 +135,28 @@ void ZmdjGameScene::on_input(const SDL_Event& event)
         // 玩家死亡，则切换回开始游戏
         GameMgr::instance()->exchange_game(GameType::START);
     }
+    else if (event.type == EventMgr::instance()->get_event_type(EventType::ENEMY_DIE))
+    {
+        score++;
+        Mix_PlayChannel(-1, ResMgr::instance()->find_audio("explosion"), 0);
+    }
+    else if (event.type == EventMgr::instance()->get_event_type(EventType::ADD_ENEMY))
+    {
+        add_enemy();
+    }
+    else if (event.type == EventMgr::instance()->get_event_type(EventType::REDUCE_ENEMY))
+    {
+        EventData* data = static_cast<EventData*>(event.user.data1);
+        if (!data) return;
+        TreeNode_WP node;
+        if (data->get("node", node))
+        {
+            if (!node.expired())
+            {
+                enemy_pool->add_children(node.lock());
+            }
+        }
+    }
 }
 
 void ZmdjGameScene::on_update(float delta)
@@ -127,6 +165,10 @@ void ZmdjGameScene::on_update(float delta)
     {
         //std::cout << "ZmdjGameScene::on_update" << std::endl;
     }
+
+    timer_generate.on_update(delta);
+    timer_increase_num_per_gen.on_update(delta);
+
     // 碰撞检测
     CollisionMgr::instance()->processCollide();
     // 最后将怪物在对象树中按照y轴升序排序。
@@ -141,8 +183,6 @@ void ZmdjGameScene::on_update(float delta)
     score_lable.lock()->get_obj_as<GameLable>()->set_lable_text("SCORE:" + std::to_string(score));
     // 更新血量
     hp_bar.lock()->get_obj_as<GameBar>()->set_percent_num(1.0f * hp / max_hp);
-    // 统一添加新怪物
-    add_enemy();
 }
 
 void ZmdjGameScene::on_render()
@@ -155,16 +195,6 @@ void ZmdjGameScene::add_enemy()
 {
     auto e_box = enemy_box.lock();
     for (int i = 0; i < num_per_gen; i++)
-    {
-        int val = getIntRand(0, 99);
-        if (val < 50)       // 50%
-            // 生成一类敌人
-        else if (val < 80)  // 30%
-            // 生成二类敌人
-        else                // 20%
-            // 生成三类敌人
-    }
-    while (num_per_gen > 0)
     {
         // 如果怪物池有，就直接取出
         if (enemy_pool->get_children_size() > 0)
@@ -180,11 +210,10 @@ void ZmdjGameScene::add_enemy()
         else
         {
             //没有就new一个
-            auto enemy_n = TreeNode::create_obj<Enemy_xcz>("enemy_", enemy_num);
+            auto enemy_n = TreeNode::create_obj<EnemyZmdj>("enemy_", enemy_num);
             enemy_n->on_enter();
             enemy_num++;
             e_box->add_children(std::move(enemy_n));
         }
-        enemy_add--;
     }
 }

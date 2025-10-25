@@ -141,6 +141,12 @@
     <ClCompile Include="zmdj_game_scene.cpp">
       <Filter>源文件\game_zmdj</Filter>
     </ClCompile>
+    <ClCompile Include="enemy_zmdj.cpp">
+      <Filter>源文件\game_zmdj</Filter>
+    </ClCompile>
+    <ClCompile Include="game_zmdj.cpp">
+      <Filter>源文件\game_zmdj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -252,6 +258,12 @@
       <Filter>头文件\game_xcz</Filter>
     </ClInclude>
     <ClInclude Include="zmdj_game_scene.h">
+      <Filter>头文件\game_zmdj</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_zmdj.h">
+      <Filter>头文件\game_zmdj</Filter>
+    </ClInclude>
+    <ClInclude Include="game_zmdj.h">
       <Filter>头文件\game_zmdj</Filter>
     </ClInclude>
   </ItemGroup>

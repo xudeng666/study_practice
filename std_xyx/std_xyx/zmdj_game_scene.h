@@ -4,13 +4,6 @@
 
 #include "timer.h"
 
-enum class ZmdjEnemyType
-{
-    E_S = 0,
-    E_M,
-    E_F
-};
-
 class ZmdjGameScene:public Scene
 {
 public:
@@ -64,6 +57,5 @@ private:
     int num_per_gen = 2;                            // 敌人每次生成数量
     Timer timer_generate;							// 敌人生成定时器
     Timer timer_increase_num_per_gen;				// 增加每次敌人生成数量定时器
-
 };
 

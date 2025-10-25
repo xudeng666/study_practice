@@ -1,6 +1,7 @@
 #include "game_mgr.h"
 #include "game_start.h"
 #include "game_xcz.h"
+#include "game_zmdj.h"
 
 #include <assert.h>
 
@@ -71,14 +72,14 @@ void GameMgr::exchange_game(GameType type)
 	case GameType::XCZ:
 		create_game<GameXcz>(current_type, "GameXcz");
 		break;
+	case GameType::ZMDJ:
+		create_game<GameZmdj>(current_type, "GameZmdj");
+		break;
 	/*case GameType::KDWS:
 		create_game<GameKdws>(current_type, "GameKdws");
 		break;
 	case GameType::DLD:
 		create_game<GameDld>(current_type, "GameDld");
-		break;
-	case GameType::ZMDJ:
-		create_game<GameZmdj>(current_type, "GameZmdj");
 		break;
 	case GameType::PHF:
 		create_game<GamePhf>(current_type, "GamePhf");

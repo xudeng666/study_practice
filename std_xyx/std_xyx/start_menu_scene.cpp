@@ -46,7 +46,7 @@ void StartMenuScene::on_init()
     btn_zmdj_ptr->set_anchor_referent_mode(AnchorMode::CENTER);
     btn_zmdj_ptr->set_on_click([]() {
         std::cout << "ÇÐ»»ÓÎÏ·ÖÂÃü´ò¼¦" << std::endl;
-        //GameMgr::instance()->exchange_game(GameType::ZMDJ);
+        GameMgr::instance()->exchange_game(GameType::ZMDJ);
         }
     );
 
