@@ -29,6 +29,8 @@ void GameImg::on_render()
 	SDL_FRect dst = { 0,0,0,0 };
 	Vector2 p = get_anchor_position(AnchorMode::TOPLEFT);
 
+	SDL_FPoint center_r = get_center();
+
 	if (map_type == TextureMapType::TILE)
 	{
 		SDL_Point s;
@@ -52,7 +54,7 @@ void GameImg::on_render()
 				dst.w = src.w;
 				dst.h = src.h;
 
-				GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center);
+				GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center_r);
 			}
 		}
 	}
@@ -60,7 +62,7 @@ void GameImg::on_render()
 	{
 		src = { 0,0,size.x,size.y };
 		dst = { p.x,p.y,(float)size.x,(float)size.y };
-		GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center);
+		GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center_r);
 	}
 
 	GameObj::on_render();

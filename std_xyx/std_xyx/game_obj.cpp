@@ -2,6 +2,8 @@
 #include "game_wnd.h"
 #include "event_mgr.h"
 
+#include "SDL_util.h"
+
 #include <assert.h>
 
 INIT_TYPE_NAME(GameObj);
@@ -44,11 +46,11 @@ void GameObj::on_update(float delta)
 
 void GameObj::on_render()
 {
-	/*if (_DE_BUG_)
+	if (_DE_BUG_)
 	{
 		SDL_Rect r = get_Rect();
 		GameWnd::instance()->render_line_rect(&r);
-	}*/
+	}
 }
 
 void GameObj::set_ID(const std::string& str)
@@ -110,7 +112,27 @@ void GameObj::set_center(const SDL_FPoint& pos)
 {
 	center = pos;
 }
-
+SDL_FPoint GameObj::get_center()
+{
+	Vector2 p = get_anchor_difference(AnchorMode::TOPLEFT, angle_anchor_mode);
+	return { center.x + p.x, center.y + p.y };
+}
+void GameObj::set_angle_anchor_mode(const AnchorMode mode)
+{
+	angle_anchor_mode = mode;
+}
+AnchorMode GameObj::get_angle_anchor_mode()
+{
+	return angle_anchor_mode;
+}
+void GameObj::set_enable_angle(bool tga)
+{
+	enable_angle = tga;
+}
+bool GameObj::get_enable_angle()
+{
+	return enable_angle;
+}
 void GameObj::set_rotation(double val)
 {
 	angle = val;
@@ -120,7 +142,7 @@ double GameObj::get_rotation()
 {
 	auto p = get_anchor_referent();
 	double val = p ? p->get_rotation() : 0;
-	return val + angle;
+	return (val + (enable_angle ? angle : 0));
 }
 
 void GameObj::set_click_enabled(bool enable)
@@ -184,22 +206,43 @@ SDL_Rect GameObj::get_Rect()
 	return { (int)p.x, (int)p.y, size.x, size.y };
 }
 
+Vector2 GameObj::get_anchor_difference(const AnchorMode p, const AnchorMode t)
+{
+	if (p == t)
+	{
+		return Vector2(0, 0);
+	}
+	int m = static_cast<int>(t);
+	int a = static_cast<int>(p);
+
+	return Vector2((m % 3 - a % 3) * size.x / 2, (m / 3 - a / 3) * size.y / 2);
+}
+
+Vector2 GameObj::get_rotatio_center_pos(const Vector2 pos, const AnchorMode mode)
+{
+	Vector2 p = pos + get_anchor_difference(mode, angle_anchor_mode);
+	p += Vector2(center.x, center.y);
+	return p;
+}
+
 Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 {
 	Vector2 t = { 0.0f,0.0f };
 	auto ref = get_anchor_referent();
 	if (ref) // 获取锚定节点的对齐锚点全局坐标
-	{
+	{ 
 		t = ref->get_anchor_position(anchor_referent_mode);
 	}
 
 	Vector2 p = position;
-	int m = static_cast<int>(mode);
-	int a = static_cast<int>(anchor_mode);
-
-	p.x += (m % 3 - a % 3) * size.x / 2;
-	p.y += (m / 3 - a / 3) * size.y / 2;
+	p += get_anchor_difference(anchor_mode, mode);
 	t += p;
+
+	if (enable_angle)
+	{
+		Vector2 c = get_rotatio_center_pos(t, mode);
+		return get_Rotate_Vector(t, c, angle);
+	}
 
 	return t;
 }
@@ -213,11 +256,7 @@ Vector2 GameObj::get_anchor_position(TreeNode_WP node, const AnchorMode mode)
 	}
 
 	Vector2 p = position;
-	int m = static_cast<int>(mode);
-	int a = static_cast<int>(anchor_mode);
-
-	p.x += (m % 3 - a % 3) * size.x / 2;
-	p.y += (m / 3 - a / 3) * size.y / 2;
+	p += get_anchor_difference(anchor_mode, mode);
 	t += p;
 
 	return t;
@@ -226,10 +265,7 @@ Vector2 GameObj::get_anchor_position(TreeNode_WP node, const AnchorMode mode)
 Vector2 GameObj::get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size)
 {
 	Vector2 t = get_anchor_position(aligned);
-	int m = static_cast<int>(target);
-	int a = static_cast<int>(reference);
-	pos.x += (m % 3 - a % 3) * p_size.x / 2;
-	pos.y += (m / 3 - a / 3) * p_size.y / 2;
+	pos += get_anchor_difference(reference, target);
 	t += pos;
 	return t;
 }

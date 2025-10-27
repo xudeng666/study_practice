@@ -15,6 +15,8 @@ void BulletXcz::on_init()
 	img_ptr->set_texture_map_type(TextureMapType::AUTO);
 	img_ptr->set_anchor_mode(AnchorMode::CENTER);
 	img_ptr->set_anchor_referent_mode(AnchorMode::CENTER);
+	img_ptr->set_enable_angle(true);
+	img_ptr->set_angle_anchor_mode(AnchorMode::CENTER);
 	img = img_ptr;
 	add_children(std::move(img_ptr));
 

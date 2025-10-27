@@ -77,6 +77,7 @@ void XczGameScene::on_init()
 
     TreeNode_SP b_box = TreeNode::create_obj<BulletBox>("bullet_box");
     bullet_box = b_box;
+    b_box->set_size({ 50, 200 });
     b_box->set_anchor_mode(AnchorMode::CENTER);
     b_box->set_anchor_referent_mode(AnchorMode::CENTER);
     b_box->set_anchor_referent_node(player);
@@ -116,7 +117,7 @@ void XczGameScene::on_init()
 
     timer_enemy_produce.set_one_shot(false);
     timer_enemy_produce.set_on_timeout([&]() {
-        enemy_add++;
+        //enemy_add++;
         });
 }
 

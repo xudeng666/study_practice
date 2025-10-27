@@ -38,3 +38,22 @@ inline SDL_Color get_SDLColor_ARGB(Uint32 hexColor) {
     color.b = hexColor & 0xFF;
     return color;
 }
+/// <summary>
+/// 获取旋转后的坐标
+/// </summary>
+/// <param name="p">起点</param>
+/// <param name="c">旋转点</param>
+/// <param name="angle">角度</param>
+/// <returns>Vector2 p点旋转后的坐标</returns>
+inline Vector2 get_Rotate_Vector(const Vector2 p, const Vector2 c, const float angle)
+{
+    float rotate = getRadiansByAngle(angle);
+    float cos = std::cos(rotate);
+    float sin = std::sin(rotate);
+
+    Vector2 t = p - c;
+
+    Vector2 m = { t.x * cos - t.y * sin, t.x * sin + t.y * cos };
+
+    return m + c;
+}

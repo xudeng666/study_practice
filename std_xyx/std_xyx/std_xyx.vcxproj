@@ -139,6 +139,7 @@
     <ClCompile Include="character_xcz.cpp" />
     <ClCompile Include="collision_mgr.cpp" />
     <ClCompile Include="combatant.cpp" />
+    <ClCompile Include="turret_zmdj.cpp" />
     <ClCompile Include="enemy_xcz.cpp" />
     <ClCompile Include="enemy_zmdj.cpp" />
     <ClCompile Include="event_mgr.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="character_xcz.h" />
     <ClInclude Include="collision_mgr.h" />
     <ClInclude Include="combatant.h" />
+    <ClInclude Include="turret_zmdj.h" />
     <ClInclude Include="enemy_xcz.h" />
     <ClInclude Include="enemy_zmdj.h" />
     <ClInclude Include="event_mgr.h" />

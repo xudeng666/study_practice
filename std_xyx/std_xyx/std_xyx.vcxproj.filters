@@ -147,6 +147,9 @@
     <ClCompile Include="game_zmdj.cpp">
       <Filter>源文件\game_zmdj</Filter>
     </ClCompile>
+    <ClCompile Include="turret_zmdj.cpp">
+      <Filter>源文件\game_zmdj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -264,6 +267,9 @@
       <Filter>头文件\game_zmdj</Filter>
     </ClInclude>
     <ClInclude Include="game_zmdj.h">
+      <Filter>头文件\game_zmdj</Filter>
+    </ClInclude>
+    <ClInclude Include="turret_zmdj.h">
       <Filter>头文件\game_zmdj</Filter>
     </ClInclude>
   </ItemGroup>
