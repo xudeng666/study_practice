@@ -11,6 +11,8 @@ public:
     int get_width() const;
     // 获取窗口高
     int get_height() const;
+    // 获取屏幕中心点坐标
+    Vector2 get_center() const;
     // 修改窗口标题
     void set_title(const std::string& title);
     // 获取渲染器

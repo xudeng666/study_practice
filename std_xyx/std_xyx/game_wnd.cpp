@@ -21,6 +21,11 @@ int GameWnd::get_height() const
     return  height;
 }
 
+Vector2 GameWnd::get_center() const
+{
+    return  Vector2(width / 2, height / 2);
+}
+
 void GameWnd::set_title(const std::string& title)
 {
     SDL_SetWindowTitle(window, title.c_str());

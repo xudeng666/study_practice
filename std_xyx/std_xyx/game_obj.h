@@ -61,6 +61,8 @@ public:
     void set_click_enabled(bool enable);
     /*获取点击区域状态*/
     bool get_click_enabled();
+    /*获取对象区域坐标*/
+    Vector2 get_rect_pos();
     /*获取对象区域*/
     SDL_FRect get_FRect();
     /*获取对象区域*/
@@ -80,30 +82,16 @@ public:
     /// <returns></returns>
     Vector2 get_rotatio_center_pos(const Vector2 pos, const AnchorMode mode);
     /// <summary>
-    /// 获取自身某锚点的全局坐标
+    /// 获取中心点全局坐标
+    /// </summary>
+    /// <returns></returns>
+    Vector2 get_center_position();
+    /// <summary>
+    /// 获取自身某锚点的全局实际坐标
     /// </summary>
     /// <param name="mode">计算锚点</param>
     /// <returns>Vector2</returns>
     Vector2 get_anchor_position(const AnchorMode mode);
-    /// <summary>
-    /// 获取自身某锚点的全局坐标
-    /// 指自身坐标数据相对于某个节点的结果
-    /// </summary>
-    /// <param name="node">指定节点</param>
-    /// <param name="mode">计算锚点</param>
-    /// <returns>Vector2</returns>
-    Vector2 get_anchor_position(TreeNode_WP node, const AnchorMode mode);
-    /// <summary>
-    /// 获取假子节点锚点的全局坐标
-    /// 假设有个字节的锚定本节点，获取该子节点的某个锚点全局坐标
-    /// </summary>
-    /// <param name="aligned">被子节点锚定的锚点</param>
-    /// <param name="reference">子节点锚定锚点</param>
-    /// <param name="target">子节点计算锚点</param>
-    /// <param name="pos">子节点坐标</param>
-    /// <param name="p_size">子节点大小</param>
-    /// <returns>Vector2</returns>
-    Vector2 get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size);
     /// <summary>
     /// 检测是否在屏幕内
     /// </summary>
@@ -128,8 +116,10 @@ public:
     bool get_enable_angle();
     /*设置角度*/
     void set_rotation(double val);
-    /*获取角度*/
+    /*获取弧度*/
     double get_rotation();
+    /*获取角度*/
+    double get_angle();
 
 protected:
     /*点击区域开关状态*/
@@ -155,6 +145,6 @@ protected:
     bool enable_angle = false;
     // 旋转中心坐标点
     SDL_FPoint center = { 0.0f, 0.0f };
-    // 旋转锚点(默认左上角)
-    AnchorMode angle_anchor_mode = AnchorMode::TOPLEFT;
+    // 旋转锚点(默认中心点)
+    AnchorMode angle_anchor_mode = AnchorMode::CENTER;
 };

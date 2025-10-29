@@ -116,6 +116,7 @@ SDL_FPoint GameObj::get_center()
 {
 	Vector2 p = get_anchor_difference(AnchorMode::TOPLEFT, angle_anchor_mode);
 	return { center.x + p.x, center.y + p.y };
+
 }
 void GameObj::set_angle_anchor_mode(const AnchorMode mode)
 {
@@ -123,7 +124,7 @@ void GameObj::set_angle_anchor_mode(const AnchorMode mode)
 }
 AnchorMode GameObj::get_angle_anchor_mode()
 {
-	return angle_anchor_mode;
+	return angle_anchor_mode; 
 }
 void GameObj::set_enable_angle(bool tga)
 {
@@ -140,8 +141,13 @@ void GameObj::set_rotation(double val)
 
 double GameObj::get_rotation()
 {
+	return getRadiansByAngle(get_angle());
+}
+
+double GameObj::get_angle()
+{
 	auto p = get_anchor_referent();
-	double val = p ? p->get_rotation() : 0;
+	double val = p ? p->get_angle() : 0;
 	return (val + (enable_angle ? angle : 0));
 }
 
@@ -194,15 +200,21 @@ TreeNode_SP GameObj::get_anchor_referent()
 	return  anchor_referent_node.lock();
 }
 
+Vector2 GameObj::get_rect_pos()
+{
+	Vector2 p = get_center_position();
+	return p + get_anchor_difference(AnchorMode::CENTER, AnchorMode::TOPLEFT);
+}
+
 SDL_FRect GameObj::get_FRect()
 {
-	Vector2 p = get_anchor_position(AnchorMode::TOPLEFT);
+	Vector2 p = get_rect_pos();
 	return { p.x, p.y, (float)size.x, (float)size.y };
 }
 
 SDL_Rect GameObj::get_Rect()
 {
-	Vector2 p = get_anchor_position(AnchorMode::TOPLEFT);
+	Vector2 p = get_rect_pos();
 	return { (int)p.x, (int)p.y, size.x, size.y };
 }
 
@@ -225,50 +237,87 @@ Vector2 GameObj::get_rotatio_center_pos(const Vector2 pos, const AnchorMode mode
 	return p;
 }
 
+Vector2 GameObj::get_center_position()
+{
+	Vector2 t = GameWnd::instance()->get_center();// 如果没有锚定节点，则一定是锚定的屏幕
+	auto ref = get_anchor_referent();
+	if (ref) // 获取锚定节点的中心点全局坐标
+	{
+		t = ref->get_center_position();
+	}
+
+	Vector2 p1 = get_anchor_difference(AnchorMode::CENTER, anchor_referent_mode);// 计算锚定节点的中心点和锚点的差
+	Vector2 p2 = get_anchor_difference(anchor_mode, AnchorMode::CENTER);// 计算本节点锚点和中心节点的差
+	Vector2 cc = t + p1 + position + p2;	// 获得本节点中心点的静态全局位置
+
+	// 计算锚定节点的旋转值
+	if (ref && ref->get_enable_angle())
+	{
+		return get_Rotate_Vector(t, cc, ref->get_rotation());
+	}
+
+	return cc;
+}
+
 Vector2 GameObj::get_anchor_position(const AnchorMode mode)
 {
-	Vector2 t = { 0.0f,0.0f };
-	auto ref = get_anchor_referent();
-	if (ref) // 获取锚定节点的对齐锚点全局坐标
-	{ 
-		t = ref->get_anchor_position(anchor_referent_mode);
-	}
-
-	Vector2 p = position;
-	p += get_anchor_difference(anchor_mode, mode);
-	t += p;
-
+	Vector2 cc = get_center_position();
+	Vector2 p = get_anchor_difference(AnchorMode::CENTER, mode);
+	p += cc;
 	if (enable_angle)
 	{
-		Vector2 c = get_rotatio_center_pos(t, mode);
-		return get_Rotate_Vector(t, c, angle);
+		Vector2 c = get_rotatio_center_pos(p, mode);
+		return get_Rotate_Vector(p, c, get_rotation());
 	}
 
-	return t;
+	return p;
 }
 
-Vector2 GameObj::get_anchor_position(TreeNode_WP node, const AnchorMode mode)
-{
-	Vector2 t = { 0.0f,0.0f };
-	if (!node.expired()) // 获取锚定对象的对齐锚点全局坐标
-	{
-		t = node.lock()->get_anchor_position(anchor_referent_mode);
-	}
-
-	Vector2 p = position;
-	p += get_anchor_difference(anchor_mode, mode);
-	t += p;
-
-	return t;
-}
-
-Vector2 GameObj::get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size)
-{
-	Vector2 t = get_anchor_position(aligned);
-	pos += get_anchor_difference(reference, target);
-	t += pos;
-	return t;
-}
+//
+//Vector2 GameObj::get_anchor_position(const AnchorMode mode)
+//{
+//	Vector2 t = { 0.0f,0.0f };
+//	auto ref = get_anchor_referent();
+//	if (ref) // 获取锚定节点的对齐锚点全局坐标
+//	{ 
+//		t = ref->get_anchor_position(anchor_referent_mode);
+//	}
+//
+//	Vector2 p = position;
+//	p += get_anchor_difference(anchor_mode, mode);
+//	t += p;
+//
+//	if (enable_angle)
+//	{
+//		Vector2 c = get_rotatio_center_pos(t, mode);
+//		return get_Rotate_Vector(t, c, angle);
+//	}
+//
+//	return t;
+//}
+//
+//Vector2 GameObj::get_anchor_position(TreeNode_WP node, const AnchorMode mode)
+//{
+//	Vector2 t = { 0.0f,0.0f };
+//	if (!node.expired()) // 获取锚定对象的对齐锚点全局坐标
+//	{
+//		t = node.lock()->get_anchor_position(anchor_referent_mode);
+//	}
+//
+//	Vector2 p = position;
+//	p += get_anchor_difference(anchor_mode, mode);
+//	t += p;
+//
+//	return t;
+//}
+//
+//Vector2 GameObj::get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size)
+//{
+//	Vector2 t = get_anchor_position(aligned);
+//	pos += get_anchor_difference(reference, target);
+//	t += pos;
+//	return t;
+//}
 
 bool GameObj::check_in_screen(int val)
 {

@@ -39,17 +39,35 @@ inline SDL_Color get_SDLColor_ARGB(Uint32 hexColor) {
     return color;
 }
 /// <summary>
-/// 获取旋转后的坐标
+/// 获取旋转后的全局坐标
 /// </summary>
-/// <param name="p">起点</param>
-/// <param name="c">旋转点</param>
-/// <param name="angle">角度</param>
+/// <param name="p">计算坐标</param>
+/// <param name="c">旋新坐标</param>
+/// <param name="angle">旋转角度</param>
 /// <returns>Vector2 p点旋转后的坐标</returns>
-inline Vector2 get_Rotate_Vector(const Vector2 p, const Vector2 c, const float angle)
+inline Vector2 get_Angle_Vector(const Vector2 p, const Vector2 c, const double angle)
 {
     float rotate = getRadiansByAngle(angle);
     float cos = std::cos(rotate);
     float sin = std::sin(rotate);
+
+    Vector2 t = p - c;
+
+    Vector2 m = { t.x * cos - t.y * sin, t.x * sin + t.y * cos };
+
+    return m + c;
+}
+/// <summary>
+/// 获取旋转后的全局坐标
+/// </summary>
+/// <param name="p">计算坐标</param>
+/// <param name="c">旋新坐标</param>
+/// <param name="rotation">旋转弧度</param>
+/// <returns>Vector2 p点旋转后的坐标</returns>
+inline Vector2 get_Rotate_Vector(const Vector2 p, const Vector2 c, const double rotation)
+{
+    float cos = std::cos(rotation);
+    float sin = std::sin(rotation);
 
     Vector2 t = p - c;
 
