@@ -34,8 +34,8 @@ public:
     int get_bullet_num();
     /*设置子弹数量*/
     void set_bullet_num(const int num);
-    /*子弹旋转移动*/
-    void move_bullet(float delta);
+    /*调整子弹角度位置*/
+    void change_bullet_angle();
     /*设置碰撞攻击函数*/
     void set_hit_fun(std::function<void()> call_back);
 

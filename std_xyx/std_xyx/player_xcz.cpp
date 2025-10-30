@@ -179,4 +179,14 @@ void Player_xcz::on_move(float delta)
 		set_face(velocity.x < 0);
 	}
 	position += velocity;
+	if (velocity != Vector2(0,0))
+	{
+		SDL_Event event;
+		event.type = EventMgr::instance()->get_event_type(EventType::PLAYER_MOVE);
+		EventData* data = new EventData();
+		data->set("postion", get_rect_position());
+		event.user.data1 = data;
+		event.user.data2 = nullptr;
+		SDL_PushEvent(&event);
+	}
 }

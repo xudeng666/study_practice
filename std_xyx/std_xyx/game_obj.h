@@ -37,6 +37,10 @@ public:
     void set_position(const Vector2& pos);
     /*获取坐标*/
     const Vector2& get_position() const;
+    /*获取全局坐标
+    * （获取锚定点的全局坐标）
+    */
+    const Vector2& get_rect_position();
     /*设置尺寸*/
     virtual void set_size(const SDL_Point& size);
     /*获取尺寸*/
@@ -61,8 +65,12 @@ public:
     void set_click_enabled(bool enable);
     /*获取点击区域状态*/
     bool get_click_enabled();
-    /*获取对象区域坐标*/
-    Vector2 get_rect_pos();
+    /// <summary>
+    /// 获取区域锚点坐标
+    /// </summary>
+    /// <param name="m">锚点类型</param>
+    /// <returns>Vector2</returns>
+    Vector2 get_rect_pos(const AnchorMode m);
     /*获取对象区域*/
     SDL_FRect get_FRect();
     /*获取对象区域*/
@@ -91,7 +99,7 @@ public:
     /// </summary>
     /// <param name="mode">计算锚点</param>
     /// <returns>Vector2</returns>
-    Vector2 get_anchor_position(const AnchorMode mode);
+    //Vector2 get_anchor_position(const AnchorMode mode);
     /// <summary>
     /// 检测是否在屏幕内
     /// </summary>

@@ -1,5 +1,6 @@
 #include "enemy_xcz.h"
 #include "game_wnd.h"
+#include "event_mgr.h"
 
 INIT_TYPE_NAME(Enemy_xcz);
 
@@ -114,6 +115,16 @@ void Enemy_xcz::on_exit()
 
 void Enemy_xcz::on_input(const SDL_Event& event)
 {
+	if (event.type == EventMgr::instance()->get_event_type(EventType::PLAYER_MOVE))
+	{
+		EventData* data = static_cast<EventData*>(event.user.data1);
+		if (!data) return;
+		Vector2 pos;
+		if (data->get("postion", pos))
+		{
+			set_player_pos(pos);
+		}
+	}
 }
 void Enemy_xcz::on_update(float delta)
 {
@@ -145,7 +156,7 @@ void Enemy_xcz::set_player_pos(Vector2 pos)
 
 void Enemy_xcz::on_move(float delta)
 {
-	Vector2 vel = pos_player - get_anchor_position(AnchorMode::CENTER);
+	Vector2 vel = pos_player - get_rect_position();//get_anchor_position(AnchorMode::CENTER);
 	Vector2 t = vel.normalize_portion();
 
 	if (vel.x != 0.0f && vel.y != 0.0f)

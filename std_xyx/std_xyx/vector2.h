@@ -61,6 +61,16 @@ public:
 		x /= val;
 		y /= val;
 	}
+
+	bool operator!=(const Vector2& vec)
+	{
+		return (x != vec.x && y != vec.y);
+	}
+
+	bool operator==(const Vector2& vec)
+	{
+		return (x == vec.x && y == vec.y);
+	}
 	/// <summary>
 	/// 获取坐标的零点（0，0）长度
 	/// </summary>

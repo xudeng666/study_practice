@@ -8,6 +8,15 @@ INIT_TYPE_NAME(GameLable);
 GameLable::~GameLable()
 {
 	font = nullptr;
+	anchor_node.reset();
+}
+
+void GameLable::on_init()
+{
+	anchor_node = TreeNode::create_obj<GameObj>("anchor_node");
+	anchor_node->set_anchor_mode(lable_anchor_mode);
+	anchor_node->set_anchor_referent_mode(lable_anchor_mode);
+	anchor_node->set_anchor_referent_node(self_node);
 }
 
 void GameLable::on_enter()
@@ -28,9 +37,11 @@ void GameLable::on_render()
 		SDL_Color color_s = get_SDLColor_ARGB(color_shade);
 		SDL_Surface* suf_shade = TTF_RenderUTF8_Blended(font, lable_text.c_str(), color_s);
 		SDL_Texture* tex_shade = SDL_CreateTextureFromSurface(GameWnd::instance()->get_renderer(), suf_shade);
-		Vector2 p_shade = get_anchor_position(lable_anchor_mode, lable_anchor_mode, AnchorMode::TOPLEFT, pos_lable, { suf_shade->w,suf_shade->h });
-		p_shade += pos_shade;
-		SDL_Rect rect_shade = { (int)p_shade.x, (int)p_shade.y, suf_shade->w, suf_shade->h };
+
+		anchor_node->set_size({ suf_shade->w,suf_shade->h });
+		anchor_node->set_position(pos_lable + pos_shade);
+		SDL_Rect rect_shade = anchor_node->get_Rect();
+
 		GameWnd::instance()->render_texture(tex_shade, nullptr, &rect_shade);
 		SDL_DestroyTexture(tex_shade);
 		SDL_FreeSurface(suf_shade);
@@ -39,8 +50,11 @@ void GameLable::on_render()
 	SDL_Color color_l = get_SDLColor_ARGB(color_lable);
 	SDL_Surface* suf_lable = TTF_RenderUTF8_Blended(font, lable_text.c_str(), color_l);
 	SDL_Texture* tex_lable = SDL_CreateTextureFromSurface(GameWnd::instance()->get_renderer(), suf_lable);
-	Vector2 p_lable = get_anchor_position(lable_anchor_mode, lable_anchor_mode, AnchorMode::TOPLEFT, pos_lable, { suf_lable->w,suf_lable->h });
-	SDL_Rect rect_lable = { (int)p_lable.x, (int)p_lable.y, suf_lable->w, suf_lable->h };
+
+	anchor_node->set_size({ suf_lable->w,suf_lable->h });
+	anchor_node->set_position(pos_lable);
+	SDL_Rect rect_lable = anchor_node->get_Rect();
+
 	GameWnd::instance()->render_texture(tex_lable, nullptr, &rect_lable);
 	SDL_DestroyTexture(tex_lable);
 	SDL_FreeSurface(suf_lable);

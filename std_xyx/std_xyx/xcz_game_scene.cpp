@@ -77,7 +77,6 @@ void XczGameScene::on_init()
 
     TreeNode_SP b_box = TreeNode::create_obj<BulletBox>("bullet_box");
     bullet_box = b_box;
-    b_box->set_size({ 50, 200 });
     b_box->set_anchor_mode(AnchorMode::CENTER);
     b_box->set_anchor_referent_mode(AnchorMode::CENTER);
     b_box->set_anchor_referent_node(player);
@@ -117,7 +116,7 @@ void XczGameScene::on_init()
 
     timer_enemy_produce.set_one_shot(false);
     timer_enemy_produce.set_on_timeout([&]() {
-        //enemy_add++;
+        enemy_add++;
         });
 }
 
@@ -224,7 +223,7 @@ void XczGameScene::on_update(float delta)
     timer_enemy_produce.on_update(delta);
 
     // 获取玩家当前位置
-    Vector2 p = player_obj->get_anchor_position(AnchorMode::CENTER);
+    //Vector2 p = player_obj->get_center_position();//get_anchor_position(AnchorMode::CENTER);
 
     std::vector<TreeNode_WP> t_list;
 
@@ -236,7 +235,7 @@ void XczGameScene::on_update(float delta)
         {
             if (enemy->get_alive())
             {
-                enemy->set_player_pos(p);
+                //enemy->set_player_pos(p);
             }
             else
             {
@@ -295,9 +294,18 @@ void XczGameScene::add_enemy()
             auto enemy_n = TreeNode::create_obj<Enemy_xcz>("enemy_", enemy_num);
             enemy_n->on_enter();
             enemy_num++;
-            //enemy_n->set_on_hurt_fun([&]() { });
+            enemy_n->set_on_hurt_fun([&]() {
+                if (enemy_n->get_alive())
+                {
+                    // 在此处添加到死亡缓存中
+                }
+                });
             enemy_n->set_on_hit_fun([&]() { // 怪物击中角色 播放音效
                 Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
+                if (enemy_n->get_alive())
+                {
+                    // 在此处添加到死亡缓存中
+                }
                 });
             entity->add_children(std::move(enemy_n));
         }

@@ -15,6 +15,7 @@ public:
 
 	DEFINE_TYPE_NAME(GameLable);
 
+	void on_init() override;
 	void on_enter() override;
 	void on_update(float delta) override;
 	void on_render() override;
@@ -48,12 +49,14 @@ protected:
 	bool is_shade = false;	// 是否有阴影
 	// 阴影颜色
 	int color_shade = 0x55555555;		//ARGB
-	// 正文的位置
+	// 正文的坐标
 	Vector2 pos_lable = { 0,0 };
 	// 阴影相对于正文的位置
 	Vector2 pos_shade = { -2,2 };
 	// 字体指针
 	TTF_Font* font = nullptr;
-	// 文本锚点
+	// 正文锚点
 	AnchorMode lable_anchor_mode = AnchorMode::TOPLEFT;
+	// 用来计算文本坐标用的特殊节点
+	TreeNode_SP anchor_node = nullptr;
 };

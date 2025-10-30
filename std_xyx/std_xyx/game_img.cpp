@@ -26,8 +26,8 @@ void GameImg::on_render()
 	if (!texture) return;
 
 	SDL_Rect src = { 0,0,0,0 };
-	SDL_FRect dst = { 0,0,0,0 };
-	Vector2 p = get_anchor_position(AnchorMode::TOPLEFT);
+	SDL_FRect dst = get_FRect();//{ 0,0,0,0 };
+	Vector2 p = {dst.x, dst.y};//get_anchor_position(AnchorMode::TOPLEFT);
 
 	SDL_FPoint center_r = get_center();
 
@@ -54,15 +54,15 @@ void GameImg::on_render()
 				dst.w = src.w;
 				dst.h = src.h;
 
-				GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center_r);
+				GameWnd::instance()->render_texture(texture, &src, &dst, get_angle(), &center_r);
 			}
 		}
 	}
 	else
 	{
 		src = { 0,0,size.x,size.y };
-		dst = { p.x,p.y,(float)size.x,(float)size.y };
-		GameWnd::instance()->render_texture(texture, &src, &dst, get_rotation(), &center_r);
+		//dst = { p.x,p.y,(float)size.x,(float)size.y };
+		GameWnd::instance()->render_texture(texture, &src, &dst, get_angle(), &center_r);
 	}
 
 	GameObj::on_render();

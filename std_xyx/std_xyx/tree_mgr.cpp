@@ -90,8 +90,8 @@ TreeNode_SP TreeMgr::create_root_node(const std::string& id)
 	auto node = TreeNode::create_obj<GameObj>(NodeType::ROOT, id);
 	node->set_position(Vector2(0, 0));
 	node->set_size({ _WIN_W_, _WIN_H_ });
-	node->set_anchor_mode(AnchorMode::TOPLEFT);
-	node->set_anchor_referent_mode(AnchorMode::TOPLEFT);
+	node->set_anchor_mode(AnchorMode::CENTER);
+	node->set_anchor_referent_mode(AnchorMode::CENTER);
 	return node;
 }
 // 释放所有节点

@@ -7,6 +7,8 @@ void BulletXcz::on_init()
 	Bullet::on_init();
 	set_anchor_mode(AnchorMode::CENTER);
 	set_anchor_referent_mode(AnchorMode::CENTER);
+	set_enable_angle(true);
+	set_angle_anchor_mode(AnchorMode::CENTER);
 	set_damage(1);
 
 	auto img_ptr = TreeNode::create_obj<GameImg>("bullet_img");
@@ -15,8 +17,6 @@ void BulletXcz::on_init()
 	img_ptr->set_texture_map_type(TextureMapType::AUTO);
 	img_ptr->set_anchor_mode(AnchorMode::CENTER);
 	img_ptr->set_anchor_referent_mode(AnchorMode::CENTER);
-	img_ptr->set_enable_angle(true);
-	img_ptr->set_angle_anchor_mode(AnchorMode::CENTER);
 	img = img_ptr;
 	add_children(std::move(img_ptr));
 
@@ -40,8 +40,6 @@ void BulletXcz::on_enter()
 	auto img_obj = img.lock()->get_obj_as<GameImg>();
 	img_obj->set_texture();
 	img_obj->init_size();
-	Vector2 p = img_obj->get_anchor_position(AnchorMode::CENTER) - img_obj->get_anchor_position(AnchorMode::TOPLEFT);
-	img_obj->set_center({p.x, p.y});
 
 	set_display(true);
 	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();

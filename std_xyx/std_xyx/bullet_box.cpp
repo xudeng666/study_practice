@@ -1,5 +1,6 @@
 #include "bullet_box.h"
 #include "event_mgr.h"
+#include "SDL_util.h"
 
 #include <assert.h>
 
@@ -28,17 +29,19 @@ void BulletBox::on_input(const SDL_Event& event)
 	if (event.type == EventMgr::instance()->get_event_type(EventType::ADD_BULLET))
 	{
 		add_bullet(1);
+		change_bullet_angle();
 	}
 	else if (event.type == EventMgr::instance()->get_event_type(EventType::REDUCE_BULLET))
 	{
 		reduce_bullet(1);
+		change_bullet_angle();
 	}
 }
 
 void BulletBox::on_update(float delta)
 {
 	GameObj::on_update(delta);
-	move_bullet(delta);
+	angle += delta * angle_speed;
 }
 
 void BulletBox::add_bullet(const int num)
@@ -92,37 +95,23 @@ void BulletBox::set_bullet_num(const int num)
 	bul_num = num;
 }
 
-void BulletBox::move_bullet(float delta)
+void BulletBox::change_bullet_angle()
 {
 	if (children.size() < bul_num)
 	{
 		assert(false && "未知原因子弹数据错误");
 	}
 
-	angle += delta * angle_speed;
+	double bul_angle = 360 / bul_num;
 
+	Vector2 t = { 0, (float) - bul_radius};
+	Vector2 s = { 0,0 };
 	for (int i = 0; i < bul_num; ++i)
 	{
 		auto p = children[i];
-		if (p)
-		{
-			p->set_rotation(angle);
-		}
+		p->set_rotation(i * bul_angle);
+		p->set_position(get_Rotate_Vector(t, s, getRadiansByAngle(i * bul_angle)));
 	}
-
-	/*bul_degrees += delta * angle_speed;
-	float angle = bul_num == 0 ? 0 : 360 / bul_num;
-	for (int i = 0; i < bul_num; ++i)
-	{
-		int dre = bul_degrees + angle * i;
-		dre %= 360;
-		auto p = children[i];
-		if (p)
-		{
-			p->set_position({ (float)cos(dre * _PI_ / 180) * bul_radius, -(float)(sin(dre * _PI_ / 180) * bul_radius) });
-			p->set_rotation(90 - dre);
-		}
-	}*/
 }
 
 void BulletBox::set_hit_fun(std::function<void()> call_back)

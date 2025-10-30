@@ -88,6 +88,11 @@ const Vector2& GameObj::get_position() const
 	return position;
 }
 
+const Vector2& GameObj::get_rect_position()
+{
+	return get_rect_pos(anchor_mode);
+}
+
 void GameObj::set_size(const SDL_Point& size)
 {
 	this->size = size;
@@ -114,9 +119,8 @@ void GameObj::set_center(const SDL_FPoint& pos)
 }
 SDL_FPoint GameObj::get_center()
 {
-	Vector2 p = get_anchor_difference(AnchorMode::TOPLEFT, angle_anchor_mode);
-	return { center.x + p.x, center.y + p.y };
-
+	Vector2 p = get_anchor_difference(AnchorMode::TOPLEFT, AnchorMode::CENTER);
+	return { p.x, p.y };
 }
 void GameObj::set_angle_anchor_mode(const AnchorMode mode)
 {
@@ -200,21 +204,21 @@ TreeNode_SP GameObj::get_anchor_referent()
 	return  anchor_referent_node.lock();
 }
 
-Vector2 GameObj::get_rect_pos()
+Vector2 GameObj::get_rect_pos(const AnchorMode m)
 {
 	Vector2 p = get_center_position();
-	return p + get_anchor_difference(AnchorMode::CENTER, AnchorMode::TOPLEFT);
+	return p + get_anchor_difference(AnchorMode::CENTER, m);
 }
 
 SDL_FRect GameObj::get_FRect()
 {
-	Vector2 p = get_rect_pos();
+	Vector2 p = get_rect_pos(AnchorMode::TOPLEFT);
 	return { p.x, p.y, (float)size.x, (float)size.y };
 }
 
 SDL_Rect GameObj::get_Rect()
 {
-	Vector2 p = get_rect_pos();
+	Vector2 p = get_rect_pos(AnchorMode::TOPLEFT);
 	return { (int)p.x, (int)p.y, size.x, size.y };
 }
 
@@ -240,38 +244,49 @@ Vector2 GameObj::get_rotatio_center_pos(const Vector2 pos, const AnchorMode mode
 Vector2 GameObj::get_center_position()
 {
 	Vector2 t = GameWnd::instance()->get_center();// 如果没有锚定节点，则一定是锚定的屏幕
+	// 获取锚父节点锚点到本节点中心点的向量
+	Vector2 s = position + get_anchor_difference(anchor_mode, AnchorMode::CENTER);
+	// 所求的本节点中心点的全局坐标
+	Vector2 cc = s + t;
 	auto ref = get_anchor_referent();
 	if (ref) // 获取锚定节点的中心点全局坐标
 	{
-		t = ref->get_center_position();
+		// 获取锚父节点的中心点全局坐标
+		Vector2 rc = ref->get_center_position();
+		// 获取锚父节点锚点的全局坐标（静态）
+		t = ref->get_rect_pos(anchor_referent_mode);
+
+		cc = s + t;
+		// 如果父锚节点转动，则会带动本节点绕父锚节点中心转动
+		if (ref->get_enable_angle())
+		{
+			cc = get_Rotate_Vector(cc, rc, ref->get_rotation());
+		}
 	}
 
-	Vector2 p1 = get_anchor_difference(AnchorMode::CENTER, anchor_referent_mode);// 计算锚定节点的中心点和锚点的差
-	Vector2 p2 = get_anchor_difference(anchor_mode, AnchorMode::CENTER);// 计算本节点锚点和中心节点的差
-	Vector2 cc = t + p1 + position + p2;	// 获得本节点中心点的静态全局位置
-
-	// 计算锚定节点的旋转值
-	if (ref && ref->get_enable_angle())
+	// 如果自身转动，则会带动本节点绕本节点转心转动
+	if (enable_angle)
 	{
-		return get_Rotate_Vector(t, cc, ref->get_rotation());
+		Vector2 rc = get_rotatio_center_pos(cc, AnchorMode::CENTER);
+		cc = get_Rotate_Vector(cc, rc, get_rotation());
 	}
 
 	return cc;
 }
-
-Vector2 GameObj::get_anchor_position(const AnchorMode mode)
-{
-	Vector2 cc = get_center_position();
-	Vector2 p = get_anchor_difference(AnchorMode::CENTER, mode);
-	p += cc;
-	if (enable_angle)
-	{
-		Vector2 c = get_rotatio_center_pos(p, mode);
-		return get_Rotate_Vector(p, c, get_rotation());
-	}
-
-	return p;
-}
+//
+//Vector2 GameObj::get_anchor_position(const AnchorMode mode)
+//{
+//	Vector2 cc = get_center_position();
+//	Vector2 p = get_anchor_difference(AnchorMode::CENTER, mode);
+//	p += cc;
+//	if (enable_angle)
+//	{
+//		Vector2 c = get_rotatio_center_pos(p, mode);
+//		return get_Rotate_Vector(p, c, get_rotation());
+//	}
+//
+//	return p;
+//}
 
 //
 //Vector2 GameObj::get_anchor_position(const AnchorMode mode)
