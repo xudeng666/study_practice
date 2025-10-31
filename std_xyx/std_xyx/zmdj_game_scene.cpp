@@ -10,6 +10,8 @@
 #include "game_bar.h"
 #include "game_lable.h"
 
+#include "turret_zmdj.h"
+
 #include <assert.h>
 
 INIT_TYPE_NAME(ZmdjGameScene);
@@ -33,7 +35,22 @@ void ZmdjGameScene::on_init()
     e_box->set_position(Vector2(0, 0));
     e_box->set_anchor_mode(AnchorMode::TOPLEFT);
     e_box->set_anchor_referent_mode(AnchorMode::TOPLEFT);
+    // 添加子弹层
+    auto b_box = TreeNode::create_obj<GameObj>("bullet_box");
+    bullet_box = b_box;
+    b_box->set_position(Vector2(0, 0));
+    b_box->set_anchor_mode(AnchorMode::TOPLEFT);
+    b_box->set_anchor_referent_mode(AnchorMode::TOPLEFT);
     // 添加炮台
+    auto bat = TreeNode::create_obj<TurretZmdj>("battery");
+    battery = bat;
+    // 添加准星
+    auto cro = TreeNode::create_obj<GameImg>("crosshair");
+    crosshair = cro;
+    cro->set_position(Vector2(0, 0));
+    cro->set_res_name("crosshair");
+    cro->set_anchor_mode(AnchorMode::CENTER);
+    cro->set_anchor_referent_mode(AnchorMode::CENTER);
 
     // 添加UI 血条  分数  退出  
     auto bar_obj = TreeNode::create_obj<GameBar>("hp_bar");
@@ -79,7 +96,9 @@ void ZmdjGameScene::on_init()
 
     auto game = TreeMgr::instance()->get_game_node();
     game->add_children(std::move(e_box));
-    //game->add_children(std::move(b_box));
+    game->add_children(std::move(b_box));
+    game->add_children(std::move(bat));
+    game->add_children(std::move(cro));
 
     auto ui = TreeMgr::instance()->get_ui_node();
     ui->add_children(std::move(bar_obj));
@@ -110,6 +129,7 @@ void ZmdjGameScene::on_enter()
     {
         std::cout << "ZmdjGameScene::on_enter" << std::endl;
     }
+    score_lable.lock()->get_obj_as<GameLable>()->set_font("IPix_30");
     score = 0;
     max_hp = 10;
     enemy_num = 0;
@@ -166,7 +186,7 @@ void ZmdjGameScene::on_update(float delta)
         //std::cout << "ZmdjGameScene::on_update" << std::endl;
     }
 
-    timer_generate.on_update(delta);
+    //timer_generate.on_update(delta);
     timer_increase_num_per_gen.on_update(delta);
 
     // 碰撞检测

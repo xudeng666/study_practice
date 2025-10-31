@@ -49,7 +49,7 @@ GameType GameMgr::get_current_type()
 /*游戏切换*/
 void GameMgr::exchange_game(GameType type)
 {
-	std::cout << "GameMgr::exchange_game(type)"<< std::endl;
+	std::cout << "GameMgr::exchange_game"<< std::endl;
 
 	if (type == current_type) return;
 	// 只允许从开始游戏和子游戏互相切换

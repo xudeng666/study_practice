@@ -33,17 +33,24 @@ private:
     TreeNode_WP hp_bar;
     // 分数文本
     TreeNode_WP score_lable;
-    // 准星
-    TreeNode_WP crosshair;
     // 炮台
     TreeNode_WP battery;
+    // 准心
+    TreeNode_WP crosshair;
+
     // 怪物箱 统一放置所有敌人
     TreeNode_WP enemy_box;
     // 怪物池-（用于回收怪物）
     TreeNode_SP enemy_pool = nullptr;
+    // 怪物池缓存表
+    std::vector<TreeNode_WP> enemy_list;
+
+    // 子弹箱 统一放置所有敌人
+    TreeNode_WP bullet_box;
     // 子弹池-（用于回收子弹）
     TreeNode_SP bullet_pool = nullptr;
-
+    // 子弹池缓存表
+    std::vector<TreeNode_WP> bullet_list;
 
     // 敌人总数
     int enemy_num = 0;

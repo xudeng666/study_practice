@@ -29,7 +29,7 @@ void GameImg::on_render()
 	SDL_FRect dst = get_FRect();//{ 0,0,0,0 };
 	Vector2 p = {dst.x, dst.y};//get_anchor_position(AnchorMode::TOPLEFT);
 
-	SDL_FPoint center_r = get_center();
+	SDL_FPoint center_r = get_center_point();
 
 	if (map_type == TextureMapType::TILE)
 	{

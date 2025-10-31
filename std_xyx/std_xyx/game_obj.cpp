@@ -90,7 +90,7 @@ const Vector2& GameObj::get_position() const
 
 const Vector2& GameObj::get_rect_position()
 {
-	return get_rect_pos(anchor_mode) + position;
+	return get_rect_pos(anchor_mode);
 }
 
 void GameObj::set_size(const SDL_Point& size)
@@ -113,13 +113,17 @@ const bool GameObj::get_display() const
 	return is_display;
 }
 
-void GameObj::set_center(const SDL_FPoint& pos)
+void GameObj::set_center(const Vector2& pos)
 {
 	center = pos;
 }
-SDL_FPoint GameObj::get_center()
+Vector2 GameObj::get_center()
 {
-	Vector2 p = get_anchor_difference(AnchorMode::TOPLEFT, AnchorMode::CENTER);
+	return center;
+}
+SDL_FPoint GameObj::get_center_point()
+{
+	Vector2 p = get_anchor_difference(AnchorMode::TOPLEFT, angle_anchor_mode) + center;
 	return { p.x, p.y };
 }
 void GameObj::set_angle_anchor_mode(const AnchorMode mode)
@@ -137,6 +141,19 @@ void GameObj::set_enable_angle(bool tga)
 bool GameObj::get_enable_angle()
 {
 	return enable_angle;
+}
+bool GameObj::get_extend_enable_angle()
+{
+	bool tag = enable_angle;
+	if (!tag)
+	{
+		auto ref = get_anchor_referent();
+		if (ref)
+		{
+			return ref->get_extend_enable_angle();
+		}
+	}
+	return tag;
 }
 void GameObj::set_rotation(double val)
 {
@@ -206,20 +223,47 @@ TreeNode_SP GameObj::get_anchor_referent()
 
 Vector2 GameObj::get_rect_pos(const AnchorMode m)
 {
-	Vector2 p = get_center_position();
-	return p + get_anchor_difference(AnchorMode::CENTER, m);
+	Vector2 p;
+	if (get_extend_enable_angle())
+	{
+		return get_center_position() + get_anchor_difference(AnchorMode::CENTER, m);
+	}
+	else
+	{
+		return get_anchor_position(m);
+	}
 }
 
 SDL_FRect GameObj::get_FRect()
 {
-	Vector2 p = get_rect_pos(AnchorMode::TOPLEFT);
+	Vector2 p;
+	if (get_extend_enable_angle())
+	{
+		p = get_rect_pos(AnchorMode::TOPLEFT);
+	}
+	else
+	{
+		p = get_anchor_position(AnchorMode::TOPLEFT);
+	}
 	return { p.x, p.y, (float)size.x, (float)size.y };
 }
 
 SDL_Rect GameObj::get_Rect()
 {
-	Vector2 p = get_rect_pos(AnchorMode::TOPLEFT);
+	SDL_FRect p = get_FRect();
 	return { (int)p.x, (int)p.y, size.x, size.y };
+}
+
+Vector2 GameObj::get_anchor_difference(const AnchorMode p, const AnchorMode t, Vector2 t_size)
+{
+	if (p == t)
+	{
+		return Vector2(0, 0);
+	}
+	int m = static_cast<int>(t);
+	int a = static_cast<int>(p);
+
+	return Vector2((m % 3 - a % 3) * t_size.x / 2, (m / 3 - a / 3) * t_size.y / 2);
 }
 
 Vector2 GameObj::get_anchor_difference(const AnchorMode p, const AnchorMode t)
@@ -234,105 +278,65 @@ Vector2 GameObj::get_anchor_difference(const AnchorMode p, const AnchorMode t)
 	return Vector2((m % 3 - a % 3) * size.x / 2, (m / 3 - a / 3) * size.y / 2);
 }
 
-Vector2 GameObj::get_rotatio_center_pos(const Vector2 pos, const AnchorMode mode)
+Vector2 GameObj::get_rotatio_center_position()
 {
-	Vector2 p = pos + get_anchor_difference(mode, angle_anchor_mode);
-	p += Vector2(center.x, center.y);
-	return p;
-}
-
-Vector2 GameObj::get_center_position()
-{
-	Vector2 t = GameWnd::instance()->get_center();// 如果没有锚定节点，则一定是锚定的屏幕
-	// 获取锚父节点锚点到本节点中心点的向量
-	Vector2 s = position + get_anchor_difference(anchor_mode, AnchorMode::CENTER);
-	// 所求的本节点中心点的全局坐标
-	Vector2 cc = s + t;
+	/*旋转核心代码*/
+	/*本函数所求取的，本节点的旋转中心点全局坐标 = 父节点旋转中心 + 父节点锚点差 + 本节点坐标 + 本节点锚点差 + 父节点旋转差*/ 
+	Vector2 cc = { 0,0 };
+	// 本节点锚定差
+	Vector2 ct = get_anchor_difference(angle_anchor_mode, anchor_mode);
+	Vector2 cm = position + ct + center;
+	// 获取父节点中心点全局坐标
 	auto ref = get_anchor_referent();
-	if (ref) // 获取锚定节点的中心点全局坐标
-	{
-		// 获取锚父节点的中心点全局坐标
-		Vector2 rc = ref->get_center_position();
-		// 获取锚父节点锚点的全局坐标（静态）
-		t = ref->get_rect_pos(anchor_referent_mode);
 
-		cc = s + t;
-		// 如果父锚节点转动，则会带动本节点绕父锚节点中心转动
-		if (ref->get_enable_angle())
+	if (ref)
+	{
+		Vector2 pc = ref->get_rotatio_center_position();
+		Vector2 pp = ref->get_center();
+		Vector2 pt = get_anchor_difference(anchor_referent_mode, ref->get_angle_anchor_mode());
+		cc = pc - pp + pt + cm;
+		if (ref->get_enable_angle())// 计算父节点旋转差
 		{
-			cc = get_Rotate_Vector(cc, rc, ref->get_rotation());
+			cc = get_Rotate_Vector(cc, pc, ref->get_rotation());
 		}
 	}
-
-	// 如果自身转动，则会带动本节点绕本节点转心转动
-	if (enable_angle)
+	else // 没有父节点则为屏幕中心(应该为相机中心，不过本项目不考虑相机旋转问题，相机只作为一个点存在)
 	{
-		Vector2 rc = get_rotatio_center_pos(cc, AnchorMode::CENTER);
-		cc = get_Rotate_Vector(cc, rc, get_rotation());
+		Vector2 pc = GameWnd::instance()->get_center();
+		Vector2 pt = get_anchor_difference(AnchorMode::CENTER, anchor_referent_mode, GameWnd::instance()->get_size());
+		cc = pc + pt + cm;
 	}
 
 	return cc;
 }
-//
-//Vector2 GameObj::get_anchor_position(const AnchorMode mode)
-//{
-//	Vector2 cc = get_center_position();
-//	Vector2 p = get_anchor_difference(AnchorMode::CENTER, mode);
-//	p += cc;
-//	if (enable_angle)
-//	{
-//		Vector2 c = get_rotatio_center_pos(p, mode);
-//		return get_Rotate_Vector(p, c, get_rotation());
-//	}
-//
-//	return p;
-//}
 
-//
-//Vector2 GameObj::get_anchor_position(const AnchorMode mode)
-//{
-//	Vector2 t = { 0.0f,0.0f };
-//	auto ref = get_anchor_referent();
-//	if (ref) // 获取锚定节点的对齐锚点全局坐标
-//	{ 
-//		t = ref->get_anchor_position(anchor_referent_mode);
-//	}
-//
-//	Vector2 p = position;
-//	p += get_anchor_difference(anchor_mode, mode);
-//	t += p;
-//
-//	if (enable_angle)
-//	{
-//		Vector2 c = get_rotatio_center_pos(t, mode);
-//		return get_Rotate_Vector(t, c, angle);
-//	}
-//
-//	return t;
-//}
-//
-//Vector2 GameObj::get_anchor_position(TreeNode_WP node, const AnchorMode mode)
-//{
-//	Vector2 t = { 0.0f,0.0f };
-//	if (!node.expired()) // 获取锚定对象的对齐锚点全局坐标
-//	{
-//		t = node.lock()->get_anchor_position(anchor_referent_mode);
-//	}
-//
-//	Vector2 p = position;
-//	p += get_anchor_difference(anchor_mode, mode);
-//	t += p;
-//
-//	return t;
-//}
-//
-//Vector2 GameObj::get_anchor_position(const AnchorMode aligned, const AnchorMode reference, const AnchorMode target, Vector2 pos, SDL_Point p_size)
-//{
-//	Vector2 t = get_anchor_position(aligned);
-//	pos += get_anchor_difference(reference, target);
-//	t += pos;
-//	return t;
-//}
+Vector2 GameObj::get_center_position()
+{
+	Vector2 cc = get_rotatio_center_position();
+	Vector2 ct = get_anchor_difference(angle_anchor_mode, AnchorMode::CENTER);
+	Vector2 mc = cc - center + ct;
+	if (enable_angle)
+	{
+		mc = get_Rotate_Vector(mc, cc, get_rotation());
+	}
+	return mc;
+}
+
+Vector2 GameObj::get_anchor_position(const AnchorMode mode)
+{
+	Vector2 t = GameWnd::instance()->get_center();
+	auto ref = get_anchor_referent();
+	if (ref)
+	{
+		t = ref->get_anchor_position(anchor_referent_mode);
+	}
+
+	Vector2 p = position;
+	p += get_anchor_difference(anchor_mode, mode);
+	t += p;
+
+	return t;
+}
 
 bool GameObj::check_in_screen(int val)
 {

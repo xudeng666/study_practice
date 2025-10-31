@@ -80,6 +80,14 @@ public:
     /// </summary>
     /// <param name="p">减数锚点类型</param>
     /// <param name="t">被减数锚点类型</param>
+    /// <param name="t_size">设定计算尺寸</param>
+    /// <returns>Vector t-p</returns>
+    Vector2 get_anchor_difference(const AnchorMode p, const AnchorMode t, Vector2 t_size);
+    /// <summary>
+    /// 获取两个锚点向量差值
+    /// </summary>
+    /// <param name="p">减数锚点类型</param>
+    /// <param name="t">被减数锚点类型</param>
     /// <returns>Vector t-p</returns>
     Vector2 get_anchor_difference(const AnchorMode p, const AnchorMode t);
     /// <summary>
@@ -88,9 +96,9 @@ public:
     /// <param name="pos">参照锚点坐标</param>
     /// <param name="mode">参照锚点类型</param>
     /// <returns></returns>
-    Vector2 get_rotatio_center_pos(const Vector2 pos, const AnchorMode mode);
+    Vector2 get_rotatio_center_position();
     /// <summary>
-    /// 获取中心点全局坐标
+    /// 获取几何中心点全局坐标
     /// </summary>
     /// <returns></returns>
     Vector2 get_center_position();
@@ -99,7 +107,7 @@ public:
     /// </summary>
     /// <param name="mode">计算锚点</param>
     /// <returns>Vector2</returns>
-    //Vector2 get_anchor_position(const AnchorMode mode);
+    Vector2 get_anchor_position(const AnchorMode mode);
     /// <summary>
     /// 检测是否在屏幕内
     /// </summary>
@@ -111,9 +119,11 @@ public:
 
 
     /*设置旋转中心坐标*/
-    void set_center(const SDL_FPoint& pos);
+    void set_center(const Vector2& pos);
     /*获取旋转中心坐标*/
-    SDL_FPoint get_center();
+    Vector2 get_center();
+    /*获取旋转中心坐标*/
+    SDL_FPoint get_center_point();
     /*设置旋转中心锚点*/
     void set_angle_anchor_mode(const AnchorMode mode);
     /*获取旋转中心锚点*/
@@ -122,6 +132,8 @@ public:
     void set_enable_angle(bool tga);
     /*获取转动开启状态*/
     bool get_enable_angle();
+    /*获取转动开启状态（全局）*/
+    bool get_extend_enable_angle();
     /*设置角度*/
     void set_rotation(double val);
     /*获取弧度*/
@@ -152,7 +164,7 @@ protected:
     /*开启角度计算(默认false)*/
     bool enable_angle = false;
     // 旋转中心坐标点
-    SDL_FPoint center = { 0.0f, 0.0f };
+    Vector2 center = { 0.0f, 0.0f };
     // 旋转锚点(默认中心点)
     AnchorMode angle_anchor_mode = AnchorMode::CENTER;
 };

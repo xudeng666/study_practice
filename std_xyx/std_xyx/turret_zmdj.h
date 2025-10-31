@@ -21,10 +21,13 @@ public:
     virtual void on_render() override;
 
 private:
-    TreeNode_WP barrel_fire;        // 炮身(开火)
+    TreeNode_WP barrel_ani;         // 炮身(开火)
+    TreeNode_WP barrel_img;         // 炮身(停火)
     TreeNode_WP barrel;             // 炮身
-    TreeNode_WP crosshair;          // 准心
 
+    Vector2 pos_battery;            // 炮台中心坐标
     float barrel_speed = 0.04f;		// 炮管射速
+    bool is_cool_down = true;		// 是否冷却结束
+    bool is_fire_key_down = false;	// 开火键是否按下
 };
 
