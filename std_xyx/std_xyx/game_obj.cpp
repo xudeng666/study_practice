@@ -90,7 +90,7 @@ const Vector2& GameObj::get_position() const
 
 const Vector2& GameObj::get_rect_position()
 {
-	return get_rect_pos(anchor_mode);
+	return get_rect_pos(anchor_mode) + position;
 }
 
 void GameObj::set_size(const SDL_Point& size)

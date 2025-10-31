@@ -159,6 +159,15 @@ void Enemy_xcz::on_move(float delta)
 	Vector2 vel = pos_player - get_rect_position();//get_anchor_position(AnchorMode::CENTER);
 	Vector2 t = vel.normalize_portion();
 
+	if (vel.x < 5 && vel.x > -5)
+	{
+		vel.x = 0;
+	}
+	if (vel.y < 5 && vel.y > -5)
+	{
+		vel.y = 0;
+	}
+
 	if (vel.x != 0.0f && vel.y != 0.0f)
 	{
 		switch (getIntRand(0,3))

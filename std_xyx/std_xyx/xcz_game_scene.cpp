@@ -79,6 +79,7 @@ void XczGameScene::on_init()
     bullet_box = b_box;
     b_box->set_anchor_mode(AnchorMode::CENTER);
     b_box->set_anchor_referent_mode(AnchorMode::CENTER);
+    b_box->set_position({0,-10});
     b_box->set_anchor_referent_node(player);
     auto bbox = b_box->get_obj_as<BulletBox>();
     bbox->set_hit_fun([&]() {// 击中怪物加1分，播放音效
