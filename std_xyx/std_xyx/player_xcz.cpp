@@ -145,12 +145,10 @@ void Player_xcz::on_update(float delta)
 	CharacterXcz::on_update(delta);
 	if (_DE_BUG_)
 	{
-		//std::cout << ID << "  on_update" << std::endl;
 	}
 	if (alive)
 	{
 		on_move(delta);
-		//move_bullet(delta);
 	}
 }
 

@@ -146,7 +146,7 @@ void XczGameScene::on_exit()
     {
         std::cout << "XczGameScene::on_exit" << std::endl;
     }
-
+    enemy_list.clear();
     // 清理怪物池中的怪物
     enemy_pool.reset();
 }
@@ -166,6 +166,18 @@ void XczGameScene::on_update(float delta)
     {
         //std::cout << "XczGameScene::on_update" << std::endl;
     }
+
+    auto entity = TreeMgr::instance()->get_game_node();
+    for (TreeNode_WP& node : enemy_list)
+    {
+        auto enemy = node.lock();
+        if (enemy)
+        {
+            enemy_pool->add_children(node.lock());
+        }
+    }
+    enemy_list.clear();
+
     auto player_obj = player.lock()->get_obj_as<Player_xcz>();
     auto bul_box = bullet_box.lock()->get_obj_as<BulletBox>();
     if (!player_obj->get_alive()) return;
@@ -222,39 +234,12 @@ void XczGameScene::on_update(float delta)
     timer_enemy_produce.set_wait_time(t);
     timer_enemy_produce.on_update(delta);
 
-    // 获取玩家当前位置
-    //Vector2 p = player_obj->get_center_position();//get_anchor_position(AnchorMode::CENTER);
-
-    std::vector<TreeNode_WP> t_list;
-
-    auto entity = TreeMgr::instance()->get_game_node();
-    // 遍历怪物
-    entity->for_each_child([&](TreeNode_SP node) {
-        auto enemy = node->get_obj_as<Enemy_xcz>();
-        if (enemy && enemy->id_contains("enemy"))
-        {
-            if (enemy->get_alive())
-            {
-                //enemy->set_player_pos(p);
-            }
-            else
-            {
-                t_list.push_back(node);
-            }
-        }
-        });
-
-    for (TreeNode_WP& node : t_list)
-    {
-        //std::cout << "delete:  " << obj->get_ID() << std::endl;
-        enemy_pool->add_children(entity->remove_children(node.lock()));
-    }
     // 碰撞检测
     CollisionMgr::instance()->processCollide();
     // 最后将怪物和玩家在对象树中按照y轴升序排序。
     entity->sort_children([](const TreeNode_SP& a, const TreeNode_SP& b) {
-        return a->get_position().y < b->get_position().y;
-        });
+        return a->get_rect_position().y < b->get_rect_position().y;
+        }); 
 
     // 更新分数
     score_lable.lock()->get_obj_as<GameLable>()->set_lable_text("SCORE:" + std::to_string(score));
@@ -292,19 +277,22 @@ void XczGameScene::add_enemy()
         {
             //没有就new一个
             auto enemy_n = TreeNode::create_obj<Enemy_xcz>("enemy_", enemy_num);
+            std::weak_ptr<Enemy_xcz> enemy_w = enemy_n;
             enemy_n->on_enter();
             enemy_num++;
-            enemy_n->set_on_hurt_fun([&]() {
-                if (enemy_n->get_alive())
+            enemy_n->set_on_hurt_fun([enemy_w,this]() {
+                auto enemy = enemy_w.lock();
+                if (enemy && !enemy->get_alive())
                 {
-                    // 在此处添加到死亡缓存中
+                    enemy_list.push_back(enemy_w);
                 }
                 });
-            enemy_n->set_on_hit_fun([&]() { // 怪物击中角色 播放音效
+            enemy_n->set_on_hit_fun([enemy_w, this]() { // 怪物击中角色 播放音效
                 Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
-                if (enemy_n->get_alive())
+                auto enemy = enemy_w.lock();
+                if (enemy && !enemy->get_alive())
                 {
-                    // 在此处添加到死亡缓存中
+                    enemy_list.push_back(enemy_w);
                 }
                 });
             entity->add_children(std::move(enemy_n));

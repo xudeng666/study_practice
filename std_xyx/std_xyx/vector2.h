@@ -62,12 +62,12 @@ public:
 		y /= val;
 	}
 
-	bool operator!=(const Vector2& vec)
+	bool operator!=(const Vector2& vec) const
 	{
-		return (x != vec.x && y != vec.y);
+		return !(*this == vec);
 	}
 
-	bool operator==(const Vector2& vec)
+	bool operator==(const Vector2& vec) const
 	{
 		return (x == vec.x && y == vec.y);
 	}

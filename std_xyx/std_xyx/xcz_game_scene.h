@@ -41,6 +41,8 @@ private:
     TreeNode_WP bullet_box;
     // 怪物池节点-（存放死亡怪物）
     TreeNode_SP enemy_pool = nullptr;
+    // 怪物池缓存表
+    std::vector<TreeNode_WP> enemy_list;
     // 敌人总数
     int enemy_num = 0;
     // 本帧要添加的敌人总数
