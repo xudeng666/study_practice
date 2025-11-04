@@ -79,8 +79,11 @@ void XczGameScene::on_init()
     bullet_box = b_box;
     b_box->set_anchor_mode(AnchorMode::CENTER);
     b_box->set_anchor_referent_mode(AnchorMode::CENTER);
-    b_box->set_position({0,-10});
+    b_box->set_position({0,0});
+    b_box->set_size({100,20});
     b_box->set_anchor_referent_node(player);
+    b_box->set_angle_anchor_mode(AnchorMode::CENTER);
+    b_box->set_center({ 0,0 });
     auto bbox = b_box->get_obj_as<BulletBox>();
     bbox->set_hit_fun([&]() {// 击中怪物加1分，播放音效
         score++;
@@ -166,6 +169,18 @@ void XczGameScene::on_update(float delta)
     if (_DE_BUG_)
     {
         //std::cout << "XczGameScene::on_update" << std::endl;
+        auto p = player.lock();
+        auto b = bullet_box.lock();
+        Vector2 pc = p->get_center_position();
+        SDL_FRect rp = p->get_FRect();
+        Vector2 bc = b->get_center_position();
+        Vector2 brc = b->get_rotatio_center_position();
+        SDL_FRect rb = b->get_FRect();
+        std::cout << "角色几何中心  x:"<< pc.x << "   y:"<< pc.y << std::endl;
+        std::cout << "角色rect  x:"<< rp.x << "   y:"<< rp.y << "   w:" << rp.w << "   h:" << rp.h << std::endl;
+        std::cout << "子弹箱几何中心  x:"<< bc.x << "   y:"<< bc.y << std::endl;
+        std::cout << "子弹箱旋转中心  x:"<< brc.x << "   y:"<< brc.y << std::endl;
+        std::cout << "子弹箱rect  x:" << rb.x << "   y:" << rb.y << "   w:" << rb.w << "   h:" << rb.h << std::endl;
     }
 
     auto entity = TreeMgr::instance()->get_game_node();

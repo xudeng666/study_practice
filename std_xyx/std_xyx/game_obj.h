@@ -122,7 +122,7 @@ public:
     void set_center(const Vector2& pos);
     /*获取旋转中心坐标*/
     Vector2 get_center();
-    /*获取旋转中心坐标*/
+    /*获取旋转中心左上角坐标*/
     SDL_FPoint get_center_point();
     /*设置旋转中心锚点*/
     void set_angle_anchor_mode(const AnchorMode mode);

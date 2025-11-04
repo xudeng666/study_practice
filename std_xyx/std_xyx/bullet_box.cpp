@@ -15,7 +15,6 @@ void BulletBox::on_enter()
 	GameObj::on_enter();
 	enable_angle = true;
 	bul_num = 0;
-	bul_degrees = 0;
 }
 
 void BulletBox::on_exit()

@@ -44,8 +44,6 @@ private:
     int bul_num = 0;
     // 子弹飞行半径
     int bul_radius = 120;
-    // 子弹飞行角度
-    float bul_degrees = 0;
     // 子弹角速度(度/秒)
     float angle_speed = 90;
     // 攻击回调函数
