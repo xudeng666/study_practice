@@ -23,4 +23,10 @@ public:
     virtual void on_render() override;
     virtual void on_move(float delta) override;
     virtual void set_face(bool is_left) override;
+private:
+    /*同步玩家坐标*/
+    void update_pos();
+private:
+    /*同步玩家坐标定时器*/
+    Timer timer_update_pos;
 };

@@ -68,6 +68,12 @@ void Player_xcz::on_init()
 		}
 		});
 	hurt_obj->set_anchor_referent_node(self_node);
+
+	timer_update_pos.set_one_shot(false);
+	timer_update_pos.set_wait_time(1.0f);
+	timer_update_pos.set_on_timeout([&]() {
+		update_pos();
+		});
 }
 
 void Player_xcz::on_enter()
@@ -148,6 +154,7 @@ void Player_xcz::on_update(float delta)
 	}
 	if (alive)
 	{
+		timer_update_pos.on_update(delta);
 		on_move(delta);
 	}
 }
@@ -179,12 +186,19 @@ void Player_xcz::on_move(float delta)
 	position += velocity;
 	if (velocity != Vector2(0,0))
 	{
-		SDL_Event event;
-		event.type = EventMgr::instance()->get_event_type(EventType::PLAYER_MOVE);
-		EventData* data = new EventData();
-		data->set("postion", get_rect_position());
-		event.user.data1 = data;
-		event.user.data2 = nullptr;
-		SDL_PushEvent(&event);
+		update_pos();
+		timer_update_pos.restart();
 	}
+}
+
+void Player_xcz::update_pos()
+{
+	// 发送玩家移动事件
+	SDL_Event event;
+	event.type = EventMgr::instance()->get_event_type(EventType::PLAYER_MOVE);
+	EventData* data = new EventData();
+	data->set("postion", get_rect_position());
+	event.user.data1 = data;
+	event.user.data2 = nullptr;
+	SDL_PushEvent(&event);
 }

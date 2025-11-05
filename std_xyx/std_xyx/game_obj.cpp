@@ -275,7 +275,7 @@ Vector2 GameObj::get_rotatio_center_position()
 
 	if (ref)
 	{
-		if (get_extend_enable_angle())
+		if (ref->get_extend_enable_angle())
 		{
 			Vector2 pc = ref->get_rotatio_center_position();
 			Vector2 pp = ref->get_center();
