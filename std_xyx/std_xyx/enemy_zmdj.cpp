@@ -2,6 +2,8 @@
 #include "event_mgr.h"
 #include "game_wnd.h"
 
+#include "res_mgr.h"
+
 
 INIT_TYPE_NAME(EnemyZmdj);
 
@@ -54,6 +56,9 @@ void EnemyZmdj::on_init()
 	hurt_obj->set_ID("enemy_hurt_box");
 	hurt_obj->set_call_back([&]() {
 		decrease_hp(1);
+		// 播放受击音效
+		Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
+
 		if (!get_alive())
 		{
 			// 关闭碰撞

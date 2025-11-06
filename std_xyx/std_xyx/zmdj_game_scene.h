@@ -23,6 +23,8 @@ public:
     virtual void on_render() override;
     // 生成敌人
     void add_enemy();
+    // 生成子弹
+    void add_bullet();
 
 private:
     // 背景图

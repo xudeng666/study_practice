@@ -3,6 +3,7 @@
 #include "game_mgr.h"
 #include "collision_mgr.h"
 #include "tree_mgr.h"
+#include "game_wnd.h"
 #include "enemy_zmdj.h"
 #include "res_mgr.h"
 
@@ -134,6 +135,7 @@ void ZmdjGameScene::on_enter()
     max_hp = 10;
     enemy_num = 0;
     num_per_gen = 2;
+    SDL_ShowCursor(SDL_DISABLE);
     Scene::on_enter();
 }
 
@@ -144,6 +146,7 @@ void ZmdjGameScene::on_exit()
         std::cout << "ZmdjGameScene::on_exit" << std::endl;
     }
 
+    SDL_ShowCursor(SDL_ENABLE);
     enemy_pool.reset();
     bullet_pool.reset();
 }
@@ -158,7 +161,7 @@ void ZmdjGameScene::on_input(const SDL_Event& event)
     else if (event.type == EventMgr::instance()->get_event_type(EventType::ENEMY_DIE))
     {
         score++;
-        Mix_PlayChannel(-1, ResMgr::instance()->find_audio("explosion"), 0);
+        Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_explosion"), 0);
     }
     else if (event.type == EventMgr::instance()->get_event_type(EventType::ADD_ENEMY))
     {
@@ -175,6 +178,28 @@ void ZmdjGameScene::on_input(const SDL_Event& event)
             {
                 enemy_pool->add_children(node.lock());
             }
+        }
+    }
+    else if (event.type == EventMgr::instance()->get_event_type(EventType::LAUNCH_BULLET))
+    {
+        EventData* data = static_cast<EventData*>(event.user.data1);
+        if (!data) return;
+        Vector2 pos;
+        double b_angle;
+        if (data->get("postion", pos) && data->get("angle", b_angle))
+        {
+            // Ìí¼Ó×Óµ¯
+        }
+    }
+    else if (event.type == SDL_MOUSEMOTION)
+    {
+        auto zx = crosshair.lock();
+        if (zx)
+        {
+            Vector2 m = { (float)event.motion.x, (float)event.motion.y };
+            Vector2 t = zx->get_center_position();
+            Vector2 p = zx->get_position();
+            zx->set_position(p + m - t);
         }
     }
 }

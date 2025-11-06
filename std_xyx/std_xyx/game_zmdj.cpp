@@ -16,7 +16,7 @@ void GameZmdj::on_enter()
 	GameWnd::instance()->set_title(u8"ÖÂÃü´ò¼¦");
 	current_scene_type = SceneType::GAME;
 	Game::on_enter();
-	Mix_PlayMusic(ResMgr::instance()->find_music("bgm"), -1);
+	Mix_PlayMusic(ResMgr::instance()->find_music("music_bgm"), -1);
 }
 
 void GameZmdj::create_target_scene()

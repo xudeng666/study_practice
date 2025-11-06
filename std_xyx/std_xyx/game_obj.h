@@ -116,8 +116,6 @@ public:
     bool check_in_screen(int val = 0);
     // 判断点是否在控件范围内
     bool contains_point(const SDL_Point* point);
-
-
     /*设置旋转中心坐标*/
     void set_center(const Vector2& pos);
     /*获取旋转中心坐标*/
