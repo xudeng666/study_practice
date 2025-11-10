@@ -18,7 +18,7 @@ public:
         ani_run.set_interval(0.1f);
 
         ani_explosion.set_loop(false);
-        ani_run.set_interval(0.08f);
+        ani_explosion.set_interval(0.08f);
         ani_explosion.add_frame(&atlas_explosion);
         ani_explosion.set_on_finished([&]()
             {
