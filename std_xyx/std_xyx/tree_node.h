@@ -77,6 +77,10 @@ public:
 
     /*设置父节点*/
     void set_parent(TreeNode_SP p);
+    /*设置被添加回调*/
+    virtual void set_added_fun(const std::function<void()>& func);
+    /*执行被添加回调*/
+    void run_added_fun();
     /*获取父节点*/
     TreeNode_SP get_parent();
     /*设置自身节点*/
@@ -161,4 +165,5 @@ protected:
     TreeNode_WP self_node;
 	std::vector<TreeNode_SP> children;
     NodeType node_type;
+    std::function<void()> on_added_func = nullptr;
 };

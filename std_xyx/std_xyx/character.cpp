@@ -10,6 +10,7 @@ Character::~Character()
 
 void Character::on_init()
 {
+    GameObj::on_init();
     auto node = TreeNode::create_obj<GameAni>("current_ani");
     current_ani = node;
     add_children(std::move(node));

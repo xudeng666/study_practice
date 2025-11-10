@@ -6,6 +6,7 @@ INIT_TYPE_NAME(GameBar);
 
 void GameBar::on_init()
 {
+	GameObj::on_init();
 	auto bg = TreeNode::create_obj<GameImg>("img_bg");
 	bg->set_position(Vector2(0, 0));
 	bg->set_anchor_mode(AnchorMode::LEFTCENTER);

@@ -5,6 +5,7 @@ INIT_TYPE_NAME(GameAni);
 
 void GameAni::on_init()
 {
+	GameImg::on_init();
 	timer.set_one_shot(false);
 	timer.set_on_timeout([&]()
 		{

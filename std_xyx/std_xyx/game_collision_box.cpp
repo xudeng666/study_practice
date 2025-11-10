@@ -5,6 +5,7 @@ INIT_TYPE_NAME(GameCollisionBox);
 
 void GameCollisionBox::on_init()
 {
+	GameObj::on_init();
 }
 
 void GameCollisionBox::on_input(const SDL_Event& event)

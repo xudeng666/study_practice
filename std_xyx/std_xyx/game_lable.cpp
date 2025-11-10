@@ -13,6 +13,7 @@ GameLable::~GameLable()
 
 void GameLable::on_init()
 {
+	GameObj::on_init();
 	anchor_node = TreeNode::create_obj<GameObj>("anchor_node");
 	anchor_node->set_anchor_mode(lable_anchor_mode);
 	anchor_node->set_anchor_referent_mode(lable_anchor_mode);

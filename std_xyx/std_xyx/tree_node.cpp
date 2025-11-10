@@ -96,7 +96,7 @@ void TreeNode::add_children(TreeNode_SP node, bool is_front)
 
 	// 步骤2：设置当前节点为新父节点
 	node->set_parent(self_node.lock());
-
+	node->run_added_fun();
 	if (is_front)
 	{
 		children.insert(children.begin(), std::move(node));
@@ -105,6 +105,19 @@ void TreeNode::add_children(TreeNode_SP node, bool is_front)
 	{
 		children.push_back(std::move(node));
 	}
+}
+
+void TreeNode::run_added_fun()
+{
+	if (on_added_func)
+	{
+		on_added_func();
+	}
+}
+
+void TreeNode::set_added_fun(const std::function<void()>& func)
+{
+	on_added_func = func;
 }
 
 void TreeNode::for_each_child(const std::function<void(TreeNode_SP)>& func)

@@ -7,6 +7,7 @@ INIT_TYPE_NAME(GameBtn);
 
 void GameBtn::on_init()
 {
+	GameImg::on_init();
 	status = ButtonState::NORMAL;
 }
 
