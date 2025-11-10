@@ -11,6 +11,7 @@ INIT_TYPE_NAME(TurretZmdj);
 
 void TurretZmdj::on_init()
 {
+	GameImg::on_init();
 	// 设置自身资源、尺寸
 	set_res_name("battery");
 	set_position(Vector2(0, -120));
@@ -149,7 +150,7 @@ void TurretZmdj::open_fire(float delta)
 		is_cool_down = false;
 
 		// 计算子弹出生位置
-		double b_angle = getIntRand(-5, 5);  // 在 10°范围内随机偏移
+		double b_angle = getIntRand(-2, 2);  // 在 5°范围内随机偏移
 		auto b = barrel.lock();
 		if (b)
 		{

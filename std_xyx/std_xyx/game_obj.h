@@ -29,12 +29,12 @@ public:
     virtual void set_ID(const std::string& str, const int num) override;
     /*获取ID*/
     virtual std::string get_ID() override;
-    /*获取路径ID*/
-    virtual std::string get_path_ID();
     /*id包含判定*/
     bool id_contains(const std::string& str);
     /*设置坐标*/
     void set_position(const Vector2& pos);
+    /*设置坐标*/
+    void set_position(const float x, const float y);
     /*获取坐标*/
     const Vector2& get_position() const;
     /*获取全局坐标
@@ -43,6 +43,8 @@ public:
     const Vector2& get_rect_position();
     /*设置尺寸*/
     virtual void set_size(const SDL_Point& size);
+    /*设置尺寸*/
+    virtual void set_size(const int w, const int h);
     /*获取尺寸*/
     const SDL_Point& get_size() const;
     /*设置显示状态*/
@@ -118,6 +120,8 @@ public:
     bool contains_point(const SDL_Point* point);
     /*设置旋转中心坐标*/
     void set_center(const Vector2& pos);
+    /*设置旋转中心坐标*/
+    void set_center(const float x, const float y);
     /*获取旋转中心坐标*/
     Vector2 get_center();
     /*获取旋转中心左上角坐标*/
@@ -138,6 +142,10 @@ public:
     double get_rotation();
     /*获取角度*/
     double get_angle();
+    /*获取路径ID*/
+    std::string get_path_ID();
+    /*设置路径ID*/
+    void set_path_ID();
 
 protected:
     /*点击区域开关状态*/
@@ -165,4 +173,6 @@ protected:
     Vector2 center = { 0.0f, 0.0f };
     // 旋转锚点(默认中心点)
     AnchorMode angle_anchor_mode = AnchorMode::CENTER;
+    
+    std::string path_id;
 };

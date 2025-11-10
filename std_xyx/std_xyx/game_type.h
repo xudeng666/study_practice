@@ -101,6 +101,7 @@ enum class EventType {
 	REDUCE_BULLET,		// 减少子弹
 	LAUNCH_BULLET,		// 发射子弹
 	PLAYER_DIE,			// 角色死亡
+	PLAYER_HURT,		// 角色受击
 	PLAYER_MOVE,		// 角色移动
 	ENEMY_DIE,			// 敌人死亡
 	ADD_ENEMY,			// 新增敌人

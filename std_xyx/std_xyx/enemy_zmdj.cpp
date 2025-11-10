@@ -22,26 +22,11 @@ void EnemyZmdj::on_init()
 	anchor_referent_mode = AnchorMode::TOPLEFT;
 
 	auto ani = current_ani.lock()->get_obj_as<GameAni>();
-	ani->set_position({ 0,0 });
-	ani->set_size({ 32,52 });
-	ani->set_anchor_mode(AnchorMode::BOTTOMCENTER);
-	ani->set_anchor_referent_mode(AnchorMode::BOTTOMCENTER);
+	ani->set_anchor_mode(AnchorMode::CENTER);
+	ani->set_anchor_referent_mode(AnchorMode::CENTER);
 	ani->set_anchor_referent_node(self_node);
 	ani->set_ID("enemy_ani");
 	ani->set_res_int_val(1);
-	ani->set_loop(true);
-	ani->set_on_finished([&]() {
-			valid = true;
-			on_exit();
-			// 发送删除敌人消息
-			SDL_Event event;
-			event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_ENEMY);
-			EventData* data = new EventData();
-			data->set("node", self_node);
-			event.user.data1 = data;
-			event.user.data2 = nullptr;
-			SDL_PushEvent(&event);
-		}); 
 
 	auto hit_obj = hit_box.lock()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_collision_enabled(false);
@@ -54,19 +39,17 @@ void EnemyZmdj::on_init()
 	hurt_obj->set_layer_dst(CollisionLayer::NONE);
 	hurt_obj->set_layer_src(CollisionLayer::ENEMY);
 	hurt_obj->set_ID("enemy_hurt_box");
-	hurt_obj->set_call_back([&]() {
+	hurt_obj->set_call_back([hurt_obj, ani, this]() {
 		decrease_hp(1);
 		// 播放受击音效
-		Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_hurt"), 0);
+		Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_explosion"), 0);
 
 		if (!get_alive())
 		{
 			// 关闭碰撞
 			hurt_obj->set_collision_enabled(false);
 			// 切换为死亡动画
-			ani->set_res_name(ani_pool["die"]);
-			ani->set_loop(false);
-			ani->set_interval(0.08f);
+			set_enemy_of_die();
 			// 发送敌人死亡消息
 			SDL_Event event;
 			event.type = EventMgr::instance()->get_event_type(EventType::ENEMY_DIE);
@@ -97,7 +80,10 @@ void EnemyZmdj::on_enter()
 
 	valid = false;
 	alive = true;
-	
+
+	auto ani = current_ani.lock()->get_obj_as<GameAni>();\
+	ani->set_size({ 32,52 });
+
 	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
 	hurt_obj->set_collision_enabled(true);
 }
@@ -122,6 +108,20 @@ void EnemyZmdj::on_update(float delta)
 	if (alive)
 	{
 		on_move(delta);
+	}
+
+	// 敌人攻击
+	if (position.y > GameWnd::instance()->get_height() + size.y)
+	{
+		alive = false;
+		// 发送敌人攻击事件
+		SDL_Event event;
+		event.type = EventMgr::instance()->get_event_type(EventType::PLAYER_HURT);
+		EventData* data = new EventData();
+		data->set("enemy", self_node);
+		event.user.data1 = data;
+		event.user.data2 = nullptr;
+		SDL_PushEvent(&event);
 	}
 }
 
@@ -151,6 +151,7 @@ void EnemyZmdj::set_enemy_of_type(ZmdjEnemyType type)
 	auto ani = current_ani.lock()->get_obj_as<GameAni>();
 	ani->set_loop(true);
 	ani->set_interval(0.1f);
+	ani->set_size(32, 52);
 	switch (type)
 	{
 	case ZmdjEnemyType::E_S:
@@ -168,5 +169,28 @@ void EnemyZmdj::set_enemy_of_type(ZmdjEnemyType type)
 	default:
 		break;
 	}
+}
+
+void EnemyZmdj::set_enemy_of_die()
+{
+	set_velocity(Vector2(0, 0));
+	auto ani = current_ani.lock()->get_obj_as<GameAni>();
+	ani->reset();
+	ani->set_loop(false);
+	ani->set_interval(0.08f);
+	ani->set_size(64, 64);
+	ani->set_res_name(ani_pool["die"]);
+	ani->set_on_finished([&]() {
+		valid = true;
+		on_exit();
+		// 发送删除敌人消息
+		SDL_Event event;
+		event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_ENEMY);
+		EventData* data = new EventData();
+		data->set("node", self_node);
+		event.user.data1 = data;
+		event.user.data2 = nullptr;
+		SDL_PushEvent(&event);
+		});
 }
 

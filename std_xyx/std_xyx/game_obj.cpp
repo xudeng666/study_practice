@@ -20,11 +20,14 @@ GameObj::GameObj(const std::string id, const int num)
 
 GameObj::~GameObj()
 {
-	std::cout << "Destroying ~GameObj id  "<< get_path_ID() << std::endl;
+	std::cout << "Destroying ~GameObj id  "<< path_id << std::endl;
 }
 
 void GameObj::on_init()
 {
+	set_added_fun([&]() {
+		set_path_ID();
+		});
 }
 
 void GameObj::on_enter()
@@ -70,7 +73,18 @@ std::string GameObj::get_ID()
 
 std::string GameObj::get_path_ID()
 {
-	return !parent.expired() ? parent.lock()->get_path_ID() + "/" + ID : ID;
+	return path_id;
+}
+
+void GameObj::set_path_ID()
+{
+	path_id = ID;
+	auto p = parent.lock();
+	if (p && p->get_node_type() == NodeType::GAMENODE)
+	{
+		//std::cout << "get_path_ID" << std::endl;
+		path_id = p->get_path_ID() + "/" + ID;
+	}
 }
 
 bool GameObj::id_contains(const std::string& str)
@@ -81,6 +95,12 @@ bool GameObj::id_contains(const std::string& str)
 void GameObj::set_position(const Vector2& pos)
 {
 	position = pos;
+}
+
+void GameObj::set_position(const float x, const float y)
+{
+	position.x = x;
+	position.y = y;
 }
 
 const Vector2& GameObj::get_position() const
@@ -96,6 +116,12 @@ const Vector2& GameObj::get_rect_position()
 void GameObj::set_size(const SDL_Point& size)
 {
 	this->size = size;
+}
+
+void GameObj::set_size(const int w, const int h)
+{
+	size.x = w;
+	size.y = h;
 }
 
 const SDL_Point& GameObj::get_size() const
@@ -116,6 +142,11 @@ const bool GameObj::get_display() const
 void GameObj::set_center(const Vector2& pos)
 {
 	center = pos;
+}
+void GameObj::set_center(const float x, const float y)
+{
+	center.x = x;
+	center.y = y;
 }
 Vector2 GameObj::get_center()
 {

@@ -2,6 +2,8 @@
 #include "scene.h"
 #include "tree_node.h"
 
+#include "vector2.h"
+
 #include "timer.h"
 
 class ZmdjGameScene:public Scene
@@ -23,8 +25,12 @@ public:
     virtual void on_render() override;
     // 生成敌人
     void add_enemy();
-    // 生成子弹
-    void add_bullet();
+    /// <summary>
+    /// 生成子弹
+    /// </summary>
+    /// <param name="pos">坐标</param>
+    /// <param name="agl">角度</param>
+    void add_bullet(const Vector2 pos, const double agl);
 
 private:
     // 背景图
@@ -56,6 +62,8 @@ private:
 
     // 敌人总数
     int enemy_num = 0;
+    // 子弹总数
+    int bullet_num = 0;
     // 分数
     int score = 0;
     // 血量

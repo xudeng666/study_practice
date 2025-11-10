@@ -33,5 +33,7 @@ private:
     ZmdjEnemyType get_rand_enemy_type();
     // 设置怪物类型
     void set_enemy_of_type(ZmdjEnemyType type);
+    // 切换为死亡动画
+    void set_enemy_of_die();
 };
 
