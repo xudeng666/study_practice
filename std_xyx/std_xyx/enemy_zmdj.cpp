@@ -39,24 +39,10 @@ void EnemyZmdj::on_init()
 	hurt_obj->set_layer_dst(CollisionLayer::NONE);
 	hurt_obj->set_layer_src(CollisionLayer::ENEMY);
 	hurt_obj->set_ID("enemy_hurt_box");
-	hurt_obj->set_call_back([hurt_obj, ani, this]() {
+	hurt_obj->set_call_back([&]() {
 		decrease_hp(1);
 		// 播放受击音效
 		Mix_PlayChannel(-1, ResMgr::instance()->find_audio("audio_explosion"), 0);
-
-		if (!get_alive())
-		{
-			// 关闭碰撞
-			hurt_obj->set_collision_enabled(false);
-			// 切换为死亡动画
-			set_enemy_of_die();
-			// 发送敌人死亡消息
-			SDL_Event event;
-			event.type = EventMgr::instance()->get_event_type(EventType::ENEMY_DIE);
-			event.user.data1 = nullptr;
-			event.user.data2 = nullptr;
-			SDL_PushEvent(&event);
-		}
 		});
 	hurt_obj->set_anchor_referent_node(self_node);
 }
@@ -80,8 +66,9 @@ void EnemyZmdj::on_enter()
 
 	valid = false;
 	alive = true;
+	change_die = false;
 
-	auto ani = current_ani.lock()->get_obj_as<GameAni>();\
+	auto ani = current_ani.lock()->get_obj_as<GameAni>();
 	ani->set_size({ 32,52 });
 
 	auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
@@ -109,6 +96,35 @@ void EnemyZmdj::on_update(float delta)
 	{
 		on_move(delta);
 	}
+	else if (!change_die)
+	{
+		change_die = true;
+		// 关闭碰撞
+		auto hurt_obj = hurt_box.lock()->get_obj_as<GameCollisionBox>();
+		hurt_obj->set_collision_enabled(false);
+		// 切换为死亡动画
+		set_enemy_of_die();
+		// 发送敌人死亡消息
+		SDL_Event event;
+		event.type = EventMgr::instance()->get_event_type(EventType::ENEMY_DIE);
+		event.user.data1 = nullptr;
+		event.user.data2 = nullptr;
+		SDL_PushEvent(&event);
+	}
+	
+	if (valid)
+	{
+		on_exit();
+		// 发送删除敌人消息
+		SDL_Event event;
+		event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_ENEMY);
+		EventData* data = new EventData();
+		data->set("node", self_node);
+		event.user.data1 = data;
+		event.user.data2 = nullptr;
+		SDL_PushEvent(&event);
+	}
+
 
 	// 敌人攻击
 	if (position.y > GameWnd::instance()->get_height() + size.y)
@@ -182,15 +198,6 @@ void EnemyZmdj::set_enemy_of_die()
 	ani->set_res_name(ani_pool["die"]);
 	ani->set_on_finished([&]() {
 		valid = true;
-		on_exit();
-		// 发送删除敌人消息
-		SDL_Event event;
-		event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_ENEMY);
-		EventData* data = new EventData();
-		data->set("node", self_node);
-		event.user.data1 = data;
-		event.user.data2 = nullptr;
-		SDL_PushEvent(&event);
 		});
 }
 

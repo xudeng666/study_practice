@@ -1,5 +1,7 @@
 #include "bullet_zmdj.h"
 
+#include "event_mgr.h"
+
 INIT_TYPE_NAME(BulletZmdj);
 
 void BulletZmdj::on_init()
@@ -30,9 +32,7 @@ void BulletZmdj::on_init()
 	hit_obj->set_layer_src(CollisionLayer::NONE);
 	hit_obj->set_ID("bul_hit_box");
 	hit_obj->set_call_back([&]() {
-		set_display(false);
 		set_can_remove(true);
-		on_hit();
 		});
 	hit_obj->set_anchor_referent_node(self_node);
 	auto* hurt_obj = get_hurt_box()->get_obj_as<GameCollisionBox>();
@@ -59,9 +59,9 @@ void BulletZmdj::on_enter()
 }
 void BulletZmdj::on_exit()
 {
-	set_display(false);
 	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();
 	hit_obj->set_collision_enabled(false);
+	set_display(false);
 	Bullet::on_exit();
 }
 void BulletZmdj::on_input(const SDL_Event& event)
@@ -75,6 +75,20 @@ void BulletZmdj::on_update(float delta)
 	if (!check_in_screen(0))
 	{
 		valid = false;
+		set_can_remove(true);
+	}
+
+	if (can_remove)
+	{
+		on_exit();
+		// 发送子弹移除事件
+		SDL_Event event;
+		event.type = EventMgr::instance()->get_event_type(EventType::REDUCE_BULLET);
+		EventData* data = new EventData();
+		data->set("node", self_node);
+		event.user.data1 = data;
+		event.user.data2 = nullptr;
+		SDL_PushEvent(&event);
 	}
 }
 void BulletZmdj::on_render()

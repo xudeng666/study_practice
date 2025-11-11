@@ -150,8 +150,6 @@ void ZmdjGameScene::on_exit()
     SDL_ShowCursor(SDL_ENABLE);
     enemy_pool.reset();
     bullet_pool.reset();
-    enemy_list.clear();
-    bullet_list.clear();
 }
 
 void ZmdjGameScene::on_input(const SDL_Event& event)
@@ -174,6 +172,7 @@ void ZmdjGameScene::on_input(const SDL_Event& event)
             auto en = enemy.lock();
             if (en)
             {
+                //std::cout << "删除敌人到怪物池  id：" << en->get_ID() << std::endl;
                 enemy_pool->add_children(en);
             }
         }
@@ -213,6 +212,20 @@ void ZmdjGameScene::on_input(const SDL_Event& event)
             add_bullet(pos, b_angle);
         }
     }
+    else if (event.type == EventMgr::instance()->get_event_type(EventType::REDUCE_BULLET))
+    {
+        EventData* data = static_cast<EventData*>(event.user.data1);
+        if (!data) return;
+        TreeNode_WP node;
+        if (data->get("node", node))
+        {
+            auto n = node.lock();
+            if (n)
+            {
+                bullet_pool->add_children(n);
+            }
+        }
+    }
     else if (event.type == SDL_MOUSEMOTION)
     {
         auto zx = crosshair.lock();
@@ -232,26 +245,6 @@ void ZmdjGameScene::on_update(float delta)
     {
         //std::cout << "ZmdjGameScene::on_update" << std::endl;
     }
-
-    for (TreeNode_WP& node : enemy_list)
-    {
-        auto enemy = node.lock();
-        if (enemy)
-        {
-            enemy_pool->add_children(node.lock());
-        }
-    }
-    enemy_list.clear();
-
-    for (TreeNode_WP& node : bullet_list)
-    {
-        auto bullet = node.lock();
-        if (bullet)
-        {
-            bullet_pool->add_children(node.lock());
-        }
-    }
-    bullet_list.clear();
 
     timer_generate.on_update(delta);
     timer_increase_num_per_gen.on_update(delta);
@@ -299,15 +292,7 @@ void ZmdjGameScene::add_enemy()
             //没有就new一个
             auto enemy_n = TreeNode::create_obj<EnemyZmdj>("enemy_", enemy_num);
             enemy_num++;
-            std::weak_ptr<EnemyZmdj> enemy_w = enemy_n;
             enemy_n->on_enter();
-            enemy_n->set_on_hurt_fun([enemy_w, this]() {
-                auto enemy = enemy_w.lock();
-                if (enemy && !enemy->get_alive())
-                {
-                    enemy_list.push_back(enemy_w);
-                }
-                });
             e_box->add_children(std::move(enemy_n));
         }
     }
@@ -334,17 +319,9 @@ void ZmdjGameScene::add_bullet(const Vector2 pos, const double agl)
         //没有就new一个
         auto bullet = TreeNode::create_obj<BulletZmdj>("bullet_", bullet_num);
         bullet_num++;
-        std::weak_ptr<BulletZmdj> bullet_w = bullet;
         bullet->set_position(pos);
         bullet->set_rotation(agl);
         bullet->on_enter();
-        bullet->set_on_hit_fun([bullet_w, this]() {
-            auto bul = bullet_w.lock();
-            if (bul && bul->check_can_remove())
-            {
-                bullet_list.push_back(bullet_w);
-            }
-            });
         b_box->add_children(std::move(bullet));
     }
 }

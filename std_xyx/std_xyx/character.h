@@ -72,7 +72,7 @@ public:
 
 
 protected:
-    bool valid = true;                                      // 是否可以删除
+    bool valid = false;                                     // 是否可以删除
     bool alive = true;                                      // 是否存活
     bool check_out_of_screen = true;                        // 是否启用超出屏幕范围判定
     int hp = 10;                                            // 角色生命值

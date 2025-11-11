@@ -93,7 +93,7 @@ void CollisionMgr::processCollide()
 						event_dst.user.data1 = data_dst;
 						event_dst.user.data2 = nullptr;
 						SDL_PushEvent(&event_dst);
-						std::cout << "碰撞发生" << std::endl;
+						//std::cout << "碰撞发生" << std::endl;
 					}
 				}
 			}

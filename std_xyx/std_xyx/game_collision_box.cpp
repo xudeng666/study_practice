@@ -21,7 +21,7 @@ void GameCollisionBox::on_input(const SDL_Event& event)
 		{
 			if (obj == this && call_back)
 			{
-				std::cout << "碰撞箱回调:   " << obj << "  id: " << get_path_ID() << std::endl;
+				//std::cout << "碰撞箱回调:   " << obj << "  id: " << get_path_ID() << std::endl;
 				call_back();
 			}
 		}

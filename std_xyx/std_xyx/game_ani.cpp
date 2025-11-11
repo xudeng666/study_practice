@@ -82,7 +82,7 @@ void GameAni::set_res_name(const Ani_Res& res)
 /*设置当前帧纹理*/
 void GameAni::set_texture()
 {
-	texture = ResMgr::instance()->find_texture(res_name + std::to_string(static_cast<int>(idx_frame + res_int_val)));
+	texture = ResMgr::instance()->find_texture(res_name + std::to_string(idx_frame + res_int_val));
 	if (!texture)
 	{
 		std::cout << ID << " texture null" << std::endl;

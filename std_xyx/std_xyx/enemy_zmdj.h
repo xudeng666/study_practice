@@ -35,5 +35,8 @@ private:
     void set_enemy_of_type(ZmdjEnemyType type);
     // 切换为死亡动画
     void set_enemy_of_die();
+private:
+    // 是否已经切换死亡状态
+    bool change_die = false;
 };
 
