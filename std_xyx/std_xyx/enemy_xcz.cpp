@@ -115,6 +115,7 @@ void Enemy_xcz::on_exit()
 
 void Enemy_xcz::on_input(const SDL_Event& event)
 {
+	CharacterXcz::on_input(event);
 	if (event.type == EventMgr::instance()->get_event_type(EventType::PLAYER_MOVE))
 	{
 		EventData* data = static_cast<EventData*>(event.user.data1);

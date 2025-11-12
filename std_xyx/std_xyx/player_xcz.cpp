@@ -100,6 +100,7 @@ void Player_xcz::on_exit()
 
 void Player_xcz::on_input(const SDL_Event& event)
 {
+	CharacterXcz::on_input(event);
 	switch (event.type)
 	{
 	case SDL_KEYDOWN:

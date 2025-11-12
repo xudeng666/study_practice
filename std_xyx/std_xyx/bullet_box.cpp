@@ -25,6 +25,7 @@ void BulletBox::on_exit()
 
 void BulletBox::on_input(const SDL_Event& event)
 {
+	GameObj::on_input(event);
 	if (event.type == EventMgr::instance()->get_event_type(EventType::ADD_BULLET))
 	{
 		add_bullet(1);

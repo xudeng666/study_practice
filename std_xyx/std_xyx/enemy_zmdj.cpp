@@ -84,6 +84,7 @@ void EnemyZmdj::on_exit()
 
 void EnemyZmdj::on_input(const SDL_Event& event)
 {
+	Character::on_input(event);
 }
 void EnemyZmdj::on_update(float delta)
 {

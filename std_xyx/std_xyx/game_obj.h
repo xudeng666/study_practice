@@ -152,8 +152,7 @@ public:
     void set_path_ID();
 
 protected:
-    /*点击区域开关状态*/
-    bool click_enabled = true;
+    bool click_enabled = false;  // 点击区域开关状态（默认关闭）
     // 是否显示
     bool is_display = true;
 	/*相对父节点坐标*/
