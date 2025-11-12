@@ -2,6 +2,7 @@
 #include "game_start.h"
 #include "game_xcz.h"
 #include "game_zmdj.h"
+#include "game_phf.h"
 
 #include <assert.h>
 
@@ -18,7 +19,6 @@ GameMgr* GameMgr::instance()
 
 void GameMgr::init()
 {
-	//create_game<GameStart>(GameType::START, "GameStart");
 	std::cout << "GameMgr::init()" << std::endl;
 	exchange_game(GameType::START);
 }
@@ -80,10 +80,10 @@ void GameMgr::exchange_game(GameType type)
 		break;
 	case GameType::DLD:
 		create_game<GameDld>(current_type, "GameDld");
-		break;
+		break;*/
 	case GameType::PHF:
 		create_game<GamePhf>(current_type, "GamePhf");
-		break;*/
+		break;
 	default:
 		assert(false && "未知的 GameType，无法创建场景");
 		break;

@@ -83,12 +83,12 @@ void TreeNode::delete_children(const std::function<bool(const TreeNode_SP&)>& fu
 	}
 }
 
-void TreeNode::add_children(TreeNode_SP node, bool is_front)
+bool TreeNode::add_children(TreeNode_SP node, bool is_front)
 {
 	if (!node)
 	{
 		assert(false && "Cannot add null node as child");
-		return;
+		return false;
 	}
 	if (!node->parent.expired()) {
 		node = node->get_parent()->remove_children(node);
@@ -105,6 +105,7 @@ void TreeNode::add_children(TreeNode_SP node, bool is_front)
 	{
 		children.push_back(std::move(node));
 	}
+	return true;
 }
 
 void TreeNode::run_added_fun()

@@ -115,6 +115,36 @@ void TreeMgr::release_all_game()
 	root_t.reset();
 }
 
+bool TreeMgr::add_to_bg(TreeNode_SP node)
+{
+	auto n = bg_node.lock();
+	if (n)
+	{
+		return n->add_children(std::move(node));
+	}
+	return false;
+}
+
+bool TreeMgr::add_to_game(TreeNode_SP node)
+{
+	auto n = game_node.lock();
+	if (n)
+	{
+		return n->add_children(std::move(node));
+	}
+	return false;
+}
+
+bool TreeMgr::add_to_ui(TreeNode_SP node)
+{
+	auto n = ui_node.lock();
+	if (n)
+	{
+		return n->add_children(std::move(node));
+	}
+	return false;
+}
+
 void TreeMgr::pre_order_traversal(const std::function<void(TreeNode_SP)>& callback, TreeNode_SP current_node, bool check_display)
 {
 	if (!current_node)

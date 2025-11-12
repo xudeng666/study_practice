@@ -104,7 +104,8 @@ public:
     /// </summary>
     /// <param name="obj">节点智能指针</param>
     /// <param name="is_front">true/false 是否表头添加 默认false</param>
-    void add_children(TreeNode_SP node, bool is_front = false);
+    /// <returns>true/false  成功/失败</returns>
+    bool add_children(TreeNode_SP node, bool is_front = false);
     /// <summary>
     /// 遍历所有子对象
     /// </summary>

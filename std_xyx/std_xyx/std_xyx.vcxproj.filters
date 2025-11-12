@@ -46,6 +46,12 @@
     <Filter Include="源文件\game_zmdj">
       <UniqueIdentifier>{8b2b255f-709f-4aa6-bf39-08b8f3bf1241}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\game_phf">
+      <UniqueIdentifier>{ea704d47-ed16-4bb4-a6ad-1cb2717b568b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\game_phf">
+      <UniqueIdentifier>{458a9bd6-65fb-4561-9766-70f38754a0de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -152,6 +158,12 @@
     </ClCompile>
     <ClCompile Include="bullet_zmdj.cpp">
       <Filter>源文件\game_zmdj</Filter>
+    </ClCompile>
+    <ClCompile Include="game_phf.cpp">
+      <Filter>源文件\game_phf</Filter>
+    </ClCompile>
+    <ClCompile Include="phf_game_scene.cpp">
+      <Filter>源文件\game_phf</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="bullet_zmdj.h">
       <Filter>头文件\game_zmdj</Filter>
+    </ClInclude>
+    <ClInclude Include="game_phf.h">
+      <Filter>头文件\game_phf</Filter>
+    </ClInclude>
+    <ClInclude Include="phf_game_scene.h">
+      <Filter>头文件\game_phf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -57,7 +57,7 @@ void StartMenuScene::on_init()
     btn_phf_ptr->set_anchor_referent_mode(AnchorMode::CENTER);
     btn_phf_ptr->set_on_click([]() {
         std::cout << "ÇÐ»»ÓÎÏ·Æ´ºÃ·¹" << std::endl;
-        //GameMgr::instance()->exchange_game(GameType::PHF);
+        GameMgr::instance()->exchange_game(GameType::PHF);
         }
     );
 

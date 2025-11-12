@@ -399,3 +399,24 @@ bool GameObj::contains_point(const SDL_Point* point)
 	SDL_Rect r = get_Rect();
 	return  SDL_PointInRect(point, &r);
 }
+
+void GameObj::on_cursor_down()
+{
+}
+
+void GameObj::on_cursor_up()
+{
+	if (on_click)
+	{
+		on_click();
+	}
+}
+
+void GameObj::on_cursor_hover(bool is_hover)
+{
+}
+
+void GameObj::set_on_click(std::function<void()> click)
+{
+	on_click = click;
+}

@@ -23,6 +23,10 @@ public:
     virtual void on_input(const SDL_Event& event) override;
     virtual void on_update(float delta) override;
     virtual void on_render() override;
+    virtual void on_cursor_down();
+    virtual void on_cursor_up();
+    virtual void on_cursor_hover(bool is_hover);
+    virtual void set_on_click(std::function<void()> click);
 
     /*…Ë÷√ID*/
     virtual void set_ID(const std::string& str) override;
@@ -175,4 +179,6 @@ protected:
     AnchorMode angle_anchor_mode = AnchorMode::CENTER;
     
     std::string path_id;
+
+    std::function<void()> on_click = nullptr;
 };

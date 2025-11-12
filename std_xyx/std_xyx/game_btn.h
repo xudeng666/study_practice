@@ -20,12 +20,11 @@ public:
 	virtual void on_update(float delta) override;
 	virtual void on_render() override;
 	virtual void set_texture() override;
-	void on_cursor_down();
-	void on_cursor_up();
-	void on_cursor_hover(bool is_hover);
-	void set_on_click(std::function<void()> click);
+	void on_cursor_down() override;
+	void on_cursor_up() override;
+	void on_cursor_hover(bool is_hover) override;
+	void set_on_click(std::function<void()> click) override;
 
 private:
 	ButtonState status = ButtonState::NORMAL;
-	std::function<void()> on_click = nullptr;
 };

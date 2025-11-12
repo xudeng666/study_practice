@@ -35,6 +35,12 @@ public:
 	void release_all();
 	// 释放所有游戏类节点
 	void release_all_game();
+	// 添加到背景节点
+	bool add_to_bg(TreeNode_SP node);
+	// 添加到游戏节点
+	bool add_to_game(TreeNode_SP node);
+	// 添加到UI节点
+	bool add_to_ui(TreeNode_SP node);
 
 	/// <summary>
 	/// 前序遍历（深度优先）
