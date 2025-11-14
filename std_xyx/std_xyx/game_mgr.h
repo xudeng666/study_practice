@@ -24,6 +24,8 @@ public:
 	void deinit();
 	/*获取当前游戏*/
 	std::shared_ptr<Game> get_current_game();
+	/*获取当前场景*/
+	std::shared_ptr<Scene> get_current_scene();
 	/*获取当前游戏类型*/
 	GameType get_current_type();
 	/*游戏切换*/

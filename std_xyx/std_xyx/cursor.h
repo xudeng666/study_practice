@@ -17,10 +17,8 @@ public:
 
     virtual void on_init() override;
     virtual void on_enter() override;
+    virtual void on_update(float delta) override;
     virtual void on_input(const SDL_Event& event) override;
-    virtual void on_cursor_down() override;
-    virtual void on_cursor_up()override;
-    virtual void on_cursor_hover(bool is_hover) override;
     // 设置当前抓取的餐品
     void set_picked(Meal meal);
     // 获取当前抓取的餐品
@@ -29,7 +27,6 @@ private:
     TreeNode_WP cursor;                 // 光标图
 private:
     Meal meal_picked = Meal::None;		// 当前抓取的餐品
-    SDL_Point pos_cursor = { 0 };		// 光标位置
     bool is_mouse_lbtn_down = false;	// 鼠标左键是否按下
 };
 

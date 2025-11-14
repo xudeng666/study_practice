@@ -106,6 +106,8 @@ enum class EventType {
 	ENEMY_DIE,			// 敌人死亡
 	ADD_ENEMY,			// 新增敌人
 	REDUCE_ENEMY,		// 减少敌人
+	PHF_EVENT_SEND,		// 拼好饭事件发送
+	PHF_EVENT_SYNC,		// 拼好饭事件同步
 	COUNT				// 哨兵位,用于记录总枚举总数，不可使用，不可删除
 };
 

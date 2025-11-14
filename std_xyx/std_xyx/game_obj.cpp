@@ -41,43 +41,6 @@ void GameObj::on_exit()
 
 void GameObj::on_input(const SDL_Event& event)
 {
-	if (!click_enabled)
-	{
-		return;
-	}
-
-	switch (event.type)
-	{
-	case SDL_MOUSEMOTION:
-	{
-		SDL_Point p = { event.motion.x,event.motion.y };
-		SDL_Rect t = get_Rect();
-		on_cursor_hover(SDL_PointInRect(&p, &t));
-	}
-	break;
-	case SDL_MOUSEBUTTONDOWN:
-		if (event.button.button == SDL_BUTTON_LEFT)
-		{
-			SDL_Point p = { event.button.x,event.button.y };
-			SDL_Rect t = get_Rect();
-			if (SDL_PointInRect(&p, &t))
-			{
-				on_cursor_down();
-			}
-		}
-		break;
-	case SDL_MOUSEBUTTONUP:
-		if (event.button.button == SDL_BUTTON_LEFT)
-		{
-			SDL_Point p = { event.button.x,event.button.y };
-			SDL_Rect t = get_Rect();
-			if (SDL_PointInRect(&p, &t))
-			{
-				on_cursor_up();
-			}
-		}
-		break;
-	}
 }
 
 void GameObj::on_update(float delta)
@@ -435,25 +398,4 @@ bool GameObj::contains_point(const SDL_Point* point)
 {
 	SDL_Rect r = get_Rect();
 	return  SDL_PointInRect(point, &r);
-}
-
-void GameObj::on_cursor_down()
-{
-}
-
-void GameObj::on_cursor_up()
-{
-	if (on_click)
-	{
-		on_click();
-	}
-}
-
-void GameObj::on_cursor_hover(bool is_hover)
-{
-}
-
-void GameObj::set_on_click(std::function<void()> click)
-{
-	on_click = click;
 }

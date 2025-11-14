@@ -1,4 +1,5 @@
 #include "phf_game_scene.h"
+#include "cursor.h"
 
 #include "game_bar.h"
 #include "game_lable.h"
@@ -59,8 +60,13 @@ void PhfGameScene::on_init()
         }
     );
 
+    // ¹â±ê
+    auto cursor_obj = TreeNode::create_obj<Cursor>("Cursor");
+    cursor = cursor_obj;
+
     auto tree = TreeMgr::instance();
     tree->add_to_bg(bg_obj);
+    tree->add_to_game(cursor_obj);
     tree->add_to_ui(bar_obj);
     tree->add_to_ui(lab_obj);
     tree->add_to_ui(exit_obj);

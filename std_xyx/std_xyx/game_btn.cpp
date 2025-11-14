@@ -17,10 +17,46 @@ void GameBtn::on_enter()
 	GameImg::on_enter();
 }
 
-//void GameBtn::on_input(const SDL_Event& event)
-//{
-//	GameImg::on_input(event);
-//}
+void GameBtn::on_input(const SDL_Event& event)
+{
+	if (!click_enabled)
+	{
+		return;
+	}
+
+	switch (event.type)
+	{
+	case SDL_MOUSEMOTION:
+	{
+		SDL_Point p = { event.motion.x,event.motion.y };
+		SDL_Rect t = get_Rect();
+		on_cursor_hover(SDL_PointInRect(&p, &t));
+	}
+	break;
+	case SDL_MOUSEBUTTONDOWN:
+		if (event.button.button == SDL_BUTTON_LEFT)
+		{
+			SDL_Point p = { event.button.x,event.button.y };
+			SDL_Rect t = get_Rect();
+			if (SDL_PointInRect(&p, &t))
+			{
+				on_cursor_down();
+			}
+		}
+		break;
+	case SDL_MOUSEBUTTONUP:
+		if (event.button.button == SDL_BUTTON_LEFT)
+		{
+			SDL_Point p = { event.button.x,event.button.y };
+			SDL_Rect t = get_Rect();
+			if (SDL_PointInRect(&p, &t))
+			{
+				on_cursor_up();
+			}
+		}
+		break;
+	}
+}
 
 void GameBtn::on_update(float delta)
 {
@@ -36,7 +72,6 @@ void GameBtn::on_render()
 void GameBtn::on_cursor_down()
 {
 	status = ButtonState::PRESSED;
-	GameImg::on_cursor_down();
 }
 
 void GameBtn::on_cursor_up()
@@ -44,7 +79,10 @@ void GameBtn::on_cursor_up()
 	if (status != ButtonState::PRESSED)
 		return;
 	status = ButtonState::HOVER;
-	GameImg::on_cursor_up();
+	if (on_click)
+	{
+		on_click();
+	}
 }
 
 void GameBtn::on_cursor_hover(bool is_hover)
@@ -59,7 +97,6 @@ void GameBtn::on_cursor_hover(bool is_hover)
 	{
 		status = t;
 	}
-	GameImg::on_cursor_hover(is_hover);
 }
 
 void GameBtn::set_texture()
@@ -69,4 +106,8 @@ void GameBtn::set_texture()
 	{
 		std::cout << ID << " texture null" << std::endl;
 	}
+}
+void GameBtn::set_on_click(std::function<void()> click)
+{
+	on_click = click;
 }

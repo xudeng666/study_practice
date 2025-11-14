@@ -168,6 +168,9 @@
     <ClCompile Include="cursor.cpp">
       <Filter>源文件\game_phf</Filter>
     </ClCompile>
+    <ClCompile Include="phf_obj.cpp">
+      <Filter>源文件\game_phf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -303,6 +306,9 @@
       <Filter>头文件\game_phf</Filter>
     </ClInclude>
     <ClInclude Include="cursor.h">
+      <Filter>头文件\game_phf</Filter>
+    </ClInclude>
+    <ClInclude Include="phf_obj.h">
       <Filter>头文件\game_phf</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,9 +29,9 @@ private:
 
     TreeNode_WP cursor;             // 光标
 
-    TreeNode_WP delivery_p1;        // 外卖员 1
-    TreeNode_WP delivery_p2;        // 外卖员 2
-    TreeNode_WP delivery_p3;        // 外卖员 3
+    TreeNode_WP delivery_p1;        // 外卖员1
+    TreeNode_WP delivery_p2;        // 外卖员2
+    TreeNode_WP delivery_p3;        // 外卖员3
 
     TreeNode_WP cola_bundle;        // 可乐
     TreeNode_WP sprite_bundle;      // 雪碧

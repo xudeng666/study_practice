@@ -41,6 +41,16 @@ std::shared_ptr<Game> GameMgr::get_current_game()
 	return game_pool[current_type];
 }
 
+std::shared_ptr<Scene> GameMgr::get_current_scene()
+{
+	auto game = game_pool[current_type];
+	if (game)
+	{
+		return game->get_current_scene();
+	}
+	return nullptr;
+}
+
 GameType GameMgr::get_current_type()
 {
 	return current_type;

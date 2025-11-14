@@ -23,10 +23,6 @@ public:
     virtual void on_input(const SDL_Event& event) override;
     virtual void on_update(float delta) override;
     virtual void on_render() override;
-    virtual void on_cursor_down();
-    virtual void on_cursor_up();
-    virtual void on_cursor_hover(bool is_hover);
-    virtual void set_on_click(std::function<void()> click);
 
     /*设置ID*/
     virtual void set_ID(const std::string& str) override;
@@ -152,7 +148,7 @@ public:
     void set_path_ID();
 
 protected:
-    bool click_enabled = false;  // 点击区域开关状态（默认关闭）
+    bool click_enabled = true;  // 点击区域开关状态（默认开启）
     // 是否显示
     bool is_display = true;
 	/*相对父节点坐标*/
@@ -178,6 +174,4 @@ protected:
     AnchorMode angle_anchor_mode = AnchorMode::CENTER;
     
     std::string path_id;
-
-    std::function<void()> on_click = nullptr;
 };
