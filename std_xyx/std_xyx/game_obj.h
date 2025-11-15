@@ -46,7 +46,7 @@ public:
     /*设置尺寸*/
     virtual void set_size(const int w, const int h);
     /*获取尺寸*/
-    const SDL_Point& get_size() const;
+    virtual const SDL_Point& get_size() const;
     /*设置显示状态*/
     virtual void set_display(bool display);
     /*获取显示状态*/

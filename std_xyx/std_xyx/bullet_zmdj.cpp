@@ -44,7 +44,7 @@ void BulletZmdj::on_enter()
 	Bullet::on_enter();
 	auto img_obj = img.lock()->get_obj_as<GameImg>();
 	img_obj->set_texture();
-	img_obj->init_size();
+	//img_obj->init_size();
 	speed_move = 1000.0f;
 
 	double radians = getRadiansByAngle(angle);

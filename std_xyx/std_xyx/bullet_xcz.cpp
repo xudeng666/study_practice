@@ -39,7 +39,7 @@ void BulletXcz::on_enter()
 	Bullet::on_enter();
 	auto img_obj = img.lock()->get_obj_as<GameImg>();
 	img_obj->set_texture();
-	img_obj->init_size();
+	//img_obj->init_size();
 
 	set_display(true);
 	auto hit_obj = get_hit_box()->get_obj_as<GameCollisionBox>();

@@ -63,6 +63,12 @@ void Cursor::on_input(const SDL_Event& event)
 
 void Cursor::on_update(float delta)
 {
+	auto img = cursor.lock()->get_obj_as<GameImg>();
+	img->set_res_name(is_mouse_lbtn_down ? "cursor_down" : "cursor_idle");
+}
+
+std::string Cursor::get_res_name()
+{
 	std::string str = "";
 	switch (meal_picked)
 	{
@@ -80,14 +86,13 @@ void Cursor::on_update(float delta)
 	case Meal::RedCookedPork_Box:	str = "rcp_box";			break;
 	case Meal::TakeoutBox:			str = "tb_picked";			break;
 	}
-	set_res_name(str);
-	auto img = cursor.lock()->get_obj_as<GameImg>();
-	img->set_res_name(is_mouse_lbtn_down ? "cursor_down" : "cursor_idle");
+	return str;
 }
 
 void Cursor::set_picked(Meal meal)
 {
 	meal_picked = meal;
+	set_res_name(get_res_name());
 	// 发送同步事件
 	SDL_Event event;
 	event.type = EventMgr::instance()->get_event_type(EventType::PHF_EVENT_SYNC);

@@ -171,6 +171,12 @@
     <ClCompile Include="phf_obj.cpp">
       <Filter>源文件\game_phf</Filter>
     </ClCompile>
+    <ClCompile Include="phf_bundle.cpp">
+      <Filter>源文件\game_phf</Filter>
+    </ClCompile>
+    <ClCompile Include="takeout_box.cpp">
+      <Filter>源文件\game_phf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -309,6 +315,12 @@
       <Filter>头文件\game_phf</Filter>
     </ClInclude>
     <ClInclude Include="phf_obj.h">
+      <Filter>头文件\game_phf</Filter>
+    </ClInclude>
+    <ClInclude Include="phf_bundle.h">
+      <Filter>头文件\game_phf</Filter>
+    </ClInclude>
+    <ClInclude Include="takeout_box.h">
       <Filter>头文件\game_phf</Filter>
     </ClInclude>
   </ItemGroup>

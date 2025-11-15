@@ -260,13 +260,15 @@ Vector2 GameObj::get_rect_pos(const AnchorMode m)
 SDL_FRect GameObj::get_FRect()
 {
 	Vector2 p = get_rect_pos(AnchorMode::TOPLEFT);
-	return { p.x, p.y, (float)size.x, (float)size.y };
+	SDL_Point s = get_size();
+	return { p.x, p.y, (float)s.x, (float)s.y };
 }
 
 SDL_Rect GameObj::get_Rect()
 {
 	Vector2 p = get_rect_pos(AnchorMode::TOPLEFT);
-	return { (int)p.x, (int)p.y, size.x, size.y };
+	SDL_Point s = get_size();
+	return { (int)p.x, (int)p.y, s.x, s.y };
 }
 
 Vector2 GameObj::get_anchor_difference(const AnchorMode p, const AnchorMode t, Vector2 t_size)
@@ -290,7 +292,8 @@ Vector2 GameObj::get_anchor_difference(const AnchorMode p, const AnchorMode t)
 	int m = static_cast<int>(t);
 	int a = static_cast<int>(p);
 
-	return Vector2((m % 3 - a % 3) * size.x / 2, (m / 3 - a / 3) * size.y / 2);
+	SDL_Point s = get_size();
+	return Vector2((m % 3 - a % 3) * s.x / 2, (m / 3 - a / 3) * s.y / 2);
 }
 
 Vector2 GameObj::get_rotatio_center_position()

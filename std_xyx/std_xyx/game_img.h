@@ -16,8 +16,10 @@ public:
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;
 	virtual void on_render() override;
+	/*获取尺寸*/
+	virtual const SDL_Point& get_size() const override;
 	/*设置尺寸*/
-	virtual void init_size();
+	//virtual void init_size();
 	/*设置纹理*/
 	virtual void set_texture();
 	/*获取纹理*/

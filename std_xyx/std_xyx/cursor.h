@@ -19,6 +19,8 @@ public:
     virtual void on_enter() override;
     virtual void on_update(float delta) override;
     virtual void on_input(const SDL_Event& event) override;
+
+    std::string get_res_name();
     // 设置当前抓取的餐品
     void set_picked(Meal meal);
     // 获取当前抓取的餐品

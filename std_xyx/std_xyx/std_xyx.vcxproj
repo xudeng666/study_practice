@@ -142,8 +142,10 @@
     <ClCompile Include="combatant.cpp" />
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="game_phf.cpp" />
+    <ClCompile Include="phf_bundle.cpp" />
     <ClCompile Include="phf_game_scene.cpp" />
     <ClCompile Include="phf_obj.cpp" />
+    <ClCompile Include="takeout_box.cpp" />
     <ClCompile Include="turret_zmdj.cpp" />
     <ClCompile Include="enemy_xcz.cpp" />
     <ClCompile Include="enemy_zmdj.cpp" />
@@ -185,8 +187,10 @@
     <ClInclude Include="cursor.h" />
     <ClInclude Include="game_phf.h" />
     <ClInclude Include="meal.h" />
+    <ClInclude Include="phf_bundle.h" />
     <ClInclude Include="phf_game_scene.h" />
     <ClInclude Include="phf_obj.h" />
+    <ClInclude Include="takeout_box.h" />
     <ClInclude Include="turret_zmdj.h" />
     <ClInclude Include="enemy_xcz.h" />
     <ClInclude Include="enemy_zmdj.h" />
