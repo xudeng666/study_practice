@@ -10,21 +10,6 @@ void TakeoutBox::on_init()
 	set_anchor_mode(AnchorMode::BOTTOMCENTER);
 }
 
-void TakeoutBox::on_input(const SDL_Event& event)
-{
-	if (event.type == EventMgr::instance()->get_event_type(EventType::PHF_EVENT_SYNC))
-	{
-		EventData* data = static_cast<EventData*>(event.user.data1);
-		if (!data) return;
-		int m;
-		if (data->get("meal", m))
-		{
-			set_picked_meal(static_cast<Meal>(m));
-		}
-	}
-	PhfObj::on_input(event);
-}
-
 void TakeoutBox::on_update(float delta)
 {
 }

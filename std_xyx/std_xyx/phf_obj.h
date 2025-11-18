@@ -17,13 +17,6 @@ public:
 	virtual void on_input(const SDL_Event& event) override;
 	virtual void on_cursor_down();
 	virtual void on_cursor_up();
-};
-
-class PhfMeal
-{
-public:
-	PhfMeal() = default;
-	virtual ~PhfMeal() = default;
 
 protected:
 	Meal get_meal();

@@ -2,6 +2,7 @@
 #include "cursor.h"
 #include "phf_bundle.h"
 #include "takeout_box.h"
+#include "microwave_oven.h"
 
 #include "game_bar.h"
 #include "game_lable.h"
@@ -86,21 +87,29 @@ void PhfGameScene::on_init()
     auto rcp_box_obj = TreeNode::create_obj<RcpBoxBundle>("rcp_box_bundle");
     rcp_box_obj->set_position(565, 520);
     rcp_box_bundle = rcp_box_obj;
+    // 微波炉1
+    auto mo_obj1 = TreeNode::create_obj<MicrowaveOven>("microwave_oven_1");
+    mo_obj1->set_position(740, 400);
+    microwave_oven_1 = mo_obj1;
+    // 微波炉2
+    auto mo_obj2 = TreeNode::create_obj<MicrowaveOven>("microwave_oven_2");
+    mo_obj2->set_position(976, 400);
+    microwave_oven_2 = mo_obj2;
     // 餐位1
     auto tb_obj1 = TreeNode::create_obj<TakeoutBox>("takeout_box_1");
-    tb_obj1->set_position(876, 562);
+    tb_obj1->set_position(876, 610);
     takeout_box_1 = tb_obj1;
     // 餐位2
     auto tb_obj2 = TreeNode::create_obj<TakeoutBox>("takeout_box_2");
-    tb_obj2->set_position(982, 562);
+    tb_obj2->set_position(982, 610);
     takeout_box_2 = tb_obj2;
     // 餐位3
     auto tb_obj3 = TreeNode::create_obj<TakeoutBox>("takeout_box_3");
-    tb_obj3->set_position(1088, 562);
+    tb_obj3->set_position(1088, 610);
     takeout_box_3 = tb_obj3;
     // 餐位4
     auto tb_obj4 = TreeNode::create_obj<TakeoutBox>("takeout_box_4");
-    tb_obj4->set_position(1194, 562);
+    tb_obj4->set_position(1194, 610);
     takeout_box_4 = tb_obj4;
 
     // 光标
@@ -115,6 +124,8 @@ void PhfGameScene::on_init()
     tree->add_to_game(mb_box_obj);
     tree->add_to_game(bc_box_obj);
     tree->add_to_game(rcp_box_obj);
+    tree->add_to_game(mo_obj1);
+    tree->add_to_game(mo_obj2);
     tree->add_to_game(tb_obj1);
     tree->add_to_game(tb_obj2);
     tree->add_to_game(tb_obj3);

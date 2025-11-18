@@ -9,6 +9,12 @@ GameImg::~GameImg()
 	texture = nullptr;
 }
 
+void GameImg::on_init()
+{
+	GameObj::on_init();
+	SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+}
+
 void GameImg::on_enter()
 {
 	GameObj::on_enter();
@@ -25,6 +31,9 @@ void GameImg::on_render()
 {
 	if (texture)
 	{
+		int final_alpha = static_cast<int>(get_alpha() * 255);
+		SDL_SetTextureAlphaMod(texture, final_alpha);
+
 		SDL_Rect src = { 0,0,0,0 };
 		SDL_FRect dst = get_FRect();
 		Vector2 p = {dst.x, dst.y};

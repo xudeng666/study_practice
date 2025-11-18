@@ -13,6 +13,7 @@ public:
 
 	DEFINE_TYPE_NAME(GameImg);
 
+	virtual void on_init() override;
 	virtual void on_enter() override;
 	virtual void on_update(float delta) override;
 	virtual void on_render() override;

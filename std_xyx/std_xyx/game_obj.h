@@ -146,6 +146,10 @@ public:
     std::string get_path_ID();
     /*设置路径ID*/
     void set_path_ID();
+    /*获取透明度*/
+    float get_alpha();
+    /*设置透明度*/
+    void set_alpha(float alp);
 
 protected:
     bool click_enabled = true;  // 点击区域开关状态（默认开启）
@@ -174,4 +178,6 @@ protected:
     AnchorMode angle_anchor_mode = AnchorMode::CENTER;
     
     std::string path_id;
+
+    float alpha = 1.0f;
 };

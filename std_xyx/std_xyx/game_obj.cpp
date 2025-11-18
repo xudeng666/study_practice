@@ -402,3 +402,19 @@ bool GameObj::contains_point(const SDL_Point* point)
 	SDL_Rect r = get_Rect();
 	return  SDL_PointInRect(point, &r);
 }
+/*获取透明度*/
+float GameObj::get_alpha()
+{
+	auto p = parent.lock();
+	float a = alpha;
+	if (p)
+	{
+		a *= p->get_alpha();
+	}
+	return a;
+}
+/*设置透明度*/
+void GameObj::set_alpha(float alp)
+{
+	alpha = alp;
+}

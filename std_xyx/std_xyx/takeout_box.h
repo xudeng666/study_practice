@@ -3,7 +3,7 @@
 #include "meal.h"
 
 class TakeoutBox :
-    public PhfObj, public PhfMeal
+    public PhfObj
 {
 public:
     TakeoutBox() = default;
@@ -15,7 +15,6 @@ public:
     DEFINE_TYPE_NAME(TakeoutBox);
 
     virtual void on_init() override;
-    virtual void on_input(const SDL_Event& event) override;
     virtual void on_update(float delta) override;
     virtual void on_cursor_down() override;
     virtual void on_cursor_up() override;

@@ -3,7 +3,7 @@
 
 /*餐品堆基类*/
 class PhfBundle :
-    public PhfObj, public PhfMeal
+    public PhfObj
 {
 public:
     PhfBundle() = default;
@@ -15,20 +15,8 @@ public:
     DEFINE_TYPE_NAME(PhfBundle);
 
     virtual void on_init() override;
-    virtual void on_input(const SDL_Event& event) override;
     virtual void on_cursor_down() override;
     virtual void on_cursor_up() override;
-//
-//protected:
-//    Meal get_meal();
-//    void set_meal(Meal m);
-//    Meal get_picked_meal();
-//    void set_picked_meal(Meal m);
-//    void change_picked_meal(Meal m);
-//
-//protected:
-//    Meal meal = Meal::None;			// 自身类型
-//    Meal picked_meal = Meal::None;	// 当前拿取类型
 };
 
 

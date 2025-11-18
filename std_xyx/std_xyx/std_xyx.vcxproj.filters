@@ -177,6 +177,12 @@
     <ClCompile Include="takeout_box.cpp">
       <Filter>源文件\game_phf</Filter>
     </ClCompile>
+    <ClCompile Include="microwave_oven.cpp">
+      <Filter>源文件\game_phf</Filter>
+    </ClCompile>
+    <ClCompile Include="delivery_peple.cpp">
+      <Filter>源文件\game_phf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -321,6 +327,12 @@
       <Filter>头文件\game_phf</Filter>
     </ClInclude>
     <ClInclude Include="takeout_box.h">
+      <Filter>头文件\game_phf</Filter>
+    </ClInclude>
+    <ClInclude Include="microwave_oven.h">
+      <Filter>头文件\game_phf</Filter>
+    </ClInclude>
+    <ClInclude Include="delivery_peple.h">
       <Filter>头文件\game_phf</Filter>
     </ClInclude>
   </ItemGroup>

@@ -141,7 +141,9 @@
     <ClCompile Include="collision_mgr.cpp" />
     <ClCompile Include="combatant.cpp" />
     <ClCompile Include="cursor.cpp" />
+    <ClCompile Include="delivery_peple.cpp" />
     <ClCompile Include="game_phf.cpp" />
+    <ClCompile Include="microwave_oven.cpp" />
     <ClCompile Include="phf_bundle.cpp" />
     <ClCompile Include="phf_game_scene.cpp" />
     <ClCompile Include="phf_obj.cpp" />
@@ -185,8 +187,10 @@
     <ClInclude Include="collision_mgr.h" />
     <ClInclude Include="combatant.h" />
     <ClInclude Include="cursor.h" />
+    <ClInclude Include="delivery_peple.h" />
     <ClInclude Include="game_phf.h" />
     <ClInclude Include="meal.h" />
+    <ClInclude Include="microwave_oven.h" />
     <ClInclude Include="phf_bundle.h" />
     <ClInclude Include="phf_game_scene.h" />
     <ClInclude Include="phf_obj.h" />
