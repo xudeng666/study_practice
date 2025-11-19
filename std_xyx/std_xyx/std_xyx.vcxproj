@@ -142,6 +142,7 @@
     <ClCompile Include="combatant.cpp" />
     <ClCompile Include="cursor.cpp" />
     <ClCompile Include="delivery_peple.cpp" />
+    <ClCompile Include="game_list.cpp" />
     <ClCompile Include="game_phf.cpp" />
     <ClCompile Include="microwave_oven.cpp" />
     <ClCompile Include="phf_bundle.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="combatant.h" />
     <ClInclude Include="cursor.h" />
     <ClInclude Include="delivery_peple.h" />
+    <ClInclude Include="game_list.h" />
     <ClInclude Include="game_phf.h" />
     <ClInclude Include="meal.h" />
     <ClInclude Include="microwave_oven.h" />

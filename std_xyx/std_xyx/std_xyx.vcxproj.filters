@@ -183,6 +183,9 @@
     <ClCompile Include="delivery_peple.cpp">
       <Filter>源文件\game_phf</Filter>
     </ClCompile>
+    <ClCompile Include="game_list.cpp">
+      <Filter>源文件\obj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="timer.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="delivery_peple.h">
       <Filter>头文件\game_phf</Filter>
+    </ClInclude>
+    <ClInclude Include="game_list.h">
+      <Filter>头文件\obj</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
