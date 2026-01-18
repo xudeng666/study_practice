@@ -43,6 +43,7 @@ TreeNode_SP TreeNode::remove_children(TreeNode_SP node)
 	}
 	TreeNode_SP removedObj = std::move(*it);
 	children.erase(it);
+	children_change();
 	removedObj->parent.reset();
 	return removedObj;
 }
@@ -57,6 +58,7 @@ TreeNode_SP TreeNode::remove_children(const std::function<bool(const TreeNode_SP
 	}
 	TreeNode_SP removedObj = std::move(*it);
 	children.erase(it);
+	children_change();
 	removedObj->parent.reset();
 	return removedObj;
 }
@@ -70,6 +72,7 @@ void TreeNode::delete_children(TreeNode_SP node)
 		(*it)->children.clear();
 		children.erase(it);
 	}
+	children_change();
 }
 
 void TreeNode::delete_children(const std::function<bool(const TreeNode_SP&)>& func)
@@ -81,6 +84,7 @@ void TreeNode::delete_children(const std::function<bool(const TreeNode_SP&)>& fu
 		(*it)->children.clear();
 		children.erase(it);
 	}
+	children_change();
 }
 
 bool TreeNode::add_children(TreeNode_SP node, bool is_front)
@@ -105,6 +109,7 @@ bool TreeNode::add_children(TreeNode_SP node, bool is_front)
 	{
 		children.push_back(std::move(node));
 	}
+	children_change();
 	return true;
 }
 
@@ -119,6 +124,10 @@ void TreeNode::run_added_fun()
 void TreeNode::set_added_fun(const std::function<void()>& func)
 {
 	on_added_func = func;
+}
+
+void TreeNode::children_change()
+{
 }
 
 void TreeNode::for_each_child(const std::function<void(TreeNode_SP)>& func)
@@ -157,6 +166,8 @@ void TreeNode::remove_children_if(const std::function<bool(const TreeNode_SP&)>&
 			return func(child);
 			}),children.end()
 	);
+	
+	children_change();
 }
 
 void TreeNode::clear_children()
@@ -213,5 +224,6 @@ TreeNode_SP TreeNode::take_out_of_children(bool is_front)
 		children.pop_back();
 	}
 	node->set_parent(nullptr);	// 取出后，应当将父节点设置为空
+	children_change();
 	return node;
 }

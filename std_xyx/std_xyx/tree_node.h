@@ -79,6 +79,8 @@ public:
     void set_parent(TreeNode_SP p);
     /*设置被添加回调*/
     virtual void set_added_fun(const std::function<void()>& func);
+    /*子成员变化回调*/
+    virtual void children_change();
     /*执行被添加回调*/
     void run_added_fun();
     /*获取父节点*/
