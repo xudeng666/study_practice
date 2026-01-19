@@ -51,15 +51,21 @@ const SDL_Point& GameList::get_size() const
 void GameList::children_change()
 {
 	int len = children.size();
-	int undisplay = 0;
 	int w = 0;
 	int h = 0;
+
+	int r = ranks < 1 ? len : ranks;
+
+	int wn = 0;
+	int hn = 0;
+	int x = 0;
+	int y = 0;
+
 	for (size_t i = 0; i < len; i++)
 	{
 		auto child = children[i];
 		if (!child->get_display())
 		{
-			undisplay++;
 			continue;
 		}
 
@@ -70,27 +76,37 @@ void GameList::children_change()
 
 		SDL_Point c_size = child->get_size();
 
-		int x = i - undisplay;
+		child->set_position(wn + sub_interval.x * x, h + sub_interval.y * y);
 
-		if (ranks < 1)// 列数无限
-		{
-			child->set_position(w,0);
-			w += c_size.x;
-			h = h > c_size.y ? h : c_size.y;
-			continue;
-		}
-		else
-		{
-			for (size_t j = 0; j < ranks; j++)// 列数有限
-			{
-				/*需要分层计算
-				* 1、新增层数变量n=0,x/ranks就是当前元素所在层数
-				* 2、新增wn，统计当前层目前宽度,wn += c_size.x;w = w > wn ? w : wn;
-				* 3、新增hn,统计每层最高元素，然后同w和wn的计算
-				*/
-			}
-		}
+		wn += c_size.x;
+		hn = hn > c_size.y ? hn : c_size.y;
 
+		x++;
+
+		if (x >= r)
+		{
+			wn += (x - 1) * sub_interval.x;
+			w = w > wn ? w : wn;
+			h += hn;
+			x = 0;
+			wn = 0;
+			hn = 0;
+			y++;
+		}
 	}
+
+	if (x > 0)
+	{
+		wn += (x - 1) * sub_interval.x;
+	}
+	w = w > wn ? w : wn;
+
+	if (x == 0)
+	{
+		y--;
+	}
+	h += hn;
+	h += sub_interval.y * y;
+
 	set_size(w, h);
 }
